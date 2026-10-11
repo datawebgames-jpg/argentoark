@@ -56,6 +56,15 @@ code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-siz
 .dino ol{margin:8px 0 0;padding-left:20px;font-size:13.5px}
 .count{color:var(--mut);font-size:13px;margin-bottom:10px}
 .kib{display:flex;flex-wrap:wrap;gap:8px}.kib>div{flex:1;min-width:140px;border-radius:8px;padding:10px;background:var(--card2);border-left:4px solid}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tabs button{background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--txt);padding:8px 14px;border-radius:8px;cursor:pointer;font:inherit;font-size:14px}
+.tabs button.on{background:var(--acc);color:#1b1200;border-color:var(--acc);font-weight:600}
+.rank{list-style:none;margin:0;padding:0}.rank li{display:flex;align-items:center;gap:12px;padding:9px 4px;border-bottom:1px solid var(--line)}
+.rank .pos{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:700 14px Oswald;background:rgba(255,255,255,.08);flex-shrink:0}
+.rank li:nth-child(1) .pos{background:#e8b923;color:#1b1200}.rank li:nth-child(2) .pos{background:#b8c0c8;color:#111}.rank li:nth-child(3) .pos{background:#c47b3a;color:#111}
+.rank .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rank .val{font:700 20px Oswald;color:var(--acc)}
+.online li{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)}
+.btn.dc{background:#5865f2;color:#fff}
 footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid var(--line);background:rgba(8,10,9,.95)}
 @media(max-width:600px){section{padding:40px 0}.hero{min-height:70vh}.filters{top:48px}}
 </style>
@@ -64,7 +73,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 <div class="bgimg"></div>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#mapas">Mapas</a><a href="#entrar">Cómo entrar</a><a href="#dinos">Dinos</a><a href="#reglas">Reglas</a><a href="#shop">Shop</a>
+  <a href="#mapas">Mapas</a><a href="#jugadores">Jugadores</a><a href="#entrar">Cómo entrar</a><a href="#dinos">Dinos</a><a href="#reglas">Reglas</a><a href="#shop">Shop</a>
 </nav>
 
 <header class="wrap hero">
@@ -72,7 +81,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   <h1>ARGENTOPRO<br><span>ARK x5</span></h1>
   <p>Server argentino de ARK: Survival Evolved. Todo x5, cluster entre mapas y un mapa rotativo que eligen los jugadores cada semana.</p>
   <div class="chips" id="liveChips"><span class="chip">Cargando estado del server...</span></div>
-  <div><a class="btn" href="#entrar">Cómo entrar</a> <a class="btn sec" href="#dinos">Guía de tameo</a></div>
+  <div><a class="btn" href="#entrar">Cómo entrar</a> <a class="btn sec" href="#dinos">Guía de tameo</a> <a class="btn dc" href="https://discord.gg/2EqEE46DjW" target="_blank" rel="noopener">Unite al Discord</a></div>
 </header>
 
 <main>
@@ -84,6 +93,21 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
     <h3 style="font-size:22px">Votación del próximo mapa</h3>
     <p class="mut small" id="voteSub"></p>
     <div id="voteList"></div>
+  </div>
+</div></section>
+
+<section id="jugadores"><div class="wrap">
+  <h2>Jugadores</h2>
+  <p class="sub">Quién está jugando ahora y los mejores del server.</p>
+  <div class="grid" style="grid-template-columns:minmax(260px,1fr) minmax(300px,2fr)">
+    <div class="card"><h3 style="font-size:20px;margin-bottom:8px">Online ahora</h3><ul class="online rank" id="onlineList"><li class="mut">Cargando...</li></ul></div>
+    <div class="card">
+      <div class="tabs" id="rankTabs">
+        <button data-r="level" class="on">Nivel</button><button data-r="kills">Asesinatos</button><button data-r="deaths">Muertes</button><button data-r="tames">Tameos</button>
+      </div>
+      <ol class="rank" id="rankList"></ol>
+      <p class="mut small" style="margin:10px 0 0">Asesinatos y tameos: ARK solo los registra para jugadores en una tribu. Armá tu tribu (aunque sea solo) para entrar al ranking.</p>
+    </div>
   </div>
 </div></section>
 
@@ -141,7 +165,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 </main>
 
 <footer><div class="wrap">
-  <b>ArgentoPro ARK x5</b> · Hecho por y para la comunidad argentina<br>
+  <b>ArgentoPro ARK x5</b> · Hecho por y para la comunidad argentina · <a href="https://discord.gg/2EqEE46DjW" target="_blank" rel="noopener">Discord</a><br>
   <span class="small">Chat del juego: <code>!votar &lt;mapa&gt;</code> para votar · <code>!votos</code> para ver cómo viene la votación</span>
 </div></footer>
 
@@ -183,7 +207,24 @@ async function live() {
     ['x' + r.maturation, 'Crecimiento'], ['x' + r.stack, 'Stacks'], ['x' + r.structures, 'Estructuras']]
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
+  lastData = d; renderOnline(); renderRank();
 }
+let lastData = null, rankKey = 'level';
+const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos' };
+function renderOnline() {
+  const on = lastData?.online || [];
+  $('onlineList').innerHTML = on.length ? on.map(p => `<li><span class="nm"><span class="dot on"></span>${esc(p.name)}</span><span class="mut small">${p.level ? 'Nvl ' + p.level + ' · ' : ''}${esc(p.map)}</span></li>`).join('')
+    : '<li class="mut">No hay nadie conectado en este momento.</li>';
+}
+function renderRank() {
+  const list = lastData?.rankings?.[rankKey] || [];
+  $('rankList').innerHTML = list.length ? list.map((p, i) => `<li><span class="pos">${i + 1}</span><span class="nm">${esc(p.name)}${rankKey !== 'level' ? ` <span class="mut small">· Nvl ${p.level}</span>` : ''}</span><span class="val">${p.value}</span></li>`).join('')
+    : `<li class="mut">Todavía no hay datos de ${RLABEL[rankKey]}. ¡Entrá a jugar y aparecé acá!</li>`;
+}
+document.querySelectorAll('#rankTabs button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#rankTabs button').forEach(x => x.classList.toggle('on', x === b));
+  rankKey = b.dataset.r; renderRank();
+});
 live(); setInterval(live, 30000);
 
 // ---------- guia de dinos ----------
