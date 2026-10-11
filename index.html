@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArgentoPro ARK x5</title>
+<meta name="description" content="Server de ARK: Survival Evolved x5 con cluster, mapa rotativo por votación y guía de tameo de todas las criaturas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0d0c;--card:rgba(20,24,22,.86);--card2:#1a201c;--line:rgba(255,255,255,.09);--txt:#ece9e2;--mut:#a5a89f;--acc:#f0a020;--acc2:#74acdf;--ok:#46c46a;--bad:#e45b4b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.55 Inter,system-ui,sans-serif}
+a{color:var(--acc)}
+h1,h2,h3{font-family:Oswald,Impact,sans-serif;letter-spacing:.5px;margin:0}
+/* fondo: la imagen del server; si no esta, queda el degradado */
+.bgimg{position:fixed;inset:0;z-index:-2;background:#14100a url('img/fondo.jpg') center/cover no-repeat;}
+.bgimg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,10,9,.25) 0%,rgba(8,10,9,.7) 55vh,rgba(8,10,9,.94) 100vh)}
+nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:6px;padding:10px 20px;background:rgba(8,10,9,.82);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto}
+nav .logo{font-family:Oswald;font-size:20px;margin-right:auto;white-space:nowrap}nav .logo b{color:var(--acc)}
+nav a{color:var(--txt);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap;font-size:14px}nav a:hover{background:rgba(255,255,255,.08)}
+.wrap{max-width:1180px;margin:auto;padding:0 20px}
+.hero{min-height:78vh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:48px}
+.hero h1{font-size:clamp(40px,8vw,84px);line-height:.95;text-shadow:0 4px 30px rgba(0,0,0,.8)}
+.hero h1 span{color:var(--acc)}
+.flag{display:inline-block;width:42px;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--acc2) 33%,#fff 33% 66%,var(--acc2) 66%);margin-bottom:14px}
+.hero p{font-size:18px;max-width:640px;color:#ddd;text-shadow:0 2px 10px #000}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.chip{background:rgba(0,0,0,.55);border:1px solid var(--line);padding:6px 12px;border-radius:30px;font-size:13px}
+.chip b{color:var(--acc)}
+.btn{display:inline-block;background:var(--acc);color:#1b1200;font-weight:600;padding:12px 20px;border-radius:8px;text-decoration:none;border:0;cursor:pointer;font:inherit}
+.btn.sec{background:rgba(0,0,0,.6);color:var(--txt);border:1px solid var(--line)}
+section{padding:56px 0}
+section h2{font-size:34px;margin-bottom:6px}section .sub{color:var(--mut);margin:0 0 24px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;backdrop-filter:blur(4px)}
+.map h3{font-size:22px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--bad);display:inline-block;margin-right:6px}.dot.on{background:var(--ok);box-shadow:0 0 10px var(--ok)}
+.tag{font-family:Inter;font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;background:rgba(240,160,32,.15);color:var(--acc);text-transform:uppercase}
+.mut{color:var(--mut)}.small{font-size:13px}
+code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-size:13px}
+.bar{height:8px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:var(--acc)}
+.rates{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.rate{text-align:center;padding:18px 10px}.rate b{display:block;font:700 36px Oswald;color:var(--acc)}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}.steps li{counter-increment:s;padding:6px 0 6px 40px;position:relative}
+.steps li::before{content:counter(s);position:absolute;left:0;top:4px;width:28px;height:28px;border-radius:50%;background:var(--acc);color:#1b1200;font-weight:700;display:grid;place-items:center}
+/* dinos */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;position:sticky;top:52px;z-index:5;background:rgba(8,10,9,.9);padding:10px;border-radius:10px;border:1px solid var(--line)}
+.filters input,.filters select{background:#0f1311;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:9px 12px;font:inherit}
+.filters input{flex:1;min-width:180px}
+.dino h3{font-size:21px}.dino .badges{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.b{font-size:11.5px;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,.08)}
+.b.k{color:#111;font-weight:600}
+.dino .food{background:rgba(255,255,255,.05);border-radius:8px;padding:8px 10px;margin:10px 0;font-size:13.5px}
+.dino details summary{cursor:pointer;color:var(--acc);font-size:13.5px;font-weight:600}
+.dino ol{margin:8px 0 0;padding-left:20px;font-size:13.5px}
+.count{color:var(--mut);font-size:13px;margin-bottom:10px}
+.kib{display:flex;flex-wrap:wrap;gap:8px}.kib>div{flex:1;min-width:140px;border-radius:8px;padding:10px;background:var(--card2);border-left:4px solid}
+footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid var(--line);background:rgba(8,10,9,.95)}
+@media(max-width:600px){section{padding:40px 0}.hero{min-height:70vh}.filters{top:48px}}
+</style>
+</head>
+<body>
+<div class="bgimg"></div>
+<nav>
+  <div class="logo"><b>ARGENTO</b>PRO</div>
+  <a href="#mapas">Mapas</a><a href="#entrar">Cómo entrar</a><a href="#dinos">Dinos</a><a href="#reglas">Reglas</a><a href="#shop">Shop</a>
+</nav>
+
+<header class="wrap hero">
+  <div class="flag"></div>
+  <h1>ARGENTOPRO<br><span>ARK x5</span></h1>
+  <p>Server argentino de ARK: Survival Evolved. Todo x5, cluster entre mapas y un mapa rotativo que eligen los jugadores cada semana.</p>
+  <div class="chips" id="liveChips"><span class="chip">Cargando estado del server...</span></div>
+  <div><a class="btn" href="#entrar">Cómo entrar</a> <a class="btn sec" href="#dinos">Guía de tameo</a></div>
+</header>
+
+<main>
+<section id="mapas"><div class="wrap">
+  <h2>Mapas del cluster</h2>
+  <p class="sub">Viajá entre mapas con tu personaje, dinos e items desde cualquier Obelisco o Terminal.</p>
+  <div class="grid" id="mapCards"></div>
+  <div class="card" style="margin-top:14px" id="voteCard">
+    <h3 style="font-size:22px">Votación del próximo mapa</h3>
+    <p class="mut small" id="voteSub"></p>
+    <div id="voteList"></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Rates</h2>
+  <p class="sub">Todo multiplicado para que avances rápido sin perder la gracia.</p>
+  <div class="rates" id="rates"></div>
+</div></section>
+
+<section id="entrar"><div class="wrap">
+  <h2>Cómo entrar</h2>
+  <p class="sub">Necesitás ARK: Survival Evolved en Steam. No hace falta ningún DLC pago.</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">
+    <div class="card"><h3 style="font-size:20px;margin-bottom:10px">Desde el juego</h3>
+      <ol class="steps"><li>Abrí ARK y entrá a <b>Join ARK</b>.</li><li>En el filtro de sesión elegí <b>Unofficial</b>.</li><li>Buscá <b>ArgentoPro</b> y elegí el mapa.</li></ol></div>
+    <div class="card"><h3 style="font-size:20px;margin-bottom:10px">Por favoritos de Steam</h3>
+      <ol class="steps"><li>Steam → <b>Ver</b> → <b>Servidores de juego</b>.</li><li>Pestaña <b>Favoritos</b> → <b>Agregar servidor</b>.</li><li>Pegá la dirección del mapa: <div id="ipList" class="small" style="margin-top:6px"></div></li></ol></div>
+  </div>
+</div></section>
+
+<section id="dinos"><div class="wrap">
+  <h2>Guía de tameo</h2>
+  <p class="sub">Todas las criaturas tameables de los mapas del cluster. En el server el tameo es x5: tarda la quinta parte.</p>
+  <div class="card" style="margin-bottom:16px">
+    <h3 style="font-size:18px;margin-bottom:8px">Kibble: de menor a mayor</h3>
+    <div class="kib" id="kibbleList"></div>
+    <p class="mut small" style="margin:10px 0 0">Cada criatura acepta su kibble preferido o uno superior. El kibble preferido es la comida que más rápido tamea.</p>
+  </div>
+  <div class="filters">
+    <input id="q" placeholder="Buscar criatura..." autocomplete="off">
+    <select id="fm"><option value="">Todos los métodos</option><option>Noqueo</option><option>Pasivo</option><option>Especial</option><option>Huevo</option><option>Recompensa</option></select>
+    <select id="ft"><option value="">Todos los tipos</option><option>Tierra</option><option>Volador</option><option>Acuático</option><option>Anfibio</option></select>
+    <select id="fk"><option value="">Todos los kibble</option></select>
+  </div>
+  <div class="count" id="count"></div>
+  <div class="grid" id="dinoGrid"></div>
+</div></section>
+
+<section id="reglas"><div class="wrap">
+  <h2>Reglas</h2>
+  <p class="sub">Simple: jugá limpio y respetá.</p>
+  <div class="grid">
+    <div class="card"><h3 style="font-size:19px">1. Respeto</h3><p class="mut">Cero toxicidad, racismo o insultos en el chat.</p></div>
+    <div class="card"><h3 style="font-size:19px">2. Sin trampas</h3><p class="mut">Prohibidos cheats, exploits y bugs. Ban directo.</p></div>
+    <div class="card"><h3 style="font-size:19px">3. Zonas libres</h3><p class="mut">No bloquear cuevas, artefactos ni spawns de recursos.</p></div>
+    <div class="card"><h3 style="font-size:19px">4. Nuevos jugadores</h3><p class="mut">No construir sobre los spawns de los que recién arrancan.</p></div>
+  </div>
+</div></section>
+
+<section id="shop"><div class="wrap">
+  <h2>Shop</h2>
+  <p class="sub">Muy pronto: puntos por jugar, kit de inicio y tienda dentro del juego.</p>
+  <div class="card"><p style="margin:0">Estamos armando la tienda. Vas a ganar puntos solo por estar conectado y canjearlos por items, dinos y kits.</p></div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <b>ArgentoPro ARK x5</b> · Hecho por y para la comunidad argentina<br>
+  <span class="small">Chat del juego: <code>!votar &lt;mapa&gt;</code> para votar · <code>!votos</code> para ver cómo viene la votación</span>
+</div></footer>
+
+<script src="dinos.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const KCOLOR = Object.fromEntries(KIBBLE.map(x => [x.k, x.color]));
+
+// ---------- estado en vivo ----------
+async function live() {
+  let d;
+  try { d = await (await fetch('/api/public', { cache: 'no-store' })).json(); } catch { $('liveChips').innerHTML = '<span class="chip">Estado del server no disponible</span>'; return; }
+  const on = d.maps.filter(m => m.online).length, pl = d.maps.reduce((a, m) => a + m.players, 0);
+  $('liveChips').innerHTML = `<span class="chip"><span class="dot ${on ? 'on' : ''}"></span><b>${on}/${d.maps.length}</b> mapas online</span>
+    <span class="chip"><b>${pl}</b> jugadores conectados</span>
+    <span class="chip">Mapa rotativo: <b>${esc(d.rotation.active)}</b></span>`;
+  $('mapCards').innerHTML = d.maps.map(m => `<div class="card map">
+    <h3><span><span class="dot ${m.online ? 'on' : ''}"></span>${esc(m.name)}</span><span class="tag">${m.rotating ? 'Rotativo' : 'Fijo'}</span></h3>
+    <p class="mut small" style="margin:8px 0">${m.online ? 'Online' : 'Offline'} · ${m.players}/${m.maxPlayers} jugadores</p>
+    ${m.rotating ? `<p class="small" style="margin:0">Cambia el <b>${esc(d.rotation.day)}</b> a las ${esc(d.rotation.time)} hs. Va ganando: <b>${esc(d.rotation.next)}</b></p>` : '<p class="small mut" style="margin:0">Siempre disponible.</p>'}
+  </div>`).join('');
+  const tot = d.rotation.votes.reduce((a, v) => a + v.votes, 0);
+  $('voteSub').innerHTML = `Escribí en el chat del juego el comando del mapa que querés. Un voto por cuenta y lo podés cambiar. El ${esc(d.rotation.day)} entra el ganador en lugar de <b>${esc(d.rotation.active)}</b>.`;
+  $('voteList').innerHTML = d.rotation.votes.map(v => `<div style="margin:10px 0">
+    <div style="display:flex;justify-content:space-between;gap:10px"><b>${esc(v.name)}</b><span class="small"><code>${esc(v.cmd)}</code> · ${v.votes} voto${v.votes === 1 ? '' : 's'}</span></div>
+    <div class="bar"><i style="width:${tot ? v.votes / tot * 100 : 0}%"></i></div></div>`).join('');
+  const r = d.rates;
+  $('rates').innerHTML = [['x' + r.taming, 'Tameo'], ['x' + r.harvest, 'Farmeo'], ['x' + r.xp, 'Experiencia'], ['x' + r.breeding, 'Huevos'],
+    ['x' + r.maturation, 'Crecimiento'], ['x' + r.stack, 'Stacks'], ['x' + r.structures, 'Estructuras']]
+    .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
+  $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
+}
+live(); setInterval(live, 30000);
+
+// ---------- guia de dinos ----------
+$('kibbleList').innerHTML = KIBBLE.map(x => `<div style="border-color:${x.color}"><b>${x.k}</b><div class="small mut">${DINOS.filter(d => d.k === x.k).length} criaturas</div></div>`).join('');
+$('fk').innerHTML += KIBBLE.map(x => `<option>${x.k}</option>`).join('') + '<option value="-">Sin kibble</option>';
+
+function comida(d) {
+  const alt = { 'Carnívoro': 'Carne de cordero cruda > Carne prime cruda > Carne cruda',
+    'Herbívoro': 'Verduras (Rockarrot, Longrass, Savoroot, Citronal) > Mejobayas',
+    'Piscívoro': 'Pescado prime crudo > Pescado crudo', 'Omnívoro': 'Carne prime cruda > Verduras > Mejobayas' }[d.d];
+  if (d.food) return d.food;
+  if (d.k) return `<b>Kibble ${d.k}</b>${alt ? ' · si no: ' + alt : ''}`;
+  return alt || 'Ver método';
+}
+function pasos(d) {
+  if (d.m === 'Noqueo') return ['Noquealo con flechas o dardos tranquilizantes (a los chicos, con honda o garrote).', 'Poné la comida en su inventario.', 'Mantenelo dormido con narcóticos o bayas narcóticas hasta que se tamee.'];
+  if (d.m === 'Pasivo' && !d.c) return ['Poné la comida en el último slot de tu barra rápida.', 'Acercate sin asustarlo y apretá E cuando te la pida.', 'Repetí cada vez que tenga hambre, sin que nadie lo ataque.'];
+  return [d.c];
+}
+function render() {
+  const q = $('q').value.trim().toLowerCase(), fm = $('fm').value, ft = $('ft').value, fk = $('fk').value;
+  const list = DINOS.filter(d => (!q || d.n.toLowerCase().includes(q) || (d.r || '').toLowerCase().includes(q))
+    && (!fm || d.m === fm) && (!ft || d.t === ft) && (!fk || (fk === '-' ? !d.k : d.k === fk)));
+  $('count').textContent = `${list.length} de ${DINOS.length} criaturas`;
+  $('dinoGrid').innerHTML = list.map(d => `<div class="card dino">
+    <h3>${esc(d.n)}</h3>
+    <div class="badges"><span class="b">${d.t}</span><span class="b">${d.d}</span><span class="b">${d.m}</span>
+      ${d.k ? `<span class="b k" style="background:${KCOLOR[d.k]}">Kibble ${d.k}</span>` : ''}${d.mapa ? `<span class="b" style="color:var(--acc)">Solo en ${esc(d.mapa)}</span>` : ''}</div>
+    <div class="mut small">${esc(d.r)}</div>
+    <div class="food">🍖 ${comida(d)}</div>
+    <details><summary>Cómo tamearlo</summary><ol>${pasos(d).map(p => `<li>${esc(p)}</li>`).join('')}</ol></details>
+  </div>`).join('') || '<p class="mut">No hay criaturas con ese filtro.</p>';
+}
+['q', 'fm', 'ft', 'fk'].forEach(id => $(id).addEventListener('input', render));
+render();
+</script>
+</body>
+</html>
