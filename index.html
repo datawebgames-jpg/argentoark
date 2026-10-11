@@ -65,6 +65,8 @@ code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-siz
 .rank .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rank .val{font:700 20px Oswald;color:var(--acc)}
 .online li{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)}
 .btn.dc{background:#5865f2;color:#fff}
+.sale h3{font-size:22px;display:flex;justify-content:space-between;gap:8px}.sale .price{font:700 24px Oswald;color:var(--acc);margin:6px 0}
+.sale .num{font:600 13px Inter;color:var(--mut)}.cmd{background:rgba(0,0,0,.4);border:1px dashed var(--line);border-radius:8px;padding:8px 10px;font-family:Consolas,monospace;font-size:13px;margin:6px 0;display:block}
 footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid var(--line);background:rgba(8,10,9,.95)}
 @media(max-width:600px){section{padding:40px 0}.hero{min-height:70vh}.filters{top:48px}}
 </style>
@@ -73,7 +75,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 <div class="bgimg"></div>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#mapas">Mapas</a><a href="#jugadores">Jugadores</a><a href="#entrar">Cómo entrar</a><a href="#dinos">Dinos</a><a href="#reglas">Reglas</a><a href="#shop">Shop</a>
+  <a href="#mapas">Mapas</a><a href="#jugadores">Jugadores</a><a href="#mercado">Mercado</a><a href="#entrar">Cómo entrar</a><a href="#dinos">Dinos</a><a href="#reglas">Reglas</a><a href="#shop">Shop</a>
 </nav>
 
 <header class="wrap hero">
@@ -109,6 +111,22 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
       <p class="mut small" style="margin:10px 0 0">Asesinatos y tameos: ARK solo los registra para jugadores en una tribu. Armá tu tribu (aunque sea solo) para entrar al ranking.</p>
     </div>
   </div>
+</div></section>
+
+<section id="mercado"><div class="wrap">
+  <h2>Mercado de dinos</h2>
+  <p class="sub">Los jugadores venden sus dinos a cambio de items del juego. Se publica desde el chat del juego y el intercambio se hace adentro.</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr));margin-bottom:14px">
+    <div class="card"><h3 style="font-size:20px;margin-bottom:6px">Cómo vender</h3>
+      <span class="cmd">!vender Rex 145 hembra por 30 perlas negras</span>
+      <p class="mut small" style="margin:6px 0 0">Monedas: <b>perlas negras</b>, <b>metal</b>, <b>polímero</b>, <b>element</b> y <b>cemento</b>. Hasta 5 ventas activas, duran 7 días. Cerrala con <code>!vendido 12</code> o <code>!cancelar 12</code>.</p></div>
+    <div class="card"><h3 style="font-size:20px;margin-bottom:6px">Cómo comprar</h3>
+      <span class="cmd">!comprar 12</span>
+      <p class="mut small" style="margin:6px 0 0">Le avisamos al vendedor en el juego y en el Discord. Encontrense y hagan el intercambio. Con <code>!ventas</code> ves las ventas desde el juego.</p></div>
+  </div>
+  <div class="filters" style="position:static"><select id="mcur"><option value="">Todas las monedas</option></select><input id="mq" placeholder="Buscar dino o vendedor..."></div>
+  <div class="grid" id="saleGrid"></div>
+  <div id="soldBox" style="margin-top:14px"></div>
 </div></section>
 
 <section><div class="wrap">
@@ -180,9 +198,11 @@ const KCOLOR = Object.fromEntries(KIBBLE.map(x => [x.k, x.color]));
 let apiBase = null;
 async function getStatus() {
   if (apiBase === null) {
+    // primero el mismo sitio (pagina servida por el panel); si no existe, la URL del tunel
+    try { const r = await fetch('api/public', { cache: 'no-store' }); if (r.ok) { apiBase = ''; return await r.json(); } } catch { }
     try { const j = await (await fetch('live.json?t=' + Date.now(), { cache: 'no-store' })).json(); apiBase = j.api || ''; } catch { apiBase = ''; }
   }
-  try { return await (await fetch(apiBase + '/api/public', { cache: 'no-store' })).json(); }
+  try { return await (await fetch(apiBase ? apiBase + '/api/public' : 'api/public', { cache: 'no-store' })).json(); }
   catch (e) { apiBase = null; throw e; } // si el tunel cambio, la proxima vez relee live.json
 }
 async function live() {
@@ -207,7 +227,7 @@ async function live() {
     ['x' + r.maturation, 'Crecimiento'], ['x' + r.stack, 'Stacks'], ['x' + r.structures, 'Estructuras']]
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
-  lastData = d; renderOnline(); renderRank();
+  lastData = d; renderOnline(); renderRank(); renderMarket();
 }
 let lastData = null, rankKey = 'level';
 const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos' };
@@ -221,6 +241,21 @@ function renderRank() {
   $('rankList').innerHTML = list.length ? list.map((p, i) => `<li><span class="pos">${i + 1}</span><span class="nm">${esc(p.name)}${rankKey !== 'level' ? ` <span class="mut small">· Nvl ${p.level}</span>` : ''}</span><span class="val">${p.value}</span></li>`).join('')
     : `<li class="mut">Todavía no hay datos de ${RLABEL[rankKey]}. ¡Entrá a jugar y aparecé acá!</li>`;
 }
+function hace(t) { const m = Math.round((Date.now() - t) / 60000); return m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.round(m / 60)} h` : `hace ${Math.round(m / 1440)} días`; }
+function renderMarket() {
+  const mk = lastData?.market; if (!mk) return;
+  const sel = $('mcur'); if (sel.options.length === 1) sel.innerHTML += mk.currencies.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+  const q = $('mq').value.trim().toLowerCase(), cur = sel.value;
+  const list = mk.active.filter(l => (!cur || l.currency === cur) && (!q || (l.dino + ' ' + l.seller).toLowerCase().includes(q)));
+  $('saleGrid').innerHTML = list.map(l => `<div class="card sale">
+    <h3><span>${esc(l.dino)}</span><span class="num">#${l.id}</span></h3>
+    <div class="badges"><span class="b">${l.level ? 'Nivel ' + l.level : 'Nivel sin indicar'}</span>${l.sex ? `<span class="b">${esc(l.sex)}</span>` : ''}<span class="b">${esc(l.map)}</span></div>
+    <div class="price">${l.qty} ${esc(l.currencyName)}</div>
+    <div class="mut small">Vende <b style="color:var(--txt)">${esc(l.seller)}</b> · ${hace(l.created)}${l.interested ? ` · ${l.interested} interesado${l.interested > 1 ? 's' : ''}` : ''}</div>
+    <span class="cmd">!comprar ${l.id}</span></div>`).join('') || '<p class="mut">No hay ventas activas. ¡Publicá la primera desde el juego!</p>';
+  $('soldBox').innerHTML = mk.sold.length ? '<h3 style="font-size:18px;margin-bottom:8px">Vendidos recientemente</h3><p class="mut small">' + mk.sold.map(l => `${esc(l.dino)}${l.level ? ' nvl ' + l.level : ''} por ${l.qty} ${esc(l.currencyName)} (${esc(l.seller)})`).join(' · ') + '</p>' : '';
+}
+['mcur', 'mq'].forEach(id => $(id).addEventListener('input', renderMarket));
 document.querySelectorAll('#rankTabs button').forEach(b => b.onclick = () => {
   document.querySelectorAll('#rankTabs button').forEach(x => x.classList.toggle('on', x === b));
   rankKey = b.dataset.r; renderRank();
