@@ -152,9 +152,18 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '
 const KCOLOR = Object.fromEntries(KIBBLE.map(x => [x.k, x.color]));
 
 // ---------- estado en vivo ----------
+// En la PC del server la API esta en el mismo sitio. En GitHub Pages, live.json dice la URL del tunel.
+let apiBase = null;
+async function getStatus() {
+  if (apiBase === null) {
+    try { const j = await (await fetch('live.json?t=' + Date.now(), { cache: 'no-store' })).json(); apiBase = j.api || ''; } catch { apiBase = ''; }
+  }
+  try { return await (await fetch(apiBase + '/api/public', { cache: 'no-store' })).json(); }
+  catch (e) { apiBase = null; throw e; } // si el tunel cambio, la proxima vez relee live.json
+}
 async function live() {
   let d;
-  try { d = await (await fetch('/api/public', { cache: 'no-store' })).json(); } catch { $('liveChips').innerHTML = '<span class="chip">Estado del server no disponible</span>'; return; }
+  try { d = await getStatus(); } catch { $('liveChips').innerHTML = '<span class="chip">Estado del server no disponible</span>'; return; }
   const on = d.maps.filter(m => m.online).length, pl = d.maps.reduce((a, m) => a + m.players, 0);
   $('liveChips').innerHTML = `<span class="chip"><span class="dot ${on ? 'on' : ''}"></span><b>${on}/${d.maps.length}</b> mapas online</span>
     <span class="chip"><b>${pl}</b> jugadores conectados</span>
