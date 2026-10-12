@@ -67,6 +67,10 @@ code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-siz
 .btn.dc{background:#5865f2;color:#fff}
 .sale h3{font-size:22px;display:flex;justify-content:space-between;gap:8px}.sale .price{font:700 24px Oswald;color:var(--acc);margin:6px 0}
 .sale .num{font:600 13px Inter;color:var(--mut)}.cmd{background:rgba(0,0,0,.4);border:1px dashed var(--line);border-radius:8px;padding:8px 10px;font-family:Consolas,monospace;font-size:13px;margin:6px 0;display:block}
+.acts{display:flex;flex-wrap:wrap;gap:6px}.acts button,.b2{background:rgba(255,255,255,.07);border:1px solid var(--line);color:var(--txt);padding:8px 12px;border-radius:8px;cursor:pointer;font:inherit;font-size:14px}
+.acts button:hover,.b2:hover{border-color:var(--acc)}.b2.p{background:var(--acc);color:#1b1200;border-color:var(--acc);font-weight:600}
+.inp{background:#0f1311;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:9px 12px;font:inherit}
+#actLog{background:rgba(0,0,0,.5);border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px;max-height:180px;overflow:auto;white-space:pre-wrap;margin-top:10px}
 footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid var(--line);background:rgba(8,10,9,.95)}
 @media(max-width:600px){section{padding:40px 0}.hero{min-height:70vh}.filters{top:48px}}
 </style>
@@ -75,7 +79,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 <div class="bgimg"></div>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#mapas">Mapas</a><a href="#jugadores">Jugadores</a><a href="#tribus">Tribus</a><a href="#mercado">Mercado</a><a href="#entrar">Cómo entrar</a><a href="#dinos">Dinos</a><a href="#pvp">PvP</a><a href="#reglas">Reglas</a><a href="#shop">Shop</a>
+  <a href="#cuenta">Mi cuenta</a><a href="#mapas">Mapas</a><a href="#jugadores">Jugadores</a><a href="#tribus">Tribus</a><a href="#mercado">Mercado</a><a href="#entrar">Cómo entrar</a><a href="#dinos">Dinos</a><a href="#pvp">PvP</a><a href="#reglas">Reglas</a><a href="#shop">Shop</a>
 </nav>
 
 <header class="wrap hero">
@@ -87,6 +91,37 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 </header>
 
 <main>
+<section id="cuenta"><div class="wrap">
+  <h2>Mi cuenta</h2>
+  <p class="sub">Vinculá tu personaje y hacé todo desde acá con botones: votar, comprar, vender, pedir kits y premios.</p>
+  <div class="card" id="loginBox">
+    <ol class="steps"><li>Entrá al juego y escribí <code>/vincular</code> en el chat.</li><li>Te llega un código de 6 caracteres (dura 10 minutos).</li><li>Escribilo acá:</li></ol>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><input class="inp" id="linkCode" placeholder="Código, ej: A1B2C3" maxlength="6" style="text-transform:uppercase;width:200px"><button class="b2 p" onclick="doLink()">Vincular</button></div>
+    <p class="mut small" id="linkMsg"></p>
+  </div>
+  <div id="accBox" style="display:none">
+    <div class="card" style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:center">
+        <div><h3 style="font-size:24px" id="accName"></h3><div class="mut small" id="accInfo"></div></div>
+        <div style="text-align:right"><div style="font:700 30px Oswald;color:var(--acc)" id="accBal"></div><button class="b2" onclick="logout()" style="font-size:12px;padding:4px 8px">Salir</button></div>
+      </div>
+      <div class="acts" style="margin-top:12px"><button onclick="act('kit')">🎁 Pedir kit</button><button onclick="act('premio')">🏆 Reclamar premio</button><button onclick="act('saldo')">💰 Mi saldo</button><button onclick="act('misventas')">📋 Mis publicaciones</button></div>
+      <div id="actLog">Las respuestas aparecen acá. Lo que se entrega como item (kits, tienda, premios) necesita que estés conectado al juego.</div>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
+      <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🗳️ Votar el próximo mapa</h3><div class="acts" id="voteBtns"></div></div>
+      <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🛒 Tienda oficial</h3><div class="acts" id="shopBtns"></div></div>
+      <div class="card"><h3 style="font-size:19px;margin-bottom:8px">💸 Vender o buscar</h3>
+        <input class="inp" id="sWhat" placeholder="Qué: Rex 150 hembra en criopod / 100 flechas" style="width:100%;margin-bottom:6px">
+        <div style="display:flex;gap:6px;flex-wrap:wrap"><input class="inp" id="sQty" type="number" min="1" placeholder="Precio" style="width:100px">
+        <select class="inp" id="sCur"><option value="ac">ArgenCoins</option><option value="perlas negras">Perlas negras</option><option value="metal">Metal</option><option value="polimero">Polímero</option><option value="element">Element</option><option value="cemento">Cemento</option></select></div>
+        <div class="acts" style="margin-top:8px"><button class="b2 p" onclick="sell('vender')">Publicar venta</button><button onclick="sell('busco')">Publicar "busco"</button></div></div>
+      <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🤝 Pagar a un jugador</h3>
+        <div style="display:flex;gap:6px;flex-wrap:wrap"><input class="inp" id="pTo" placeholder="Jugador" style="flex:1;min-width:120px"><input class="inp" id="pAmt" type="number" min="1" placeholder="AC" style="width:90px"><button class="b2 p" onclick="pay()">Pagar</button></div></div>
+    </div>
+  </div>
+</div></section>
+
 <section id="mapas"><div class="wrap">
   <h2>Mapas del cluster</h2>
   <p class="sub">Viajá entre mapas con tu personaje, dinos e items desde cualquier Obelisco o Terminal.</p>
@@ -269,7 +304,7 @@ async function live() {
     ['x' + r.maturation, 'Crecimiento'], ['x' + r.stack, 'Stacks'], ['x' + r.structures, 'Estructuras']]
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
-  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop();
+  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderAccButtons();
 }
 let lastData = null, rankKey = 'level';
 const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins' };
@@ -284,6 +319,78 @@ function renderRank() {
     : `<li class="mut">Todavía no hay datos de ${RLABEL[rankKey]}. ¡Entrá a jugar y aparecé acá!</li>`;
 }
 function hace(t) { const m = Math.round((Date.now() - t) / 60000); return m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.round(m / 60)} h` : `hace ${Math.round(m / 1440)} días`; }
+let me = null;
+const TK = 'argentoark_token';
+const getTok = () => { try { return localStorage.getItem(TK); } catch { return null; } };
+function marketButtons(l) {
+  if (!me) return '';
+  const b = (cmd, label, main) => `<button class="${main ? 'b2 p' : ''}" onclick="act('${cmd}')">${label}</button>`;
+  if (l.seller === me.char) return '<div class="acts">' + b('vendido ' + l.id, 'Vendido') + b('cancelar ' + l.id, 'Cancelar') + '</div>';
+  if (l.status === 'reservada') return l.buyer === me.char ? '<div class="acts">' + b('recibido ' + l.id, 'Ya lo recibí', true) + '</div>' : '';
+  return '<div class="acts">' + (l.kind === 'busco' ? b('tengo ' + l.id, 'Lo tengo', true) : b('comprar ' + l.id, 'Comprar', true)) + '</div>';
+}
+async function post(path, data) {
+  if (apiBase === null) await getStatus().catch(() => { });
+  const url = apiBase ? apiBase + '/api/' + path : 'api/' + path;
+  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+  return r.json();
+}
+async function doLink() {
+  const code = $('linkCode').value.trim().toUpperCase();
+  if (code.length !== 6) { $('linkMsg').textContent = 'El código tiene 6 caracteres.'; return; }
+  try {
+    const r = await post('link', { code });
+    if (r.error) { $('linkMsg').textContent = r.error; return; }
+    try { localStorage.setItem(TK, r.token); } catch { }
+    loadMe();
+  } catch { $('linkMsg').textContent = 'No se pudo conectar con el server. Probá en un rato.'; }
+}
+function showLogin(msg) {
+  me = null; $('loginBox').style.display = ''; $('accBox').style.display = 'none';
+  if (msg) $('linkMsg').textContent = msg;
+}
+async function loadMe() {
+  const token = getTok();
+  if (!token) return showLogin();
+  try {
+    const r = await post('me', { token });
+    if (r.error) { try { localStorage.removeItem(TK); } catch { } return showLogin(r.error); }
+    me = r; $('loginBox').style.display = 'none'; $('accBox').style.display = '';
+    $('accName').textContent = r.char;
+    $('accInfo').innerHTML = [r.level ? 'Nivel ' + r.level : '', r.tribe ? 'Tribu ' + esc(r.tribe) : 'Sin tribu',
+      r.online ? '<span style="color:var(--ok)">● Jugando en ' + esc(r.online) + '</span>' : '<span class="mut">Desconectado del juego</span>',
+      r.prizes ? '<b style="color:var(--acc)">🏆 ' + r.prizes + ' premio(s) para reclamar</b>' : ''].filter(Boolean).join(' · ');
+    $('accBal').textContent = r.balance + ' AC';
+    renderAccButtons(); renderMarket();
+  } catch { }
+}
+function renderAccButtons() {
+  if (!me || !lastData) return;
+  $('voteBtns').innerHTML = (lastData.rotation.votes || []).map(v => `<button onclick="act('${esc(v.cmd.replace('/', ''))}')">${esc(v.name)}${v.dlc ? ' <span class="mut small">(DLC)</span>' : ''} · ${v.votes}</button>`).join('');
+  $('shopBtns').innerHTML = (lastData.shop || []).map(i => `<button onclick="act('comprar ${i.code}')">${esc(i.name)} · <b>${i.price} AC</b></button>`).join('')
+    + `<button class="b2 p" onclick="act('comprar T12')">⚔️ Kit de 5 planos de armas · <b>500 AC</b></button>`;
+}
+async function act(cmd) {
+  const token = getTok(); if (!token) return;
+  const head = '> /' + cmd + String.fromCharCode(10);
+  $('actLog').textContent = head + '...';
+  try {
+    const r = await post('act', { token, cmd });
+    $('actLog').textContent = head + (r.error || (r.replies || []).join(String.fromCharCode(10)));
+    setTimeout(() => { loadMe(); live(); }, 800);
+  } catch { $('actLog').textContent = 'No se pudo conectar con el server.'; }
+}
+function sell(kind) {
+  const what = $('sWhat').value.trim(), qty = +$('sQty').value;
+  if (!what || !(qty > 0)) { $('actLog').textContent = 'Completá qué y el precio.'; return; }
+  act(kind + ' ' + what + ' por ' + qty + ' ' + $('sCur').value);
+}
+function pay() {
+  const to = $('pTo').value.trim(), amt = +$('pAmt').value;
+  if (!to || !(amt > 0)) { $('actLog').textContent = 'Completá jugador y monto.'; return; }
+  if (confirm('¿Pagarle ' + amt + ' AC a ' + to + '?')) act('pagar ' + to + ' ' + amt);
+}
+function logout() { const t = getTok(); if (t) post('logout', { token: t }).catch(() => { }); try { localStorage.removeItem(TK); } catch { } showLogin(); }
 function renderShop() {
   const sh = lastData?.shop || [];
   $('shopGrid').innerHTML = sh.map(i => `<div style="background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:10px">
@@ -316,7 +423,7 @@ function renderMarket() {
     <div class="badges"><span class="b">${l.isDino ? 'Dino' : 'Item'}</span>${l.isDino ? `<span class="b">${l.level ? 'Nivel ' + l.level : 'Nivel sin indicar'}</span>` : ''}${l.cryo ? '<span class="b">En criopod</span>' : ''}${l.sex ? `<span class="b">${esc(l.sex)}</span>` : ''}<span class="b">${esc(l.map)}</span></div>
     <div class="price">${l.qty} ${esc(l.currencyName)}</div>
     <div class="mut small">${l.kind === 'busco' ? 'Busca' : 'Vende'} <b style="color:var(--txt)">${esc(l.seller)}</b> · ${hace(l.created)}${l.interested ? ` · ${l.interested} interesado${l.interested > 1 ? 's' : ''}` : ''}</div>
-    ${l.status === 'reservada' ? `<span class="cmd" style="border-color:var(--acc)">Reservado por ${esc(l.buyer)} · esperando entrega</span>` : `<span class="cmd">${l.kind === 'busco' ? '/tengo' : '/comprar'} ${l.id}</span>`}</div>`).join('') || '<p class="mut">No hay nada publicado. ¡Publicá desde el juego con /vender o /busco!</p>';
+    ${l.status === 'reservada' ? `<span class="cmd" style="border-color:var(--acc)">Reservado por ${esc(l.buyer)} · esperando entrega</span>` : `<span class="cmd">${l.kind === 'busco' ? '/tengo' : '/comprar'} ${l.id}</span>`}${marketButtons(l)}</div>`).join('') || '<p class="mut">No hay nada publicado. ¡Publicá desde el juego con /vender o /busco!</p>';
   $('soldBox').innerHTML = mk.sold.length ? '<h3 style="font-size:18px;margin-bottom:8px">Vendidos recientemente</h3><p class="mut small">' + mk.sold.map(l => `${esc(l.dino)}${l.level ? ' nvl ' + l.level : ''} por ${l.qty} ${esc(l.currencyName)} (${esc(l.seller)})`).join(' · ') + '</p>' : '';
 }
 ['mcur', 'mq'].forEach(id => $(id).addEventListener('input', renderMarket));
@@ -325,6 +432,8 @@ document.querySelectorAll('#rankTabs button').forEach(b => b.onclick = () => {
   rankKey = b.dataset.r; renderRank();
 });
 live(); setInterval(live, 30000);
+loadMe(); setInterval(loadMe, 60000);
+$('linkCode').addEventListener('keydown', e => { if (e.key === 'Enter') doLink(); });
 
 // ---------- guia de dinos ----------
 $('kibbleList').innerHTML = KIBBLE.map(x => `<div style="border-color:${x.color}"><b>${x.k}</b><div class="small mut">${DINOS.filter(d => d.k === x.k).length} criaturas</div></div>`).join('');
