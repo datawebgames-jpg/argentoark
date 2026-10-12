@@ -477,7 +477,7 @@ function renderAccButtons() {
   if (!me || !lastData) return;
   $('voteBtns').innerHTML = (lastData.rotation.votes || []).map(v => `<button onclick="act('${esc(v.cmd.replace('/', ''))}')">${esc(v.name)}${v.dlc ? ' <span class="mut small">(DLC)</span>' : ''} · ${v.votes}</button>`).join('');
   $('shopBtns').innerHTML = (lastData.shop || []).map(i => `<button onclick="act('comprar ${i.code}')">${esc(i.name)} · <b>${i.price} AC</b></button>`).join('')
-    + `<button class="b2 p" onclick="act('comprar T12')">⚔️ Kit de 5 planos de armas · <b>500 AC</b></button>`;
+    + `<button class="b2 p" onclick="act('comprar T12')">⚔️ Kit de 5 planos de armas · <b>1500 AC</b></button>`;
 }
 async function act(cmd) {
   const token = getTok(); if (!token) return;
