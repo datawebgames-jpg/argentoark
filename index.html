@@ -86,7 +86,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 <div class="bgimg"></div>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
+  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
 </nav>
 
 <header class="wrap hero" data-tab="mapas">
@@ -98,6 +98,40 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 </header>
 
 <main>
+<section id="eventos" data-tab="eventos"><div class="wrap">
+  <h2>Eventos y novedades</h2>
+  <p class="sub">Todo lo que pasa en el server: desafíos, reyes de la semana, recompensas y premios.</p>
+  <div id="boostBanner"></div>
+  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
+    <div class="card"><h3 style="font-size:20px;margin-bottom:6px">🎯 Desafío del día</h3><div id="evChallenge" class="small"></div></div>
+    <div class="card"><h3 style="font-size:20px;margin-bottom:6px">🏹 Cazador del día</h3><p class="mut small" style="margin:0 0 6px">El que más tamea hoy gana <b>100 AC</b> a la medianoche.</p><ol class="rank" id="evHunter"></ol></div>
+    <div class="card"><h3 style="font-size:20px;margin-bottom:6px">💀 Se busca</h3><p class="mut small" style="margin:0 0 6px">Poné AC por la cabeza de alguien con <code>/recompensa jugador 100</code>. Quien lo mate en el PvP cobra todo.</p><ol class="rank" id="evBounties"></ol></div>
+  </div>
+  <h3 style="font-size:24px;margin:26px 0 10px">👑 Reyes de la semana</h3>
+  <p class="sub">Cada lunes: rey del tameo, rey del PvP, rey del nivel y la mejor tribu. Premio: <b>1 plano de más nivel</b> (~180 a 220% de daño) para cada uno — y para cada miembro de la mejor tribu. Se reclama con <code>/premio</code> en el juego, en Mi cuenta o en Discord (tenés que estar conectado al juego para recibirlo).</p>
+  <div class="grid" id="evKings"></div>
+  <h3 style="font-size:24px;margin:26px 0 10px">📅 Calendario de eventos</h3>
+  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">
+    <div class="card"><h3 style="font-size:19px;margin-bottom:8px">Todos los días</h3><ul class="online rank small">
+      <li><span>🎁 Premio diario por entrar</span><span class="mut">20 AC + 10 por día seguido (hasta 80)</span></li>
+      <li><span>🎯 Desafío del día</span><span class="mut">150 AC el primero, 50 los demás</span></li>
+      <li><span>🏹 Cazador del día</span><span class="mut">100 AC</span></li>
+      <li><span>⏱️ Jugar</span><span class="mut">1 AC por minuto</span></li>
+      <li><span>⚔️ PvP de 20 a 23 hs</span><span class="mut">lunes a viernes</span></li></ul></div>
+    <div class="card"><h3 style="font-size:19px;margin-bottom:8px">Fin de semana</h3><ul class="online rank small">
+      <li><span>🔥 Rates x10</span><span class="mut">sábado y domingo</span></li>
+      <li><span>⚔️ PvP de 14 a 23 hs</span><span class="mut">sábado y domingo</span></li>
+      <li><span>🏰 Asedios</span><span class="mut">de 20 a 22 hs</span></li></ul></div>
+    <div class="card"><h3 style="font-size:19px;margin-bottom:8px">Todos los lunes</h3><ul class="online rank small">
+      <li><span>👑 Reyes de la semana</span><span class="mut">1 plano de más nivel</span></li>
+      <li><span>🎟️ Sorteo semanal</span><span class="mut">kit de 5 planos de armas</span></li>
+      <li><span>🗺️ Cambio de mapa</span><span class="mut">06:00 hs, por votación</span></li></ul></div>
+    <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🗳️ Votá el server</h3><p class="small" style="margin:0">Muy pronto: votá a ArgentoPro en las páginas de listas de servers y escribí <code>/votarserver</code> para ganar <b>50 AC</b> por día.</p></div>
+  </div>
+  <h3 style="font-size:24px;margin:26px 0 10px">📰 Novedades</h3>
+  <div class="card"><ul class="online rank" id="evNews"></ul></div>
+</div></section>
+
 <section id="cuenta" data-tab="cuenta"><div class="wrap">
   <h2>Mi cuenta</h2>
   <p class="sub">Vinculá tu personaje y hacé todo desde acá con botones: votar, comprar, vender, pedir kits y premios.</p>
@@ -112,7 +146,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
         <div><h3 style="font-size:24px" id="accName"></h3><div class="mut small" id="accInfo"></div></div>
         <div style="text-align:right"><div style="font:700 30px Oswald;color:var(--acc)" id="accBal"></div><button class="b2" onclick="logout()" style="font-size:12px;padding:4px 8px">Salir</button></div>
       </div>
-      <div class="acts" style="margin-top:12px"><button onclick="act('kit')">🎁 Pedir kit</button><button onclick="act('premio')">🏆 Reclamar premio</button><button onclick="act('saldo')">💰 Mi saldo</button><button onclick="act('misventas')">📋 Mis publicaciones</button></div>
+      <div class="acts" style="margin-top:12px"><button onclick="act('kit')">🎁 Pedir kit</button><button onclick="act('premio')">🏆 Reclamar premio</button><button onclick="act('saldo')">💰 Mi saldo</button><button onclick="act('misventas')">📋 Mis publicaciones</button><button onclick="act('eventos')">🎉 Eventos</button><button onclick="act('recompensas')">💀 Se busca</button></div>
       <div id="actLog">Las respuestas aparecen acá. Lo que se entrega como item (kits, tienda, premios) necesita que estés conectado al juego.</div>
     </div>
     <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
@@ -123,6 +157,9 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
         <div style="display:flex;gap:6px;flex-wrap:wrap"><input class="inp" id="sQty" type="number" min="1" placeholder="Precio" style="width:100px">
         <select class="inp" id="sCur"><option value="ac">ArgenCoins</option><option value="perlas negras">Perlas negras</option><option value="metal">Metal</option><option value="polimero">Polímero</option><option value="element">Element</option><option value="cemento">Cemento</option></select></div>
         <div class="acts" style="margin-top:8px"><button class="b2 p" onclick="sell('vender')">Publicar venta</button><button onclick="sell('busco')">Publicar "busco"</button></div></div>
+      <div class="card"><h3 style="font-size:19px;margin-bottom:8px">💀 Poner precio a una cabeza</h3>
+        <div style="display:flex;gap:6px;flex-wrap:wrap"><input class="inp" id="bTo" placeholder="Jugador" style="flex:1;min-width:120px"><input class="inp" id="bAmt" type="number" min="20" placeholder="AC" style="width:90px"><button class="b2 p" onclick="bounty()">Publicar</button></div>
+        <p class="mut small" style="margin:6px 0 0">Quien lo mate en el PvP cobra. Si nadie lo mata en 7 días, te devolvemos las AC.</p></div>
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🤝 Pagar a un jugador</h3>
         <div style="display:flex;gap:6px;flex-wrap:wrap"><input class="inp" id="pTo" placeholder="Jugador" style="flex:1;min-width:120px"><input class="inp" id="pAmt" type="number" min="1" placeholder="AC" style="width:90px"><button class="b2 p" onclick="pay()">Pagar</button></div></div>
     </div>
@@ -325,7 +362,7 @@ async function live() {
     ['x' + r.maturation, 'Crecimiento'], ['x' + r.stack, 'Stacks'], ['x' + r.structures, 'Estructuras']]
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
-  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderAccButtons();
+  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderAccButtons(); renderEvents();
 }
 let lastData = null, rankKey = 'level';
 const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins' };
@@ -411,7 +448,27 @@ function pay() {
   if (!to || !(amt > 0)) { $('actLog').textContent = 'Completá jugador y monto.'; return; }
   if (confirm('¿Pagarle ' + amt + ' AC a ' + to + '?')) act('pagar ' + to + ' ' + amt);
 }
+function bounty() {
+  const to = $('bTo').value.trim(), amt = +$('bAmt').value;
+  if (!to || !(amt >= 20)) { $('actLog').textContent = 'Completá jugador y monto (mínimo 20 AC).'; return; }
+  if (confirm('¿Poner ' + amt + ' AC por la cabeza de ' + to + '?')) act('recompensa ' + to + ' ' + amt);
+}
 function logout() { const t = getTok(); if (t) post('logout', { token: t }).catch(() => { }); try { localStorage.removeItem(TK); } catch { } showLogin(); }
+function md(t) { return esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
+function renderEvents() {
+  const e = lastData?.events; if (!e) return;
+  $('boostBanner').innerHTML = e.weekend?.active
+    ? '<div class="card" style="margin-bottom:14px;border-color:var(--acc);background:rgba(240,160,32,.12)"><h3 style="font-size:22px;margin:0">🔥 FIN DE SEMANA x10 ACTIVO</h3><p class="small" style="margin:6px 0 0">Experiencia, tameo y farmeo x10 hasta el lunes a las 06:00.</p></div>'
+    : '<div class="card" style="margin-bottom:14px"><b>🔥 Fin de semana x10:</b> <span class="mut">todos los sábados y domingos, experiencia, tameo y farmeo x10.</span></div>';
+  const c = e.challenge;
+  $('evChallenge').innerHTML = c ? `Hoy: domá un <b style="color:var(--acc);font-size:18px">${esc(c.dino)}</b><br>${c.winners.length ? 'Ganó: <b>' + esc(c.winners[0]) + '</b>' + (c.winners.length > 1 ? ' · también: ' + c.winners.slice(1).map(esc).join(', ') : '') + '. Todavía podés ganar 50 AC.' : 'Nadie lo logró todavía: el primero gana <b>150 AC</b>.'}` : '';
+  $('evHunter').innerHTML = e.hunterToday.length ? e.hunterToday.map((h, i) => `<li><span class="pos">${i + 1}</span><span class="nm">${esc(h.name)}</span><span class="val">${h.value}</span></li>`).join('') : '<li class="mut">Nadie tameó hoy todavía.</li>';
+  $('evBounties').innerHTML = e.bounties.length ? e.bounties.map((b, i) => `<li><span class="pos">${i + 1}</span><span class="nm">${esc(b.target)}</span><span class="val">${b.amount} <span class="small">AC</span></span></li>`).join('') : '<li class="mut">Nadie tiene precio por su cabeza... por ahora.</li>';
+  const k = e.kings;
+  $('evKings').innerHTML = k && k.list.length ? k.list.map(x => `<div class="card" style="text-align:center"><div class="mut small">${esc(x.title)}</div><div style="font:700 26px Oswald;color:var(--acc)">${esc(x.name)}</div><div class="small">${esc(x.value)}</div>${x.members ? '<div class="mut small">' + x.members.map(esc).join(', ') + '</div>' : ''}</div>`).join('')
+    : '<div class="card"><p class="mut" style="margin:0">Los primeros reyes se coronan el próximo lunes a las 06:00. ¡Todavía estás a tiempo!</p></div>';
+  $('evNews').innerHTML = e.news.length ? e.news.map(n => `<li style="display:block"><span class="mut small">${new Date(n.t).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</span> · ${md(n.text)}</li>`).join('') : '<li class="mut">Sin novedades todavía.</li>';
+}
 function renderShop() {
   const sh = lastData?.shop || [];
   $('shopGrid').innerHTML = sh.map(i => `<div style="background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:10px">
@@ -452,7 +509,7 @@ document.querySelectorAll('#rankTabs button').forEach(b => b.onclick = () => {
   document.querySelectorAll('#rankTabs button').forEach(x => x.classList.toggle('on', x === b));
   rankKey = b.dataset.r; renderRank();
 });
-const TAB_OF = { mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info' };
+const TAB_OF = { eventos: 'eventos', novedades: 'eventos', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info' };
 function showTab() {
   const h = (location.hash || '#mapas').slice(1);
   const tab = TAB_OF[h] || 'mapas';
