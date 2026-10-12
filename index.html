@@ -78,6 +78,9 @@ nav a.on{background:var(--acc);color:#1b1200;font-weight:600}
 .mapguide .acts a{text-decoration:none}
 .howto{counter-reset:h;display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
 .howto .card h3{font-size:19px;margin-bottom:8px}
+.ttl{font:600 11px Inter;padding:2px 7px;border-radius:20px;margin-left:6px;border:1px solid currentColor;white-space:nowrap}
+.likebtn{background:rgba(89,140,255,.15);border:1px solid rgba(89,140,255,.5);color:#8cbfff;border-radius:20px;padding:3px 10px;cursor:pointer;font:inherit;font-size:12px}
+.likebtn:hover{background:rgba(89,140,255,.3)}
 footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid var(--line);background:rgba(8,10,9,.95)}
 @media(max-width:600px){section{padding:40px 0}.hero{min-height:70vh}.filters{top:48px}}
 </style>
@@ -193,11 +196,21 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
     <div class="card"><h3 style="font-size:20px;margin-bottom:8px">Online ahora</h3><ul class="online rank" id="onlineList"><li class="mut">Cargando...</li></ul></div>
     <div class="card">
       <div class="tabs" id="rankTabs">
-        <button data-r="level" class="on">Nivel</button><button data-r="kills">Asesinatos</button><button data-r="deaths">Muertes</button><button data-r="tames">Tameos</button><button data-r="coins">Más ricos</button>
+        <button data-r="level" class="on">Nivel</button><button data-r="kills">Asesinatos</button><button data-r="deaths">Muertes</button><button data-r="tames">Tameos</button><button data-r="coins">Más ricos</button><button data-r="likes">Más queridos</button>
       </div>
       <ol class="rank" id="rankList"></ol>
       <p class="mut small" style="margin:10px 0 0">Tameos: se cuentan del registro de cada tribu, así que armá tu tribu (aunque sea solo) para entrar al ranking. Asesinatos: jugadores y dinos de otras tribus (ARK no registra los dinos salvajes).</p>
     </div>
+  </div>
+</div></section>
+
+<section id="reputacion" data-tab="jugadores"><div class="wrap">
+  <h2>Reputación</h2>
+  <p class="sub">Dale <b>like</b> a los jugadores que son buena gente (uno por semana a cada uno). Los que matan a otros personajes se ganan títulos en rojo; los que reciben likes, en azul. Los títulos aparecen en el chat del juego, en los carteles, acá y en Discord.</p>
+  <div class="grid" style="grid-template-columns:minmax(260px,1fr) minmax(300px,2fr)">
+    <div class="card"><h3 style="font-size:19px;margin-bottom:8px">Títulos</h3><div id="legend" class="small"></div>
+      <p class="mut small" style="margin:8px 0 0">En el juego: <code>/like jugador</code> y <code>/likes</code>. En Discord: <code>/like</code>.</p></div>
+    <div class="card"><h3 style="font-size:19px;margin-bottom:8px">Jugadores</h3><p class="mut small" id="likeHint" style="margin:0 0 6px"></p><ul class="online rank" id="repList"></ul></div>
   </div>
 </div></section>
 
@@ -330,6 +343,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
     <div class="card"><h3 style="font-size:19px">2. Sin trampas</h3><p class="mut">Prohibidos cheats, exploits y bugs. Ban directo.</p></div>
     <div class="card"><h3 style="font-size:19px">3. Zonas libres</h3><p class="mut">No bloquear cuevas, artefactos ni spawns de recursos.</p></div>
     <div class="card"><h3 style="font-size:19px">4. Nuevos jugadores</h3><p class="mut">No construir sobre los spawns de los que recién arrancan.</p></div>
+    <div class="card" style="border-color:rgba(116,172,223,.6)"><h3 style="font-size:19px">🛡️ Protección de novatos</h3><p class="mut" style="margin-bottom:6px"><b>Hasta nivel 100 no hay PvP:</b> no se puede matar a personajes de menos de nivel 100, y los de menos de nivel 100 no pueden matar a nadie.</p><p style="margin:0" class="small">El server lo controla solo: <b>1ra vez</b> advertencia y multa de 100 AC (para la víctima) · <b>2da</b> expulsión y multa de 200 AC · <b>3ra</b> ban de 7 días.</p></div>
     <div class="card" style="border-color:rgba(228,91,75,.6)"><h3 style="font-size:19px">5. Respetá el horario de asedio</h3><p class="mut" style="margin-bottom:6px">Las bases <b>solo se atacan</b> sábados y domingos de <b>20 a 22 hs</b>. Fuera de ese horario podés pelear con jugadores y dinos en el PvP, pero <b>no romper bases</b>.</p><p style="margin:0;color:#ff8a7a"><b>Sanción:</b> ban de 1 semana la primera vez. Si se repite, ban permanente.</p></div>
     <div class="card"><h3 style="font-size:19px">6. Reportes</h3><p class="mut">Si alguien rompe las reglas, abrí un ticket con pruebas (captura o video). Ver abajo "Soporte y reportes".</p></div>
   </div>
@@ -382,18 +396,18 @@ async function live() {
     ['x' + r.maturation, 'Crecimiento'], ['x' + r.stack, 'Stacks'], ['x' + r.structures, 'Estructuras']]
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
-  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderAccButtons(); renderEvents();
+  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderAccButtons(); renderEvents(); renderRep();
 }
 let lastData = null, rankKey = 'level';
-const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins' };
+const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins', likes: 'likes' };
 function renderOnline() {
   const on = lastData?.online || [];
-  $('onlineList').innerHTML = on.length ? on.map(p => `<li><span class="nm"><span class="dot on"></span>${esc(p.name)}</span><span class="mut small">${p.level ? 'Nvl ' + p.level + ' · ' : ''}${p.tribe ? esc(p.tribe) + ' · ' : ''}${esc(p.map)}</span></li>`).join('')
+  $('onlineList').innerHTML = on.length ? on.map(p => `<li><span class="nm"><span class="dot on"></span>${nameT(p)}</span><span class="mut small">${p.level ? 'Nvl ' + p.level + ' · ' : ''}${p.tribe ? esc(p.tribe) + ' · ' : ''}${esc(p.map)}</span></li>`).join('')
     : '<li class="mut">No hay nadie conectado en este momento.</li>';
 }
 function renderRank() {
   const list = lastData?.rankings?.[rankKey] || [];
-  $('rankList').innerHTML = list.length ? list.map((p, i) => `<li><span class="pos">${i + 1}</span><span class="nm">${esc(p.name)}${rankKey !== 'level' && p.level ? ` <span class="mut small">· Nvl ${p.level}</span>` : ''}</span><span class="val">${p.value}${rankKey === 'coins' ? ' <span class="small">AC</span>' : ''}</span></li>`).join('')
+  $('rankList').innerHTML = list.length ? list.map((p, i) => `<li><span class="pos">${i + 1}</span><span class="nm">${nameT(p)}${rankKey !== 'level' && p.level ? ` <span class="mut small">· Nvl ${p.level}</span>` : ''}</span><span class="val">${p.value}${rankKey === 'coins' ? ' <span class="small">AC</span>' : ''}</span></li>`).join('')
     : `<li class="mut">Todavía no hay datos de ${RLABEL[rankKey]}. ¡Entrá a jugar y aparecé acá!</li>`;
 }
 function hace(t) { const m = Math.round((Date.now() - t) / 60000); return m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.round(m / 60)} h` : `hace ${Math.round(m / 1440)} días`; }
@@ -501,6 +515,18 @@ function renderEvents() {
     : '<div class="card"><p class="mut" style="margin:0">Los primeros reyes se coronan el próximo lunes a las 06:00. ¡Todavía estás a tiempo!</p></div>';
   $('evNews').innerHTML = e.news.length ? e.news.map(n => `<li style="display:block"><span class="mut small">${new Date(n.t).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</span> · ${md(n.text)}</li>`).join('') : '<li class="mut">Sin novedades todavía.</li>';
 }
+function nameT(p) {
+  return p.hex ? `<b style="color:${p.hex}">${esc(p.name)}</b><span class="ttl" style="color:${p.hex}">${esc(p.title)}</span>` : esc(p.name);
+}
+function renderRep() {
+  const L = lastData?.titleLegend; if (!L) return;
+  $('legend').innerHTML = '<b>Por asesinatos de personajes</b>' + L.killer.slice().reverse().map(t => `<div style="color:${t.hex}">● ${esc(t.title)} <span class="mut">(${t.min}+)</span></div>`).join('')
+    + '<b style="display:block;margin-top:8px">Por likes</b>' + L.good.slice().reverse().map(t => `<div style="color:${t.hex}">● ${esc(t.title)} <span class="mut">(${t.min}+ likes)</span></div>`).join('');
+  $('likeHint').innerHTML = me ? 'Tocá 👍 para darle like.' : '<a href="#cuenta">Vinculá tu cuenta</a> para dar likes desde acá.';
+  const list = (lastData.players || []).slice(0, 40);
+  $('repList').innerHTML = list.map(p => `<li><span class="nm">${nameT(p)}${p.level ? ' <span class="mut small">· Nvl ' + p.level + '</span>' : ''}</span>
+    <span>${p.likes} 👍 ${me && p.name !== me.char ? `<button class="likebtn" onclick="act('like ${esc(p.name)}')">Like</button>` : ''}</span></li>`).join('') || '<li class="mut">Todavía no hay jugadores.</li>';
+}
 function renderShop() {
   const sh = lastData?.shop || [];
   $('shopGrid').innerHTML = sh.map(i => `<div style="background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:10px">
@@ -541,7 +567,7 @@ document.querySelectorAll('#rankTabs button').forEach(b => b.onclick = () => {
   document.querySelectorAll('#rankTabs button').forEach(x => x.classList.toggle('on', x === b));
   rankKey = b.dataset.r; renderRank();
 });
-const TAB_OF = { soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'eventos', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info' };
+const TAB_OF = { reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'eventos', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info' };
 function showTab() {
   const h = (location.hash || '#mapas').slice(1);
   const tab = TAB_OF[h] || 'mapas';
