@@ -134,6 +134,12 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
       <span class="cmd">/saldo</span><span class="cmd">/pagar Juan 50</span>
       <p class="mut small" style="margin:6px 0 0">Usalas para comprar dinos en el mercado o pagarle a otro jugador.</p></div>
   </div>
+  <div class="card" style="margin-bottom:14px">
+    <h3 style="font-size:20px;margin-bottom:6px">🛒 Tienda oficial del server</h3>
+    <p class="small" style="margin:0 0 10px">Pagás con ArgenCoins y <b>el item llega solo a tu inventario</b>. Escribí <code>/tienda</code> en el juego y comprá con <code>/comprar T1</code>.</p>
+    <div class="grid" id="shopGrid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px"></div>
+  </div>
+  <h3 style="font-size:22px;margin:18px 0 10px">Mercado de jugadores</h3>
   <div class="filters" style="position:static"><select id="mcur"><option value="">Todas las monedas</option></select><input id="mq" placeholder="Buscar dino o vendedor..."></div>
   <div class="grid" id="saleGrid"></div>
   <div id="soldBox" style="margin-top:14px"></div>
@@ -263,7 +269,7 @@ async function live() {
     ['x' + r.maturation, 'Crecimiento'], ['x' + r.stack, 'Stacks'], ['x' + r.structures, 'Estructuras']]
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
-  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp();
+  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop();
 }
 let lastData = null, rankKey = 'level';
 const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins' };
@@ -278,6 +284,11 @@ function renderRank() {
     : `<li class="mut">Todavía no hay datos de ${RLABEL[rankKey]}. ¡Entrá a jugar y aparecé acá!</li>`;
 }
 function hace(t) { const m = Math.round((Date.now() - t) / 60000); return m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.round(m / 60)} h` : `hace ${Math.round(m / 1440)} días`; }
+function renderShop() {
+  const sh = lastData?.shop || [];
+  $('shopGrid').innerHTML = sh.map(i => `<div style="background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:10px">
+    <div class="small">${esc(i.name)}</div><div style="font:700 20px Oswald;color:var(--acc)">${i.price} AC</div><code>/comprar ${esc(i.code)}</code></div>`).join('');
+}
 function renderPvp() {
   const p = lastData?.pvp, k = lastData?.kits;
   if (p) {
