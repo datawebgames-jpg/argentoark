@@ -352,7 +352,15 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
     <div class="card"><h3 style="font-size:19px">2. Sin trampas</h3><p class="mut">Prohibidos cheats, exploits y bugs. Ban directo.</p></div>
     <div class="card"><h3 style="font-size:19px">3. Zonas libres</h3><p class="mut">No bloquear cuevas, artefactos ni spawns de recursos.</p></div>
     <div class="card"><h3 style="font-size:19px">4. Nuevos jugadores</h3><p class="mut">No construir sobre los spawns de los que recién arrancan.</p></div>
-    <div class="card" style="border-color:rgba(116,172,223,.6)"><h3 style="font-size:19px">🛡️ Protección de novatos</h3><p class="mut" style="margin-bottom:6px"><b>Hasta nivel 100 no hay PvP:</b> no se puede matar a personajes de menos de nivel 100, y los de menos de nivel 100 no pueden matar a nadie.</p><p style="margin:0" class="small">El server lo controla solo: <b>1ra vez</b> advertencia y multa de 100 AC (para la víctima) · <b>2da</b> expulsión y multa de 200 AC · <b>3ra</b> ban de 7 días.</p></div>
+    <div class="card" style="border-color:rgba(116,172,223,.6)"><h3 style="font-size:19px">🛡️ PvP legal: nivel 100 contra nivel 100</h3>
+      <p class="mut" style="margin-bottom:6px">Solo se puede matar a otro jugador si <b>los dos son nivel 100 o más</b>. Matar a alguien de menos de nivel 100 (o matar siendo de menos de 100) es un <b>asesinato ilegal</b>:</p>
+      <ul class="small" style="margin:0;padding-left:18px">
+        <li>Multa de <b>100 AC</b>, que van para la víctima.</li>
+        <li>Ganás AC <b>a la mitad</b> por 24 horas. Cada asesinato ilegal suma <b>24 horas más</b>.</li>
+        <li>A los <b>10</b>: <b>no ganás AC por 2 semanas</b> y tu nombre aparece en <b style="color:#ff1a1a">rojo como "Criminal"</b>.</li>
+        <li>Cada <b>7 días</b> se borra un asesinato ilegal de tu historial.</li>
+      </ul><p class="mut small" style="margin:6px 0 0">Mirá tu estado con <code>/pvp</code> en el juego.</p>
+      <div id="markedList" class="small" style="margin-top:8px"></div></div>
     <div class="card" style="border-color:rgba(228,91,75,.6)"><h3 style="font-size:19px">5. Respetá el horario de asedio</h3><p class="mut" style="margin-bottom:6px">Las bases <b>solo se atacan</b> sábados y domingos de <b>20 a 22 hs</b>. Fuera de ese horario podés pelear con jugadores y dinos en el PvP, pero <b>no romper bases</b>.</p><p style="margin:0;color:#ff8a7a"><b>Sanción:</b> ban de 1 semana la primera vez. Si se repite, ban permanente.</p></div>
     <div class="card"><h3 style="font-size:19px">6. Reportes</h3><p class="mut">Si alguien rompe las reglas, abrí un ticket con pruebas (captura o video). Ver abajo "Soporte y reportes".</p></div>
   </div>
@@ -405,7 +413,7 @@ async function live() {
     ['x' + r.maturation, 'Crecimiento'], ['x' + r.stack, 'Stacks'], ['x' + r.structures, 'Estructuras']]
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
-  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderAccButtons(); renderEvents(); renderRep();
+  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderAccButtons(); renderEvents(); renderRep(); renderMarked();
 }
 let lastData = null, rankKey = 'level';
 const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins', likes: 'likes' };
@@ -544,9 +552,14 @@ function renderEvents() {
 function nameT(p) {
   return p.hex ? `<b style="color:${p.hex}">${esc(p.name)}</b><span class="ttl" style="color:${p.hex}">${esc(p.title)}</span>` : esc(p.name);
 }
+function renderMarked() {
+  const m = lastData?.protection?.marked || [];
+  if (!$('markedList')) return;
+  $('markedList').innerHTML = m.length ? '<b>Marcados ahora:</b> ' + m.map(x => `<span style="color:${x.criminal ? '#ff1a1a' : 'var(--acc)'}">${esc(x.name)} (${x.count}/10${x.criminal ? ', CRIMINAL' : ''})</span>`).join(' · ') : '';
+}
 function renderRep() {
   const L = lastData?.titleLegend; if (!L) return;
-  $('legend').innerHTML = '<b>Por asesinatos de personajes</b>' + L.killer.slice().reverse().map(t => `<div style="color:${t.hex}">● ${esc(t.title)} <span class="mut">(${t.min}+)</span></div>`).join('')
+  $('legend').innerHTML = '<div style="color:#ff1a1a"><b>● Criminal</b> <span class="mut">(10 asesinatos ilegales)</span></div><b>Por asesinatos de personajes</b>' + L.killer.slice().reverse().map(t => `<div style="color:${t.hex}">● ${esc(t.title)} <span class="mut">(${t.min}+)</span></div>`).join('')
     + '<b style="display:block;margin-top:8px">Por likes</b>' + L.good.slice().reverse().map(t => `<div style="color:${t.hex}">● ${esc(t.title)} <span class="mut">(${t.min}+ likes)</span></div>`).join('');
   $('likeHint').innerHTML = me ? 'Tocá 👍 para darle like.' : '<a href="#cuenta">Vinculá tu cuenta</a> para dar likes desde acá.';
   const list = (lastData.players || []).slice(0, 40);
