@@ -129,6 +129,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
       <li><span>👑 Reyes de la semana</span><span class="mut">1 plano de más nivel</span></li>
       <li><span>🎟️ Sorteo semanal</span><span class="mut">kit de 5 planos de armas</span></li>
       <li><span>🗺️ Cambio de mapa</span><span class="mut">06:00 hs, por votación</span></li></ul></div>
+    <div class="card" style="border-color:rgba(228,91,75,.6)"><h3 style="font-size:19px;margin-bottom:8px">🤝 Invitá amigos</h3><p class="small" style="margin:0 0 6px">Por cada amigo nuevo que invites y se vincule: <b>plano rojo de arma</b> para vos y <b>100 AC</b> para él. Tu código: <code>/invitar</code> en el juego o en Mi cuenta.</p><ol class="rank" id="evRecruiters"></ol></div>
     <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🗳️ Votá el server</h3><p class="small" style="margin:0">Muy pronto: votá a ArgentoPro en las páginas de listas de servers y escribí <code>/votarserver</code> para ganar <b>50 AC</b> por día.</p></div>
   </div>
   <h3 style="font-size:24px;margin:26px 0 10px">📰 Novedades</h3>
@@ -138,6 +139,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 <section id="cuenta" data-tab="cuenta"><div class="wrap">
   <h2>Mi cuenta</h2>
   <p class="sub">Vinculá tu personaje y hacé todo desde acá con botones: votar, comprar, vender, pedir kits y premios.</p>
+  <div class="card" id="refBanner" style="display:none;margin-bottom:14px;border-color:var(--acc);background:rgba(240,160,32,.1)"></div>
   <div class="card" id="loginBox">
     <ol class="steps"><li>Entrá al juego y escribí <code>/vincular</code> en el chat.</li><li>Te llega un código de 6 caracteres (dura 10 minutos).</li><li>Escribilo acá:</li></ol>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><input class="inp" id="linkCode" placeholder="Código, ej: A1B2C3" maxlength="6" style="text-transform:uppercase;width:200px"><button class="b2 p" onclick="doLink()">Vincular</button></div>
@@ -160,6 +162,13 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
         <div style="display:flex;gap:6px;flex-wrap:wrap"><input class="inp" id="sQty" type="number" min="1" placeholder="Precio" style="width:100px">
         <select class="inp" id="sCur"><option value="ac">ArgenCoins</option><option value="perlas negras">Perlas negras</option><option value="metal">Metal</option><option value="polimero">Polímero</option><option value="element">Element</option><option value="cemento">Cemento</option></select></div>
         <div class="acts" style="margin-top:8px"><button class="b2 p" onclick="sell('vender')">Publicar venta</button><button onclick="sell('busco')">Publicar "busco"</button></div></div>
+      <div class="card" style="border-color:rgba(228,91,75,.6)"><h3 style="font-size:19px;margin-bottom:8px">🤝 Invitá amigos y ganá un plano rojo</h3>
+        <p class="small" style="margin:0 0 8px">Pasale tu código o tu link a un amigo nuevo. Cuando se vincule a la web o a Discord y juegue 1 hora, <b>vos ganás un plano rojo de arma</b> (calidad máxima) y él <b>100 AC</b>.</p>
+        <div style="font:700 24px Oswald;color:var(--acc)" id="refCode"></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin:6px 0"><input class="inp" id="refLink" readonly style="flex:1;min-width:160px"><button class="b2 p" onclick="copyRef()">Copiar link</button></div>
+        <div class="mut small" id="refStatus"></div>
+        <div id="refBox" style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px"><b class="small">¿Te invitó alguien?</b>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><input class="inp" id="refInput" placeholder="Código, ej: ARG-TRUP3R" style="flex:1;min-width:140px;text-transform:uppercase"><button class="b2" onclick="act('referido ' + $('refInput').value.trim())">Cargar</button></div></div></div>
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🎫 Abrir un ticket</h3>
         <select class="inp" id="tType" style="width:100%;margin-bottom:6px"><option value="reporte">🚨 Reporte de jugador</option><option value="asedio">🏰 Asedio fuera de horario</option><option value="soporte">🛟 Soporte / ayuda</option><option value="bug">🐛 Bug o problema del server</option><option value="apelacion">⚖️ Apelación de ban</option><option value="sugerencia">💡 Sugerencia</option></select>
         <textarea class="inp" id="tText" rows="3" placeholder="Qué pasó, quién, dónde y cuándo" style="width:100%;margin-bottom:6px;resize:vertical"></textarea>
@@ -453,7 +462,7 @@ async function loadMe() {
       r.online ? '<span style="color:var(--ok)">● Jugando en ' + esc(r.online) + '</span>' : '<span class="mut">Desconectado del juego</span>',
       r.prizes ? '<b style="color:var(--acc)">🏆 ' + r.prizes + ' premio(s) para reclamar</b>' : ''].filter(Boolean).join(' · ');
     $('accBal').textContent = r.balance + ' AC';
-    renderAccButtons(); renderMarket(); renderTickets();
+    renderAccButtons(); renderMarket(); renderTickets(); renderRef();
   } catch { }
 }
 function renderAccButtons() {
@@ -488,6 +497,22 @@ function openTicket() {
   act('ticket ' + $('tType').value + ' ' + text + (proof ? ' ' + proof : ''));
   $('tText').value = ''; $('tProof').value = '';
 }
+const REF_IN = (new URLSearchParams(location.search).get('ref') || '').toUpperCase();
+function renderRef() {
+  if (REF_IN) {
+    $('refBanner').style.display = '';
+    $('refBanner').innerHTML = `<h3 style="font-size:20px;margin:0 0 6px">🤝 Te invitaron con el código <span style="color:var(--acc)">${esc(REF_IN)}</span></h3><p class="small" style="margin:0">Entrá al juego (ver <a href="#info">Cómo entrar</a>), vinculá tu personaje acá abajo y el código se carga solo. Ganás <b>100 AC</b> al jugar tu primera hora.</p>`;
+    if ($('refInput') && !$('refInput').value) $('refInput').value = REF_IN;
+  }
+  if (!me || !me.referral) return;
+  const r = me.referral;
+  $('refCode').textContent = r.code;
+  $('refLink').value = location.origin + location.pathname + '?ref=' + r.code + '#cuenta';
+  $('refStatus').textContent = `Invitaste a ${r.invited} · premiados: ${r.rewarded}${r.pending.length ? ' · esperando: ' + r.pending.join(', ') : ''}`;
+  $('refBox').style.display = r.myRef ? 'none' : '';
+  if (REF_IN && !r.myRef && !sessionStorage.refTried) { try { sessionStorage.refTried = 1; } catch { } act('referido ' + REF_IN); }
+}
+function copyRef() { const i = $('refLink'); i.select(); try { navigator.clipboard.writeText(i.value); } catch { document.execCommand('copy'); } $('actLog').textContent = 'Link copiado. Pasáselo a tus amigos!'; }
 function renderTickets() {
   if (!me || !me.tickets) return;
   $('myTickets').innerHTML = me.tickets.length ? '<b class="small">Mis tickets</b>' + me.tickets.map(t => `<div class="small" style="border-top:1px solid var(--line);padding:6px 0">
@@ -503,6 +528,7 @@ function logout() { const t = getTok(); if (t) post('logout', { token: t }).catc
 function md(t) { return esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
 function renderEvents() {
   const e = lastData?.events; if (!e) return;
+  $('evRecruiters').innerHTML = (lastData.recruiters || []).map((x, i) => `<li><span class="pos">${i + 1}</span><span class="nm">${esc(x.name)}</span><span class="val">${x.value}</span></li>`).join('') || '<li class="mut">Todavía nadie invitó a un amigo. ¡Sé el primero!</li>';
   $('boostBanner').innerHTML = e.weekend?.active
     ? '<div class="card" style="margin-bottom:14px;border-color:var(--acc);background:rgba(240,160,32,.12)"><h3 style="font-size:22px;margin:0">🔥 FIN DE SEMANA x10 ACTIVO</h3><p class="small" style="margin:6px 0 0">Experiencia, tameo y farmeo x10 hasta el lunes a las 06:00.</p></div>'
     : '<div class="card" style="margin-bottom:14px"><b>🔥 Fin de semana x10:</b> <span class="mut">todos los sábados y domingos, experiencia, tameo y farmeo x10.</span></div>';
@@ -593,6 +619,8 @@ $('mapGuide').innerHTML = WIKI_MAPS.map(([n, w, dlc]) => {
 }).join('');
 
 live(); setInterval(live, 30000);
+if (REF_IN && !location.hash) location.hash = '#cuenta';
+renderRef();
 loadMe(); setInterval(loadMe, 60000);
 $('linkCode').addEventListener('keydown', e => { if (e.key === 'Enter') doLink(); });
 
