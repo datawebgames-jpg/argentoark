@@ -71,6 +71,13 @@ code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-siz
 .acts button:hover,.b2:hover{border-color:var(--acc)}.b2.p{background:var(--acc);color:#1b1200;border-color:var(--acc);font-weight:600}
 .inp{background:#0f1311;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:9px 12px;font:inherit}
 #actLog{background:rgba(0,0,0,.5);border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px;max-height:180px;overflow:auto;white-space:pre-wrap;margin-top:10px}
+[data-tab]{display:none}[data-tab].tabon{display:block}header.hero[data-tab].tabon{display:flex}
+nav a.on{background:var(--acc);color:#1b1200;font-weight:600}
+.hero.mini{min-height:auto;padding-top:28px;padding-bottom:0}
+.mapguide .card h3{font-size:19px;display:flex;justify-content:space-between;gap:6px}
+.mapguide .acts a{text-decoration:none}
+.howto{counter-reset:h;display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.howto .card h3{font-size:19px;margin-bottom:8px}
 footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid var(--line);background:rgba(8,10,9,.95)}
 @media(max-width:600px){section{padding:40px 0}.hero{min-height:70vh}.filters{top:48px}}
 </style>
@@ -79,19 +86,19 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 <div class="bgimg"></div>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#cuenta">Mi cuenta</a><a href="#mapas">Mapas</a><a href="#jugadores">Jugadores</a><a href="#tribus">Tribus</a><a href="#mercado">Mercado</a><a href="#entrar">Cómo entrar</a><a href="#dinos">Dinos</a><a href="#pvp">PvP</a><a href="#reglas">Reglas</a><a href="#shop">Shop</a>
+  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
 </nav>
 
-<header class="wrap hero">
+<header class="wrap hero" data-tab="mapas">
   <div class="flag"></div>
   <h1>ARGENTOPRO<br><span>ARK x5</span></h1>
   <p>Server argentino de ARK: Survival Evolved. Todo x5, cluster entre mapas y un mapa rotativo que eligen los jugadores cada semana.</p>
   <div class="chips" id="liveChips"><span class="chip">Cargando estado del server...</span></div>
-  <div><a class="btn" href="#entrar">Cómo entrar</a> <a class="btn sec" href="#dinos">Guía de tameo</a> <a class="btn dc" href="https://discord.gg/2EqEE46DjW" target="_blank" rel="noopener">Unite al Discord</a></div>
+  <div><a class="btn" href="#info">Cómo entrar</a> <a class="btn sec" href="#mercado">Tienda</a> <a class="btn sec" href="#dinos">Guía de tameo</a> <a class="btn dc" href="https://discord.gg/2EqEE46DjW" target="_blank" rel="noopener">Unite al Discord</a></div>
 </header>
 
 <main>
-<section id="cuenta"><div class="wrap">
+<section id="cuenta" data-tab="cuenta"><div class="wrap">
   <h2>Mi cuenta</h2>
   <p class="sub">Vinculá tu personaje y hacé todo desde acá con botones: votar, comprar, vender, pedir kits y premios.</p>
   <div class="card" id="loginBox">
@@ -122,10 +129,13 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   </div>
 </div></section>
 
-<section id="mapas"><div class="wrap">
+<section id="mapas" data-tab="mapas"><div class="wrap">
   <h2>Mapas del cluster</h2>
   <p class="sub">Viajá entre mapas con tu personaje, dinos e items desde cualquier Obelisco o Terminal.</p>
   <div class="grid" id="mapCards"></div>
+  <h3 style="font-size:24px;margin:26px 0 6px">Mapa virtual de cada mapa</h3>
+  <p class="sub">Cuevas, artefactos (los trofeos), obeliscos, dónde aparece cada dino y dónde está cada recurso. Se abren los mapas interactivos de la wiki oficial de ARK.</p>
+  <div class="grid mapguide" id="mapGuide"></div>
   <div class="card" style="margin-top:14px" id="voteCard">
     <h3 style="font-size:22px">Votación del próximo mapa</h3>
     <p class="mut small" id="voteSub"></p>
@@ -133,7 +143,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   </div>
 </div></section>
 
-<section id="jugadores"><div class="wrap">
+<section id="jugadores" data-tab="jugadores"><div class="wrap">
   <h2>Jugadores</h2>
   <p class="sub">Quién está jugando ahora y los mejores del server.</p>
   <div class="grid" style="grid-template-columns:minmax(260px,1fr) minmax(300px,2fr)">
@@ -148,15 +158,31 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   </div>
 </div></section>
 
-<section id="tribus"><div class="wrap">
+<section id="tribus" data-tab="jugadores"><div class="wrap">
   <h2>Tribus</h2>
   <p class="sub">Las tribus del server, sus miembros y en qué mapa están jugando.</p>
   <div class="grid" id="tribeGrid"></div>
 </div></section>
 
-<section id="mercado"><div class="wrap">
-  <h2>Mercado de dinos</h2>
-  <p class="sub">Los jugadores venden sus dinos a cambio de items del juego. Se publica desde el chat del juego y el intercambio se hace adentro.</p>
+<section id="mercado" data-tab="mercado"><div class="wrap">
+  <h2>Tienda y mercado</h2>
+  <p class="sub">Dos cosas distintas: la <b>tienda oficial</b> (le comprás al server y el item te llega solo) y el <b>mercado de jugadores</b> (le comprás o vendés a otro jugador).</p>
+  <div class="card" style="margin-bottom:14px;border-color:rgba(240,160,32,.5)">
+    <h3 style="font-size:22px;margin-bottom:10px">💸 Cómo vender, paso a paso</h3>
+    <div class="howto">
+      <div class="card"><h3>1️⃣ Vinculá tu personaje (una sola vez)</h3>
+        <ol class="steps"><li>En el juego escribí <code>/vincular</code>.</li><li>Te llega un código de 6 letras.</li><li>Ponelo en la solapa <a href="#cuenta">Mi cuenta</a> o en Discord con <code>/vincular codigo</code>.</li></ol></div>
+      <div class="card"><h3>2️⃣ Publicá lo que vendés</h3>
+        <p class="small" style="margin:0 0 6px">Elegí dónde: <b>en el juego</b>, <b>en esta página</b> (Mi cuenta → Vender) o <b>en Discord</b>:</p>
+        <span class="cmd">/vender Rex 150 hembra en criopod por 40 ac</span><span class="cmd">/vender 100 flechas tranquilizantes por 20 metal</span>
+        <p class="mut small" style="margin:6px 0 0">En Discord, el bot te pide qué vendés, el precio y la moneda.</p></div>
+      <div class="card"><h3>3️⃣ Te avisan cuando alguien compra</h3>
+        <p class="small" style="margin:0">Te llega un mensaje en el juego y en Discord. Si pagó con <b>AC</b>, la plata queda guardada: encontrate con el comprador y entregale el dino o el item.</p></div>
+      <div class="card"><h3>4️⃣ Cobrás</h3>
+        <p class="small" style="margin:0">Cuando el comprador confirma con <code>/recibido 12</code> (o el botón "Ya lo recibí"), las AC pasan a tu saldo. Si vendiste por perlas o metal, te paga en mano y cerrás con <code>/vendido 12</code>.</p></div>
+    </div>
+    <p class="mut small" style="margin:10px 0 0">¿Por qué hay que entregar en mano? ARK no deja que el server saque items del inventario de un jugador. Por eso el pago en AC queda protegido hasta que el comprador confirma: nadie puede estafar.</p>
+  </div>
   <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr));margin-bottom:14px">
     <div class="card"><h3 style="font-size:20px;margin-bottom:6px">Cómo vender</h3>
       <span class="cmd">/vender Rex 145 hembra en criopod por 30 perlas negras</span><span class="cmd">/vender 100 flechas tranquilizantes por 20 metal</span><span class="cmd">/busco Quetzal por 80 ac</span>
@@ -180,13 +206,13 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   <div id="soldBox" style="margin-top:14px"></div>
 </div></section>
 
-<section><div class="wrap">
+<section data-tab="mapas"><div class="wrap">
   <h2>Rates</h2>
   <p class="sub">Todo multiplicado para que avances rápido sin perder la gracia.</p>
   <div class="rates" id="rates"></div>
 </div></section>
 
-<section id="entrar"><div class="wrap">
+<section id="entrar" data-tab="info"><div class="wrap">
   <h2>Cómo entrar</h2>
   <p class="sub">Necesitás ARK: Survival Evolved en Steam. No hace falta ningún DLC pago.</p>
   <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">
@@ -197,7 +223,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   </div>
 </div></section>
 
-<section id="dinos"><div class="wrap">
+<section id="dinos" data-tab="dinos"><div class="wrap">
   <h2>Guía de tameo</h2>
   <p class="sub">Todas las criaturas tameables de los mapas del cluster. En el server el tameo es x5: tarda la quinta parte.</p>
   <div class="card" style="margin-bottom:16px">
@@ -215,7 +241,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   <div class="grid" id="dinoGrid"></div>
 </div></section>
 
-<section id="pvp"><div class="wrap">
+<section id="pvp" data-tab="info"><div class="wrap">
   <h2>PvP, kits y comandos</h2>
   <p class="sub">El server es PvE (paz) casi todo el día. En los horarios de PvP te pueden matar y robar: avisamos con carteles en el juego.</p>
   <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
@@ -241,7 +267,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   </div>
 </div></section>
 
-<section id="reglas"><div class="wrap">
+<section id="reglas" data-tab="info"><div class="wrap">
   <h2>Reglas</h2>
   <p class="sub">Simple: jugá limpio y respetá.</p>
   <div class="grid">
@@ -252,11 +278,6 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   </div>
 </div></section>
 
-<section id="shop"><div class="wrap">
-  <h2>Shop</h2>
-  <p class="sub">Muy pronto: puntos por jugar, kit de inicio y tienda dentro del juego.</p>
-  <div class="card"><p style="margin:0">Estamos armando la tienda. Vas a ganar puntos solo por estar conectado y canjearlos por items, dinos y kits.</p></div>
-</div></section>
 </main>
 
 <footer><div class="wrap">
@@ -431,6 +452,31 @@ document.querySelectorAll('#rankTabs button').forEach(b => b.onclick = () => {
   document.querySelectorAll('#rankTabs button').forEach(x => x.classList.toggle('on', x === b));
   rankKey = b.dataset.r; renderRank();
 });
+const TAB_OF = { mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info' };
+function showTab() {
+  const h = (location.hash || '#mapas').slice(1);
+  const tab = TAB_OF[h] || 'mapas';
+  document.querySelectorAll('[data-tab]').forEach(el => el.classList.toggle('tabon', el.dataset.tab === tab));
+  document.querySelectorAll('nav a[data-t]').forEach(a => a.classList.toggle('on', a.dataset.t === tab));
+  const target = document.getElementById(h);
+  if (target && target.dataset.tab && h !== tab) target.scrollIntoView(); else window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', showTab); showTab();
+
+// guia de mapas: links a los mapas interactivos de la wiki oficial
+const WIKI_MAPS = [
+  ['The Island', 'The_Island'], ['Fjordur', 'Fjordur'], ['Ragnarok', 'Ragnarok'], ['Valguero', 'Valguero'], ['Lost Island', 'Lost_Island'],
+  ['Crystal Isles', 'Crystal_Isles'], ['The Center', 'The_Center'], ['Scorched Earth', 'Scorched_Earth', 1], ['Aberration', 'Aberration', 1],
+  ['Extinction', 'Extinction', 1], ['Genesis 1', 'Genesis:_Part_1', 1], ['Genesis 2', 'Genesis:_Part_2', 1],
+];
+$('mapGuide').innerHTML = WIKI_MAPS.map(([n, w, dlc]) => {
+  const u = t => 'https://ark.wiki.gg/wiki/' + t + '_(' + w + ')';
+  return `<div class="card"><h3><span>${n}</span>${dlc ? '<span class="tag">DLC</span>' : ''}</h3>
+    <div class="acts" style="margin-top:8px"><a class="b2" target="_blank" rel="noopener" href="${u('Explorer_Map')}">🕳️ Cuevas y artefactos</a>
+    <a class="b2" target="_blank" rel="noopener" href="${u('Spawn_Map')}">🦖 Dónde están los dinos</a>
+    <a class="b2" target="_blank" rel="noopener" href="${u('Resource_Map')}">⛏️ Recursos</a></div></div>`;
+}).join('');
+
 live(); setInterval(live, 30000);
 loadMe(); setInterval(loadMe, 60000);
 $('linkCode').addEventListener('keydown', e => { if (e.key === 'Enter') doLink(); });
