@@ -75,7 +75,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 <div class="bgimg"></div>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#mapas">Mapas</a><a href="#jugadores">Jugadores</a><a href="#tribus">Tribus</a><a href="#mercado">Mercado</a><a href="#entrar">Cómo entrar</a><a href="#dinos">Dinos</a><a href="#reglas">Reglas</a><a href="#shop">Shop</a>
+  <a href="#mapas">Mapas</a><a href="#jugadores">Jugadores</a><a href="#tribus">Tribus</a><a href="#mercado">Mercado</a><a href="#entrar">Cómo entrar</a><a href="#dinos">Dinos</a><a href="#pvp">PvP</a><a href="#reglas">Reglas</a><a href="#shop">Shop</a>
 </nav>
 
 <header class="wrap hero">
@@ -124,7 +124,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   <p class="sub">Los jugadores venden sus dinos a cambio de items del juego. Se publica desde el chat del juego y el intercambio se hace adentro.</p>
   <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr));margin-bottom:14px">
     <div class="card"><h3 style="font-size:20px;margin-bottom:6px">Cómo vender</h3>
-      <span class="cmd">/vender Rex 145 hembra por 30 perlas negras</span><span class="cmd">/vender Argentavis 224 por 60 ac</span>
+      <span class="cmd">/vender Rex 145 hembra en criopod por 30 perlas negras</span><span class="cmd">/vender 100 flechas tranquilizantes por 20 metal</span><span class="cmd">/busco Quetzal por 80 ac</span>
       <p class="mut small" style="margin:6px 0 0">Monedas: <b>ArgenCoins (AC)</b>, <b>perlas negras</b>, <b>metal</b>, <b>polímero</b>, <b>element</b> y <b>cemento</b>. Hasta 5 ventas activas, duran 7 días. Cerrala con <code>/vendido 12</code> o <code>/cancelar 12</code>.</p></div>
     <div class="card"><h3 style="font-size:20px;margin-bottom:6px">Cómo comprar</h3>
       <span class="cmd">/comprar 12</span>
@@ -174,6 +174,32 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   <div class="grid" id="dinoGrid"></div>
 </div></section>
 
+<section id="pvp"><div class="wrap">
+  <h2>PvP, kits y comandos</h2>
+  <p class="sub">El server es PvE (paz) casi todo el día. En los horarios de PvP te pueden matar y robar: avisamos con carteles en el juego.</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
+    <div class="card"><h3 style="font-size:20px;margin-bottom:8px">⚔️ Horario de PvP</h3>
+      <p id="pvpNow" class="small" style="margin:0 0 8px"></p>
+      <ul class="online rank" id="pvpList"></ul>
+      <p class="mut small" style="margin:8px 0 0">Si alguien mata a otro durante el PvP, todo el server se entera. Al terminar se anuncia al asesino de la noche.</p></div>
+    <div class="card"><h3 style="font-size:20px;margin-bottom:8px">🎁 Kits gratis</h3>
+      <p class="small" style="margin:0 0 6px">Escribí <code>/kit</code> en el chat. Cada kit se entrega <b>una sola vez</b>.</p>
+      <ul class="online rank" id="kitList"></ul></div>
+    <div class="card"><h3 style="font-size:20px;margin-bottom:8px">💬 Comandos del chat</h3>
+      <ul class="online rank small">
+        <li><code>/tienda</code><span class="mut">ventas y pedidos</span></li>
+        <li><code>/vender</code> <code>/busco</code><span class="mut">publicar</span></li>
+        <li><code>/comprar 12</code> <code>/tengo 12</code><span class="mut">responder</span></li>
+        <li><code>/saldo</code> <code>/pagar</code><span class="mut">ArgenCoins</span></li>
+        <li><code>/kit</code><span class="mut">regalos por nivel</span></li>
+        <li><code>/discord</code><span class="mut">enlace del Discord</span></li>
+        <li><code>/pvp</code><span class="mut">horarios</span></li>
+        <li><code>/votar</code><span class="mut">mapa rotativo</span></li>
+        <li><code>/ayuda</code><span class="mut">todos los comandos</span></li>
+      </ul></div>
+  </div>
+</div></section>
+
 <section id="reglas"><div class="wrap">
   <h2>Reglas</h2>
   <p class="sub">Simple: jugá limpio y respetá.</p>
@@ -221,7 +247,7 @@ async function live() {
   const on = d.maps.filter(m => m.online).length, pl = d.maps.reduce((a, m) => a + m.players, 0);
   $('liveChips').innerHTML = `<span class="chip"><span class="dot ${on ? 'on' : ''}"></span><b>${on}/${d.maps.length}</b> mapas online</span>
     <span class="chip"><b>${pl}</b> jugadores conectados</span>
-    <span class="chip">Mapa rotativo: <b>${esc(d.rotation.active)}</b></span>`;
+    <span class="chip">Mapa rotativo: <b>${esc(d.rotation.active)}</b></span>${d.pvp ? `<span class="chip" style="${d.pvp.now.pvp ? 'border-color:#e45b4b;color:#ff8a7a' : ''}">${d.pvp.now.siege ? '⚔️ PVP + ASEDIOS' : d.pvp.now.pvp ? '⚔️ PVP ACTIVO' : '🕊️ PVE (paz)'}</span>` : ''}`;
   $('mapCards').innerHTML = d.maps.map(m => `<div class="card map">
     <h3><span><span class="dot ${m.online ? 'on' : ''}"></span>${esc(m.name)}</span><span class="tag">${m.rotating ? 'Rotativo' : 'Fijo'}</span></h3>
     <p class="mut small" style="margin:8px 0">${m.online ? 'Online' : 'Offline'} · ${m.players}/${m.maxPlayers} jugadores</p>
@@ -237,7 +263,7 @@ async function live() {
     ['x' + r.maturation, 'Crecimiento'], ['x' + r.stack, 'Stacks'], ['x' + r.structures, 'Estructuras']]
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
-  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket();
+  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp();
 }
 let lastData = null, rankKey = 'level';
 const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins' };
@@ -252,6 +278,14 @@ function renderRank() {
     : `<li class="mut">Todavía no hay datos de ${RLABEL[rankKey]}. ¡Entrá a jugar y aparecé acá!</li>`;
 }
 function hace(t) { const m = Math.round((Date.now() - t) / 60000); return m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.round(m / 60)} h` : `hace ${Math.round(m / 1440)} días`; }
+function renderPvp() {
+  const p = lastData?.pvp, k = lastData?.kits;
+  if (p) {
+    $('pvpNow').innerHTML = p.now.siege ? '<b style="color:#ff8a7a">AHORA: PvP con asedios</b>' : p.now.pvp ? '<b style="color:#ff8a7a">AHORA: PvP activo</b>' : '<b style="color:var(--ok)">AHORA: PvE (paz)</b>';
+    $('pvpList').innerHTML = [p.weekday, p.weekend, p.siege].filter(Boolean).map(t => `<li>${esc(t)}</li>`).join('');
+  }
+  if (k) $('kitList').innerHTML = k.map(x => `<li style="display:block"><b>${esc(x.name)}</b> <span class="mut small">(nivel ${x.level}+)</span><br><span class="small mut">${x.items.map(esc).join(', ')}</span></li>`).join('');
+}
 function renderTribes() {
   const list = lastData?.tribes || [];
   $('tribeGrid').innerHTML = list.map(t => `<div class="card">
@@ -266,12 +300,12 @@ function renderMarket() {
   const sel = $('mcur'); if (sel.options.length === 1) sel.innerHTML += mk.currencies.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
   const q = $('mq').value.trim().toLowerCase(), cur = sel.value;
   const list = mk.active.filter(l => (!cur || l.currency === cur) && (!q || (l.dino + ' ' + l.seller).toLowerCase().includes(q)));
-  $('saleGrid').innerHTML = list.map(l => `<div class="card sale">
-    <h3><span>${esc(l.dino)}</span><span class="num">#${l.id}</span></h3>
-    <div class="badges"><span class="b">${l.level ? 'Nivel ' + l.level : 'Nivel sin indicar'}</span>${l.sex ? `<span class="b">${esc(l.sex)}</span>` : ''}<span class="b">${esc(l.map)}</span></div>
+  $('saleGrid').innerHTML = list.map(l => `<div class="card sale" style="${l.kind === 'busco' ? 'border-color:rgba(116,172,223,.5)' : ''}">
+    <h3><span>${l.kind === 'busco' ? '<span class="tag" style="background:rgba(116,172,223,.15);color:var(--acc2)">SE BUSCA</span> ' : ''}${esc(l.dino)}</span><span class="num">#${l.id}</span></h3>
+    <div class="badges"><span class="b">${l.isDino ? 'Dino' : 'Item'}</span>${l.isDino ? `<span class="b">${l.level ? 'Nivel ' + l.level : 'Nivel sin indicar'}</span>` : ''}${l.cryo ? '<span class="b">En criopod</span>' : ''}${l.sex ? `<span class="b">${esc(l.sex)}</span>` : ''}<span class="b">${esc(l.map)}</span></div>
     <div class="price">${l.qty} ${esc(l.currencyName)}</div>
-    <div class="mut small">Vende <b style="color:var(--txt)">${esc(l.seller)}</b> · ${hace(l.created)}${l.interested ? ` · ${l.interested} interesado${l.interested > 1 ? 's' : ''}` : ''}</div>
-    ${l.status === 'reservada' ? `<span class="cmd" style="border-color:var(--acc)">Reservado por ${esc(l.buyer)} · esperando entrega</span>` : `<span class="cmd">/comprar ${l.id}</span>`}</div>`).join('') || '<p class="mut">No hay ventas activas. ¡Publicá la primera desde el juego con /vender!</p>';
+    <div class="mut small">${l.kind === 'busco' ? 'Busca' : 'Vende'} <b style="color:var(--txt)">${esc(l.seller)}</b> · ${hace(l.created)}${l.interested ? ` · ${l.interested} interesado${l.interested > 1 ? 's' : ''}` : ''}</div>
+    ${l.status === 'reservada' ? `<span class="cmd" style="border-color:var(--acc)">Reservado por ${esc(l.buyer)} · esperando entrega</span>` : `<span class="cmd">${l.kind === 'busco' ? '/tengo' : '/comprar'} ${l.id}</span>`}</div>`).join('') || '<p class="mut">No hay nada publicado. ¡Publicá desde el juego con /vender o /busco!</p>';
   $('soldBox').innerHTML = mk.sold.length ? '<h3 style="font-size:18px;margin-bottom:8px">Vendidos recientemente</h3><p class="mut small">' + mk.sold.map(l => `${esc(l.dino)}${l.level ? ' nvl ' + l.level : ''} por ${l.qty} ${esc(l.currencyName)} (${esc(l.seller)})`).join(' · ') + '</p>' : '';
 }
 ['mcur', 'mq'].forEach(id => $(id).addEventListener('input', renderMarket));
