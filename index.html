@@ -81,6 +81,7 @@ nav a.on{background:var(--acc);color:#1b1200;font-weight:600}
 .ttl{font:600 11px Inter;padding:2px 7px;border-radius:20px;margin-left:6px;border:1px solid currentColor;white-space:nowrap}
 .likebtn{background:rgba(89,140,255,.15);border:1px solid rgba(89,140,255,.5);color:#8cbfff;border-radius:20px;padding:3px 10px;cursor:pointer;font:inherit;font-size:12px}
 .likebtn:hover{background:rgba(89,140,255,.3)}
+.qrbox{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.qrbox img{width:150px;height:150px;border-radius:10px;background:#fff;padding:6px}
 footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid var(--line);background:rgba(8,10,9,.95)}
 @media(max-width:600px){section{padding:40px 0}.hero{min-height:70vh}.filters{top:48px}}
 </style>
@@ -98,6 +99,12 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   <p>Server argentino de ARK: Survival Evolved. Todo x5, cluster entre mapas y un mapa rotativo que eligen los jugadores cada semana.</p>
   <div class="chips" id="liveChips"><span class="chip">Cargando estado del server...</span></div>
   <div><a class="btn" href="#info">Cómo entrar</a> <a class="btn sec" href="#mercado">Tienda</a> <a class="btn sec" href="#dinos">Guía de tameo</a> <a class="btn dc" href="https://discord.gg/2EqEE46DjW" target="_blank" rel="noopener">Unite al Discord</a></div>
+  <div class="card qrbox" style="margin-top:18px;max-width:560px;background:rgba(0,0,0,.6)">
+    <a href="https://discord.gg/2EqEE46DjW" target="_blank" rel="noopener"><img src="img/qr-discord.png" alt="QR del Discord"></a>
+    <div style="flex:1;min-width:200px"><h3 style="font-size:22px;margin-bottom:6px">📱 Escaneá y entrá al Discord</h3>
+      <p class="small" style="margin:0">Abrí la cámara del celular, apuntá al código y tocá el link. Sin escribir nada.</p>
+      <p class="mut small" style="margin:6px 0 0">O escribí <b>tinyurl.com/argentodiscord</b></p></div>
+  </div>
 </header>
 
 <main>
@@ -283,6 +290,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">
     <div class="card"><h3 style="font-size:20px;margin-bottom:10px">Desde el juego</h3>
       <ol class="steps"><li>Abrí ARK y entrá a <b>Join ARK</b>.</li><li>En el filtro de sesión elegí <b>Unofficial</b>.</li><li>Buscá <b>ArgentoPro</b> y elegí el mapa.</li></ol></div>
+    <div class="card qrbox"><img src="img/qr-discord.png" alt="QR del Discord"><div style="flex:1;min-width:180px"><h3 style="font-size:20px;margin-bottom:6px">Discord con el celular</h3><p class="small" style="margin:0">Escaneá el código con la cámara y entrás directo. Desde el juego: <b>Shift + Tab</b> → navegador de Steam → <b>tinyurl.com/argentodiscord</b></p></div></div>
     <div class="card"><h3 style="font-size:20px;margin-bottom:10px">Por favoritos de Steam</h3>
       <ol class="steps"><li>Steam → <b>Ver</b> → <b>Servidores de juego</b>.</li><li>Pestaña <b>Favoritos</b> → <b>Agregar servidor</b>.</li><li>Pegá la dirección del mapa: <div id="ipList" class="small" style="margin-top:6px"></div></li></ol></div>
   </div>
