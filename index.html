@@ -165,6 +165,14 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
       </div>
       <div class="acts" style="margin-top:12px"><button onclick="act('kit')">🎁 Pedir kit</button><button onclick="act('premio')">🏆 Reclamar premio</button><button onclick="act('saldo')">💰 Mi saldo</button><button onclick="act('misventas')">📋 Mis publicaciones</button><button onclick="act('eventos')">🎉 Eventos</button><button onclick="act('recompensas')">💀 Se busca</button></div>
       <div id="actLog">Las respuestas aparecen acá. Lo que se entrega como item (kits, tienda, premios) necesita que estés conectado al juego.</div>
+      <div id="noticeBox" style="margin-top:12px"></div>
+    </div>
+    <div class="card" style="margin-bottom:14px;border-color:var(--acc)">
+      <h3 style="font-size:20px;margin-bottom:6px">📦 Vender desde tu inventario</h3>
+      <p class="small" style="margin:0 0 8px">Te mostramos lo que tenés <b>encima en el juego</b> (dinos en criopod, armas, planos, monturas, recursos). Elegís qué vender, le ponés precio en AC y queda publicado. Cuando alguien lo compra te avisamos; se lo entregás en el juego y <b>apenas le llega al comprador, el server te acredita las AC solo</b>.</p>
+      <div class="acts"><button onclick="loadInv()">🔄 Ver mi inventario</button></div>
+      <div id="invMsg" class="small mut" style="margin-top:6px"></div>
+      <div id="invList" style="display:grid;gap:6px;margin-top:8px;max-height:420px;overflow:auto"></div>
     </div>
     <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🗳️ Votar el próximo mapa</h3><div class="acts" id="voteBtns"></div></div>
@@ -495,6 +503,37 @@ function showLogin(msg) {
   me = null; $('loginBox').style.display = ''; $('accBox').style.display = 'none';
   if (msg) $('linkMsg').textContent = msg;
 }
+// ---------- vender desde el inventario ----------
+let invItems = [];
+async function loadInv() {
+  const token = getTok(); if (!token) return;
+  $('invMsg').textContent = 'Leyendo tu inventario...'; $('invList').innerHTML = '';
+  try {
+    const r = await post('inventory', { token });
+    if (r.error && !(r.items || []).length) { $('invMsg').textContent = r.error; return; }
+    invItems = r.items || [];
+    const mins = Math.round((Date.now() - r.savedAt) / 60000);
+    $('invMsg').innerHTML = `En <b>${esc(r.map)}</b>, guardado hace ${mins} min (el juego guarda cada 15 min). ${invItems.length ? 'Elegí qué vender:' : 'No tenés nada para vender encima.'}`;
+    $('invList').innerHTML = invItems.map((it, i) => `<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:6px 8px">
+      <div style="flex:1;min-width:180px"><b>${esc(it.name)}</b>${it.qty > 1 ? ' <span class="mut">x' + it.qty + '</span>' : ''}${it.quality ? ' <span class="tag">' + esc(it.quality) + (it.rating ? ' ' + it.rating : '') + '</span>' : ''}</div>
+      ${it.stack ? `<input class="inp" id="invQ${i}" type="number" min="1" max="${it.qty}" value="${it.qty}" style="width:80px" title="Cantidad">` : ''}
+      <input class="inp" id="invP${i}" type="number" min="1" placeholder="Precio AC" style="width:110px">
+      <button onclick="sellInv(${i})">Publicar</button></div>`).join('');
+  } catch { $('invMsg').textContent = 'No se pudo conectar con el server. Probá en un rato.'; }
+}
+async function sellInv(i) {
+  const it = invItems[i], price = +$('invP' + i).value, qty = it.stack ? +$('invQ' + i).value : 1;
+  if (!(price > 0)) { $('invMsg').textContent = 'Ponele un precio en AC.'; return; }
+  try {
+    const r = await post('sellitem', { token: getTok(), uid: it.uid, price, qty });
+    $('invMsg').innerHTML = r.error ? '<span style="color:#ff8a7a">' + esc(r.error) + '</span>' : '<b style="color:var(--ok)">' + esc(r.text) + '</b> Ya aparece en la Tienda.';
+    if (!r.error) { live(); loadMe(); }
+  } catch { $('invMsg').textContent = 'No se pudo publicar. Probá en un rato.'; }
+}
+function renderNotices() {
+  const n = me?.notices || [];
+  $('noticeBox').innerHTML = n.length ? '<h3 style="font-size:17px;margin:0 0 6px">🔔 Avisos</h3>' + n.slice(0, 5).map(x => `<div class="small" style="padding:6px 8px;margin-bottom:4px;background:rgba(255,200,80,.08);border-left:3px solid var(--acc);border-radius:4px">${esc(x.text)} <span class="mut">· ${new Date(x.t).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' })}</span></div>`).join('') : '';
+}
 async function loadMe() {
   const token = getTok();
   if (!token) return showLogin();
@@ -507,7 +546,7 @@ async function loadMe() {
       r.online ? '<span style="color:var(--ok)">● Jugando en ' + esc(r.online) + '</span>' : '<span class="mut">Desconectado del juego</span>',
       r.prizes ? '<b style="color:var(--acc)">🏆 ' + r.prizes + ' premio(s) para reclamar</b>' : ''].filter(Boolean).join(' · ');
     $('accBal').textContent = r.balance + ' AC';
-    renderAccButtons(); renderMarket(); renderTickets(); renderRef();
+    renderAccButtons(); renderMarket(); renderTickets(); renderRef(); renderNotices();
   } catch { }
 }
 function renderAccButtons() {
@@ -651,7 +690,7 @@ function renderMarket() {
   const q = $('mq').value.trim().toLowerCase(), cur = sel.value;
   const list = mk.active.filter(l => (!cur || l.currency === cur) && (!q || (l.dino + ' ' + l.seller).toLowerCase().includes(q)));
   $('saleGrid').innerHTML = list.map(l => `<div class="card sale" style="${l.kind === 'busco' ? 'border-color:rgba(116,172,223,.5)' : ''}">
-    <h3><span>${l.kind === 'busco' ? '<span class="tag" style="background:rgba(116,172,223,.15);color:var(--acc2)">SE BUSCA</span> ' : ''}${esc(l.dino)}</span><span class="num">#${l.id}</span></h3>
+    <h3><span>${l.kind === 'busco' ? '<span class="tag" style="background:rgba(116,172,223,.15);color:var(--acc2)">SE BUSCA</span> ' : ''}${esc(l.dino)}${l.item ? ' <span class="tag" style="background:rgba(80,200,120,.15);color:var(--ok)" title="El server comprobó que el vendedor lo tiene y confirma la entrega solo">✔ verificado</span>' + (l.item.quality ? ' <span class="tag">' + esc(l.item.quality) + (l.item.rating ? ' ' + l.item.rating : '') + '</span>' : '') : ''}</span><span class="num">#${l.id}</span></h3>
     <div class="badges"><span class="b">${l.isDino ? 'Dino' : 'Item'}</span>${l.isDino ? `<span class="b">${l.level ? 'Nivel ' + l.level : 'Nivel sin indicar'}</span>` : ''}${l.cryo ? '<span class="b">En criopod</span>' : ''}${l.sex ? `<span class="b">${esc(l.sex)}</span>` : ''}<span class="b">${esc(l.map)}</span></div>
     <div class="price">${l.qty} ${esc(l.currencyName)}</div>
     <div class="mut small">${l.kind === 'busco' ? 'Busca' : 'Vende'} <b style="color:var(--txt)">${esc(l.seller)}</b> · ${hace(l.created)}${l.interested ? ` · ${l.interested} interesado${l.interested > 1 ? 's' : ''}` : ''}</div>
