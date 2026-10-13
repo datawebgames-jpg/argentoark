@@ -167,6 +167,14 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
       <div id="actLog">Las respuestas aparecen acá. Lo que se entrega como item (kits, tienda, premios) necesita que estés conectado al juego.</div>
       <div id="noticeBox" style="margin-top:12px"></div>
     </div>
+    <div class="card" style="margin-bottom:14px;border-color:#e0569b">
+      <h3 style="font-size:20px;margin-bottom:6px">💝 Donar al server</h3>
+      <p class="small" style="margin:0 0 8px">Bancá al server y recibí ArgenCoins en tu personaje. Transferí al alias <b id="donAlias" style="color:var(--acc);font-size:16px">danielmfaggi</b> <button class="b2" style="font-size:12px;padding:2px 8px" onclick="navigator.clipboard?.writeText($('donAlias').textContent);this.textContent='Copiado!'">Copiar</button> y avisanos acá. Cuando el admin confirme que llegó, te acreditamos las AC y te avisamos.</p>
+      <div id="donPacks" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-bottom:8px"></div>
+      <input class="inp" id="donNote" placeholder="Nombre del titular o número de operación (para encontrar tu transferencia)" style="width:100%;margin-bottom:6px">
+      <div class="acts"><button id="donBtn" onclick="sendDonation()" disabled>Ya transferí, avisar al admin</button></div>
+      <div id="donMsg" class="small" style="margin-top:6px"></div>
+    </div>
     <div class="card" style="margin-bottom:14px;border-color:var(--acc)">
       <h3 style="font-size:20px;margin-bottom:6px">📦 Vender desde tu inventario</h3>
       <p class="small" style="margin:0 0 8px">Te mostramos lo que tenés <b>encima en el juego</b> (dinos en criopod, armas, planos, monturas, recursos). Elegís qué vender, le ponés precio en AC y queda publicado. Cuando alguien lo compra te avisamos; se lo entregás en el juego y <b>apenas le llega al comprador, el server te acredita las AC solo</b>.</p>
@@ -458,7 +466,7 @@ async function live() {
     ['x' + r.maturation, 'Crecimiento'], ['x' + r.stack, 'Stacks'], ['x' + r.structures, 'Estructuras']]
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
-  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderVoteSites(); renderAccButtons(); renderEvents(); renderRep(); renderMarked();
+  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderVoteSites(); renderDonations(); renderAccButtons(); renderEvents(); renderRep(); renderMarked();
 }
 let lastData = null, rankKey = 'level';
 const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins', likes: 'likes' };
@@ -529,6 +537,25 @@ async function sellInv(i) {
     $('invMsg').innerHTML = r.error ? '<span style="color:#ff8a7a">' + esc(r.error) + '</span>' : '<b style="color:var(--ok)">' + esc(r.text) + '</b> Ya aparece en la Tienda.';
     if (!r.error) { live(); loadMe(); }
   } catch { $('invMsg').textContent = 'No se pudo publicar. Probá en un rato.'; }
+}
+// ---------- donaciones ----------
+let donPick = null;
+function renderDonations() {
+  const d = lastData?.donations; if (!d || !$('donPacks')) return;
+  $('donAlias').textContent = d.alias;
+  $('donPacks').innerHTML = d.packs.map(p => `<label style="cursor:pointer;background:rgba(224,86,155,.08);border:2px solid ${donPick === p.id ? '#e0569b' : 'var(--line)'};border-radius:10px;padding:10px;display:block" onclick="donPick='${p.id}';$('donBtn').disabled=false;renderDonations()">
+    <div style="font:700 24px Oswald;color:var(--acc)">${p.ac.toLocaleString('es-AR')} AC</div>
+    <div class="small">USD ${p.usd} &nbsp;o&nbsp; <b>${p.ars.toLocaleString('es-AR')}</b> ARS</div></label>`).join('');
+}
+async function sendDonation() {
+  if (!donPick) return;
+  const note = $('donNote').value.trim();
+  if (note.length < 3) { $('donMsg').textContent = 'Poné el nombre del titular o el número de operación.'; return; }
+  try {
+    const r = await post('act', { token: getTok(), cmd: 'donar ' + donPick + ' ' + note });
+    $('donMsg').innerHTML = '<b style="color:var(--ok)">' + esc((r.replies || []).join(' ')) + '</b>';
+    $('donBtn').disabled = true; donPick = null; renderDonations(); loadMe();
+  } catch { $('donMsg').textContent = 'No se pudo enviar. Probá en un rato.'; }
 }
 function renderNotices() {
   const n = me?.notices || [];
