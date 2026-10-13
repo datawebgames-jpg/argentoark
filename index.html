@@ -165,6 +165,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
       </div>
       <div class="acts" style="margin-top:12px"><button onclick="act('kit')">🎁 Pedir kit</button><button onclick="act('premio')">🏆 Reclamar premio</button><button onclick="act('saldo')">💰 Mi saldo</button><button onclick="act('misventas')">📋 Mis publicaciones</button><button onclick="act('eventos')">🎉 Eventos</button><button onclick="act('recompensas')">💀 Se busca</button><a class="btn" style="background:#2ecc71;color:#08130c" href="https://unofficial-servers.com/details/argentopro-ark-x5-the-island-v3617/594849871" target="_blank" rel="noopener">🗳️ Votar el server</a></div>
       <div id="actLog">Las respuestas aparecen acá. Lo que se entrega como item (kits, tienda, premios) necesita que estés conectado al juego.</div>
+      <div class="acts" style="margin-top:12px"><button style="background:var(--acc);color:#1a1206;font-weight:700;font-size:16px;padding:10px 16px" onclick="openInv()">📦 Vender lo que tengo en el inventario</button></div>
       <div id="noticeBox" style="margin-top:12px"></div>
     </div>
     <div class="card" style="margin-bottom:14px;border-color:#e0569b">
@@ -267,7 +268,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   <p class="sub">Dos cosas distintas: la <b>tienda oficial</b> (le comprás al server y el item te llega solo) y el <b>mercado de jugadores</b> (le comprás o vendés a otro jugador).</p>
 
     <div class="card" style="margin-bottom:14px;border-color:var(--acc)">
-      <h3 style="font-size:20px;margin-bottom:6px">📦 Vendé lo que tenés en el juego</h3>
+      <h3 style="font-size:20px;margin-bottom:6px" id="invCard">📦 Vendé lo que tenés en el juego</h3>
       <p class="small" style="margin:0 0 8px">Te mostramos lo que tenés <b>encima en el juego</b> (dinos en criopod, armas, planos, monturas, recursos). Elegís qué vender, le ponés precio en AC y queda publicado. Cuando alguien lo compra te avisamos; se lo entregás en el juego y <b>apenas le llega al comprador, el server te acredita las AC solo</b>.</p>
       <div class="acts"><button onclick="loadInv()">🔄 Ver mi inventario</button></div>
       <div id="invMsg" class="small mut" style="margin-top:6px"></div>
@@ -518,6 +519,8 @@ function showLogin(msg) {
 }
 // ---------- vender desde el inventario ----------
 let invItems = [];
+// desde Mi cuenta: abre la Tienda en el cuadro del inventario y lo carga
+function openInv() { location.hash = '#mercado'; setTimeout(() => { $('invCard')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); loadInv(); }, 300); }
 async function loadInv() {
   const token = getTok();
   if (!token) { $('invMsg').innerHTML = 'Primero vinculá tu personaje en <a href="#cuenta">Mi cuenta</a> (escribí /vincular en el juego).'; return; }
@@ -775,7 +778,7 @@ if (REF_IN && !location.hash) location.hash = '#cuenta';
 renderRef();
 loadMe(); setInterval(loadMe, 60000);
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610131139';
+const WEB_VERSION = '202610131156';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
