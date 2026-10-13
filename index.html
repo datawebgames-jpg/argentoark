@@ -265,6 +265,14 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 <section id="mercado" data-tab="mercado"><div class="wrap">
   <h2>Tienda y mercado</h2>
   <p class="sub">Dos cosas distintas: la <b>tienda oficial</b> (le comprás al server y el item te llega solo) y el <b>mercado de jugadores</b> (le comprás o vendés a otro jugador).</p>
+
+    <div class="card" style="margin-bottom:14px;border-color:var(--acc)">
+      <h3 style="font-size:20px;margin-bottom:6px">📦 Vendé lo que tenés en el juego</h3>
+      <p class="small" style="margin:0 0 8px">Te mostramos lo que tenés <b>encima en el juego</b> (dinos en criopod, armas, planos, monturas, recursos). Elegís qué vender, le ponés precio en AC y queda publicado. Cuando alguien lo compra te avisamos; se lo entregás en el juego y <b>apenas le llega al comprador, el server te acredita las AC solo</b>.</p>
+      <div class="acts"><button onclick="loadInv()">🔄 Ver mi inventario</button></div>
+      <div id="invMsg" class="small mut" style="margin-top:6px"></div>
+      <div id="invList" style="display:grid;gap:6px;margin-top:8px;max-height:420px;overflow:auto"></div>
+    </div>
   <div class="card" style="margin-bottom:14px;border-color:rgba(240,160,32,.5)">
     <h3 style="font-size:22px;margin-bottom:10px">💸 Cómo vender, paso a paso</h3>
     <div class="howto">
@@ -293,13 +301,6 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
       <span class="cmd">/saldo</span><span class="cmd">/pagar Juan 50</span>
       <p class="mut small" style="margin:6px 0 0">Usalas para comprar dinos en el mercado o pagarle a otro jugador.</p></div>
   </div>
-    <div class="card" style="margin-bottom:14px;border-color:var(--acc)">
-      <h3 style="font-size:20px;margin-bottom:6px">📦 Vendé lo que tenés en el juego</h3>
-      <p class="small" style="margin:0 0 8px">Te mostramos lo que tenés <b>encima en el juego</b> (dinos en criopod, armas, planos, monturas, recursos). Elegís qué vender, le ponés precio en AC y queda publicado. Cuando alguien lo compra te avisamos; se lo entregás en el juego y <b>apenas le llega al comprador, el server te acredita las AC solo</b>.</p>
-      <div class="acts"><button onclick="loadInv()">🔄 Ver mi inventario</button></div>
-      <div id="invMsg" class="small mut" style="margin-top:6px"></div>
-      <div id="invList" style="display:grid;gap:6px;margin-top:8px;max-height:420px;overflow:auto"></div>
-    </div>
   <div class="card" style="margin-bottom:14px">
     <h3 style="font-size:20px;margin-bottom:6px">🛒 Tienda oficial del server</h3>
     <p class="small" style="margin:0 0 10px">Pagás con ArgenCoins y <b>el item llega solo a tu inventario</b>. Escribí <code>/tienda</code> en el juego y comprá con <code>/comprar T1</code>.</p>
@@ -774,7 +775,7 @@ if (REF_IN && !location.hash) location.hash = '#cuenta';
 renderRef();
 loadMe(); setInterval(loadMe, 60000);
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610131138';
+const WEB_VERSION = '202610131139';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
