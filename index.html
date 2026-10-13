@@ -333,6 +333,9 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   <h2>Cómo entrar</h2>
   <p class="sub">Necesitás ARK: Survival Evolved en Steam. No hace falta ningún DLC pago.</p>
   <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">
+    <div class="card" style="grid-column:1/-1;border-color:var(--acc2)"><h3 style="font-size:22px;margin-bottom:6px">🌐 Entrar con la IP</h3>
+      <p class="small" style="margin:0 0 10px">¿No encontrás el server en la lista? Entrá directo: abrí ARK, en el menú principal tocá la tecla <b>Tab</b> (se abre la consola), escribí el comando del mapa y Enter.</p>
+      <div id="ipCards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px"><span class="mut small">Cargando IPs...</span></div></div>
     <div class="card"><h3 style="font-size:20px;margin-bottom:10px">Desde el juego</h3>
       <ol class="steps"><li>Abrí ARK y entrá a <b>Join ARK</b>.</li><li>En el filtro de sesión elegí <b>Unofficial</b>.</li><li>Buscá <b>ArgentoPro</b> y elegí el mapa.</li></ol></div>
     <div class="card qrbox"><img src="img/qr-discord.png" alt="QR del Discord"><div style="flex:1;min-width:180px"><h3 style="font-size:20px;margin-bottom:6px">Discord con el celular</h3><p class="small" style="margin:0">Escaneá el código con la cámara y entrás directo. Desde el juego: <b>Shift + Tab</b> → navegador de Steam → <b>tinyurl.com/argentodiscord</b></p></div></div>
@@ -465,6 +468,7 @@ async function live() {
   $('rates').innerHTML = [['x' + r.taming, 'Tameo'], ['x' + r.harvest, 'Farmeo'], ['x' + r.xp, 'Experiencia'], ['x' + r.breeding, 'Huevos'],
     ['x' + r.maturation, 'Crecimiento'], ['x' + r.stack, 'Stacks'], ['x' + r.structures, 'Estructuras']]
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
+  $('ipCards').innerHTML = d.ip ? d.maps.map(m => `<div style="background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:10px"><b>${esc(m.name)}</b>${m.rotating ? ' <span class="tag">rotativo</span>' : ''}<div class="small" style="margin-top:4px">Consola: <code>open ${esc(d.ip)}:${m.port}</code> <button class="b2" style="font-size:11px;padding:1px 6px" onclick="navigator.clipboard?.writeText('open ${esc(d.ip)}:${m.port}');this.textContent='Copiado!'">Copiar</button></div><div class="small mut">Favoritos de Steam: <code>${esc(d.ip)}:${m.queryPort}</code></div></div>`).join('') : '<span class="mut">Pedila en el Discord</span>';
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
   lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderVoteSites(); renderDonations(); renderAccButtons(); renderEvents(); renderRep(); renderMarked();
 }
