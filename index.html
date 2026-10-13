@@ -242,6 +242,9 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 <section id="tribus" data-tab="jugadores"><div class="wrap">
   <h2>Tribus</h2>
   <p class="sub">Las tribus del server, sus miembros y en qué mapa están jugando.</p>
+  <div class="card" style="margin-bottom:14px"><h3 style="font-size:20px;margin-bottom:6px">🏆 Puntos de tribu (ACT)</h3>
+    <p class="small" style="margin:0 0 6px">Todos los miembros juntan puntos para la tribu: <b>1 ACT por minuto</b> por cada miembro conectado, <b>10 ACT + 1 cada 10 niveles</b> por tameo, <b>50 ACT</b> por asesinato legal en PvP y <b>200 ACT</b> por cumplir la gran misión.</p>
+    <p class="small" style="margin:0">Con los ACT el <b>fundador</b> compra <b>planos TOP de armas</b> (calidad máxima): a elección <b>2500 ACT</b>, al azar <b>1500 ACT</b>. En el juego: <code>/tribu</code>, <code>/tribu tienda</code>, <code>/tribu comprar rifle</code>, <code>/tribus</code> (ranking).</p></div>
   <div class="grid" id="tribeGrid"></div>
 </div></section>
 
@@ -626,6 +629,7 @@ function renderTribes() {
   const list = lastData?.tribes || [];
   $('tribeGrid').innerHTML = list.map(t => `<div class="card">
     <h3 style="font-size:22px;display:flex;justify-content:space-between;gap:8px"><span>${esc(t.name)}</span><span class="tag">${t.online ? t.online + ' online' : 'offline'}</span></h3>
+    <p style="margin:6px 0;font:700 18px Oswald;color:var(--acc)">${(t.act || 0).toLocaleString('es-AR')} ACT <span class="mut small" style="font:400 13px Inter,sans-serif">puntos de tribu${t.owner ? ' · fundador: ' + esc(t.owner) : ''}</span></p>
     <p class="mut small" style="margin:6px 0">${t.members.length} miembro${t.members.length === 1 ? '' : 's'} · ${t.tames} tameos · base en ${t.maps.map(esc).join(', ')}</p>
     <ul class="online rank">${t.members.map(m => `<li><span class="nm"><span class="dot ${m.online ? 'on' : ''}"></span>${esc(m.name)}</span><span class="mut small">${m.level ? 'Nvl ' + m.level : ''}${m.online ? ' · jugando en ' + esc(m.map) : ''}</span></li>`).join('')}</ul>
     ${t.lastTames.length ? `<p class="mut small" style="margin:8px 0 0">Últimos tameos: ${t.lastTames.map(x => esc(x.dino) + ' nvl ' + x.level).join(', ')}</p>` : ''}
