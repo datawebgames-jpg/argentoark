@@ -98,7 +98,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   <h1>ARGENTOPRO<br><span>ARK x5</span></h1>
   <p>Server argentino de ARK: Survival Evolved. Todo x5, cluster entre mapas y un mapa rotativo que eligen los jugadores cada semana.</p>
   <div class="chips" id="liveChips"><span class="chip">Cargando estado del server...</span></div>
-  <div><a class="btn" href="#info">Cómo entrar</a> <a class="btn sec" href="#mercado">Tienda</a> <a class="btn sec" href="#dinos">Guía de tameo</a> <a class="btn dc" href="https://discord.gg/2EqEE46DjW" target="_blank" rel="noopener">Unite al Discord</a></div>
+  <div><a class="btn" href="#info">Cómo entrar</a> <a class="btn sec" href="#mercado">Tienda</a> <a class="btn sec" href="#dinos">Guía de tameo</a> <a class="btn dc" href="https://discord.gg/2EqEE46DjW" target="_blank" rel="noopener">Unite al Discord</a> <a class="btn" style="background:#2ecc71;color:#08130c" href="https://unofficial-servers.com/details/argentopro-ark-x5-the-island-v3617/594849871" target="_blank" rel="noopener">🗳️ Votá el server</a></div>
   <div class="card qrbox" style="margin-top:18px;max-width:560px;background:rgba(0,0,0,.6)">
     <a href="https://discord.gg/2EqEE46DjW" target="_blank" rel="noopener"><img src="img/qr-discord.png" alt="QR del Discord"></a>
     <div style="flex:1;min-width:200px"><h3 style="font-size:22px;margin-bottom:6px">📱 Escaneá y entrá al Discord</h3>
@@ -112,6 +112,11 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   <h2>Eventos y novedades</h2>
   <p class="sub">Todo lo que pasa en el server: desafíos, reyes de la semana, recompensas y premios.</p>
   <div id="boostBanner"></div>
+  <div class="card" style="margin-bottom:14px;border-color:#2ecc71">
+    <h3 style="font-size:22px;margin-bottom:6px">🗳️ Votá por ArgentoPro todos los días</h3>
+    <p class="small" style="margin:0 0 10px">Cada voto nos sube en el ranking de las páginas de servers y así llegan más jugadores. Es gratis: entrás con tu cuenta de Steam y tocás <b>Upvote</b>. Se puede votar <b>1 vez por día</b>.</p>
+    <div class="acts" id="voteSites"><a class="btn" style="background:#2ecc71;color:#08130c" href="https://unofficial-servers.com/details/argentopro-ark-x5-the-island-v3617/594849871" target="_blank" rel="noopener">Votar en Unofficial-Servers</a></div>
+    <p class="mut small" style="margin:8px 0 0">Desde el juego: Shift+Tab y escribí <code>tinyurl.com/votaargentopro</code>, o usá <code>/votarserver</code>.</p></div>
   <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
     <div class="card"><h3 style="font-size:20px;margin-bottom:6px">🎯 Desafío del día</h3><div id="evChallenge" class="small"></div></div>
     <div class="card"><h3 style="font-size:20px;margin-bottom:6px">🏹 Cazador del día</h3><p class="mut small" style="margin:0 0 6px">El que más tamea hoy gana <b>100 AC</b> a la medianoche.</p><ol class="rank" id="evHunter"></ol></div>
@@ -445,7 +450,7 @@ async function live() {
     ['x' + r.maturation, 'Crecimiento'], ['x' + r.stack, 'Stacks'], ['x' + r.structures, 'Estructuras']]
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
-  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderAccButtons(); renderEvents(); renderRep(); renderMarked();
+  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderVoteSites(); renderAccButtons(); renderEvents(); renderRep(); renderMarked();
 }
 let lastData = null, rankKey = 'level';
 const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins', likes: 'likes' };
@@ -604,6 +609,11 @@ function renderRep() {
   const list = (lastData.players || []).slice(0, 40);
   $('repList').innerHTML = list.map(p => `<li><span class="nm">${nameT(p)}${p.level ? ' <span class="mut small">· Nvl ' + p.level + '</span>' : ''}</span>
     <span>${p.likes} 👍 ${me && p.name !== me.char ? `<button class="likebtn" onclick="act('like ${esc(p.name)}')">Like</button>` : ''}</span></li>`).join('') || '<li class="mut">Todavía no hay jugadores.</li>';
+}
+// paginas de votacion (se agregan desde config.voteSites del panel)
+function renderVoteSites() {
+  const v = lastData?.voteSites || [];
+  if (v.length) $('voteSites').innerHTML = v.map(x => `<a class="btn" style="background:#2ecc71;color:#08130c" href="${esc(x.url)}" target="_blank" rel="noopener">Votar en ${esc(x.name)}</a>`).join(' ');
 }
 function renderShop() {
   const sh = lastData?.shop || [];
