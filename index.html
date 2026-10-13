@@ -164,6 +164,15 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
     <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🗳️ Votar el próximo mapa</h3><div class="acts" id="voteBtns"></div></div>
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🛒 Tienda oficial</h3><div class="acts" id="shopBtns"></div></div>
+      <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🐎 Monturas y 🦖 dinos</h3>
+        <p class="small mut" style="margin:0 0 6px">Montura: llega sola a tu inventario (tenés que estar conectado).</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"><select class="inp" id="buySaddle"></select>
+          <button onclick="act('comprar montura ' + $('buySaddle').value)">Comprar montura · <b><span id="buySaddleP">250</span> AC</b></button></div>
+        <p class="small mut" style="margin:0 0 6px">Dino nivel 1: se cobra y un admin te lo entrega en el juego.</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap"><select class="inp" id="buyDino"></select>
+          <select class="inp" id="buyDinoSex"><option value="">Sexo: cualquiera</option><option value="hembra">Hembra</option><option value="macho">Macho</option></select>
+          <button onclick="act(('comprar dino ' + $('buyDino').value + ' ' + $('buyDinoSex').value).trim())">Pedir dino · <b><span id="buyDinoP">1000</span> AC</b></button></div>
+      </div>
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">💸 Vender o buscar</h3>
         <input class="inp" id="sWhat" placeholder="Qué: Rex 150 hembra en criopod / 100 flechas" style="width:100%;margin-bottom:6px">
         <div style="display:flex;gap:6px;flex-wrap:wrap"><input class="inp" id="sQty" type="number" min="1" placeholder="Precio" style="width:100px">
@@ -271,6 +280,18 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
     <h3 style="font-size:20px;margin-bottom:6px">🛒 Tienda oficial del server</h3>
     <p class="small" style="margin:0 0 10px">Pagás con ArgenCoins y <b>el item llega solo a tu inventario</b>. Escribí <code>/tienda</code> en el juego y comprá con <code>/comprar T1</code>.</p>
     <div class="grid" id="shopGrid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px"></div>
+  </div>
+  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr));margin-bottom:14px">
+    <div class="card">
+      <h3 style="font-size:20px;margin-bottom:6px">🐎 Monturas · <span id="saddlePrice" style="color:var(--acc)">250</span> AC cada una</h3>
+      <p class="small" style="margin:0 0 8px">Llegan solas a tu inventario. En el juego: <code>/comprar montura rex</code> (lista: <code>/monturas</code>). También desde Mi cuenta.</p>
+      <div id="saddleList" class="small mut" style="line-height:1.9"></div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:20px;margin-bottom:6px">🦖 Dinos nivel 1 · <span id="dinoPrice" style="color:var(--acc)">1000</span> AC</h3>
+      <p class="small" style="margin:0 0 8px">Nivel 1 con stats al mínimo, ideales para criar. Se cobra al pedirlo y <b>un admin te lo entrega en el juego</b>; si se cancela te devolvemos las AC. En el juego: <code>/comprar dino raptor hembra</code> (lista: <code>/dinos</code>).</p>
+      <div id="dinoList" class="small mut" style="line-height:1.9"></div>
+    </div>
   </div>
   <h3 style="font-size:22px;margin:18px 0 10px">Mercado de jugadores</h3>
   <div class="filters" style="position:static"><select id="mcur"><option value="">Todas las monedas</option></select><input id="mq" placeholder="Buscar dino o vendedor..."></div>
@@ -486,6 +507,12 @@ function renderAccButtons() {
   $('voteBtns').innerHTML = (lastData.rotation.votes || []).map(v => `<button onclick="act('${esc(v.cmd.replace('/', ''))}')">${esc(v.name)}${v.dlc ? ' <span class="mut small">(DLC)</span>' : ''} · ${v.votes}</button>`).join('');
   $('shopBtns').innerHTML = (lastData.shop || []).map(i => `<button onclick="act('comprar ${i.code}')">${esc(i.name)} · <b>${i.price} AC</b></button>`).join('')
     + `<button class="b2 p" onclick="act('comprar T12')">⚔️ Kit de 5 planos de armas · <b>3000 AC</b></button>`;
+  const x = lastData.shopExtra;
+  if (x && !$('buySaddle').options.length) {
+    $('buySaddle').innerHTML = x.saddles.map(s => `<option value="${esc(s.code)}">${esc(s.name)}</option>`).join('');
+    $('buyDino').innerHTML = x.dinos.map(d => `<option value="${esc(d.code)}">${esc(d.name)}</option>`).join('');
+    $('buySaddleP').textContent = x.saddlePrice; $('buyDinoP').textContent = x.dinoPrice;
+  }
 }
 async function act(cmd) {
   const token = getTok(); if (!token) return;
@@ -578,6 +605,12 @@ function renderShop() {
   const sh = lastData?.shop || [];
   $('shopGrid').innerHTML = sh.map(i => `<div style="background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:10px">
     <div class="small">${esc(i.name)}</div><div style="font:700 20px Oswald;color:var(--acc)">${i.price} AC</div><code>/comprar ${esc(i.code)}</code></div>`).join('');
+  const x = lastData?.shopExtra;
+  if (x) {
+    $('saddlePrice').textContent = x.saddlePrice; $('dinoPrice').textContent = x.dinoPrice;
+    $('saddleList').innerHTML = x.saddles.map(s => `<span class="tag" title="/comprar montura ${esc(s.code)}">${esc(s.name)}</span>`).join(' ');
+    $('dinoList').innerHTML = x.dinos.map(d => `<span class="tag" title="/comprar dino ${esc(d.code)}">${esc(d.name)}</span>`).join(' ');
+  }
 }
 function renderPvp() {
   const p = lastData?.pvp, k = lastData?.kits;
