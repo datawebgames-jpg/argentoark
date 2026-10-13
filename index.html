@@ -762,6 +762,12 @@ live(); setInterval(live, 30000);
 if (REF_IN && !location.hash) location.hash = '#cuenta';
 renderRef();
 loadMe(); setInterval(loadMe, 60000);
+// si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
+const WEB_VERSION = '202610131048';
+async function checkVersion() {
+  try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
+}
+setInterval(checkVersion, 120000); checkVersion();
 $('linkCode').addEventListener('keydown', e => { if (e.key === 'Enter') doLink(); });
 
 // ---------- guia de dinos ----------
