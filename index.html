@@ -175,13 +175,6 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
       <div class="acts"><button id="donBtn" onclick="sendDonation()" disabled>Ya transferí, avisar al admin</button></div>
       <div id="donMsg" class="small" style="margin-top:6px"></div>
     </div>
-    <div class="card" style="margin-bottom:14px;border-color:var(--acc)">
-      <h3 style="font-size:20px;margin-bottom:6px">📦 Vender desde tu inventario</h3>
-      <p class="small" style="margin:0 0 8px">Te mostramos lo que tenés <b>encima en el juego</b> (dinos en criopod, armas, planos, monturas, recursos). Elegís qué vender, le ponés precio en AC y queda publicado. Cuando alguien lo compra te avisamos; se lo entregás en el juego y <b>apenas le llega al comprador, el server te acredita las AC solo</b>.</p>
-      <div class="acts"><button onclick="loadInv()">🔄 Ver mi inventario</button></div>
-      <div id="invMsg" class="small mut" style="margin-top:6px"></div>
-      <div id="invList" style="display:grid;gap:6px;margin-top:8px;max-height:420px;overflow:auto"></div>
-    </div>
     <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🗳️ Votar el próximo mapa</h3><div class="acts" id="voteBtns"></div></div>
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🛒 Tienda oficial</h3><div class="acts" id="shopBtns"></div></div>
@@ -300,6 +293,13 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
       <span class="cmd">/saldo</span><span class="cmd">/pagar Juan 50</span>
       <p class="mut small" style="margin:6px 0 0">Usalas para comprar dinos en el mercado o pagarle a otro jugador.</p></div>
   </div>
+    <div class="card" style="margin-bottom:14px;border-color:var(--acc)">
+      <h3 style="font-size:20px;margin-bottom:6px">📦 Vendé lo que tenés en el juego</h3>
+      <p class="small" style="margin:0 0 8px">Te mostramos lo que tenés <b>encima en el juego</b> (dinos en criopod, armas, planos, monturas, recursos). Elegís qué vender, le ponés precio en AC y queda publicado. Cuando alguien lo compra te avisamos; se lo entregás en el juego y <b>apenas le llega al comprador, el server te acredita las AC solo</b>.</p>
+      <div class="acts"><button onclick="loadInv()">🔄 Ver mi inventario</button></div>
+      <div id="invMsg" class="small mut" style="margin-top:6px"></div>
+      <div id="invList" style="display:grid;gap:6px;margin-top:8px;max-height:420px;overflow:auto"></div>
+    </div>
   <div class="card" style="margin-bottom:14px">
     <h3 style="font-size:20px;margin-bottom:6px">🛒 Tienda oficial del server</h3>
     <p class="small" style="margin:0 0 10px">Pagás con ArgenCoins y <b>el item llega solo a tu inventario</b>. Escribí <code>/tienda</code> en el juego y comprá con <code>/comprar T1</code>.</p>
@@ -518,7 +518,8 @@ function showLogin(msg) {
 // ---------- vender desde el inventario ----------
 let invItems = [];
 async function loadInv() {
-  const token = getTok(); if (!token) return;
+  const token = getTok();
+  if (!token) { $('invMsg').innerHTML = 'Primero vinculá tu personaje en <a href="#cuenta">Mi cuenta</a> (escribí /vincular en el juego).'; return; }
   $('invMsg').textContent = 'Leyendo tu inventario...'; $('invList').innerHTML = '';
   try {
     const r = await post('inventory', { token });
@@ -685,6 +686,16 @@ function renderVoteSites() {
   const v = lastData?.voteSites || [];
   if (v.length) $('voteSites').innerHTML = v.map(x => `<a class="btn" style="background:#2ecc71;color:#08130c" href="${esc(x.url)}" target="_blank" rel="noopener">Votar en ${esc(x.name)}</a>`).join(' ');
 }
+// compra desde la Tienda (necesita la cuenta vinculada); la respuesta se muestra en un cartelito
+async function shopBuy(cmd) {
+  if (!getTok()) { alert('Primero vinculá tu personaje en Mi cuenta (escribí /vincular en el juego).'); location.hash = '#cuenta'; return; }
+  if (!confirm('¿Confirmás? /' + cmd)) return;
+  try {
+    const r = await post('act', { token: getTok(), cmd });
+    alert((r.replies || [r.error || 'Listo']).join('\n'));
+    loadMe();
+  } catch { alert('No se pudo conectar con el server. Probá en un rato.'); }
+}
 function renderShop() {
   const sh = lastData?.shop || [];
   $('shopGrid').innerHTML = sh.map(i => `<div style="background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:10px">
@@ -692,9 +703,9 @@ function renderShop() {
   const x = lastData?.shopExtra;
   if (x) {
     $('saddlePrice').textContent = x.saddlePrice; $('dinoPrice').textContent = x.dinoPrice;
-    $('saddleList').innerHTML = x.saddles.map(s => `<span class="tag" title="/comprar montura ${esc(s.code)}">${esc(s.name)}</span>`).join(' ');
+    $('saddleList').innerHTML = x.saddles.map(s => `<button class="b2" style="margin:2px;font-size:12px;padding:4px 8px" onclick="shopBuy('comprar montura ${esc(s.code)}')">🐎 ${esc(s.name)}</button>`).join('');
     if (x.cryo) $('dinoHow2').innerHTML = 'Nivel 1 con stats al mínimo, ideales para criar. <b>Te llega solo en una criopod al inventario</b>: lo pagás acá o con <code>/comprar dino raptor hembra</code> y en el juego escribís <code>/recibir</code> con el código que te damos.';
-    $('dinoList').innerHTML = x.dinos.map(d => `<span class="tag" title="/comprar dino ${esc(d.code)}">${esc(d.name)}</span>`).join(' ');
+    $('dinoList').innerHTML = x.dinos.map(d => `<button class="b2" style="margin:2px;font-size:12px;padding:4px 8px" onclick="shopBuy('comprar dino ${esc(d.code)}')">🦖 ${esc(d.name)}</button>`).join('');
   }
 }
 function renderPvp() {
@@ -763,7 +774,7 @@ if (REF_IN && !location.hash) location.hash = '#cuenta';
 renderRef();
 loadMe(); setInterval(loadMe, 60000);
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610131048';
+const WEB_VERSION = '202610131138';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
