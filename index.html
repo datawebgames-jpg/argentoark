@@ -168,7 +168,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
         <p class="small mut" style="margin:0 0 6px">Montura: llega sola a tu inventario (tenés que estar conectado).</p>
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"><select class="inp" id="buySaddle"></select>
           <button onclick="act('comprar montura ' + $('buySaddle').value)">Comprar montura · <b><span id="buySaddleP">250</span> AC</b></button></div>
-        <p class="small mut" style="margin:0 0 6px">Dino nivel 1: se cobra y un admin te lo entrega en el juego.</p>
+        <p class="small mut" style="margin:0 0 6px" id="dinoHow1">Dino nivel 1: se cobra y un admin te lo entrega en el juego.</p>
         <div style="display:flex;gap:6px;flex-wrap:wrap"><select class="inp" id="buyDino"></select>
           <select class="inp" id="buyDinoSex"><option value="">Sexo: cualquiera</option><option value="hembra">Hembra</option><option value="macho">Macho</option></select>
           <button onclick="act(('comprar dino ' + $('buyDino').value + ' ' + $('buyDinoSex').value).trim())">Pedir dino · <b><span id="buyDinoP">1000</span> AC</b></button></div>
@@ -289,7 +289,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
     </div>
     <div class="card">
       <h3 style="font-size:20px;margin-bottom:6px">🦖 Dinos nivel 1 · <span id="dinoPrice" style="color:var(--acc)">1000</span> AC</h3>
-      <p class="small" style="margin:0 0 8px">Nivel 1 con stats al mínimo, ideales para criar. Se cobra al pedirlo y <b>un admin te lo entrega en el juego</b>; si se cancela te devolvemos las AC. En el juego: <code>/comprar dino raptor hembra</code> (lista: <code>/dinos</code>).</p>
+      <p class="small" style="margin:0 0 8px" id="dinoHow2">Nivel 1 con stats al mínimo, ideales para criar. Se cobra al pedirlo y <b>un admin te lo entrega en el juego</b>; si se cancela te devolvemos las AC. En el juego: <code>/comprar dino raptor hembra</code> (lista: <code>/dinos</code>).</p>
       <div id="dinoList" class="small mut" style="line-height:1.9"></div>
     </div>
   </div>
@@ -512,6 +512,7 @@ function renderAccButtons() {
     $('buySaddle').innerHTML = x.saddles.map(s => `<option value="${esc(s.code)}">${esc(s.name)}</option>`).join('');
     $('buyDino').innerHTML = x.dinos.map(d => `<option value="${esc(d.code)}">${esc(d.name)}</option>`).join('');
     $('buySaddleP').textContent = x.saddlePrice; $('buyDinoP').textContent = x.dinoPrice;
+    if (x.cryo) $('dinoHow1').textContent = 'Dino nivel 1: llega en una criopod. Después escribí /recibir en el juego con el código que te damos.';
   }
 }
 async function act(cmd) {
@@ -609,6 +610,7 @@ function renderShop() {
   if (x) {
     $('saddlePrice').textContent = x.saddlePrice; $('dinoPrice').textContent = x.dinoPrice;
     $('saddleList').innerHTML = x.saddles.map(s => `<span class="tag" title="/comprar montura ${esc(s.code)}">${esc(s.name)}</span>`).join(' ');
+    if (x.cryo) $('dinoHow2').innerHTML = 'Nivel 1 con stats al mínimo, ideales para criar. <b>Te llega solo en una criopod al inventario</b>: lo pagás acá o con <code>/comprar dino raptor hembra</code> y en el juego escribís <code>/recibir</code> con el código que te damos.';
     $('dinoList').innerHTML = x.dinos.map(d => `<span class="tag" title="/comprar dino ${esc(d.code)}">${esc(d.name)}</span>`).join(' ');
   }
 }
