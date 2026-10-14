@@ -939,7 +939,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610141031';
+const WEB_VERSION = '202610141033';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
@@ -979,7 +979,7 @@ function render() {
       <div class="row">✨ ${esc(d.r)}</div>
       <div class="row">📍 <b>Dónde está:</b> ${esc(DHAB[d.n] || 'Varios biomas del mapa.')}</div>
       <div class="row">🍖 <b>Qué come:</b> ${comida(d)}</div>
-      <div class="row">🪤 <b>Cómo tamearlo:</b><ol>${pasos(d).map(p => `<li>${esc(p)}</li>`).join('')}</ol></div>
+      <div class="row">🎯 <b>Cómo tamearlo:</b><ol>${pasos(d).map(p => `<li>${esc(p)}</li>`).join('')}</ol></div>
       <a class="wiki" href="https://ark.wiki.gg/wiki/${encodeURIComponent(d.n.replace(/ /g, '_'))}" target="_blank" rel="noopener">🗺️ Ver mapa de dónde aparece (wiki)</a>
     </div>
   </div>`).join('') || '<p class="mut">No hay criaturas con ese filtro.</p>';
