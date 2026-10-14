@@ -232,6 +232,11 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 <section id="jugadores" data-tab="jugadores"><div class="wrap">
   <h2>Jugadores</h2>
   <p class="sub">Quién está jugando ahora y los mejores del server.</p>
+  <div class="card" style="margin-bottom:14px;border-color:#e74c3c;background:linear-gradient(135deg,rgba(231,76,60,.18),rgba(243,156,18,.12))">
+    <h3 style="font-size:24px;margin-bottom:6px">🏆 ¡COMPETÍ POR EL RANKING!</h3>
+    <p style="margin:0 0 6px"><b>PvP legal desde nivel 80</b> · romper bases desde nivel 100. Cada asesinato legal, cada tameo y cada nivel te suben en el ranking de esta página, y suman <b>ACT</b> para tu tribu.</p>
+    <p class="small" style="margin:0">Todos los lunes los <b>reyes de la semana</b> (más nivel, más tameos, más asesinatos y mejor tribu) ganan <b>planos de armas</b>. PvP: lunes a viernes 21 a 23 hs · sábados y domingos 12 a 23 hs. ¿Quién va a ser el número 1?</p>
+  </div>
   <div class="grid" style="grid-template-columns:minmax(260px,1fr) minmax(300px,2fr)">
     <div class="card"><h3 style="font-size:20px;margin-bottom:8px">Online ahora</h3><ul class="online rank" id="onlineList"><li class="mut">Cargando...</li></ul></div>
     <div class="card">
@@ -410,8 +415,8 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
     <div class="card"><h3 style="font-size:19px">2. Sin trampas</h3><p class="mut">Prohibidos cheats, exploits y bugs. Ban directo.</p></div>
     <div class="card"><h3 style="font-size:19px">3. Zonas libres</h3><p class="mut">No bloquear cuevas, artefactos ni spawns de recursos.</p></div>
     <div class="card"><h3 style="font-size:19px">4. Nuevos jugadores</h3><p class="mut">No construir sobre los spawns de los que recién arrancan.</p></div>
-    <div class="card" style="border-color:rgba(116,172,223,.6)"><h3 style="font-size:19px">🛡️ PvP legal: nivel 100 contra nivel 100</h3>
-      <p class="mut" style="margin-bottom:6px">Solo se puede matar a otro jugador si <b>los dos son nivel 100 o más</b>. Matar a alguien de menos de nivel 100 (o matar siendo de menos de 100) es un <b>asesinato ilegal</b>:</p>
+    <div class="card" style="border-color:rgba(116,172,223,.6)"><h3 style="font-size:19px">🛡️ PvP legal desde nivel 80 · romper bases desde nivel 100</h3>
+      <p class="mut" style="margin-bottom:6px">Se puede matar a otro jugador si <b>los dos son nivel 80 o más</b>. Para <b>atacar o romper bases</b> (asedios) tenés que ser <b>nivel 100 o más</b>. Matar a alguien de menos de nivel 80 (o matar siendo de menos de 80) es un <b>asesinato ilegal</b>:</p>
       <ul class="small" style="margin:0;padding-left:18px">
         <li>Multa de <b>100 AC</b>, que van para la víctima.</li>
         <li>Ganás AC <b>a la mitad</b> por 24 horas. Cada asesinato ilegal suma <b>24 horas más</b>.</li>
@@ -778,7 +783,7 @@ if (REF_IN && !location.hash) location.hash = '#cuenta';
 renderRef();
 loadMe(); setInterval(loadMe, 60000);
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610131246';
+const WEB_VERSION = '202610140841';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
