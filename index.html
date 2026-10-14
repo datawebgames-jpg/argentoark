@@ -331,7 +331,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
         <p class="small mut" style="margin:4px 0 0">Armas y monturas <b>ya fabricadas</b>, de calidad <b style="color:#5fe39a">Oficial a Maestro</b> (mejores que las comunes). Se pagan con los <b>ACT</b> de la tribu y llegan al inventario del <b>fundador</b> (tiene que estar conectado al juego).</p></div>
       <div id="tshopAct" class="small" style="text-align:right"></div>
     </div>
-    <div class="tshop-tabs"><button class="on" data-k="arma" onclick="tshopTab('arma')">🔫 Armas</button><button data-k="montura" onclick="tshopTab('montura')">🦖 Monturas</button><button data-k="planos" onclick="tshopTab('planos')">📜 Planos TOP</button></div>
+    <div class="tshop-tabs"><button class="on" data-k="arma" onclick="tshopTab('arma')">🔫 Armas</button><button data-k="montura" onclick="tshopTab('montura')">🦖 Monturas</button><button data-k="planos" onclick="tshopTab('planos')">📜 Planos TOP</button><button data-k="robots" onclick="tshopTab('robots')">🤖 Robots</button></div>
     <div class="tshop-grid" id="tshopGrid"></div>
   </div>
   </div>
@@ -823,6 +823,12 @@ function renderTribeShop() {
   // ACT de la tribu del jugador conectado
   const myTribe = me?.tribe ? (lastData.tribes || []).find(t => t.name === me.tribe) : null;
   $('tshopAct').innerHTML = myTribe ? `Tu tribu <b>${esc(myTribe.name)}</b><br><span style="font:700 26px Oswald;color:var(--acc)">${(myTribe.act || 0).toLocaleString('es-AR')} ACT</span>` : '<span class="mut">Vinculá tu cuenta para ver los ACT de tu tribu</span>';
+  if (tshopKind === 'robots') {
+    $('tshopGrid').innerHTML = (L.robots || []).map(r => `<div class="tshop-item" style="grid-column:span 2;border-color:#9b59b6;background:radial-gradient(circle at 50% 30%,rgba(155,89,182,.3),rgba(255,255,255,.03) 70%)"><span class="q" style="background:rgba(155,89,182,.3);color:#d7a8f0">GENESIS 2</span>
+      <img src="${wikiIcon(r.icon)}" alt="" loading="lazy" style="width:120px;height:120px"><div class="nm" style="font-size:17px">${esc(r.name)}</div><div class="small mut" style="margin:2px 0">${esc(r.desc)}</div>
+      <div class="pr" style="font-size:24px">${r.price.toLocaleString('es-AR')} ACT</div><button onclick="shopBuy('tribu item ${r.code}')">Comprar</button><div class="small mut" style="margin-top:6px">Llega en criopod: en el juego escribí <code>/recibir ${r.code} 1</code></div></div>`).join('');
+    return;
+  }
   if (tshopKind === 'planos') {
     $('tshopGrid').innerHTML = L.weapons.map(w => `<div class="tshop-item"><span class="q" style="background:rgba(231,76,60,.2);color:#ff8a7a">TOP</span>
       <img src="${wikiIcon(({rifle:'Assault_Rifle',franco:'Fabricated_Sniper_Rifle',longneck:'Longneck_Rifle',escopeta:'Pump-Action_Shotgun',pistola:'Fabricated_Pistol',ballesta:'Crossbow',arco:'Compound_Bow',espada:'Sword',pica:'Pike'})[w.code])}" alt="" loading="lazy">
@@ -918,7 +924,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610141022';
+const WEB_VERSION = '202610141028';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
