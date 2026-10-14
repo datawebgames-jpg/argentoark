@@ -124,6 +124,19 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .dino ol{margin:4px 0 0;padding-left:20px;font-size:13.5px}
 .dino .wiki{font-size:12.5px}
 .dtip{text-align:center}.dtip .di{font-size:34px}.dtip p{margin:4px 0 0}
+.tmap-wrap{position:relative;width:100%;max-width:900px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#0b1a24}
+.tmap-wrap img.base{width:100%;display:block}
+.tmk{position:absolute;transform:translate(-50%,-50%);cursor:pointer;line-height:1;filter:drop-shadow(0 1px 2px #000)}
+.tmk.dino{width:11px;height:11px;border-radius:50%;background:#f39c12;border:2px solid #1a1206}
+.tmk.me{font-size:20px}.tmk.dead{font-size:18px}.tmk.zz{opacity:.55}
+.tmk:hover{z-index:3;transform:translate(-50%,-50%) scale(1.5)}
+.tmap-tip{position:absolute;z-index:4;pointer-events:none;background:rgba(0,0,0,.88);border:1px solid var(--acc);border-radius:8px;padding:5px 8px;font-size:12.5px;white-space:nowrap;display:none}
+.tmap-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 10px}
+.tmap-bar button{padding:7px 12px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:inherit;cursor:pointer;font-weight:600}
+.tmap-bar button.on{background:linear-gradient(135deg,#f39c12,#e67e22);color:#1a1206;border-color:transparent}
+.tmap-bar label{font-size:13px;display:flex;gap:4px;align-items:center}
+.tmap-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;margin-top:10px}
+.tmap-list div{font-size:13px;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--line);cursor:pointer}
 </style>
 </head>
 <body>
@@ -317,7 +330,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
     <button class="hub-tile" data-p="mercado" onclick="tshow('mercado')"><img src="https://ark.wiki.gg/images/thumb/Black_Pearl.png/96px-Black_Pearl.png" alt="" loading="lazy"><b>Mercado</b><span>Comprale a otros jugadores</span></button>
     <button class="hub-tile" data-p="vender" onclick="tshow('vender')"><img src="https://ark.wiki.gg/images/thumb/Polymer.png/96px-Polymer.png" alt="" loading="lazy"><b>Vender</b><span>Lo que tenés en el juego</span></button>
     <button class="hub-tile" data-p="personal" onclick="tshow('personal')"><img src="https://ark.wiki.gg/images/thumb/Dossier_Rex.png/96px-Dossier_Rex.png" alt="" loading="lazy"><b>Mi tienda</b><span>Saldo, ventas y avisos</span></button>
-    <button class="hub-tile" data-p="ac" onclick="tshow('ac')"><div class="hub-emoji">💝</div><b>Comprar AC</b><span>Bancá al server</span></button>
+    <button class="hub-tile" data-p="mapa" onclick="tshow('mapa')"><img src="https://ark.wiki.gg/images/thumb/Transponder_Tracker.png/96px-Transponder_Tracker.png" alt="" loading="lazy"><b>Mapa de la tribu</b><span>Tus dinos, compañeros y muertes</span></button><button class="hub-tile" data-p="ac" onclick="tshow('ac')"><div class="hub-emoji">💝</div><b>Comprar AC</b><span>Bancá al server</span></button>
   </div>
   <div class="tpanel" data-p="server">
     <h3 class="tsec">🛒 Tienda del server</h3><p class="sub" style="margin:-4px 0 12px">Pagás con ArgenCoins y el item llega solo a tu inventario (tenés que estar conectado al juego).</p>
@@ -382,6 +395,10 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   <div class="tpanel" data-p="personal">
     <h3 class="tsec">👤 Mi tienda</h3><p class="sub" style="margin:-4px 0 12px">Tu saldo, tus ventas y tus avisos.</p>
     <div id="myShop"></div>
+  </div>
+  <div class="tpanel" data-p="mapa">
+    <h3 class="tsec">🗺️ Mapa de la tribu</h3><p class="sub" style="margin:-4px 0 12px">Mirá dónde están tus compañeros, todos tus dinos tameados y tus bolsas de muerte, sobre el mapa real. Se actualiza con cada guardado del server (cada 15 minutos). Cada tribu ve solo lo suyo.</p>
+    <div id="tmapBox"></div>
   </div>
   <div class="tpanel" data-p="ac">
     <h3 class="tsec">💝 Comprar ArgenCoins</h3><p class="sub" style="margin:-4px 0 12px">Bancá al server y recibí AC en tu personaje.</p>
@@ -810,6 +827,7 @@ function tshow(p) {
   if (p === 'vender' && isLinked() && !invItems.length) loadInv();
   if (p === 'personal') renderMyShop();
   if (p === 'ranking') renderTribeRank();
+  if (p === 'mapa') loadTribeMap();
 }
 const card = (img, name, price, buyHtml, tag) => `<div class="tshop-item">${tag ? '<span class="q">' + tag + '</span>' : ''}<img src="${wikiIcon(img)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><div class="nm">${esc(name)}</div><div class="pr">${price}</div>${buyHtml}</div>`;
 function renderTribeRank() {
@@ -828,6 +846,63 @@ function renderMyShop() {
     <div class="card" style="text-align:center"><div class="small mut">Tus ventas activas</div><div style="font:700 34px Oswald">${ls.length}</div><button class="b2" onclick="tshow('vender')">💰 Vender algo</button></div></div>
     <div class="card" style="margin-bottom:12px"><h3 style="font-size:18px;margin-bottom:8px">Tus publicaciones</h3>${ls.length ? ls.map(l => `<div class="small" style="padding:6px 0;border-bottom:1px solid var(--line)">#${l.id} <b>${esc(l.dino)}</b> por ${l.qty} ${esc(l.currencyName)} · ${l.status === 'reservada' ? '<span style="color:var(--acc)">comprada por ' + esc(l.buyer || '') + ', esperando entrega</span>' : 'a la venta'} <button class="b2" style="font-size:11px;padding:2px 6px" onclick="act('cancelar ${l.id}')">Cancelar</button></div>`).join('') : '<p class="small mut" style="margin:0">No tenés nada publicado.</p>'}</div>
     <div class="card"><h3 style="font-size:18px;margin-bottom:8px">🔔 Avisos</h3>${n.length ? n.slice(0, 8).map(x => `<div class="small" style="padding:5px 0;border-bottom:1px solid var(--line)">${esc(x.text)}</div>`).join('') : '<p class="small mut" style="margin:0">Sin avisos.</p>'}</div>`;
+}
+// ---------- mapa de la tribu ----------
+let tmapData = null, tmapSel = null, tmapShow = { me: true, dino: true, dead: true }, tmapFocus = null;
+async function loadTribeMap() {
+  if (!isLinked()) { $('tmapBox').innerHTML = '<div class="need-link"><div class="nl-ico">🔒</div><div><b>Vinculá tu cuenta para ver el mapa de tu tribu</b></div><a class="btn" href="#cuenta">🔗 Vincular ahora</a></div>'; return; }
+  $('tmapBox').innerHTML = '<p class="mut">Leyendo el mapa...</p>';
+  try { tmapData = await post('tribemap', { token: getTok() }); } catch { $('tmapBox').innerHTML = '<p class="mut">No se pudo conectar con el server.</p>'; return; }
+  renderTribeMap();
+}
+function buyTribeMap() {
+  if (needLink()) return;
+  if (!confirm('¿Comprar el pase del mapa de la tribu por ' + tmapData.price + ' AC (' + tmapData.days + ' días)?')) return;
+  post('tribemapbuy', { token: getTok() }).then(r => { alert(r.error || r.text); loadMe(); loadTribeMap(); }).catch(() => alert('No se pudo conectar con el server.'));
+}
+function renderTribeMap() {
+  const d = tmapData; if (!d) return;
+  if (d.error) { $('tmapBox').innerHTML = '<p class="mut">' + esc(d.error) + '</p>'; return; }
+  if (!d.pass) {
+    $('tmapBox').innerHTML = `<div class="card" style="text-align:center;border-color:#f39c12;background:radial-gradient(circle at 50% 0%,rgba(243,156,18,.2),rgba(0,0,0,0) 70%)">
+      <div style="font-size:60px">🗺️</div><h3 style="font-size:24px;margin:0 0 6px">Pase del mapa de la tribu</h3>
+      <p style="margin:0 0 6px">Para <b>${esc(d.label)}</b>: ves en el mapa a tus compañeros 🧍, <b>todos tus dinos tameados</b> 🦖 con nombre y nivel, y <b>dónde quedaron tus bolsas de muerte</b> 💀.</p>
+      <p class="small mut" style="margin:0 0 12px">Lo compra cualquier miembro y sirve para toda la tribu. Gratis 30 días con la donación de 10.000 AC.</p>
+      <div style="font:700 34px Oswald;color:var(--acc)">${d.price.toLocaleString('es-AR')} AC <span class="small mut" style="font:400 14px Inter,sans-serif">por ${d.days} días</span></div>
+      <button class="btn" style="margin-top:8px" onclick="buyTribeMap()">Comprar pase</button></div>`;
+    return;
+  }
+  if (!tmapSel || !d.maps.some(m => m.id === tmapSel)) tmapSel = (d.maps.find(m => m.players.length || m.dinos.length) || d.maps[0])?.id;
+  const m = d.maps.find(x => x.id === tmapSel);
+  const mins = m ? Math.round((Date.now() - m.savedAt) / 60000) : 0;
+  const pin = (x, cls, html, tip) => `<div class="tmk ${cls}" style="left:${x.lon}%;top:${x.lat}%" data-tip="${esc(tip)}">${html}</div>`;
+  let pins = '';
+  if (m) {
+    if (tmapShow.dino) pins += m.dinos.map(x => pin(x, 'dino', '', `🦖 ${x.name ? x.name + ' (' + x.species + ')' : x.species} · nv ${x.level} · ${x.sex} · ${x.lat}, ${x.lon}`)).join('');
+    if (tmapShow.dead) pins += m.deaths.map(x => pin(x, 'dead', '💀', `💀 Bolsa de ${x.owner} · ${x.items} cosas · ${x.lat}, ${x.lon}`)).join('');
+    if (tmapShow.me) pins += m.players.map(x => pin(x, 'me' + (x.sleeping ? ' zz' : ''), '🧍', `🧍 ${x.name}${x.sleeping ? ' (desconectado)' : ''} · ${x.lat}, ${x.lon}`)).join('');
+  }
+  const list = m ? [...m.players.map(x => ['🧍', x.name + (x.sleeping ? ' (desconectado)' : ''), x]), ...m.deaths.map(x => ['💀', 'Bolsa de ' + x.owner + ' (' + x.items + ' cosas)', x]),
+    ...m.dinos.sort((a, b) => b.level - a.level).map(x => ['🦖', (x.name || x.species) + ' nv ' + x.level, x])] : [];
+  $('tmapBox').innerHTML = `<div class="tmap-bar">${d.maps.map(x => `<button class="${x.id === tmapSel ? 'on' : ''}" onclick="tmapSel='${x.id}';renderTribeMap()">${esc(x.name)} <span class="small">(${x.dinos.length} 🦖)</span></button>`).join('')}
+      <span class="small mut" style="margin-left:auto">Pase de <b>${esc(d.label)}</b> hasta el ${new Date(d.pass.until).toLocaleDateString('es-AR')}</span></div>
+    <div class="tmap-bar"><label><input type="checkbox" ${tmapShow.me ? 'checked' : ''} onchange="tmapShow.me=this.checked;renderTribeMap()">🧍 Compañeros (${m ? m.players.length : 0})</label>
+      <label><input type="checkbox" ${tmapShow.dino ? 'checked' : ''} onchange="tmapShow.dino=this.checked;renderTribeMap()">🦖 Dinos (${m ? m.dinos.length : 0})</label>
+      <label><input type="checkbox" ${tmapShow.dead ? 'checked' : ''} onchange="tmapShow.dead=this.checked;renderTribeMap()">💀 Bolsas de muerte (${m ? m.deaths.length : 0})</label>
+      <span class="small mut">Guardado hace ${mins} min</span></div>
+    <div class="tmap-wrap" id="tmapWrap">${m && m.img ? `<img class="base" src="https://ark.wiki.gg/images/${m.img}" alt="">` : '<div style="padding:120px 0;text-align:center" class="mut">Sin imagen de este mapa</div>'}${pins}<div class="tmap-tip" id="tmapTip"></div></div>
+    <div class="tmap-list">${list.map(([i, t, x]) => `<div onclick="tmapFlash(${x.lat},${x.lon})">${i} ${esc(t)} <span class="mut small">${x.lat}, ${x.lon}</span></div>`).join('') || '<p class="mut">No hay nada tuyo en este mapa.</p>'}</div>`;
+  const wrap = $('tmapWrap'), tip = $('tmapTip');
+  wrap.querySelectorAll('.tmk').forEach(el => {
+    el.addEventListener('mouseenter', () => { tip.textContent = el.dataset.tip; tip.style.display = 'block'; tip.style.left = Math.min(el.offsetLeft + 10, wrap.clientWidth - 260) + 'px'; tip.style.top = (el.offsetTop + 12) + 'px'; });
+    el.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
+    el.addEventListener('click', () => alert(el.dataset.tip));
+  });
+}
+function tmapFlash(lat, lon) {
+  const wrap = $('tmapWrap'); if (!wrap) return;
+  const f = document.createElement('div'); f.className = 'tmk'; f.style.cssText = `left:${lon}%;top:${lat}%;width:46px;height:46px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 18px #fff`;
+  wrap.appendChild(f); wrap.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => f.remove(), 2500);
 }
 // ---------- tienda de la tribu ----------
 let tshopKind = 'arma';
@@ -939,7 +1014,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610141233';
+const WEB_VERSION = '202610141349';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
