@@ -788,7 +788,7 @@ async function shopBuy(cmd) {
 }
 // ---------- centro de tiendas ----------
 const ITEM_ICON = { T1: 'Tranq_Arrow', T2: 'Tranquilizer_Dart', T3: 'Narcotic', T4: 'Stimulant', T5: 'Bola', T6: 'Metal_Ingot', T7: 'Polymer', T8: 'Cementing_Paste',
-  T9: 'Black_Pearl', T10: 'Silica_Pearls', T11: 'Cryopod', T13: 'Raw_Prime_Meat', T14: 'Wyvern_Milk', T15: 'Rex', T16: 'Rex' };
+  T9: 'Black_Pearl', T10: 'Silica_Pearls', T11: 'Cryopod', T13: 'Raw_Prime_Meat', T14: 'Wyvern_Milk', T15: 'Rex', T16: 'Rex', T17: 'GPS', T18: 'Transponder_Tracker', T19: 'Transponder_Node' };
 const DINO_ICON = { rex: 'Rex', raptor: 'Raptor', trike: 'Trike', stego: 'Stegosaurus', anquilo: 'Ankylosaurus', argentavis: 'Argentavis', ptera: 'Pteranodon',
   quetzal: 'Quetzal', spino: 'Spino', mamut: 'Mammoth', doedi: 'Doedicurus', sable: 'Sabertooth', lobo: 'Direwolf', thyla: 'Thylacoleo', megalodon: 'Megalodon',
   mosa: 'Mosasaurus', para: 'Parasaur', carno: 'Carnotaurus', alo: 'Allosaurus', theri: 'Therizinosaur', bary: 'Baryonyx', tapejara: 'Tapejara', castor: 'Castoroides_Saddle',
@@ -939,7 +939,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610141033';
+const WEB_VERSION = '202610141233';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
