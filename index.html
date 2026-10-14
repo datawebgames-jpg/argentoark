@@ -84,6 +84,17 @@ nav a.on{background:var(--acc);color:#1b1200;font-weight:600}
 .qrbox{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.qrbox img{width:150px;height:150px;border-radius:10px;background:#fff;padding:6px}
 footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid var(--line);background:rgba(8,10,9,.95)}
 @media(max-width:600px){section{padding:40px 0}.hero{min-height:70vh}.filters{top:48px}}
+.tshop-tabs{display:flex;gap:6px;margin:10px 0 12px;flex-wrap:wrap}
+.tshop-tabs button{padding:8px 14px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:inherit;cursor:pointer;font-weight:600}
+.tshop-tabs button.on{background:linear-gradient(135deg,#f39c12,#e67e22);color:#1a1206;border-color:transparent}
+.tshop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.tshop-item{position:relative;background:radial-gradient(circle at 50% 30%,rgba(243,156,18,.18),rgba(255,255,255,.03) 70%);border:1px solid rgba(243,156,18,.35);border-radius:14px;padding:12px 10px;text-align:center;transition:transform .15s,box-shadow .15s}
+.tshop-item:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(243,156,18,.25)}
+.tshop-item img{width:84px;height:84px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.6));margin-bottom:6px}
+.tshop-item .nm{font-weight:700;font-size:14px;min-height:36px;display:flex;align-items:center;justify-content:center}
+.tshop-item .pr{font:700 18px Oswald,sans-serif;color:var(--acc);margin:4px 0 8px}
+.tshop-item .q{position:absolute;top:8px;right:8px;font-size:10px;padding:2px 6px;border-radius:8px;background:rgba(46,204,113,.18);color:#5fe39a;font-weight:700}
+.tshop-item button{width:100%;padding:7px;border-radius:8px;border:0;background:#2ecc71;color:#08130c;font-weight:800;cursor:pointer}
 </style>
 </head>
 <body>
@@ -265,6 +276,15 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
   <div class="card" style="margin-bottom:14px"><h3 style="font-size:20px;margin-bottom:6px">🏆 Puntos de tribu (ACT)</h3>
     <p class="small" style="margin:0 0 6px">Todos los miembros juntan puntos para la tribu: <b>1 ACT por minuto</b> por cada miembro conectado, <b>10 ACT + 1 cada 10 niveles</b> por tameo, <b>50 ACT</b> por asesinato legal en PvP y <b>200 ACT</b> por cumplir la gran misión.</p>
     <p class="small" style="margin:0">Con los ACT el <b>fundador</b> compra <b>planos TOP de armas</b> (calidad máxima): a elección <b>2500 ACT</b>, al azar <b>1500 ACT</b>. En el juego: <code>/tribu</code>, <code>/tribu tienda</code>, <code>/tribu comprar rifle</code>, <code>/tribus</code> (ranking).</p></div>
+  <div class="card" style="margin-bottom:14px;border:1px solid rgba(243,156,18,.5);background:linear-gradient(160deg,rgba(243,156,18,.10),rgba(0,0,0,0) 60%)">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap">
+      <div><h3 style="font-size:26px;margin:0">🏹 Tienda de la tribu</h3>
+        <p class="small mut" style="margin:4px 0 0">Armas y monturas <b>ya fabricadas</b>, de calidad <b style="color:#5fe39a">Oficial a Maestro</b> (mejores que las comunes). Se pagan con los <b>ACT</b> de la tribu y llegan al inventario del <b>fundador</b> (tiene que estar conectado al juego).</p></div>
+      <div id="tshopAct" class="small" style="text-align:right"></div>
+    </div>
+    <div class="tshop-tabs"><button class="on" data-k="arma" onclick="tshopTab('arma')">🔫 Armas</button><button data-k="montura" onclick="tshopTab('montura')">🦖 Monturas</button><button data-k="planos" onclick="tshopTab('planos')">📜 Planos TOP</button></div>
+    <div class="tshop-grid" id="tshopGrid"></div>
+  </div>
   <div class="grid" id="tribeGrid"></div>
 </div></section>
 
@@ -477,7 +497,7 @@ async function live() {
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
   $('ipCards').innerHTML = d.ip ? d.maps.map(m => `<div style="background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:10px"><b>${esc(m.name)}</b>${m.rotating ? ' <span class="tag">rotativo</span>' : ''}<div class="small" style="margin-top:4px">Consola: <code>open ${esc(d.ip)}:${m.port}</code> <button class="b2" style="font-size:11px;padding:1px 6px" onclick="navigator.clipboard?.writeText('open ${esc(d.ip)}:${m.port}');this.textContent='Copiado!'">Copiar</button></div><div class="small mut">Favoritos de Steam: <code>${esc(d.ip)}:${m.queryPort}</code></div></div>`).join('') : '<span class="mut">Pedila en el Discord</span>';
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
-  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderVoteSites(); renderDonations(); renderAccButtons(); renderEvents(); renderRep(); renderMarked();
+  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderVoteSites(); renderDonations(); renderTribeShop(); renderAccButtons(); renderEvents(); renderRep(); renderMarked();
 }
 let lastData = null, rankKey = 'level';
 const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins', likes: 'likes' };
@@ -587,7 +607,7 @@ async function loadMe() {
       r.online ? '<span style="color:var(--ok)">● Jugando en ' + esc(r.online) + '</span>' : '<span class="mut">Desconectado del juego</span>',
       r.prizes ? '<b style="color:var(--acc)">🏆 ' + r.prizes + ' premio(s) para reclamar</b>' : ''].filter(Boolean).join(' · ');
     $('accBal').textContent = r.balance + ' AC';
-    renderAccButtons(); renderMarket(); renderTickets(); renderRef(); renderNotices();
+    renderAccButtons(); renderMarket(); renderTickets(); renderRef(); renderNotices(); renderTribeShop();
   } catch { }
 }
 function renderAccButtons() {
@@ -705,6 +725,29 @@ async function shopBuy(cmd) {
     loadMe();
   } catch { alert('No se pudo conectar con el server. Probá en un rato.'); }
 }
+// ---------- tienda de la tribu ----------
+let tshopKind = 'arma';
+function tshopTab(k) { tshopKind = k; document.querySelectorAll('.tshop-tabs button').forEach(b => b.classList.toggle('on', b.dataset.k === k)); renderTribeShop(); }
+const wikiIcon = n => 'https://ark.wiki.gg/images/thumb/' + n + '.png/96px-' + n + '.png';
+function renderTribeShop() {
+  const L = lastData?.tribeLadder; if (!L || !$('tshopGrid')) return;
+  // ACT de la tribu del jugador conectado
+  const myTribe = me?.tribe ? (lastData.tribes || []).find(t => t.name === me.tribe) : null;
+  $('tshopAct').innerHTML = myTribe ? `Tu tribu <b>${esc(myTribe.name)}</b><br><span style="font:700 26px Oswald;color:var(--acc)">${(myTribe.act || 0).toLocaleString('es-AR')} ACT</span>` : '<span class="mut">Vinculá tu cuenta para ver los ACT de tu tribu</span>';
+  if (tshopKind === 'planos') {
+    $('tshopGrid').innerHTML = L.weapons.map(w => `<div class="tshop-item"><span class="q" style="background:rgba(231,76,60,.2);color:#ff8a7a">TOP</span>
+      <img src="${wikiIcon(({rifle:'Assault_Rifle',franco:'Fabricated_Sniper_Rifle',longneck:'Longneck_Rifle',escopeta:'Pump-Action_Shotgun',pistola:'Fabricated_Pistol',ballesta:'Crossbow',arco:'Compound_Bow',espada:'Sword',pica:'Pike'})[w.code])}" alt="" loading="lazy">
+      <div class="nm">Plano TOP: ${esc(w.name)}</div><div class="pr">${L.priceTop.toLocaleString('es-AR')} ACT</div>
+      <button onclick="shopBuy('tribu comprar ${w.code}')">Comprar</button></div>`).join('')
+      + `<div class="tshop-item"><span class="q" style="background:rgba(231,76,60,.2);color:#ff8a7a">TOP</span><div style="font-size:64px;line-height:84px">🎲</div>
+      <div class="nm">Plano TOP al azar</div><div class="pr">${L.priceRandom.toLocaleString('es-AR')} ACT</div><button onclick="shopBuy('tribu comprar azar')">Comprar</button></div>`;
+    return;
+  }
+  $('tshopGrid').innerHTML = (L.gear || []).filter(x => x.kind === tshopKind).map(x => `<div class="tshop-item"><span class="q">MEJORADA</span>
+    <img src="${wikiIcon(x.icon)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+    <div class="nm">${esc(x.name)}</div><div class="pr">${L.priceGear} ACT</div>
+    <button onclick="shopBuy('tribu item ${x.code}')">Comprar</button></div>`).join('');
+}
 function renderShop() {
   const sh = lastData?.shop || [];
   $('shopGrid').innerHTML = sh.map(i => `<div style="background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:10px">
@@ -783,7 +826,7 @@ if (REF_IN && !location.hash) location.hash = '#cuenta';
 renderRef();
 loadMe(); setInterval(loadMe, 60000);
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610140841';
+const WEB_VERSION = '202610140950';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
