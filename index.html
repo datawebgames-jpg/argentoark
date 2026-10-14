@@ -115,6 +115,15 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .rank-list .rk .pos{font:700 26px Oswald,sans-serif;width:44px;text-align:center}
 .rank-list .rk .act{margin-left:auto;font:700 22px Oswald,sans-serif;color:var(--acc)}
 .tshop-item .sx{display:flex;gap:4px;margin-top:4px}.tshop-item .sx button{padding:5px 2px;font-size:12px}
+.dino{display:flex;flex-direction:column;gap:6px;overflow:hidden;padding:0!important}
+.dino .dhead{display:flex;align-items:center;gap:12px;padding:12px 14px;background:radial-gradient(circle at 15% 50%,rgba(243,156,18,.22),rgba(255,255,255,.02) 65%)}
+.dino .dhead img{width:76px;height:76px;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.7));flex:none}
+.dino .dhead h3{margin:0;font-size:21px}
+.dino .dbody{padding:0 14px 12px;display:flex;flex-direction:column;gap:7px}
+.dino .row{font-size:13.5px;line-height:1.4}.dino .row b{color:var(--acc)}
+.dino ol{margin:4px 0 0;padding-left:20px;font-size:13.5px}
+.dino .wiki{font-size:12.5px}
+.dtip{text-align:center}.dtip .di{font-size:34px}.dtip p{margin:4px 0 0}
 </style>
 </head>
 <body>
@@ -416,8 +425,14 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 </div></section>
 
 <section id="dinos" data-tab="dinos"><div class="wrap">
-  <h2>Guía de tameo</h2>
-  <p class="sub">Todas las criaturas tameables de los mapas del cluster. En el server el tameo es x5: tarda la quinta parte.</p>
+  <h2>Guía de dinos</h2>
+  <p class="sub">Todas las criaturas que se pueden tamear en ArgentoPro: dónde están, qué comen y cómo tamearlas. En el server el tameo es <b>x5</b> (tarda la quinta parte) y el finde <b>x10</b>.</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr));margin-bottom:16px">
+    <div class="card dtip"><div class="di">💤</div><b>Noqueo</b><p class="small mut">Lo dormís con flechas o dardos tranquilizantes y le das de comer mientras duerme.</p></div>
+    <div class="card dtip"><div class="di">🤝</div><b>Pasivo</b><p class="small mut">Le das de comer en la mano, de a poco, sin que se asuste ni lo ataquen.</p></div>
+    <div class="card dtip"><div class="di">⭐</div><b>Especial</b><p class="small mut">Cada uno tiene su truco: abrí la tarjeta y mirá los pasos.</p></div>
+    <div class="card dtip"><div class="di">🥚</div><b>Huevo</b><p class="small mut">Se roba un huevo del nido y se incuba: nace tuyo.</p></div>
+  </div>
   <div class="card" style="margin-bottom:16px">
     <h3 style="font-size:18px;margin-bottom:8px">Kibble: de menor a mayor</h3>
     <div class="kib" id="kibbleList"></div>
@@ -924,7 +939,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610141028';
+const WEB_VERSION = '202610141031';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
@@ -935,6 +950,9 @@ $('linkCode').addEventListener('keydown', e => { if (e.key === 'Enter') doLink()
 $('kibbleList').innerHTML = KIBBLE.map(x => `<div style="border-color:${x.color}"><b>${x.k}</b><div class="small mut">${DINOS.filter(d => d.k === x.k).length} criaturas</div></div>`).join('');
 $('fk').innerHTML += KIBBLE.map(x => `<option>${x.k}</option>`).join('') + '<option value="-">Sin kibble</option>';
 
+const DHAB = {"Dilophosaur":"Selvas y pantanos.","Dodo":"Playas y llanuras, casi en todos lados.","Kairuku":"Costas frías y zonas nevadas.","Mesopithecus":"Selvas y bosques.","Parasaur":"Playas y llanuras.","Phiomia":"Llanuras y bosques.","Archaeopteryx":"Copas de los bosques de secuoyas.","Diplocaulus":"Pantanos, lagos y cuevas con agua.","Gallimimus":"Llanuras abiertas, en manada.","Giant Bee":"Colmenas en acantilados y bosques de secuoyas.","Ichthyosaurus":"Mar, cerca de la costa.","Iguanodon":"Llanuras y bosques.","Megaloceros":"Bosques y praderas.","Morellatops":"Desiertos y zonas áridas.","Pachy":"Llanuras y bosques.","Raptor":"Llanuras, playas y bosques, en grupos.","Triceratops":"Llanuras y costas.","Anglerfish":"Aguas profundas y oscuras.","Ankylosaurus":"Montañas y zonas rocosas.","Baryonyx":"Ríos, lagos y costas.","Beelzebufo":"Pantanos.","Carbonemys":"Lagos, ríos y costas.","Carnotaurus":"Llanuras y montañas.","Dimetrodon":"Pantanos.","Diplodocus":"Llanuras y playas.","Doedicurus":"Montañas y zonas rocosas.","Equus":"Llanuras y praderas, más en zonas frías.","Gigantopithecus":"Bosques de secuoyas y zonas nevadas.","Ichthyornis":"Costas y acantilados del mar.","Kaprosuchus":"Pantanos.","Kentrosaurus":"Pantanos y selvas.","Lymantria":"Desiertos y zonas áridas.","Pelagornis":"Costas y lagos.","Pteranodon":"Costas y acantilados.","Purlovia":"Zonas nevadas, escondido bajo tierra.","Sabertooth":"Montañas y zonas nevadas.","Sarco":"Ríos y pantanos.","Pulmonoscorpius":"Cuevas y desiertos.","Stegosaurus":"Llanuras y bosques.","Terror Bird":"Llanuras y bosques.","Thorny Dragon":"Desiertos.","Velonasaur":"Zonas áridas y montañas.","Allosaurus":"Bosques y montañas, en manada.","Argentavis":"Montañas y picos altos.","Castoroides":"Junto a lagos y ríos, cerca de sus diques.","Daeodon":"Bosques y zonas nevadas.","Dire Bear":"Bosques nevados y de secuoyas.","Direwolf":"Zonas nevadas, en manada.","Dunkleosteus":"Mar profundo.","Mammoth":"Zonas nevadas.","Megalodon":"Mar abierto.","Megalosaurus":"Cuevas y bosques (de día duerme).","Megatherium":"Bosques de secuoyas y zonas nevadas.","Paraceratherium":"Llanuras y costas.","Plesiosaur":"Mar abierto.","Snow Owl":"Zonas nevadas.","Tapejara":"Acantilados y montañas.","Woolly Rhino":"Zonas nevadas.","Xiphactinus":"Mar y ríos.","Amargasaurus":"Llanuras y selvas.","Basilosaurus":"Mar abierto.","Brontosaurus":"Llanuras, costas y bosques.","Dinopithecus":"Selvas.","Giganotosaurus":"Volcán y montañas (no aparece en todos los mapas).","Mosasaurus":"Mar profundo.","Quetzal":"Sobrevuela llanuras y montañas.","Rex":"Selvas, montañas y bosques del centro del mapa.","Therizinosaur":"Bosques y selvas.","Spino":"Ríos, pantanos y costas.","Griffin":"Montañas altas.","Megalania":"Cuevas.","Rock Elemental":"Zonas volcánicas y desiertos.","Thylacoleo":"Bosques de secuoyas, colgado de los árboles.","Yutyrannus":"Zonas nevadas.","Compy":"Selvas y bosques, en grupo.","Microraptor":"Bosques de secuoyas.","Procoptodon":"Llanuras y bosques.","Ovis":"Montañas y praderas.","Tusoteuthis":"Mar profundo.","Electrophorus":"Ríos y lagos.","Lystrosaurus":"Bosques y llanuras.","Moschops":"Desiertos y llanuras.","Onyc":"Cuevas.","Arthropluera":"Cuevas.","Araneo":"Cuevas.","Dung Beetle":"Cuevas.","Chalicotherium":"Zonas nevadas y montañas.","Manta":"Mar.","Mantis":"Desiertos.","Vulture":"Desiertos y montañas.","Pegomastax":"Bosques y llanuras.","Hyaenodon":"Llanuras y bosques.","Liopleurodon":"Mar abierto (raro, aparece por poco tiempo).","Titanoboa":"Cuevas.","Otter":"Ríos y lagos.","Hesperornis":"Lagos y ríos.","Wyvern":"Trincheras de wyverns: se roba un huevo y se cría.","Ice Wyvern":"Zonas heladas: se roba un huevo y se cría.","Rock Drake":"Nidos en Aberration: se roba un huevo y se cría.","Deinonychus":"Nidos en acantilados: se roba un huevo y se cría.","Andrewsarchus":"Montañas y cuevas.","Fjordhawk":"Fjordur.","Fenrir":"Fjordur.","Desmodus":"Cuevas.","Sinomacrops":"Bosques."};
+const DICON = {"Triceratops":"Trike","Pulmonoscorpius":"Scorpion","Castoroides":"Giant_Beaver","Woolly Rhino":"Woolly_Rhinoceros","Araneo":"Spider"};
+const dinoImg = d => { const n = DICON[d.n] || d.n.replace(/ /g, '_'); return 'https://ark.wiki.gg/images/thumb/' + n + '.png/96px-' + n + '.png'; };
 function comida(d) {
   const alt = { 'Carnívoro': 'Carne de cordero cruda > Carne prime cruda > Carne cruda',
     'Herbívoro': 'Verduras (Rockarrot, Longrass, Savoroot, Citronal) > Mejobayas',
@@ -954,12 +972,16 @@ function render() {
     && (!fm || d.m === fm) && (!ft || d.t === ft) && (!fk || (fk === '-' ? !d.k : d.k === fk)));
   $('count').textContent = `${list.length} de ${DINOS.length} criaturas`;
   $('dinoGrid').innerHTML = list.map(d => `<div class="card dino">
-    <h3>${esc(d.n)}</h3>
-    <div class="badges"><span class="b">${d.t}</span><span class="b">${d.d}</span><span class="b">${d.m}</span>
-      ${d.k ? `<span class="b k" style="background:${KCOLOR[d.k]}">Kibble ${d.k}</span>` : ''}${d.mapa ? `<span class="b" style="color:var(--acc)">Solo en ${esc(d.mapa)}</span>` : ''}</div>
-    <div class="mut small">${esc(d.r)}</div>
-    <div class="food">🍖 ${comida(d)}</div>
-    <details><summary>Cómo tamearlo</summary><ol>${pasos(d).map(p => `<li>${esc(p)}</li>`).join('')}</ol></details>
+    <div class="dhead"><img src="${dinoImg(d)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><div><h3>${esc(d.n)}</h3>
+      <div class="badges"><span class="b">${d.t}</span><span class="b">${d.d}</span><span class="b">${d.m}</span>
+      ${d.k ? `<span class="b k" style="background:${KCOLOR[d.k]}">Kibble ${d.k}</span>` : ''}${d.mapa ? `<span class="b" style="color:var(--acc)">Solo en ${esc(d.mapa)}</span>` : ''}</div></div></div>
+    <div class="dbody">
+      <div class="row">✨ ${esc(d.r)}</div>
+      <div class="row">📍 <b>Dónde está:</b> ${esc(DHAB[d.n] || 'Varios biomas del mapa.')}</div>
+      <div class="row">🍖 <b>Qué come:</b> ${comida(d)}</div>
+      <div class="row">🪤 <b>Cómo tamearlo:</b><ol>${pasos(d).map(p => `<li>${esc(p)}</li>`).join('')}</ol></div>
+      <a class="wiki" href="https://ark.wiki.gg/wiki/${encodeURIComponent(d.n.replace(/ /g, '_'))}" target="_blank" rel="noopener">🗺️ Ver mapa de dónde aparece (wiki)</a>
+    </div>
   </div>`).join('') || '<p class="mut">No hay criaturas con ese filtro.</p>';
 }
 ['q', 'fm', 'ft', 'fk'].forEach(id => $(id).addEventListener('input', render));
