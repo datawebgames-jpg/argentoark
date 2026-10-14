@@ -99,6 +99,22 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .tnav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px;position:sticky;top:52px;z-index:5;padding:8px 0;background:linear-gradient(rgba(10,10,10,.92),rgba(10,10,10,.6))}
 .tnav a{padding:7px 12px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.05);font-size:14px;font-weight:600;text-decoration:none;color:inherit}
 .tnav a:hover{border-color:var(--acc);color:var(--acc)}
+.hub{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:6px 0 18px}
+.hub-tile{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 8px;border-radius:16px;border:1px solid rgba(243,156,18,.35);background:radial-gradient(circle at 50% 25%,rgba(243,156,18,.20),rgba(255,255,255,.03) 70%);color:inherit;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s}
+.hub-tile:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(243,156,18,.25)}
+.hub-tile.on{border-color:#f39c12;box-shadow:0 0 0 2px #f39c12 inset,0 8px 22px rgba(243,156,18,.3)}
+.hub-tile img{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.6))}
+.hub-emoji{font-size:50px;line-height:64px}
+.hub-tile b{font-size:15px}.hub-tile span{font-size:12px;opacity:.75}
+.tpanel{display:none}.tpanel.on{display:block}
+.need-link{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:16px 18px;margin:0 0 16px;border-radius:14px;border:2px solid #e74c3c;background:linear-gradient(135deg,rgba(231,76,60,.25),rgba(243,156,18,.12))}
+.need-link .nl-ico{font-size:40px}.need-link>div:nth-child(2){flex:1;min-width:220px}
+.lm-back{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;align-items:center;justify-content:center;padding:16px}
+.lm-box{background:#151515;border:2px solid #f39c12;border-radius:18px;padding:22px;max-width:520px;width:100%;text-align:center}
+.rank-list .rk{display:flex;align-items:center;gap:12px;padding:10px 14px;margin-bottom:8px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.rank-list .rk .pos{font:700 26px Oswald,sans-serif;width:44px;text-align:center}
+.rank-list .rk .act{margin-left:auto;font:700 22px Oswald,sans-serif;color:var(--acc)}
+.tshop-item .sx{display:flex;gap:4px;margin-top:4px}.tshop-item .sx button{padding:5px 2px;font-size:12px}
 </style>
 </head>
 <body>
@@ -277,48 +293,37 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 
 <section id="mercado" data-tab="mercado"><div class="wrap">
   <h2>Tienda</h2>
-  <p class="sub">Todo lo que se puede comprar en ArgentoPro. Mirá todo lo que hay; <b>para comprar, vinculá tu cuenta</b>.</p>
-  <div id="tiendaLogin" class="card" style="margin-bottom:14px;border-color:#2ecc71;background:rgba(46,204,113,.08)">
-    <b>🔗 Vinculá tu cuenta para comprar</b> <span class="small">— en el juego escribí <code>/vincular</code> y poné el código en <a href="#cuenta">Mi cuenta</a>. Es una sola vez.</span></div>
-  <div class="tnav"><a href="#t-ac">💝 ArgenCoins</a><a href="#t-oficial">🛒 Tienda oficial</a><a href="#t-dinos">🐎 Monturas y dinos</a><a href="#t-tribu">🏹 Tienda de la tribu</a><a href="#t-mercado">🤝 Mercado de jugadores</a></div>
-
-  <h3 id="t-ac" class="tsec">💝 Comprá ArgenCoins</h3>
-  <p class="sub" style="margin:-4px 0 12px">Bancá al server y recibí AC en tu personaje para gastar en toda la tienda.</p>
-    <div class="card" style="margin-bottom:14px;border-color:#e0569b">
-      <h3 style="font-size:20px;margin-bottom:6px">💝 Donar al server</h3>
-      <p class="small" style="margin:0 0 8px">Bancá al server y recibí ArgenCoins en tu personaje. Transferí al alias <b id="donAlias" style="color:var(--acc);font-size:16px">danielmfaggi</b> <button class="b2" style="font-size:12px;padding:2px 8px" onclick="navigator.clipboard?.writeText($('donAlias').textContent);this.textContent='Copiado!'">Copiar</button> y avisanos acá. Cuando el admin confirme que llegó, te acreditamos las AC y te avisamos.</p>
-      <div id="donPacks" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-bottom:8px"></div>
-      <input class="inp" id="donNote" placeholder="Nombre del titular o número de operación (para encontrar tu transferencia)" style="width:100%;margin-bottom:6px">
-      <div class="acts"><button id="donBtn" onclick="sendDonation()" disabled>Ya transferí, avisar al admin</button></div>
-      <div id="donMsg" class="small" style="margin-top:6px"></div>
-    </div>
-
-
-  <h3 id="t-oficial" class="tsec">🛒 Tienda oficial</h3>
-  <p class="sub" style="margin:-4px 0 12px">Pagás con AC y el item llega solo a tu inventario.</p>
-  <div class="card" style="margin-bottom:14px">
-    <h3 style="font-size:20px;margin-bottom:6px">🛒 Tienda oficial del server</h3>
-    <p class="small" style="margin:0 0 10px">Pagás con ArgenCoins y <b>el item llega solo a tu inventario</b>. Escribí <code>/tienda</code> en el juego y comprá con <code>/comprar T1</code>.</p>
-    <div class="grid" id="shopGrid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px"></div>
+  <p class="sub">Elegí qué querés ver. Todo se puede mirar; <b>para comprar o vender tenés que vincular tu cuenta</b>.</p>
+  <div id="tiendaLogin" class="need-link">
+    <div class="nl-ico">🔒</div>
+    <div><b>Para comprar tenés que vincular tu cuenta</b><br><span class="small">Es una sola vez y tarda 1 minuto: en el juego escribí <code>/vincular</code>, te llega un código de 6 letras y lo ponés en Mi cuenta.</span></div>
+    <a class="btn" href="#cuenta" style="white-space:nowrap">🔗 Vincular ahora</a>
   </div>
-
-  <h3 id="t-dinos" class="tsec">🐎 Monturas y dinos</h3>
-  <p class="sub" style="margin:-4px 0 12px">Monturas al instante y dinos nivel 1 en criopod.</p>
-  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr));margin-bottom:14px">
-    <div class="card">
-      <h3 style="font-size:20px;margin-bottom:6px">🐎 Monturas · <span id="saddlePrice" style="color:var(--acc)">250</span> AC cada una</h3>
-      <p class="small" style="margin:0 0 8px">Llegan solas a tu inventario. En el juego: <code>/comprar montura rex</code> (lista: <code>/monturas</code>). También desde Mi cuenta.</p>
-      <div id="saddleList" class="small mut" style="line-height:1.9"></div>
-    </div>
-    <div class="card">
-      <h3 style="font-size:20px;margin-bottom:6px">🦖 Dinos nivel 1 · <span id="dinoPrice" style="color:var(--acc)">1000</span> AC</h3>
-      <p class="small" style="margin:0 0 8px" id="dinoHow2">Nivel 1 con stats al mínimo, ideales para criar. Se cobra al pedirlo y <b>un admin te lo entrega en el juego</b>; si se cancela te devolvemos las AC. En el juego: <code>/comprar dino raptor hembra</code> (lista: <code>/dinos</code>).</p>
-      <div id="dinoList" class="small mut" style="line-height:1.9"></div>
-    </div>
+  <div class="hub">
+    <button class="hub-tile" data-p="server" onclick="tshow('server')"><img src="https://ark.wiki.gg/images/thumb/Cryopod.png/96px-Cryopod.png" alt="" loading="lazy"><b>Tienda del server</b><span>Flechas, recursos, kits</span></button>
+    <button class="hub-tile" data-p="monturas" onclick="tshow('monturas')"><img src="https://ark.wiki.gg/images/thumb/Rex_Saddle.png/96px-Rex_Saddle.png" alt="" loading="lazy"><b>Monturas</b><span>250 AC cada una</span></button>
+    <button class="hub-tile" data-p="dinos" onclick="tshow('dinos')"><img src="https://ark.wiki.gg/images/thumb/Rex.png/96px-Rex.png" alt="" loading="lazy"><b>Dinos en criopod</b><span>Nivel 1, 1000 AC</span></button>
+    <button class="hub-tile" data-p="tribu" onclick="tshow('tribu')"><img src="https://ark.wiki.gg/images/thumb/Assault_Rifle.png/96px-Assault_Rifle.png" alt="" loading="lazy"><b>Tienda de la tribu</b><span>Con los ACT de tu tribu</span></button>
+    <button class="hub-tile" data-p="ranking" onclick="tshow('ranking')"><div class="hub-emoji">🏆</div><b>Ranking de tribus</b><span>Quién junta más ACT</span></button>
+    <button class="hub-tile" data-p="mercado" onclick="tshow('mercado')"><img src="https://ark.wiki.gg/images/thumb/Black_Pearl.png/96px-Black_Pearl.png" alt="" loading="lazy"><b>Mercado</b><span>Comprale a otros jugadores</span></button>
+    <button class="hub-tile" data-p="vender" onclick="tshow('vender')"><img src="https://ark.wiki.gg/images/thumb/Polymer.png/96px-Polymer.png" alt="" loading="lazy"><b>Vender</b><span>Lo que tenés en el juego</span></button>
+    <button class="hub-tile" data-p="personal" onclick="tshow('personal')"><img src="https://ark.wiki.gg/images/thumb/Dossier_Rex.png/96px-Dossier_Rex.png" alt="" loading="lazy"><b>Mi tienda</b><span>Saldo, ventas y avisos</span></button>
+    <button class="hub-tile" data-p="ac" onclick="tshow('ac')"><div class="hub-emoji">💝</div><b>Comprar AC</b><span>Bancá al server</span></button>
   </div>
-
-  <h3 id="t-tribu" class="tsec">🏹 Tienda de la tribu</h3>
-  <p class="sub" style="margin:-4px 0 12px">Se paga con los ACT que junta toda la tribu.</p>
+  <div class="tpanel" data-p="server">
+    <h3 class="tsec">🛒 Tienda del server</h3><p class="sub" style="margin:-4px 0 12px">Pagás con ArgenCoins y el item llega solo a tu inventario (tenés que estar conectado al juego).</p>
+    <div class="tshop-grid" id="shopGrid"></div>
+  </div>
+  <div class="tpanel" data-p="monturas">
+    <h3 class="tsec">🐎 Monturas · <span id="saddlePrice">250</span> AC</h3><p class="sub" style="margin:-4px 0 12px">Llegan solas a tu inventario. En el juego: <code>/comprar montura rex</code>.</p>
+    <div class="tshop-grid" id="saddleList"></div>
+  </div>
+  <div class="tpanel" data-p="dinos">
+    <h3 class="tsec">🦖 Dinos nivel 1 · <span id="dinoPrice">1000</span> AC</h3><p class="sub" style="margin:-4px 0 12px"><span id="dinoHow2">Nivel 1 con stats al mínimo, ideales para criar. Te llega una criopod al inventario.</span></p>
+    <div class="tshop-grid" id="dinoList"></div>
+  </div>
+  <div class="tpanel" data-p="tribu">
+    <h3 class="tsec">🏹 Tienda de la tribu</h3><p class="sub" style="margin:-4px 0 12px">Se paga con los ACT que junta toda la tribu.</p>
 
   <div class="card" style="margin-bottom:14px;border:1px solid rgba(243,156,18,.5);background:linear-gradient(160deg,rgba(243,156,18,.10),rgba(0,0,0,0) 60%)">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap">
@@ -329,16 +334,13 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
     <div class="tshop-tabs"><button class="on" data-k="arma" onclick="tshopTab('arma')">🔫 Armas</button><button data-k="montura" onclick="tshopTab('montura')">🦖 Monturas</button><button data-k="planos" onclick="tshopTab('planos')">📜 Planos TOP</button></div>
     <div class="tshop-grid" id="tshopGrid"></div>
   </div>
-
-  <h3 id="t-mercado" class="tsec">🤝 Mercado de jugadores</h3>
-  <p class="sub" style="margin:-4px 0 12px">Comprale o vendele a otros jugadores.</p>
-    <div class="card" style="margin-bottom:14px;border-color:var(--acc)">
-      <h3 style="font-size:20px;margin-bottom:6px" id="invCard">📦 Vendé lo que tenés en el juego</h3>
-      <p class="small" style="margin:0 0 8px">Te mostramos lo que tenés <b>encima en el juego</b> (dinos en criopod, armas, planos, monturas, recursos). Elegís qué vender, le ponés precio en AC y queda publicado. Cuando alguien lo compra te avisamos; se lo entregás en el juego y <b>apenas le llega al comprador, el server te acredita las AC solo</b>.</p>
-      <div class="acts"><button onclick="loadInv()">🔄 Ver mi inventario</button></div>
-      <div id="invMsg" class="small mut" style="margin-top:6px"></div>
-      <div id="invList" style="display:grid;gap:6px;margin-top:8px;max-height:420px;overflow:auto"></div>
-    </div>
+  </div>
+  <div class="tpanel" data-p="ranking">
+    <h3 class="tsec">🏆 Ranking de tribus</h3><p class="sub" style="margin:-4px 0 12px">Las tribus que más ACT juntaron. Todos los miembros suman jugando, tameando y en PvP legal.</p>
+    <div id="tribeRank" class="rank-list"></div>
+  </div>
+  <div class="tpanel" data-p="mercado">
+    <h3 class="tsec">🤝 Mercado de jugadores</h3><p class="sub" style="margin:-4px 0 12px">Comprale a otros jugadores. Las ventas con ✔ verificado las controla el server.</p>
   <h3 style="font-size:22px;margin:18px 0 10px">Mercado de jugadores</h3>
   <div class="filters" style="position:static"><select id="mcur"><option value="">Todas las monedas</option></select><input id="mq" placeholder="Buscar dino o vendedor..."></div>
   <div class="grid" id="saleGrid"></div>
@@ -357,7 +359,40 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
       <p class="mut small" style="margin:6px 0 0">Usalas para comprar dinos en el mercado o pagarle a otro jugador.</p></div>
   </div>
   </details>
+  </div>
+  <div class="tpanel" data-p="vender">
+    <h3 class="tsec">💰 Vender</h3><p class="sub" style="margin:-4px 0 12px">Publicá lo que tenés encima en el juego. Cuando le llega al comprador, el server te paga solo.</p>
+    <div class="card" style="margin-bottom:14px;border-color:var(--acc)">
+      <h3 style="font-size:20px;margin-bottom:6px" id="invCard">📦 Vendé lo que tenés en el juego</h3>
+      <p class="small" style="margin:0 0 8px">Te mostramos lo que tenés <b>encima en el juego</b> (dinos en criopod, armas, planos, monturas, recursos). Elegís qué vender, le ponés precio en AC y queda publicado. Cuando alguien lo compra te avisamos; se lo entregás en el juego y <b>apenas le llega al comprador, el server te acredita las AC solo</b>.</p>
+      <div class="acts"><button onclick="loadInv()">🔄 Ver mi inventario</button></div>
+      <div id="invMsg" class="small mut" style="margin-top:6px"></div>
+      <div id="invList" style="display:grid;gap:6px;margin-top:8px;max-height:420px;overflow:auto"></div>
+    </div>
+  </div>
+  <div class="tpanel" data-p="personal">
+    <h3 class="tsec">👤 Mi tienda</h3><p class="sub" style="margin:-4px 0 12px">Tu saldo, tus ventas y tus avisos.</p>
+    <div id="myShop"></div>
+  </div>
+  <div class="tpanel" data-p="ac">
+    <h3 class="tsec">💝 Comprar ArgenCoins</h3><p class="sub" style="margin:-4px 0 12px">Bancá al server y recibí AC en tu personaje.</p>
+    <div class="card" style="margin-bottom:14px;border-color:#e0569b">
+      <h3 style="font-size:20px;margin-bottom:6px">💝 Donar al server</h3>
+      <p class="small" style="margin:0 0 8px">Bancá al server y recibí ArgenCoins en tu personaje. Transferí al alias <b id="donAlias" style="color:var(--acc);font-size:16px">danielmfaggi</b> <button class="b2" style="font-size:12px;padding:2px 8px" onclick="navigator.clipboard?.writeText($('donAlias').textContent);this.textContent='Copiado!'">Copiar</button> y avisanos acá. Cuando el admin confirme que llegó, te acreditamos las AC y te avisamos.</p>
+      <div id="donPacks" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-bottom:8px"></div>
+      <input class="inp" id="donNote" placeholder="Nombre del titular o número de operación (para encontrar tu transferencia)" style="width:100%;margin-bottom:6px">
+      <div class="acts"><button id="donBtn" onclick="sendDonation()" disabled>Ya transferí, avisar al admin</button></div>
+      <div id="donMsg" class="small" style="margin-top:6px"></div>
+    </div>
+  </div>
 </div></section>
+<div id="linkModal" class="lm-back" onclick="if(event.target===this)this.style.display='none'"><div class="lm-box">
+  <div style="font-size:54px">🔒</div><h3 style="font-size:26px;margin:4px 0 8px">Tenés que vincular tu cuenta</h3>
+  <p style="margin:0 0 12px">Para comprar o vender en ArgentoPro necesitamos saber cuál es tu personaje. Es una sola vez:</p>
+  <ol class="steps" style="text-align:left;margin:0 auto 14px;max-width:420px"><li>Entrá al juego y escribí <code>/vincular</code> en el chat.</li><li>Te llega un código de 6 letras.</li><li>Ponelo en <b>Mi cuenta</b>.</li></ol>
+  <a class="btn" href="#cuenta" onclick="document.getElementById('linkModal').style.display='none'">🔗 Ir a vincular</a>
+  <button class="b2" style="margin-left:6px" onclick="document.getElementById('linkModal').style.display='none'">Ahora no</button>
+</div></div>
 
 <section data-tab="mapas"><div class="wrap">
   <h2>Rates</h2>
@@ -557,7 +592,7 @@ let invItems = [];
 function openInv() { location.hash = '#mercado'; setTimeout(() => { $('invCard')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); loadInv(); }, 300); }
 async function loadInv() {
   const token = getTok();
-  if (!token) { $('invMsg').innerHTML = 'Primero vinculá tu personaje en <a href="#cuenta">Mi cuenta</a> (escribí /vincular en el juego).'; return; }
+  if (!token) { needLink(); $('invMsg').innerHTML = 'Primero vinculá tu personaje en <a href="#cuenta">Mi cuenta</a> (escribí /vincular en el juego).'; return; }
   $('invMsg').textContent = 'Leyendo tu inventario...'; $('invList').innerHTML = '';
   try {
     const r = await post('inventory', { token });
@@ -591,7 +626,7 @@ function renderDonations() {
     <div class="small">USD ${p.usd} &nbsp;o&nbsp; <b>${p.ars.toLocaleString('es-AR')}</b> ARS</div></label>`).join('');
 }
 async function sendDonation() {
-  if (!getTok()) { alert('Primero vinculá tu cuenta en Mi cuenta (escribí /vincular en el juego).'); location.hash = '#cuenta'; return; }
+  if (needLink()) return;
   if (!donPick) return;
   const note = $('donNote').value.trim();
   if (note.length < 3) { $('donMsg').textContent = 'Poné el nombre del titular o el número de operación.'; return; }
@@ -601,7 +636,7 @@ async function sendDonation() {
     $('donBtn').disabled = true; donPick = null; renderDonations(); loadMe();
   } catch { $('donMsg').textContent = 'No se pudo enviar. Probá en un rato.'; }
 }
-function renderLoginHint() { const el = $('tiendaLogin'); if (el) el.style.display = getTok() && me ? 'none' : ''; }
+function renderLoginHint() { const el = $('tiendaLogin'); if (el) el.style.display = isLinked() ? 'none' : ''; if (tpanel === 'personal') renderMyShop(); }
 function renderNotices() {
   const n = me?.notices || [];
   $('noticeBox').innerHTML = n.length ? '<h3 style="font-size:17px;margin:0 0 6px">🔔 Avisos</h3>' + n.slice(0, 5).map(x => `<div class="small" style="padding:6px 8px;margin-bottom:4px;background:rgba(255,200,80,.08);border-left:3px solid var(--acc);border-radius:4px">${esc(x.text)} <span class="mut">· ${new Date(x.t).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' })}</span></div>`).join('') : '';
@@ -728,13 +763,56 @@ function renderVoteSites() {
 }
 // compra desde la Tienda (necesita la cuenta vinculada); la respuesta se muestra en un cartelito
 async function shopBuy(cmd) {
-  if (!getTok()) { alert('Primero vinculá tu personaje en Mi cuenta (escribí /vincular en el juego).'); location.hash = '#cuenta'; return; }
+  if (needLink()) return;
   if (!confirm('¿Confirmás? /' + cmd)) return;
   try {
     const r = await post('act', { token: getTok(), cmd });
     alert((r.replies || [r.error || 'Listo']).join('\n'));
     loadMe();
   } catch { alert('No se pudo conectar con el server. Probá en un rato.'); }
+}
+// ---------- centro de tiendas ----------
+const ITEM_ICON = { T1: 'Tranq_Arrow', T2: 'Tranquilizer_Dart', T3: 'Narcotic', T4: 'Stimulant', T5: 'Bola', T6: 'Metal_Ingot', T7: 'Polymer', T8: 'Cementing_Paste',
+  T9: 'Black_Pearl', T10: 'Silica_Pearls', T11: 'Cryopod', T13: 'Raw_Prime_Meat', T14: 'Wyvern_Milk', T15: 'Rex', T16: 'Rex' };
+const DINO_ICON = { rex: 'Rex', raptor: 'Raptor', trike: 'Trike', stego: 'Stegosaurus', anquilo: 'Ankylosaurus', argentavis: 'Argentavis', ptera: 'Pteranodon',
+  quetzal: 'Quetzal', spino: 'Spino', mamut: 'Mammoth', doedi: 'Doedicurus', sable: 'Sabertooth', lobo: 'Direwolf', thyla: 'Thylacoleo', megalodon: 'Megalodon',
+  mosa: 'Mosasaurus', para: 'Parasaur', carno: 'Carnotaurus', alo: 'Allosaurus', theri: 'Therizinosaur', bary: 'Baryonyx', tapejara: 'Tapejara', castor: 'Castoroides_Saddle',
+  oso: 'Dire_Bear', megatherium: 'Megatherium', bronto: 'Brontosaurus', paracer: 'Paraceratherium', yuty: 'Yutyrannus', daeodon: 'Daeodon', equus: 'Equus',
+  pela: 'Pelagornis', rino: 'Woolly_Rhinoceros', tortuga: 'Carbonemys' };
+const SADDLE_ICON = { raptor: 'Raptor', rex: 'Rex', trike: 'Trike', stego: 'Stego', anquilo: 'Ankylo', argentavis: 'Argentavis', ptera: 'Pteranodon', quetzal: 'Quetz',
+  spino: 'Spino', mamut: 'Mammoth', doedi: 'Doedicurus', sable: 'Sabertooth', thyla: 'Thylacoleo', megalodon: 'Megalodon', mosa: 'Mosasaur', para: 'Parasaur',
+  carno: 'Carno', alo: 'Allosaurus', theri: 'Therizinosaurus', bary: 'Baryonyx', tapejara: 'Tapejara', castor: 'Castoroides', oso: 'Dire_Bear', megatherium: 'Megatherium',
+  giga: 'Giganotosaurus', bronto: 'Bronto', pachy: 'Pachy', ictio: 'Ichthyosaurus', plesio: 'Plesiosaur', basilo: 'Basilosaurus', rino: 'Woolly_Rhino', kapro: 'Kaprosuchus',
+  sarco: 'Sarco', tortuga: 'Carbonemys', pela: 'Pelagornis', ciervo: 'Megaloceros', equus: 'Equus', daeodon: 'Daeodon', yuty: 'Yutyrannus', megalania: 'Megalania',
+  iguanodon: 'Iguanodon', terror: 'Terror_Bird', chali: 'Chalicotherium', canguro: 'Procoptodon', galli: 'Gallimimus' };
+const isLinked = () => !!(getTok() && me);
+function needLink() { if (isLinked()) return false; $('linkModal').style.display = 'flex'; return true; }
+let tpanel = 'server';
+function tshow(p) {
+  tpanel = p;
+  document.querySelectorAll('.tpanel').forEach(e => e.classList.toggle('on', e.dataset.p === p));
+  document.querySelectorAll('.hub-tile').forEach(e => e.classList.toggle('on', e.dataset.p === p));
+  if (p === 'vender' && isLinked() && !invItems.length) loadInv();
+  if (p === 'personal') renderMyShop();
+  if (p === 'ranking') renderTribeRank();
+}
+const card = (img, name, price, buyHtml, tag) => `<div class="tshop-item">${tag ? '<span class="q">' + tag + '</span>' : ''}<img src="${wikiIcon(img)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><div class="nm">${esc(name)}</div><div class="pr">${price}</div>${buyHtml}</div>`;
+function renderTribeRank() {
+  const r = lastData?.tribeLadder?.ranking || [];
+  $('tribeRank').innerHTML = r.length ? r.map((t, i) => `<div class="rk"><span class="pos" style="color:${['#f1c40f', '#bdc3c7', '#e67e22'][i] || 'inherit'}">${i < 3 ? ['🥇', '🥈', '🥉'][i] : i + 1}</span>
+    <div><b>${esc(t.name)}</b><div class="small mut">${t.members} miembro${t.members === 1 ? '' : 's'}${t.owner ? ' · fundador ' + esc(t.owner) : ''}</div></div>
+    <span class="act">${t.earned.toLocaleString('es-AR')} ACT</span></div>`).join('') : '<p class="mut">Todavía no hay tribus con puntos.</p>';
+}
+function renderMyShop() {
+  if (!$('myShop')) return;
+  if (!isLinked()) { $('myShop').innerHTML = '<div class="need-link"><div class="nl-ico">🔒</div><div><b>Vinculá tu cuenta para ver tu tienda</b></div><a class="btn" href="#cuenta">🔗 Vincular ahora</a></div>'; return; }
+  const ls = me.listings || [], n = me.notices || [];
+  $('myShop').innerHTML = `<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-bottom:12px">
+    <div class="card" style="text-align:center"><div class="small mut">Tu saldo</div><div style="font:700 34px Oswald;color:var(--acc)">${me.balance} AC</div></div>
+    <div class="card" style="text-align:center"><div class="small mut">Premios para reclamar</div><div style="font:700 34px Oswald">${me.prizes || 0}</div><button class="b2" onclick="act('premio')">🏆 Reclamar</button></div>
+    <div class="card" style="text-align:center"><div class="small mut">Tus ventas activas</div><div style="font:700 34px Oswald">${ls.length}</div><button class="b2" onclick="tshow('vender')">💰 Vender algo</button></div></div>
+    <div class="card" style="margin-bottom:12px"><h3 style="font-size:18px;margin-bottom:8px">Tus publicaciones</h3>${ls.length ? ls.map(l => `<div class="small" style="padding:6px 0;border-bottom:1px solid var(--line)">#${l.id} <b>${esc(l.dino)}</b> por ${l.qty} ${esc(l.currencyName)} · ${l.status === 'reservada' ? '<span style="color:var(--acc)">comprada por ' + esc(l.buyer || '') + ', esperando entrega</span>' : 'a la venta'} <button class="b2" style="font-size:11px;padding:2px 6px" onclick="act('cancelar ${l.id}')">Cancelar</button></div>`).join('') : '<p class="small mut" style="margin:0">No tenés nada publicado.</p>'}</div>
+    <div class="card"><h3 style="font-size:18px;margin-bottom:8px">🔔 Avisos</h3>${n.length ? n.slice(0, 8).map(x => `<div class="small" style="padding:5px 0;border-bottom:1px solid var(--line)">${esc(x.text)}</div>`).join('') : '<p class="small mut" style="margin:0">Sin avisos.</p>'}</div>`;
 }
 // ---------- tienda de la tribu ----------
 let tshopKind = 'arma';
@@ -761,15 +839,17 @@ function renderTribeShop() {
 }
 function renderShop() {
   const sh = lastData?.shop || [];
-  $('shopGrid').innerHTML = sh.map(i => `<div style="background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:10px">
-    <div class="small">${esc(i.name)}</div><div style="font:700 20px Oswald;color:var(--acc)">${i.price} AC</div><code>/comprar ${esc(i.code)}</code><button class="b2" style="margin-top:6px;width:100%" onclick="shopBuy('comprar ${esc(i.code)}')">Comprar</button></div>`).join('');
+  $('shopGrid').innerHTML = sh.map(i => card(ITEM_ICON[i.code] || 'Cryopod', i.name, i.price + ' AC', `<button onclick="shopBuy('comprar ${esc(i.code)}')">Comprar</button>`, i.code))
+    .join('') + card('Assault_Rifle', 'Kit de 5 planos de armas', '3000 AC', `<button onclick="shopBuy('comprar T12')">Comprar</button>`, 'T12');
   const x = lastData?.shopExtra;
   if (x) {
     $('saddlePrice').textContent = x.saddlePrice; $('dinoPrice').textContent = x.dinoPrice;
-    $('saddleList').innerHTML = x.saddles.map(s => `<button class="b2" style="margin:2px;font-size:12px;padding:4px 8px" onclick="shopBuy('comprar montura ${esc(s.code)}')">🐎 ${esc(s.name)}</button>`).join('');
-    if (x.cryo) $('dinoHow2').innerHTML = 'Nivel 1 con stats al mínimo, ideales para criar. <b>Te llega solo en una criopod al inventario</b>: lo pagás acá o con <code>/comprar dino raptor hembra</code> y en el juego escribís <code>/recibir</code> con el código que te damos.';
-    $('dinoList').innerHTML = x.dinos.map(d => `<button class="b2" style="margin:2px;font-size:12px;padding:4px 8px" onclick="shopBuy('comprar dino ${esc(d.code)}')">🦖 ${esc(d.name)}</button>`).join('');
+    $('saddleList').innerHTML = x.saddles.map(m => card((SADDLE_ICON[m.code] || 'Rex') + '_Saddle', 'Montura de ' + m.name, x.saddlePrice + ' AC', `<button onclick="shopBuy('comprar montura ${esc(m.code)}')">Comprar</button>`)).join('');
+    $('dinoList').innerHTML = x.dinos.map(d => card(DINO_ICON[d.code] || 'Rex', d.name + ' nv 1', x.dinoPrice + ' AC',
+      `<button onclick="shopBuy('comprar dino ${esc(d.code)}')">Comprar</button><div class="sx"><button onclick="shopBuy('comprar dino ${esc(d.code)} hembra')">♀ Hembra</button><button onclick="shopBuy('comprar dino ${esc(d.code)} macho')">♂ Macho</button></div>`, x.cryo ? 'CRIOPOD' : '')).join('');
   }
+  if (!document.querySelector('.tpanel.on')) tshow(tpanel);
+  renderLoginHint();
 }
 function renderPvp() {
   const p = lastData?.pvp, k = lastData?.kits;
@@ -838,7 +918,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610141018';
+const WEB_VERSION = '202610141022';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
