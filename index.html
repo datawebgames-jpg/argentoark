@@ -875,7 +875,7 @@ function renderTribeMap() {
   if (!tmapSel || !d.maps.some(m => m.id === tmapSel)) tmapSel = (d.maps.find(m => m.players.length || m.dinos.length) || d.maps[0])?.id;
   const m = d.maps.find(x => x.id === tmapSel);
   const mins = m ? Math.round((Date.now() - m.savedAt) / 60000) : 0;
-  const pin = (x, cls, html, tip) => `<div class="tmk ${cls}" style="left:${x.lon}%;top:${x.lat}%" data-tip="${esc(tip)}">${html}</div>`;
+  const pin = (x, cls, html, tip) => `<div class="tmk ${cls}" style="left:${tmapX(x.lon)}%;top:${tmapY(x.lat)}%" data-tip="${esc(tip)}">${html}</div>`;
   let pins = '';
   if (m) {
     if (tmapShow.dino) pins += m.dinos.map(x => pin(x, 'dino', '', `🦖 ${x.name ? x.name + ' (' + x.species + ')' : x.species} · nv ${x.level} · ${x.sex} · ${x.lat}, ${x.lon}`)).join('');
@@ -899,9 +899,11 @@ function renderTribeMap() {
     el.addEventListener('click', () => alert(el.dataset.tip));
   });
 }
+// los mapas de la wiki tienen un marco con las reglas: lat/lon 0-100 no ocupa toda la imagen
+const tmapY = lat => 2.3 + lat * 0.963, tmapX = lon => 1.55 + lon * 0.992;
 function tmapFlash(lat, lon) {
   const wrap = $('tmapWrap'); if (!wrap) return;
-  const f = document.createElement('div'); f.className = 'tmk'; f.style.cssText = `left:${lon}%;top:${lat}%;width:46px;height:46px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 18px #fff`;
+  const f = document.createElement('div'); f.className = 'tmk'; f.style.cssText = `left:${tmapX(lon)}%;top:${tmapY(lat)}%;width:46px;height:46px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 18px #fff`;
   wrap.appendChild(f); wrap.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => f.remove(), 2500);
 }
 // ---------- tienda de la tribu ----------
@@ -1014,7 +1016,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610141349';
+const WEB_VERSION = '202610141654';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
