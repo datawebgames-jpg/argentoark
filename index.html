@@ -868,7 +868,7 @@ function renderMyShop() {
 // ---------- mapa de la tribu ----------
 // sin vincular: mapa de ejemplo. Vinculado: su personaje gratis. Pase personal: + sus dinos y muertes. Pase de tribu: toda la tribu.
 let tmapData = null, tmapSel = null, tmapShow = { me: true, dino: true, dead: true };
-const TMAP_DEMO = { demo: true, plan: 'tribu', label: 'Tribu de ejemplo', plans: { personal: { ars: 10000, name: 'Pase personal' }, tribu: { ars: 15000, name: 'Pase de tribu' } }, days: 30, maps: [{ id: 'TheIsland', name: 'The Island', img: 'The_Island_Map.jpg', savedAt: Date.now() - 6 * 60000,
+const TMAP_DEMO = { demo: true, plan: 'tribu', label: 'Tribu de ejemplo', plans: { personal: { ars: 10000, name: 'Pase personal' }, tribu: { ars: 15000, ac: 3000, name: 'Pase de tribu' } }, days: 30, maps: [{ id: 'TheIsland', name: 'The Island', img: 'The_Island_Map.jpg', savedAt: Date.now() - 6 * 60000,
   players: [{ name: 'Vos', lat: 25.3, lon: 76.8 }, { name: 'Compañero', sleeping: true, lat: 78.6, lon: 28.1 }],
   dinos: [{ name: 'Rexona', species: 'Rex', level: 224, sex: 'hembra', lat: 26.1, lon: 75.2 }, { name: 'Volador', species: 'Argentavis', level: 180, sex: 'macho', lat: 24.8, lon: 77.9 }, { name: 'Tanque', species: 'Anquilosaurio', level: 140, sex: 'hembra', lat: 31, lon: 76.2 },
     { name: 'Pirulon', species: 'Pteranodon', level: 152, sex: 'hembra', lat: 78.5, lon: 28.4 }, { name: '', species: 'Triceratops', level: 95, sex: 'macho', lat: 66.4, lon: 39.8 }, { name: 'Perdido', species: 'Parasaurio', level: 60, sex: 'macho', lat: 45.2, lon: 52.7 }],
@@ -878,6 +878,12 @@ async function loadTribeMap() {
   $('tmapBox').innerHTML = '<p class="mut">Leyendo el mapa...</p>';
   try { tmapData = await post('tribemap', { token: getTok() }); } catch { $('tmapBox').innerHTML = '<p class="mut">No se pudo conectar con el server.</p>'; return; }
   renderTribeMap();
+}
+async function tmapBuyAC() {
+  if (needLink()) return;
+  const ac = tmapData.plans.tribu.ac;
+  if (!confirm('¿Comprar el pase de tribu del mapa rastreador por ' + ac.toLocaleString('es-AR') + ' AC (30 días para toda tu tribu)?')) return;
+  try { const r = await post('tribemapbuy', { token: getTok() }); alert(r.error || r.text); loadMe(); loadTribeMap(); } catch { alert('No se pudo conectar con el server.'); }
 }
 async function tmapDonar(plan) {
   if (needLink()) return;
@@ -891,7 +897,7 @@ function tmapOffer(d) {
   const P = d.plans, a = d.alias || 'danielmfaggi';
   const card = (plan, ico, title, what, price) => `<div class="card" style="text-align:center;border-color:#f39c12;background:radial-gradient(circle at 50% 0%,rgba(243,156,18,.18),rgba(0,0,0,0) 70%)">
     <div style="font-size:42px">${ico}</div><h3 style="margin:2px 0 6px">${title}</h3><p class="small" style="margin:0 0 8px">${what}</p>
-    <div style="font:700 28px Oswald;color:var(--acc)">$${price.toLocaleString('es-AR')} <span class="small mut" style="font:400 13px Inter,sans-serif">por mes</span></div>
+    ${P[plan].ac ? `<div style="font:700 30px Oswald;color:var(--acc)">${P[plan].ac.toLocaleString('es-AR')} AC <span class="small mut" style="font:400 13px Inter,sans-serif">por mes</span></div>${d.demo ? '' : `<button class="btn" style="margin:6px 0 8px" onclick="tmapBuyAC()">Comprar con AC</button>`}<div class="small mut">o ${price.toLocaleString('es-AR')} por transferencia</div>` : `<div style="font:700 28px Oswald;color:var(--acc)">${price.toLocaleString('es-AR')} <span class="small mut" style="font:400 13px Inter,sans-serif">por mes</span></div>`}
     ${d.demo ? '' : `<button class="btn" style="margin-top:8px" onclick="tmapDonar('${plan}')">Ya transferí: avisar</button>`}</div>`;
   return `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:12px 0">
     ${d.plan === 'personal' ? '' : card('personal', '🦖', 'Pase personal', 'Ves tu personaje, <b>todos tus dinos</b> con nombre y nivel, y <b>dónde quedaron tus bolsas de muerte</b>.', P.personal.ars)}
@@ -1052,7 +1058,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610150414';
+const WEB_VERSION = '202610151951';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
