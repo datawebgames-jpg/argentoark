@@ -154,13 +154,17 @@ section:not(.tabon) .wallet-box{display:none}
 .lg .bar i{display:block;height:100%;background:linear-gradient(90deg,#f39c12,#f1c40f)}
 .lg-all{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
 .mbar{height:6px;border-radius:5px;background:rgba(255,255,255,.08);overflow:hidden;margin:3px 0 8px}.mbar i{display:block;height:100%;background:#2ecc71}
+.guia-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.guia-c h3{font-size:20px;margin:0 0 8px}.guia-c ul,.guia-c ol{margin:0;padding-left:18px}.guia-c li{margin:4px 0;font-size:14.5px}.guia-c p{font-size:14.5px;margin:6px 0}
+.peace-ban{padding:12px 14px;border-radius:12px;border:1px solid #2ecc71;background:rgba(46,204,113,.12);margin-bottom:14px;font-size:15px}
+.tmsg{padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);margin-bottom:6px}
 </style>
 </head>
 <body>
 <div class="bgimg"></div>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
+  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
 </nav>
 
 <header class="wrap hero" data-tab="mapas">
@@ -178,6 +182,42 @@ section:not(.tabon) .wallet-box{display:none}
 </header>
 
 <main>
+<section id="guia" data-tab="guia"><div class="wrap">
+  <h2>📖 Guía de ArgentoPro ARK x5</h2>
+  <p class="sub">Todo lo que tiene el server, explicado. Si algo no se entiende, preguntá en el <a href="https://discord.gg/2EqEE46DjW" target="_blank" rel="noopener">Discord</a> o buscá a <b>Viejomanco</b>.</p>
+  <div class="guia-grid">
+    <div class="card guia-c"><h3>🦖 El server</h3><ul><li><b>ARK: Survival Evolved</b>, server argentino.</li><li>Experiencia, tameo, farmeo, cría y maduración <b>x5</b>. Estructuras <b>x20</b>.</li><li><b>Fin de semana x10</b> (sábados y domingos).</li><li>Mapas: <b>The Island</b> y <b>Fjordur</b> fijos + un <b>mapa rotativo</b> que eligen ustedes votando.</li><li>Steam y <b>Epic</b> (crossplay).</li><li>Reinicio diario a las <b>06:00</b>.</li></ul></div>
+
+    <div class="card guia-c"><h3>🚪 Cómo entrar</h3><ul><li>En el juego: <b>Join ARK → Unofficial</b> → buscá <b>ArgentoPro</b>.</li><li>Directo: en el menú apretá <b>TAB</b> y escribí <code>open 190.174.182.122:7777</code> (The Island), <code>:7779</code> (Fjordur) o <code>:7781</code> (rotativo).</li><li>Para pasar de mapa usá el <b>Obelisco</b> o un transmisor: los dinos y los items viajan.</li></ul></div>
+
+    <div class="card guia-c" style="border-color:#2ecc71"><h3>🔗 Vinculá tu cuenta (¡lo primero!)</h3><ol><li>En el juego escribí <code>/vincular</code> → te da un código de 6 letras.</li><li>Ponelo en esta página, en <a href="#cuenta">Mi cuenta</a>.</li></ol><p>Sin vincular no podés comprar, vender, votar ni reclamar premios. Para abrir la página desde el juego: <b>SHIFT + TAB</b> → navegador de Steam → <b>tinyurl.com/argentoark</b>.</p></div>
+
+    <div class="card guia-c" style="border-color:#f1c40f"><h3>💰 ArgenCoins (AC)</h3><ul><li>Ganás <b>1 AC por minuto</b> jugado.</li><li><b>Premio diario</b> al entrar (más grande si venís varios días seguidos).</li><li><b>4 horas jugadas en el día</b> = plano de montura de regalo.</li><li>Votando el server todos los días: <b>100 AC</b>.</li><li>Logros, eventos, misiones e invitar amigos dan más AC.</li><li><code>/saldo</code> te dice cuánto tenés.</li></ul></div>
+
+    <div class="card guia-c"><h3>🛒 Tienda oficial</h3><ul><li>Flechas y dardos, narcóticos, metal, polímero, criopods, leche de wyvern, GPS, transpondedores y un <b>kit de 5 planos de armas</b>.</li><li><b>Monturas:</b> 250 AC (Giga, Carcha y Quetzal plataforma 500 AC).</li><li><b>Dinos nivel 1 en criopod:</b> 1000 AC, elegís el sexo.</li><li>Comprás desde la <a href="#tienda">Tienda</a> de la página o en el juego: <code>/tienda</code>, <code>/comprar T1</code>, <code>/comprar montura rex</code>, <code>/comprar dino rex hembra</code>.</li><li>Los dinos llegan en criopod: en el juego escribí <code>/recibir</code>.</li></ul></div>
+
+    <div class="card guia-c"><h3>📦 Mercado entre jugadores</h3><ul><li>En la Tienda → <b>Vender</b>: ves tu inventario real del juego, elegís qué vender y le ponés precio en AC.</li><li>Cuando alguien te compra, te avisamos y el item se entrega solo.</li><li>También podés publicar dinos y pedidos: <code>/vender</code> y <code>/buscar</code>.</li><li><b>Canje:</b> garras y dientes de alfa se cambian por premios (<code>/canjear</code>).</li></ul></div>
+
+    <div class="card guia-c" style="border-color:#f39c12"><h3>🏅 Logros del server</h3><p>Como los logros de Steam, pero de lo que hacés en ArgentoPro. Cada uno tiene 5 grados (I a V) y cada grado da AC:</p><ul><li>📜 <b>Explorador</b>: notas de explorador (5 a 100).</li><li>🦖 <b>Domador</b>: dinos tameados (5 a 250).</li><li>⭐ <b>Superviviente</b>: nivel (25 a 150).</li><li>🔧 <b>Ingeniero</b>: engramas (25 a 200).</li><li>⚔️ <b>Guerrero</b>: peleas PvP legales (1 a 50).</li><li>💃 <b>Artista</b>: gestos (3 a 20).</li></ul><p>🏁 <b>Carrera de la semana:</b> cada lunes se elige un logro y el que más avanza gana 500 / 250 / 100 AC. Tus logros, en <a href="#cuenta">Mi cuenta</a>.</p></div>
+
+    <div class="card guia-c"><h3>🎉 Eventos</h3><ul><li>🎯 <b>Desafío del día:</b> domar un dino elegido (150 AC al primero).</li><li>🏹 <b>Cazador del día:</b> el que más tamea gana 100 AC.</li><li>📋 <b>Gran misión de 24 hs</b> (<code>/mision</code>): premio planos de montura.</li><li>💀 <b>Se busca:</b> poné AC por la cabeza de alguien con <code>/recompensa jugador 100</code>.</li><li>👑 <b>Reyes de la semana</b> (los lunes): planos de más nivel.</li><li>Todo con <code>/eventos</code> y en <a href="#eventos">Eventos</a>.</li></ul></div>
+
+    <div class="card guia-c" style="border-color:#1abc9c"><h3>🏆 Tribus: ACT, misiones y la mejor tribu</h3><ul><li>Cada tribu junta <b>ACT</b> (puntos de tribu): jugando conectados, tameando, ganando peleas PvP y con la gran misión.</li><li>El <b>líder</b> los gasta en la <b>Tienda de la tribu</b>: armas y monturas mejoradas, planos TOP, incubadora, fabricador y el Tek Stryder recolector.</li><li>🎯 <b>Misiones de tribu:</b> 5 nuevas cada lunes. La tribu con más puntos del mes es la <b>MEJOR TRIBU DEL SERVER</b> y gana ACT.</li><li>🗺️ <b>Mapa rastreador:</b> en la página ves dónde están tus compañeros, tus dinos y tus bolsas de muerte (pase de tribu 3000 AC por mes).</li></ul></div>
+
+    <div class="card guia-c" style="border-color:#2ecc71"><h3>🤝 Pactos de paz y mensajes del líder</h3><ul><li>Si dos tribus no se quieren pelear, el <b>líder</b> propone un <b>pacto de no agresión</b> en <a href="#cuenta">Mi cuenta</a> y el líder de la otra lo acepta.</li><li>A todos los miembros de las dos tribus les aparece el aviso en el juego y en la página: <b>están en paz</b>.</li><li>Si alguien mata a uno de la tribu amiga paga <b>300 AC de multa</b> para la víctima. Al 3er pacto roto se cae.</li><li>Consejo: hagan también una <b>alianza</b> en el menú de tribu del juego.</li><li>📢 El líder puede mandar <b>mensajes a toda su tribu</b> desde la página: avisos, <b>"se necesita"</b> (materiales, ayuda) o <b>"se busca"</b> (dinos, items). Les llega al juego y a la página.</li></ul></div>
+
+    <div class="card guia-c" style="border-color:#c0392b"><h3>⚔️ PvP y reglas</h3><ul><li><b>PvP:</b> lunes a viernes de <b>21 a 23 hs</b>, sábados y domingos de <b>12 a 23 hs</b>. El resto del día es paz (PvE).</li><li><b>Asedios</b> (romper bases): sábados y domingos de <b>20 a 22 hs</b>.</li><li><b>Pelear solo es legal si los dos son nivel 80 o más.</b> Para romper bases hay que ser nivel 100+.</li><li>Matar a alguien de menos de nivel 80: <b>100 AC de multa</b> para la víctima y ganás AC a media velocidad. A los 10 sos <b>Criminal</b>.</li><li>Nada de cheats, exploits, ni bloquear cuevas o spawns: ban directo.</li></ul></div>
+
+    <div class="card guia-c"><h3>🗳️ Votar</h3><ul><li><b>Votá el server</b> todos los días: <a href="votar.html" target="_blank" rel="noopener">tinyurl.com/votaargentoark</a>. Después en el juego escribí <code>/reclamar</code> y ganás <b>100 AC</b>.</li><li><b>Votá el próximo mapa rotativo:</b> <code>/votar</code> en el juego o en Mi cuenta. El que gana entra el lunes a las 06:00.</li></ul></div>
+
+    <div class="card guia-c"><h3>🎁 Premios y kits</h3><ul><li><code>/kit</code>: kit inicial, kit nivel 50 (herramientas de metal) y kit nivel 100 (armadura de metal completa).</li><li><code>/premio</code>: reclamás los premios pendientes (planos, eventos).</li><li><b>Invitá amigos:</b> <code>/invitar</code> te da tu código. Cuando tu amigo juega, ganás un <b>plano rojo</b>.</li></ul></div>
+
+    <div class="card guia-c" style="border-color:#e74c3c"><h3>❤️ Donaciones (bancá el server)</h3><ul><li><b>1.000 AC</b> = USD 5 o $8.000.</li><li><b>10.000 AC</b> = USD 20 o $35.000 (+30 días del mapa rastreador para tu tribu).</li><li>Transferí al alias <b>danielmfaggi</b> y avisá en <a href="#tienda">Tienda → Comprar AC</a> o con <code>/donar</code>. Cuando el admin confirma, te llegan las AC.</li></ul></div>
+
+    <div class="card guia-c"><h3>⌨️ Comandos del chat</h3><p class="small"><code>/ayuda</code> <code>/vincular</code> <code>/saldo</code> <code>/kit</code> <code>/premio</code> <code>/tienda</code> <code>/comprar</code> <code>/monturas</code> <code>/dinos</code> <code>/recibir</code> <code>/vender</code> <code>/buscar</code> <code>/canjear</code> <code>/eventos</code> <code>/mision</code> <code>/recompensa</code> <code>/votar</code> <code>/votos</code> <code>/reclamar</code> <code>/tribu</code> <code>/tribus</code> <code>/mapatribu</code> <code>/invitar</code> <code>/referido</code> <code>/donar</code> <code>/ticket</code></p></div>
+
+  </div>
+</div></section>
 <section id="eventos" data-tab="eventos"><div class="wrap">
   <h2>Eventos y novedades</h2>
   <p class="sub">Todo lo que pasa en el server: desafíos, reyes de la semana, recompensas y premios.</p>
@@ -252,6 +292,8 @@ section:not(.tabon) .wallet-box{display:none}
       <div class="acts" style="margin-top:12px"><button style="background:var(--acc);color:#1a1206;font-weight:700;font-size:16px;padding:10px 16px" onclick="openInv()">📦 Vender lo que tengo en el inventario</button></div>
       <div id="noticeBox" style="margin-top:12px"></div>
     </div>
+    <div id="peaceBan"></div>
+    <div class="card" style="margin-bottom:14px;border-color:#3498db"><h3 style="font-size:19px;margin-bottom:8px">📢 Mensajes de mi tribu</h3><div id="myTribeMsgs" class="small"></div></div>
     <div class="card" style="margin-bottom:14px"><h3 style="font-size:20px;margin-bottom:10px">🏅 Mis logros</h3><div id="myLogros" class="lg-grid"><p class="mut small">Cargando...</p></div></div>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-bottom:14px">
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🎯 Misiones de mi tribu</h3><div id="myMisiones" class="small"></div></div>
@@ -832,6 +874,14 @@ async function loadMyLogros() {
   $('myMisiones').innerHTML = M ? `<p style="margin:0 0 8px">Tribu <b>${esc(M.tribe)}</b> · <b style="color:var(--acc)">${M.points} pts</b> este mes</p>` + M.missions.map(m => `<div>${m.done ? '✅' : '⬜'} ${esc(m.text)} <span class="mut">(${m.value}/${m.goal}, +${m.pts} pts)</span></div><div class="mbar"><i style="width:${Math.round(m.value / m.goal * 100)}%"></i></div>`).join('')
     : '<p class="mut">No estás en ninguna tribu. Armá una o unite a una para sumar puntos de misión.</p>';
   tmPactos = r.pactos; renderPactos();
+  $('peaceBan').innerHTML = (r.peace || []).length ? `<div class="peace-ban">🕊️ <b>Tu tribu está EN PAZ con: ${r.peace.map(esc).join(', ')}</b>. Sus líderes firmaron un pacto: no se deben pelear (si matás a uno pagás ${r.pactos.fine} AC de multa).</div>` : '';
+  const P = r.pactos, msgs = r.mensajes || [];
+  $('myTribeMsgs').innerHTML = !P || !P.tribe ? '<p class="mut">No estás en ninguna tribu.</p>' :
+    (P.isLeader ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"><select class="inp" id="tmKind"><option value="necesita">🧰 Se necesita</option><option value="busca">🔎 Se busca</option><option value="aviso">📢 Aviso</option><option value="reunion">⚔️ Reunión</option></select>
+      <input class="inp" id="tmText" maxlength="200" placeholder="Ej: necesitamos 500 de metal y polímero en la base" style="flex:1;min-width:200px"><button onclick="sendTribeMsg()">Mandar a mi tribu</button></div>
+      <p class="mut" style="margin:-4px 0 10px">Les llega a todos los de ${esc(P.tribe)}: en el juego si están conectados, y acá en la página.</p>` : '')
+    + (msgs.length ? msgs.slice(0, 8).map(m => `<div class="tmsg"><b>${m.label}</b> · ${esc(m.text)} <div class="mut">${esc(m.by)} · ${new Date(m.t).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</div></div>`).join('')
+      : `<p class="mut">Tu líder (${esc(P.leader || '?')}) todavía no mandó mensajes.</p>`);
 }
 let tmPactos = null;
 function renderPactos() {
@@ -844,6 +894,10 @@ function renderPactos() {
     ${list || '<p class="mut">Tu tribu no tiene pactos.</p>'}
     ${P.isLeader ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"><select class="inp" id="pactoTribe" style="flex:1;min-width:160px">${P.tribes.map(t => `<option value="${esc(t.id)}">${esc(t.name)} (${t.members})</option>`).join('')}</select><button onclick="pactoAct('propose')">Proponer pacto</button></div>`
       : `<p class="mut" style="margin-top:8px">Los pactos los maneja el líder de tu tribu (<b>${esc(P.leader || '?')}</b>).</p>`}`;
+}
+async function sendTribeMsg() {
+  const text = $('tmText').value.trim(); if (!text) return;
+  try { const r = await post('tribumsg', { token: getTok(), kind: $('tmKind').value, text }); alert(r.error || r.text); if (r.ok) { $('tmText').value = ''; loadMyLogros(); } } catch { alert('No se pudo conectar con el server.'); }
 }
 async function pactoAct(action, pact) {
   const body = { token: getTok(), action, pact };
@@ -1105,7 +1159,7 @@ document.querySelectorAll('#rankTabs button').forEach(b => b.onclick = () => {
   document.querySelectorAll('#rankTabs button').forEach(x => x.classList.toggle('on', x === b));
   rankKey = b.dataset.r; renderRank();
 });
-const TAB_OF = { reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'eventos', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info' };
+const TAB_OF = { guia: 'guia', reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'eventos', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info' };
 function showTab() {
   const h = (location.hash || '#mapas').slice(1);
   const tab = TAB_OF[h] || 'mapas';
@@ -1136,7 +1190,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610152222';
+const WEB_VERSION = '202610152238';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
