@@ -157,6 +157,10 @@ section:not(.tabon) .wallet-box{display:none}
 .guia-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
 .guia-c h3{font-size:20px;margin:0 0 8px}.guia-c ul,.guia-c ol{margin:0;padding-left:18px}.guia-c li{margin:4px 0;font-size:14.5px}.guia-c p{font-size:14.5px;margin:6px 0}
 .peace-ban{padding:12px 14px;border-radius:12px;border:1px solid #2ecc71;background:rgba(46,204,113,.12);margin-bottom:14px;font-size:15px}
+.tsel{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.tsel button{padding:9px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:inherit;cursor:pointer;text-align:left}
+.tsel button.on{border-color:#f39c12;background:rgba(243,156,18,.18)}
+.tsel button small{display:block;opacity:.75;font-size:12px}
 .tmsg{padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);margin-bottom:6px}
 </style>
 </head>
@@ -292,6 +296,7 @@ section:not(.tabon) .wallet-box{display:none}
       <div class="acts" style="margin-top:12px"><button style="background:var(--acc);color:#1a1206;font-weight:700;font-size:16px;padding:10px 16px" onclick="openInv()">📦 Vender lo que tengo en el inventario</button></div>
       <div id="noticeBox" style="margin-top:12px"></div>
     </div>
+    <div id="tribeSel"></div>
     <div id="peaceBan"></div>
     <div class="card" style="margin-bottom:14px;border-color:#3498db"><h3 style="font-size:19px;margin-bottom:8px">📢 Mensajes de mi tribu</h3><div id="myTribeMsgs" class="small"></div></div>
     <div class="card" style="margin-bottom:14px"><h3 style="font-size:20px;margin-bottom:10px">🏅 Mis logros</h3><div id="myLogros" class="lg-grid"><p class="mut small">Cargando...</p></div></div>
@@ -755,7 +760,8 @@ function renderNotices() {
 function renderWallet() {
   const el = $('walletBox'); if (!el) return;
   if (!isLinked()) { el.innerHTML = '<div class="wb-n">🔒 Vinculá tu cuenta para ver tus AC y los ACT de tu tribu</div><a class="btn" href="#cuenta">🔗 Vincular</a>'; return; }
-  const tr = me.tribe ? ((lastData && lastData.tribes) || []).find(t => t.name === me.tribe) : null;
+  const st = myTribeSel();
+  const tr = st ? { name: st.name, act: st.act } : me.tribe ? ((lastData && lastData.tribes) || []).find(t => t.name === me.tribe) : null;
   el.innerHTML = `<div class="wb-n">👤 <b>${esc(me.char)}</b></div>
     <div><div class="wb-v">${Number(me.balance || 0).toLocaleString('es-AR', { maximumFractionDigits: 0 })} AC</div><div class="wb-l">ArgenCoins (tuyas)</div></div>
     <div><div class="wb-v act">${tr ? Number(tr.act || 0).toLocaleString('es-AR', { maximumFractionDigits: 0 }) : '0'} ACT</div><div class="wb-l">${tr ? 'Puntos de tribu · ' + esc(tr.name) : 'Sin tribu'}</div></div>
@@ -860,9 +866,16 @@ function renderLogrosPublic() {
     $('msRank').innerHTML = M.ranking.map((t, i) => `<li>${i === 0 ? '👑 ' : ''}<b>${esc(t.name)}</b><span style="margin-left:auto">${t.points} pts</span></li>`).join('') || '<li class="mut">Ninguna tribu sumó puntos todavía este mes.</li>';
   }
 }
+let selTribe = null; try { selTribe = localStorage.getItem('argento_tribu'); } catch { }
+let myTribes = [];
+function pickTribe(id) { selTribe = id; try { localStorage.setItem('argento_tribu', id); } catch { } loadMyLogros(); renderTribeShop(); }
+const myTribeSel = () => myTribes.find(t => t.id === selTribe) || null;
 async function loadMyLogros() {
   if (!isLinked() || !$('myLogros')) return;
-  let r; try { r = await post('logros', { token: getTok() }); } catch { return; }
+  let r; try { r = await post('logros', { token: getTok(), tribe: selTribe }); } catch { return; }
+  myTribes = r.tribes || []; selTribe = r.tribe || null;
+  $('tribeSel').innerHTML = myTribes.length > 1 ? `<div class="tsel"><b>Estás en ${myTribes.length} tribus. Elegí con cuál querés manejar mensajes, pactos y puntos:</b>${myTribes.map(t => `<button class="${t.id === selTribe ? 'on' : ''}" onclick="pickTribe('${t.id}')">${t.leader ? '👑 ' : ''}<b>${esc(t.name)}</b><small>${esc(t.maps.join(', '))} · ${t.leader ? 'sos el líder' : 'miembro'} · ${t.act.toLocaleString('es-AR')} ACT</small></button>`).join('')}</div>` : '';
+  renderWallet(); renderTribeShop();
   const L = r.logros;
   $('myLogros').innerHTML = L ? L.map(l => {
     const pct = l.next ? Math.round((l.value - l.prev) / (l.next - l.prev) * 100) : 100;
@@ -897,10 +910,10 @@ function renderPactos() {
 }
 async function sendTribeMsg() {
   const text = $('tmText').value.trim(); if (!text) return;
-  try { const r = await post('tribumsg', { token: getTok(), kind: $('tmKind').value, text }); alert(r.error || r.text); if (r.ok) { $('tmText').value = ''; loadMyLogros(); } } catch { alert('No se pudo conectar con el server.'); }
+  try { const r = await post('tribumsg', { token: getTok(), kind: $('tmKind').value, text, tribe: selTribe }); alert(r.error || r.text); if (r.ok) { $('tmText').value = ''; loadMyLogros(); } } catch { alert('No se pudo conectar con el server.'); }
 }
 async function pactoAct(action, pact) {
-  const body = { token: getTok(), action, pact };
+  const body = { token: getTok(), action, pact, myTribe: selTribe };
   if (action === 'propose') body.tribe = $('pactoTribe').value;
   if (action === 'cancel' && !confirm('¿Terminar el pacto? Sigue vigente 12 horas más.')) return;
   try { const r = await post('pacto', body); alert(r.error || r.text); loadMyLogros(); } catch { alert('No se pudo conectar con el server.'); }
@@ -948,7 +961,7 @@ async function shopBuy(cmd) {
   if (needLink()) return;
   if (!confirm('¿Confirmás? /' + cmd)) return;
   try {
-    const r = await post('act', { token: getTok(), cmd });
+    const r = await post('act', { token: getTok(), cmd, tribe: /^tribu /.test(cmd) ? selTribe : null });
     alert((r.replies || [r.error || 'Listo']).join('\n'));
     loadMe();
   } catch { alert('No se pudo conectar con el server. Probá en un rato.'); }
@@ -1087,8 +1100,9 @@ function renderTribeShop() {
   renderWallet();
   const L = lastData?.tribeLadder; if (!L || !$('tshopGrid')) return;
   // ACT de la tribu del jugador conectado
-  const myTribe = me?.tribe ? (lastData.tribes || []).find(t => t.name === me.tribe) : null;
-  $('tshopAct').innerHTML = myTribe ? `Tu tribu <b>${esc(myTribe.name)}</b><br><span style="font:700 26px Oswald;color:var(--acc)">${(myTribe.act || 0).toLocaleString('es-AR')} ACT</span>` : '<span class="mut">Vinculá tu cuenta para ver los ACT de tu tribu</span>';
+  const sel = myTribeSel();
+  const myTribe = sel ? { name: sel.name, act: sel.act } : me?.tribe ? (lastData.tribes || []).find(t => t.name === me.tribe) : null;
+  $('tshopAct').innerHTML = (myTribes.length > 1 && sel ? '<div class="small mut">Comprás para la tribu elegida en <a href="#cuenta">Mi cuenta</a></div>' : '') + (myTribe ? `Tu tribu <b>${esc(myTribe.name)}</b><br><span style="font:700 26px Oswald;color:var(--acc)">${(myTribe.act || 0).toLocaleString('es-AR')} ACT</span>` : '<span class="mut">Vinculá tu cuenta para ver los ACT de tu tribu</span>');
   if (tshopKind === 'robots') {
     $('tshopGrid').innerHTML = (L.robots || []).map(r => `<div class="tshop-item" style="grid-column:span 2;border-color:#9b59b6;background:radial-gradient(circle at 50% 30%,rgba(155,89,182,.3),rgba(255,255,255,.03) 70%)"><span class="q" style="background:rgba(155,89,182,.3);color:#d7a8f0">GENESIS 2</span>
       <img src="${wikiIcon(r.icon)}" alt="" loading="lazy" style="width:120px;height:120px"><div class="nm" style="font-size:17px">${esc(r.name)}</div><div class="small mut" style="margin:2px 0">${esc(r.desc)}</div>
@@ -1190,7 +1204,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610152238';
+const WEB_VERSION = '202610152302';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
