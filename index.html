@@ -161,6 +161,9 @@ section:not(.tabon) .wallet-box{display:none}
 .tsel button{padding:9px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:inherit;cursor:pointer;text-align:left}
 .tsel button.on{border-color:#f39c12;background:rgba(243,156,18,.18)}
 .tsel button small{display:block;opacity:.75;font-size:12px}
+.rk-b{display:inline-block;padding:1px 8px;border-radius:8px;font-weight:700;font-size:12px;border:1px solid currentColor;background:rgba(0,0,0,.25)}
+.rk-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--line)}
+.rk-ladder{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0 10px}
 .tmsg{padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);margin-bottom:6px}
 </style>
 </head>
@@ -212,7 +215,7 @@ section:not(.tabon) .wallet-box{display:none}
 
     <div class="card guia-c" style="border-color:#c0392b"><h3>⚔️ PvP y reglas</h3><ul><li><b>PvP:</b> lunes a viernes de <b>21 a 23 hs</b>, sábados y domingos de <b>12 a 23 hs</b>. El resto del día es paz (PvE).</li><li><b>Asedios</b> (romper bases): sábados y domingos de <b>20 a 22 hs</b>.</li><li><b>Pelear solo es legal si los dos son nivel 80 o más.</b> Para romper bases hay que ser nivel 100+.</li><li>Matar a alguien de menos de nivel 80: <b>100 AC de multa</b> para la víctima y ganás AC a media velocidad. A los 10 sos <b>Criminal</b>.</li><li>Nada de cheats, exploits, ni bloquear cuevas o spawns: ban directo.</li></ul></div>
 
-    <div class="card guia-c"><h3>🗳️ Votar</h3><ul><li><b>Votá el server</b> todos los días: <a href="votar.html" target="_blank" rel="noopener">tinyurl.com/votaargentoark</a>. Después en el juego escribí <code>/reclamar</code> y ganás <b>100 AC</b>.</li><li><b>Votá el próximo mapa rotativo:</b> <code>/votar</code> en el juego o en Mi cuenta. El que gana entra el lunes a las 06:00.</li></ul></div>
+    <div class="card guia-c"><h3>🗳️ Votar</h3><ul><li><b>Votá el server</b> todos los días: <a href="votar.html" target="_blank" rel="noopener">tinyurl.com/votaargentoark</a>. En la página de votos entrá <b>con tu cuenta de STEAM</b> (no con Google ni Discord) y tocá Upvote: las <b>100 AC te llegan solas</b> en unos minutos mientras estés jugando.</li><li><b>Votá el próximo mapa rotativo:</b> <code>/votar</code> en el juego o en Mi cuenta. El que gana entra el lunes a las 06:00.</li></ul></div>
 
     <div class="card guia-c"><h3>🎁 Premios y kits</h3><ul><li><code>/kit</code>: kit inicial, kit nivel 50 (herramientas de metal) y kit nivel 100 (armadura de metal completa).</li><li><code>/premio</code>: reclamás los premios pendientes (planos, eventos).</li><li><b>Invitá amigos:</b> <code>/invitar</code> te da tu código. Cuando tu amigo juega, ganás un <b>plano rojo</b>.</li></ul></div>
 
@@ -299,6 +302,7 @@ section:not(.tabon) .wallet-box{display:none}
     <div id="tribeSel"></div>
     <div id="peaceBan"></div>
     <div class="card" style="margin-bottom:14px;border-color:#3498db"><h3 style="font-size:19px;margin-bottom:8px">📢 Mensajes de mi tribu</h3><div id="myTribeMsgs" class="small"></div></div>
+    <div class="card" style="margin-bottom:14px;border-color:#f1c40f"><h3 style="font-size:19px;margin-bottom:8px">🎖️ Rangos y pruebas de la tribu</h3><div id="myRangos" class="small"></div></div>
     <div class="card" style="margin-bottom:14px"><h3 style="font-size:20px;margin-bottom:10px">🏅 Mis logros</h3><div id="myLogros" class="lg-grid"><p class="mut small">Cargando...</p></div></div>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-bottom:14px">
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🎯 Misiones de mi tribu</h3><div id="myMisiones" class="small"></div></div>
@@ -890,11 +894,13 @@ async function loadMyLogros() {
   $('peaceBan').innerHTML = (r.peace || []).length ? `<div class="peace-ban">🕊️ <b>Tu tribu está EN PAZ con: ${r.peace.map(esc).join(', ')}</b>. Sus líderes firmaron un pacto: no se deben pelear (si matás a uno pagás ${r.pactos.fine} AC de multa).</div>` : '';
   const P = r.pactos, msgs = r.mensajes || [];
   $('myTribeMsgs').innerHTML = !P || !P.tribe ? '<p class="mut">No estás en ninguna tribu.</p>' :
-    (P.isLeader ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"><select class="inp" id="tmKind"><option value="necesita">🧰 Se necesita</option><option value="busca">🔎 Se busca</option><option value="aviso">📢 Aviso</option><option value="reunion">⚔️ Reunión</option></select>
+    ((r.rangos?.canMessage || P.isLeader) ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"><select class="inp" id="tmKind"><option value="necesita">🧰 Se necesita</option><option value="busca">🔎 Se busca</option><option value="aviso">📢 Aviso</option><option value="reunion">⚔️ Reunión</option></select>
       <input class="inp" id="tmText" maxlength="200" placeholder="Ej: necesitamos 500 de metal y polímero en la base" style="flex:1;min-width:200px"><button onclick="sendTribeMsg()">Mandar a mi tribu</button></div>
       <p class="mut" style="margin:-4px 0 10px">Les llega a todos los de ${esc(P.tribe)}: en el juego si están conectados, y acá en la página.</p>` : '')
-    + (msgs.length ? msgs.slice(0, 8).map(m => `<div class="tmsg"><b>${m.label}</b> · ${esc(m.text)} <div class="mut">${esc(m.by)} · ${new Date(m.t).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</div></div>`).join('')
-      : `<p class="mut">Tu líder (${esc(P.leader || '?')}) todavía no mandó mensajes.</p>`);
+    + (msgs.length ? msgs.slice(0, 8).map(m => `<div class="tmsg" style="border-left:4px solid ${m.color || '#ffd700'}"><b>${m.label}</b> · ${esc(m.text)} <div class="mut">${m.rank ? `<span class="rk-b" style="color:${m.color}">${esc(m.rank)}</span> ` : ''}${esc(m.by)} · ${new Date(m.t).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</div></div>`).join('')
+      : `<p class="mut">Todavía no hay mensajes en tu tribu.</p>`)
+    + (!(r.rangos?.canMessage || P.isLeader) && r.rangos ? `<p class="mut" style="margin-top:8px">Desde <b>${esc(r.rangos.msgRank)}</b> podés mandar mensajes. Pedile pruebas a tu comandante para subir de rango.</p>` : '');
+  renderRangos(r.rangos);
 }
 let tmPactos = null;
 function renderPactos() {
@@ -907,6 +913,32 @@ function renderPactos() {
     ${list || '<p class="mut">Tu tribu no tiene pactos.</p>'}
     ${P.isLeader ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"><select class="inp" id="pactoTribe" style="flex:1;min-width:160px">${P.tribes.map(t => `<option value="${esc(t.id)}">${esc(t.name)} (${t.members})</option>`).join('')}</select><button onclick="pactoAct('propose')">Proponer pacto</button></div>`
       : `<p class="mut" style="margin-top:8px">Los pactos los maneja el líder de tu tribu (<b>${esc(P.leader || '?')}</b>).</p>`}`;
+}
+function renderRangos(R) {
+  if (!$('myRangos')) return;
+  if (!R) { $('myRangos').innerHTML = '<p class="mut">No estás en ninguna tribu.</p>'; return; }
+  const badge = (name, color) => `<span class="rk-b" style="color:${color}">${esc(name)}</span>`;
+  const st = { activa: '⏳ en curso', cumplida: '✅ cumplida', vencida: '⌛ vencida', cancelada: '✖ cancelada' };
+  let h = `<p style="margin:0 0 6px">Tu rango en <b>${esc(R.tribe)}</b>: ${badge(R.me.name, R.me.color)}</p>
+    <div class="rk-ladder">${R.ranks.map(x => badge(x.name, x.color)).join('')}${badge(R.leader.name + ' (líder)', R.leader.color)}</div>
+    <p class="mut" style="margin:0 0 10px">El comandante manda pruebas a sus miembros. Cada prueba cumplida da <b>${R.reward} AC</b> y sube un rango. Desde <b>${esc(R.msgRank)}</b> se pueden mandar mensajes a la tribu.</p>`;
+  // lista de miembros con su rango
+  h += R.members.map(m => `<div class="rk-row">${badge(m.rank, m.color)} <b>${esc(m.char)}</b></div>`).join('');
+  const tests = R.tests.map(x => `<div class="tmsg"><b>${esc(x.target)}</b>: ${esc(x.text)} · ${st[x.status]}${x.status === 'activa' && !x.manual ? ` <span class="mut">(${x.value}/${x.goal})</span>` : ''}${x.status === 'activa' ? ` <span class="mut">· vence ${new Date(x.ends).toLocaleDateString('es-AR')}</span>` : ''}
+    ${R.isLeader && x.status === 'activa' ? `<div class="acts" style="margin-top:4px">${x.manual ? `<button onclick="rangoAct('confirm',${x.id})">✅ La cumplió</button>` : ''}<button class="b2" onclick="rangoAct('cancel',${x.id})">Cancelar</button></div>` : ''}</div>`).join('');
+  h += `<h4 style="margin:12px 0 6px">Pruebas</h4>${tests || '<p class="mut">No hay pruebas en curso.</p>'}`;
+  if (R.isLeader) h += `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"><select class="inp" id="rgTarget">${R.members.filter(m => !m.leader).map(m => `<option value="${esc(m.char)}">${esc(m.char)} (${esc(m.rank)})</option>`).join('')}</select>
+    <select class="inp" id="rgTest" style="flex:1;min-width:200px">${R.catalog.map(c => `<option value="${c.id}">${esc(c.text)}</option>`).join('')}</select><button onclick="rangoSend()">Mandar prueba</button></div>
+    <p class="mut" style="margin-top:6px">Las pruebas de tamear, niveles, notas, engramas, PvP y horas se controlan solas. Las de traer materiales o construir las confirmás vos con el botón (1 por día por persona). Duran ${R.days} días.</p>`;
+  $('myRangos').innerHTML = h;
+}
+async function rangoSend() {
+  const body = { token: getTok(), action: 'send', tribe: selTribe, target: $('rgTarget').value, test: $('rgTest').value };
+  try { const r = await post('rangos', body); alert(r.error || r.text); loadMyLogros(); } catch { alert('No se pudo conectar con el server.'); }
+}
+async function rangoAct(action, id) {
+  if (action === 'cancel' && !confirm('¿Cancelar la prueba?')) return;
+  try { const r = await post('rangos', { token: getTok(), action, id }); alert(r.error || r.text); loadMyLogros(); } catch { alert('No se pudo conectar con el server.'); }
 }
 async function sendTribeMsg() {
   const text = $('tmText').value.trim(); if (!text) return;
@@ -1204,7 +1236,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610152302';
+const WEB_VERSION = '202610152334';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }

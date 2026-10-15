@@ -1,11 +1,31 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Votar ArgentoPro</title>
+<style>
+:root{--bg:#120e08;--card:#1d160c;--txt:#f3ead9;--acc:#f39c12;--ok:#2ecc71}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center;padding:28px 16px}
+.c{max-width:560px;width:100%;background:var(--card);border:1px solid rgba(243,156,18,.5);border-radius:16px;padding:22px}
+h1{margin:0 0 6px;font-size:26px;color:var(--acc)}
+ol{padding-left:22px;font-size:17px;line-height:1.5}li{margin:10px 0}
+b{color:#fff}.warn{background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.6);border-radius:10px;padding:10px 12px;font-size:15px}
+a.btn{display:block;text-align:center;margin-top:16px;background:var(--ok);color:#08130c;font-weight:800;font-size:19px;padding:14px;border-radius:12px;text-decoration:none}
+.mut{opacity:.7;font-size:14px;text-align:center;margin-top:10px}
+</style>
 <script>
 // link fijo de votacion: si la pagina de votos cambia, se actualiza solo este archivo
-location.replace('https://unofficial-servers.com/details/argentopro-ark-x5-the-island-v3617/594849871');
+const URL_VOTO = 'https://unofficial-servers.com/details/argentopro-ark-x5-the-island-v3617/594849871';
+let n = 15;
+setInterval(() => { n--; const e = document.getElementById('n'); if (e) e.textContent = n; if (n <= 0) location.href = URL_VOTO; }, 1000);
 </script></head>
-<body style="background:#111;color:#eee;font-family:sans-serif;text-align:center;padding:40px">
-<p>Llevandote a la votacion de ArgentoPro...</p>
-<p><a style="color:#2ecc71" href="https://unofficial-servers.com/details/argentopro-ark-x5-the-island-v3617/594849871">Si no pasa nada, toca aca</a></p>
-</body></html>
+<body><div class="c">
+  <h1>🗳️ Votá por ArgentoPro y ganá 100 AC</h1>
+  <ol>
+    <li>Tocá el botón verde de abajo.</li>
+    <li>En la página de votos tocá <b>Sign in</b> y entrá <b>con tu cuenta de STEAM</b>.</li>
+    <li>Tocá <b>Upvote</b>. Se puede votar <b>1 vez por día</b>.</li>
+    <li>Listo: en unos minutos <b>las 100 AC te llegan solas</b> mientras estés en el juego. No hace falta escribir nada.</li>
+  </ol>
+  <div class="warn">⚠️ Si entrás con Google o Discord <b>no te podemos pagar</b>, porque no sabemos qué jugador sos. Tiene que ser con <b>Steam</b>.</div>
+  <a class="btn" href="https://unofficial-servers.com/details/argentopro-ark-x5-the-island-v3617/594849871">Ir a votar</a>
+  <p class="mut">Te llevamos solos en <span id="n">15</span> segundos.</p>
+</div></body></html>
