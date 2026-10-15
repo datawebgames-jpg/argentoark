@@ -145,6 +145,15 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .wallet-box .btn{display:block;text-align:center;margin-top:6px;padding:7px 10px;font-size:13px}
 section:not(.tabon) .wallet-box{display:none}
 @media (max-width:1250px){.wallet-box{position:sticky;top:64px;width:auto;display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin:0 0 12px}.wallet-box .wb-n{margin:0}.wallet-box .btn{margin:0}}
+.lg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.lg{padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+.lg.t5{border-color:#f1c40f;background:radial-gradient(circle at 50% 0%,rgba(241,196,15,.18),rgba(0,0,0,0) 70%)}
+.lg .lg-h{display:flex;align-items:center;gap:8px;font-weight:700}.lg .lg-i{font-size:26px}
+.lg .lg-r{margin-left:auto;font:700 18px Oswald,sans-serif;color:var(--acc)}
+.lg .bar{height:8px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;margin:8px 0 4px}
+.lg .bar i{display:block;height:100%;background:linear-gradient(90deg,#f39c12,#f1c40f)}
+.lg-all{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
+.mbar{height:6px;border-radius:5px;background:rgba(255,255,255,.08);overflow:hidden;margin:3px 0 8px}.mbar i{display:block;height:100%;background:#2ecc71}
 </style>
 </head>
 <body>
@@ -183,6 +192,20 @@ section:not(.tabon) .wallet-box{display:none}
     <div class="card"><h3 style="font-size:20px;margin-bottom:6px">🏹 Cazador del día</h3><p class="mut small" style="margin:0 0 6px">El que más tamea hoy gana <b>100 AC</b> a la medianoche.</p><ol class="rank" id="evHunter"></ol></div>
     <div class="card"><h3 style="font-size:20px;margin-bottom:6px">💀 Se busca</h3><p class="mut small" style="margin:0 0 6px">Poné AC por la cabeza de alguien con <code>/recompensa jugador 100</code>. Quien lo mate en el PvP cobra todo.</p><ol class="rank" id="evBounties"></ol></div>
   </div>
+  <h3 style="font-size:24px;margin:26px 0 10px">🎯 Misiones de tribu · Mejor tribu del server</h3>
+  <p class="sub">Cada lunes salen 5 misiones nuevas. La tribu que más puntos de misión junta en el mes es la <b>MEJOR TRIBU DEL SERVER</b> y gana ACT (<span id="msPrizes"></span>).</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+    <div class="card"><h3 style="font-size:19px;margin-bottom:8px">📋 Misiones de esta semana</h3><ul class="online rank small" id="msList"></ul></div>
+    <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🏆 Ranking del mes</h3><div id="msChamp" class="small" style="margin-bottom:6px"></div><ol class="online rank" id="msRank"></ol></div>
+  </div>
+  <h3 style="font-size:24px;margin:26px 0 10px">🏅 Logros del server</h3>
+  <p class="sub">Como los logros de Steam, pero de lo que hacés en ArgentoPro. Cada logro tiene 5 grados (I a V) y cada grado da AC. Mirá los tuyos en <a href="#cuenta">Mi cuenta</a>.</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+    <div class="card" style="border-color:#f39c12"><h3 style="font-size:19px;margin-bottom:8px">🏁 Carrera de la semana</h3><div id="lgRace" class="small"></div></div>
+    <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🎖️ Los que más logros tienen</h3><ol class="online rank" id="lgBest"></ol></div>
+    <div class="card"><h3 style="font-size:19px;margin-bottom:8px">✨ Últimos logros</h3><ul class="online rank small" id="lgFeed"></ul></div>
+  </div>
+  <div class="card" style="margin-top:12px"><h3 style="font-size:19px;margin-bottom:8px">📖 Todos los logros</h3><div id="lgAll" class="lg-all"></div></div>
   <h3 style="font-size:24px;margin:26px 0 10px">👑 Reyes de la semana</h3>
   <p class="sub">Cada lunes: rey del tameo, rey del PvP, rey del nivel y la mejor tribu. Premio: <b>1 plano de más nivel</b> (~180 a 220% de daño) para cada uno — y para cada miembro de la mejor tribu. Se reclama con <code>/premio</code> en el juego, en Mi cuenta o en Discord (tenés que estar conectado al juego para recibirlo).</p>
   <div class="grid" id="evKings"></div>
@@ -228,6 +251,11 @@ section:not(.tabon) .wallet-box{display:none}
       <div id="actLog">Las respuestas aparecen acá. Lo que se entrega como item (kits, tienda, premios) necesita que estés conectado al juego.</div>
       <div class="acts" style="margin-top:12px"><button style="background:var(--acc);color:#1a1206;font-weight:700;font-size:16px;padding:10px 16px" onclick="openInv()">📦 Vender lo que tengo en el inventario</button></div>
       <div id="noticeBox" style="margin-top:12px"></div>
+    </div>
+    <div class="card" style="margin-bottom:14px"><h3 style="font-size:20px;margin-bottom:10px">🏅 Mis logros</h3><div id="myLogros" class="lg-grid"><p class="mut small">Cargando...</p></div></div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-bottom:14px">
+      <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🎯 Misiones de mi tribu</h3><div id="myMisiones" class="small"></div></div>
+      <div class="card" style="border-color:rgba(46,204,113,.5)"><h3 style="font-size:19px;margin-bottom:8px">🤝 Pactos de no agresión</h3><div id="myPactos" class="small"></div></div>
     </div>
     <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🗳️ Votar el próximo mapa</h3><div class="acts" id="voteBtns"></div></div>
@@ -703,7 +731,7 @@ async function loadMe() {
       r.online ? '<span style="color:var(--ok)">● Jugando en ' + esc(r.online) + '</span>' : '<span class="mut">Desconectado del juego</span>',
       r.prizes ? '<b style="color:var(--acc)">🏆 ' + r.prizes + ' premio(s) para reclamar</b>' : ''].filter(Boolean).join(' · ');
     $('accBal').textContent = r.balance + ' AC';
-    renderAccButtons(); renderMarket(); renderTickets(); renderRef(); renderNotices(); renderTribeShop(); renderLoginHint(); renderWallet();
+    renderAccButtons(); renderMarket(); renderTickets(); renderRef(); renderNotices(); renderTribeShop(); renderLoginHint(); renderWallet(); loadMyLogros();
   } catch { }
 }
 function renderAccButtons() {
@@ -774,7 +802,57 @@ function bounty() {
 }
 function logout() { const t = getTok(); if (t) post('logout', { token: t }).catch(() => { }); try { localStorage.removeItem(TK); } catch { } showLogin(); }
 function md(t) { return esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
+function renderLogrosPublic() {
+  const L = lastData?.logros, M = lastData?.misiones; if (!L || !$('lgRace')) return;
+  const ROM = ['I', 'II', 'III', 'IV', 'V'];
+  $('lgRace').innerHTML = L.race ? `<div style="font:700 22px Oswald;margin-bottom:4px">${L.race.icon} ${esc(L.race.name)}</div><p class="mut" style="margin:0 0 8px">Gana el que más ${esc(L.race.unit)} sume hasta el domingo. Premios: <b>${L.race.prizes.join(' / ')} AC</b></p>
+    <ol class="online rank">${L.race.top.map(x => `<li><b>${esc(x.name)}</b> <span style="margin-left:auto">+${x.gain}</span></li>`).join('') || '<li class="mut">Todavía nadie sumó. ¡Arrancá vos!</li>'}</ol>`
+    + (L.lastRace?.top?.length ? `<p class="mut small" style="margin:8px 0 0">Semana pasada (${esc(L.lastRace.name)}): ganó <b>${esc(L.lastRace.top[0].name)}</b></p>` : '') : '<span class="mut">Arranca el lunes.</span>';
+  $('lgBest').innerHTML = L.best.map(x => `<li><b>${esc(x.name)}</b><span style="margin-left:auto">${x.total}/${L.maxTotal} 🏅</span></li>`).join('') || '<li class="mut">Nadie todavía.</li>';
+  $('lgFeed').innerHTML = L.feed.map(x => `<li style="display:block">${x.icon} <b>${esc(x.who)}</b> consiguió <b>${esc(x.logro)}</b> <span class="mut">(${esc(x.desc)}, +${x.ac} AC)</span></li>`).join('') || '<li class="mut">Los próximos logros van a aparecer acá.</li>';
+  $('lgAll').innerHTML = L.list.map(l => `<div class="lg"><div class="lg-h"><span class="lg-i">${l.icon}</span>${esc(l.name)}</div><div class="small mut" style="margin-top:4px">${l.tiers.map((t, i) => `${ROM[i]}: ${t} ${i === 0 ? esc(l.unit) : ''} <b style="color:var(--acc)">+${l.ac[i]}</b>`).join(' · ')}</div></div>`).join('');
+  if (M) {
+    $('msPrizes').textContent = M.prizes.map((p, i) => (i + 1) + '° ' + p.toLocaleString('es-AR')).join(' · ');
+    $('msList').innerHTML = M.missions.map(m => `<li style="display:block"><b>${esc(m.text)}</b> <span style="color:var(--acc)">+${m.pts} pts</span>${m.doneBy.length ? `<div class="mut">✅ ${m.doneBy.map(esc).join(', ')}</div>` : ''}</li>`).join('') || '<li class="mut">Arrancan el lunes.</li>';
+    $('msChamp').innerHTML = M.champion ? `👑 Campeona del mes pasado: <b>${esc(M.champion.name)}</b> (${M.champion.points} pts)` : '';
+    $('msRank').innerHTML = M.ranking.map((t, i) => `<li>${i === 0 ? '👑 ' : ''}<b>${esc(t.name)}</b><span style="margin-left:auto">${t.points} pts</span></li>`).join('') || '<li class="mut">Ninguna tribu sumó puntos todavía este mes.</li>';
+  }
+}
+async function loadMyLogros() {
+  if (!isLinked() || !$('myLogros')) return;
+  let r; try { r = await post('logros', { token: getTok() }); } catch { return; }
+  const L = r.logros;
+  $('myLogros').innerHTML = L ? L.map(l => {
+    const pct = l.next ? Math.round((l.value - l.prev) / (l.next - l.prev) * 100) : 100;
+    return `<div class="lg${l.tier === 5 ? ' t5' : ''}"><div class="lg-h"><span class="lg-i">${l.icon}</span>${esc(l.name)}<span class="lg-r">${l.roman || '—'}</span></div>
+      <div class="bar"><i style="width:${Math.max(0, Math.min(100, pct))}%"></i></div>
+      <div class="small">${l.next ? `<b>${l.value}</b> de ${l.next} ${esc(l.unit)} <span class="mut">· próximo grado +${l.nextAc} AC</span>` : `<b>${l.value}</b> ${esc(l.unit)} · <b style="color:#f1c40f">¡COMPLETO!</b>`}</div></div>`;
+  }).join('') : '<p class="mut small">Todavía no tenemos tu personaje guardado. Entrá al juego y esperá el próximo guardado.</p>';
+  const M = r.misiones;
+  $('myMisiones').innerHTML = M ? `<p style="margin:0 0 8px">Tribu <b>${esc(M.tribe)}</b> · <b style="color:var(--acc)">${M.points} pts</b> este mes</p>` + M.missions.map(m => `<div>${m.done ? '✅' : '⬜'} ${esc(m.text)} <span class="mut">(${m.value}/${m.goal}, +${m.pts} pts)</span></div><div class="mbar"><i style="width:${Math.round(m.value / m.goal * 100)}%"></i></div>`).join('')
+    : '<p class="mut">No estás en ninguna tribu. Armá una o unite a una para sumar puntos de misión.</p>';
+  tmPactos = r.pactos; renderPactos();
+}
+let tmPactos = null;
+function renderPactos() {
+  const P = tmPactos; if (!P || !$('myPactos')) return;
+  if (!P.tribe) { $('myPactos').innerHTML = '<p class="mut">No estás en ninguna tribu.</p>'; return; }
+  const st = { propuesto: '⏳ esperando respuesta', activo: '✅ activo', terminando: '⌛ termina pronto' };
+  const list = P.pacts.map(p => `<div style="padding:6px 0;border-bottom:1px solid var(--line)"><b>${esc(p.other)}</b> · ${p.incoming ? '📩 <b>te proponen un pacto</b>' : st[p.status]}${p.broken ? ` <span style="color:#e74c3c">(${p.broken} roto${p.broken > 1 ? 's' : ''})</span>` : ''}${p.endsAt && p.status === 'terminando' ? ' <span class="mut">hasta ' + new Date(p.endsAt).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) + '</span>' : ''}
+    ${P.isLeader ? (p.incoming ? `<div class="acts" style="margin-top:4px"><button onclick="pactoAct('accept',${p.id})">Aceptar</button><button class="b2" onclick="pactoAct('reject',${p.id})">Rechazar</button></div>` : p.status !== 'terminando' ? `<div class="acts" style="margin-top:4px"><button class="b2" onclick="pactoAct('cancel',${p.id})">${p.status === 'propuesto' ? 'Retirar' : 'Terminar pacto'}</button></div>` : '') : ''}</div>`).join('');
+  $('myPactos').innerHTML = `<p class="mut" style="margin:0 0 8px">Si dos tribus tienen pacto y un miembro mata a uno de la otra, paga <b>${P.fine} AC</b> de multa para la víctima. Al 3er pacto roto se cae. Consejo: hagan también una <b>alianza</b> en el menú de tribu del juego, así el juego no los deja pegarse.</p>
+    ${list || '<p class="mut">Tu tribu no tiene pactos.</p>'}
+    ${P.isLeader ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"><select class="inp" id="pactoTribe" style="flex:1;min-width:160px">${P.tribes.map(t => `<option value="${esc(t.id)}">${esc(t.name)} (${t.members})</option>`).join('')}</select><button onclick="pactoAct('propose')">Proponer pacto</button></div>`
+      : `<p class="mut" style="margin-top:8px">Los pactos los maneja el líder de tu tribu (<b>${esc(P.leader || '?')}</b>).</p>`}`;
+}
+async function pactoAct(action, pact) {
+  const body = { token: getTok(), action, pact };
+  if (action === 'propose') body.tribe = $('pactoTribe').value;
+  if (action === 'cancel' && !confirm('¿Terminar el pacto? Sigue vigente 12 horas más.')) return;
+  try { const r = await post('pacto', body); alert(r.error || r.text); loadMyLogros(); } catch { alert('No se pudo conectar con el server.'); }
+}
 function renderEvents() {
+  renderLogrosPublic();
   const e = lastData?.events; if (!e) return;
   $('evRecruiters').innerHTML = (lastData.recruiters || []).map((x, i) => `<li><span class="pos">${i + 1}</span><span class="nm">${esc(x.name)}</span><span class="val">${x.value}</span></li>`).join('') || '<li class="mut">Todavía nadie invitó a un amigo. ¡Sé el primero!</li>';
   $('boostBanner').innerHTML = e.weekend?.active
@@ -1058,7 +1136,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610151951';
+const WEB_VERSION = '202610152222';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
