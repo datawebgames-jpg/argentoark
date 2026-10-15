@@ -332,7 +332,7 @@ section:not(.tabon) .wallet-box{display:none}
   </div>
   <div class="hub">
     <button class="hub-tile" data-p="server" onclick="tshow('server')"><img src="img/wiki/Cryopod.png" alt="" loading="lazy"><b>Tienda del server</b><span>Flechas, recursos, kits</span></button>
-    <button class="hub-tile" data-p="monturas" onclick="tshow('monturas')"><img src="img/wiki/Rex_Saddle.png" alt="" loading="lazy"><b>Monturas</b><span>250 AC cada una</span></button>
+    <button class="hub-tile" data-p="monturas" onclick="tshow('monturas')"><img src="img/wiki/Rex_Saddle.png" alt="" loading="lazy"><b>Monturas</b><span>Desde 250 AC</span></button>
     <button class="hub-tile" data-p="dinos" onclick="tshow('dinos')"><img src="img/wiki/Rex.png" alt="" loading="lazy"><b>Dinos en criopod</b><span>Nivel 1, 1000 AC</span></button>
     <button class="hub-tile" data-p="tribu" onclick="tshow('tribu')"><img src="img/wiki/Assault_Rifle.png" alt="" loading="lazy"><b>Tienda de la tribu</b><span>Con los ACT de tu tribu</span></button>
     <button class="hub-tile" data-p="ranking" onclick="tshow('ranking')"><div class="hub-emoji">🏆</div><b>Ranking de tribus</b><span>Quién junta más ACT</span></button>
@@ -1052,7 +1052,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610150412';
+const WEB_VERSION = '202610150414';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
