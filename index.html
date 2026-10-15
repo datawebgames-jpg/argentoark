@@ -137,6 +137,14 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .tmap-bar label{font-size:13px;display:flex;gap:4px;align-items:center}
 .tmap-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;margin-top:10px}
 .tmap-list div{font-size:13px;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--line);cursor:pointer}
+.wallet-box{position:fixed;right:16px;top:90px;z-index:40;width:210px;padding:12px 14px;border-radius:14px;border:1px solid #f39c12;background:rgba(14,10,4,.92);backdrop-filter:blur(6px);box-shadow:0 6px 24px rgba(0,0,0,.5)}
+.wallet-box .wb-n{font-size:12.5px;opacity:.8;margin-bottom:6px}
+.wallet-box .wb-v{font:700 26px Oswald,sans-serif;color:var(--acc);line-height:1.1}
+.wallet-box .wb-v.act{color:#7dd3fc}
+.wallet-box .wb-l{font-size:11.5px;opacity:.7;margin-bottom:6px}
+.wallet-box .btn{display:block;text-align:center;margin-top:6px;padding:7px 10px;font-size:13px}
+section:not(.tabon) .wallet-box{display:none}
+@media (max-width:1250px){.wallet-box{position:sticky;top:64px;width:auto;display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin:0 0 12px}.wallet-box .wb-n{margin:0}.wallet-box .btn{margin:0}}
 </style>
 </head>
 <body>
@@ -314,6 +322,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 </div></section>
 
 <section id="mercado" data-tab="mercado"><div class="wrap">
+  <div id="walletBox" class="wallet-box"></div>
   <h2>Tienda</h2>
   <p class="sub">Elegí qué querés ver. Todo se puede mirar; <b>para comprar o vender tenés que vincular tu cuenta</b>.</p>
   <div id="tiendaLogin" class="need-link">
@@ -322,22 +331,22 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
     <a class="btn" href="#cuenta" style="white-space:nowrap">🔗 Vincular ahora</a>
   </div>
   <div class="hub">
-    <button class="hub-tile" data-p="server" onclick="tshow('server')"><img src="https://ark.wiki.gg/images/thumb/Cryopod.png/96px-Cryopod.png" alt="" loading="lazy"><b>Tienda del server</b><span>Flechas, recursos, kits</span></button>
-    <button class="hub-tile" data-p="monturas" onclick="tshow('monturas')"><img src="https://ark.wiki.gg/images/thumb/Rex_Saddle.png/96px-Rex_Saddle.png" alt="" loading="lazy"><b>Monturas</b><span>250 AC cada una</span></button>
-    <button class="hub-tile" data-p="dinos" onclick="tshow('dinos')"><img src="https://ark.wiki.gg/images/thumb/Rex.png/96px-Rex.png" alt="" loading="lazy"><b>Dinos en criopod</b><span>Nivel 1, 1000 AC</span></button>
-    <button class="hub-tile" data-p="tribu" onclick="tshow('tribu')"><img src="https://ark.wiki.gg/images/thumb/Assault_Rifle.png/96px-Assault_Rifle.png" alt="" loading="lazy"><b>Tienda de la tribu</b><span>Con los ACT de tu tribu</span></button>
+    <button class="hub-tile" data-p="server" onclick="tshow('server')"><img src="img/wiki/Cryopod.png" alt="" loading="lazy"><b>Tienda del server</b><span>Flechas, recursos, kits</span></button>
+    <button class="hub-tile" data-p="monturas" onclick="tshow('monturas')"><img src="img/wiki/Rex_Saddle.png" alt="" loading="lazy"><b>Monturas</b><span>250 AC cada una</span></button>
+    <button class="hub-tile" data-p="dinos" onclick="tshow('dinos')"><img src="img/wiki/Rex.png" alt="" loading="lazy"><b>Dinos en criopod</b><span>Nivel 1, 1000 AC</span></button>
+    <button class="hub-tile" data-p="tribu" onclick="tshow('tribu')"><img src="img/wiki/Assault_Rifle.png" alt="" loading="lazy"><b>Tienda de la tribu</b><span>Con los ACT de tu tribu</span></button>
     <button class="hub-tile" data-p="ranking" onclick="tshow('ranking')"><div class="hub-emoji">🏆</div><b>Ranking de tribus</b><span>Quién junta más ACT</span></button>
-    <button class="hub-tile" data-p="mercado" onclick="tshow('mercado')"><img src="https://ark.wiki.gg/images/thumb/Black_Pearl.png/96px-Black_Pearl.png" alt="" loading="lazy"><b>Mercado</b><span>Comprale a otros jugadores</span></button>
-    <button class="hub-tile" data-p="vender" onclick="tshow('vender')"><img src="https://ark.wiki.gg/images/thumb/Polymer.png/96px-Polymer.png" alt="" loading="lazy"><b>Vender</b><span>Lo que tenés en el juego</span></button>
-    <button class="hub-tile" data-p="personal" onclick="tshow('personal')"><img src="https://ark.wiki.gg/images/thumb/Dossier_Rex.png/96px-Dossier_Rex.png" alt="" loading="lazy"><b>Mi tienda</b><span>Saldo, ventas y avisos</span></button>
-    <button class="hub-tile" data-p="mapa" onclick="tshow('mapa')"><img src="https://ark.wiki.gg/images/thumb/Transponder_Tracker.png/96px-Transponder_Tracker.png" alt="" loading="lazy"><b>Mapa de la tribu</b><span>Tus dinos, compañeros y muertes</span></button><button class="hub-tile" data-p="ac" onclick="tshow('ac')"><div class="hub-emoji">💝</div><b>Comprar AC</b><span>Bancá al server</span></button>
+    <button class="hub-tile" data-p="mercado" onclick="tshow('mercado')"><img src="img/wiki/Black_Pearl.png" alt="" loading="lazy"><b>Mercado</b><span>Comprale a otros jugadores</span></button>
+    <button class="hub-tile" data-p="vender" onclick="tshow('vender')"><img src="img/wiki/Polymer.png" alt="" loading="lazy"><b>Vender</b><span>Lo que tenés en el juego</span></button>
+    <button class="hub-tile" data-p="personal" onclick="tshow('personal')"><img src="img/wiki/Dossier_Rex.png" alt="" loading="lazy"><b>Mi tienda</b><span>Saldo, ventas y avisos</span></button>
+    <button class="hub-tile" data-p="mapa" onclick="tshow('mapa')"><img src="img/wiki/Transponder_Tracker.png" alt="" loading="lazy"><b>Mapa de la tribu</b><span>Mirá un ejemplo · tu personaje gratis</span></button><button class="hub-tile" data-p="ac" onclick="tshow('ac')"><div class="hub-emoji">💝</div><b>Comprar AC</b><span>Bancá al server</span></button>
   </div>
   <div class="tpanel" data-p="server">
     <h3 class="tsec">🛒 Tienda del server</h3><p class="sub" style="margin:-4px 0 12px">Pagás con ArgenCoins y el item llega solo a tu inventario (tenés que estar conectado al juego).</p>
     <div class="tshop-grid" id="shopGrid"></div>
   </div>
   <div class="tpanel" data-p="monturas">
-    <h3 class="tsec">🐎 Monturas · <span id="saddlePrice">250</span> AC</h3><p class="sub" style="margin:-4px 0 12px">Llegan solas a tu inventario. En el juego: <code>/comprar montura rex</code>.</p>
+    <h3 class="tsec">🐎 Monturas · desde <span id="saddlePrice">250</span> AC</h3><p class="sub" style="margin:-4px 0 12px">Llegan solas a tu inventario. En el juego: <code>/comprar montura rex</code>.</p>
     <div class="tshop-grid" id="saddleList"></div>
   </div>
   <div class="tpanel" data-p="dinos">
@@ -353,7 +362,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
         <p class="small mut" style="margin:4px 0 0">Armas y monturas <b>ya fabricadas</b>, de calidad <b style="color:#5fe39a">Oficial a Maestro</b> (mejores que las comunes). Se pagan con los <b>ACT</b> de la tribu y llegan al inventario del <b>fundador</b> (tiene que estar conectado al juego).</p></div>
       <div id="tshopAct" class="small" style="text-align:right"></div>
     </div>
-    <div class="tshop-tabs"><button class="on" data-k="arma" onclick="tshopTab('arma')">🔫 Armas</button><button data-k="montura" onclick="tshopTab('montura')">🦖 Monturas</button><button data-k="planos" onclick="tshopTab('planos')">📜 Planos TOP</button><button data-k="robots" onclick="tshopTab('robots')">🤖 Robots</button></div>
+    <div class="tshop-tabs"><button class="on" data-k="arma" onclick="tshopTab('arma')">🔫 Armas</button><button data-k="montura" onclick="tshopTab('montura')">🦖 Monturas</button><button data-k="planos" onclick="tshopTab('planos')">📜 Planos TOP</button><button data-k="especial" onclick="tshopTab('especial')">🥚 Especiales</button><button data-k="robots" onclick="tshopTab('robots')">🤖 Robots</button></div>
     <div class="tshop-grid" id="tshopGrid"></div>
   </div>
   </div>
@@ -397,7 +406,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
     <div id="myShop"></div>
   </div>
   <div class="tpanel" data-p="mapa">
-    <h3 class="tsec">🗺️ Mapa de la tribu</h3><p class="sub" style="margin:-4px 0 12px">Mirá dónde están tus compañeros, todos tus dinos tameados y tus bolsas de muerte, sobre el mapa real. Se actualiza con cada guardado del server (cada 15 minutos). Cada tribu ve solo lo suyo.</p>
+    <h3 class="tsec">🗺️ Mapa de la tribu</h3><p class="sub" style="margin:-4px 0 12px">Mirá sobre el mapa real dónde está tu personaje, tus dinos tameados, tus bolsas de muerte y tu tribu. Se actualiza con cada guardado del server (cada 15 minutos). Cada uno ve solo lo suyo.</p>
     <div id="tmapBox"></div>
   </div>
   <div class="tpanel" data-p="ac">
@@ -615,7 +624,7 @@ async function doLink() {
   } catch { $('linkMsg').textContent = 'No se pudo conectar con el server. Probá en un rato.'; }
 }
 function showLogin(msg) {
-  me = null; $('loginBox').style.display = ''; $('accBox').style.display = 'none';
+  me = null; renderWallet(); $('loginBox').style.display = ''; $('accBox').style.display = 'none';
   if (msg) $('linkMsg').textContent = msg;
 }
 // ---------- vender desde el inventario ----------
@@ -673,6 +682,15 @@ function renderNotices() {
   const n = me?.notices || [];
   $('noticeBox').innerHTML = n.length ? '<h3 style="font-size:17px;margin:0 0 6px">🔔 Avisos</h3>' + n.slice(0, 5).map(x => `<div class="small" style="padding:6px 8px;margin-bottom:4px;background:rgba(255,200,80,.08);border-left:3px solid var(--acc);border-radius:4px">${esc(x.text)} <span class="mut">· ${new Date(x.t).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' })}</span></div>`).join('') : '';
 }
+function renderWallet() {
+  const el = $('walletBox'); if (!el) return;
+  if (!isLinked()) { el.innerHTML = '<div class="wb-n">🔒 Vinculá tu cuenta para ver tus AC y los ACT de tu tribu</div><a class="btn" href="#cuenta">🔗 Vincular</a>'; return; }
+  const tr = me.tribe ? ((lastData && lastData.tribes) || []).find(t => t.name === me.tribe) : null;
+  el.innerHTML = `<div class="wb-n">👤 <b>${esc(me.char)}</b></div>
+    <div><div class="wb-v">${Number(me.balance || 0).toLocaleString('es-AR', { maximumFractionDigits: 0 })} AC</div><div class="wb-l">ArgenCoins (tuyas)</div></div>
+    <div><div class="wb-v act">${tr ? Number(tr.act || 0).toLocaleString('es-AR', { maximumFractionDigits: 0 }) : '0'} ACT</div><div class="wb-l">${tr ? 'Puntos de tribu · ' + esc(tr.name) : 'Sin tribu'}</div></div>
+    <a class="btn" href="#tienda" onclick="setTimeout(()=>tshow('ac'),50)">💰 Comprar AC</a>`;
+}
 async function loadMe() {
   const token = getTok();
   if (!token) return showLogin();
@@ -685,7 +703,7 @@ async function loadMe() {
       r.online ? '<span style="color:var(--ok)">● Jugando en ' + esc(r.online) + '</span>' : '<span class="mut">Desconectado del juego</span>',
       r.prizes ? '<b style="color:var(--acc)">🏆 ' + r.prizes + ' premio(s) para reclamar</b>' : ''].filter(Boolean).join(' · ');
     $('accBal').textContent = r.balance + ' AC';
-    renderAccButtons(); renderMarket(); renderTickets(); renderRef(); renderNotices(); renderTribeShop(); renderLoginHint();
+    renderAccButtons(); renderMarket(); renderTickets(); renderRef(); renderNotices(); renderTribeShop(); renderLoginHint(); renderWallet();
   } catch { }
 }
 function renderAccButtons() {
@@ -695,7 +713,7 @@ function renderAccButtons() {
     + `<button class="b2 p" onclick="act('comprar T12')">⚔️ Kit de 5 planos de armas · <b>3000 AC</b></button>`;
   const x = lastData.shopExtra;
   if (x && !$('buySaddle').options.length) {
-    $('buySaddle').innerHTML = x.saddles.map(s => `<option value="${esc(s.code)}">${esc(s.name)}</option>`).join('');
+    $('buySaddle').innerHTML = x.saddles.map(s => `<option value="${esc(s.code)}">${esc(s.name)}${s.price && s.price !== x.saddlePrice ? ' (' + s.price + ' AC)' : ''}</option>`).join('');
     $('buyDino').innerHTML = x.dinos.map(d => `<option value="${esc(d.code)}">${esc(d.name)}</option>`).join('');
     $('buySaddleP').textContent = x.saddlePrice; $('buyDinoP').textContent = x.dinoPrice;
     if (x.cryo) $('dinoHow1').textContent = 'Dino nivel 1: llega en una criopod. Después escribí /recibir en el juego con el código que te damos.';
@@ -816,7 +834,7 @@ const SADDLE_ICON = { raptor: 'Raptor', rex: 'Rex', trike: 'Trike', stego: 'Steg
   carno: 'Carno', alo: 'Allosaurus', theri: 'Therizinosaurus', bary: 'Baryonyx', tapejara: 'Tapejara', castor: 'Castoroides', oso: 'Dire_Bear', megatherium: 'Megatherium',
   giga: 'Giganotosaurus', bronto: 'Bronto', pachy: 'Pachy', ictio: 'Ichthyosaurus', plesio: 'Plesiosaur', basilo: 'Basilosaurus', rino: 'Woolly_Rhino', kapro: 'Kaprosuchus',
   sarco: 'Sarco', tortuga: 'Carbonemys', pela: 'Pelagornis', ciervo: 'Megaloceros', equus: 'Equus', daeodon: 'Daeodon', yuty: 'Yutyrannus', megalania: 'Megalania',
-  iguanodon: 'Iguanodon', terror: 'Terror_Bird', chali: 'Chalicotherium', canguro: 'Procoptodon', galli: 'Gallimimus' };
+  iguanodon: 'Iguanodon', terror: 'Terror_Bird', chali: 'Chalicotherium', canguro: 'Procoptodon', galli: 'Gallimimus', carcha: 'Carcha', quetzalplataforma: 'Quetz_Platform', maewing: 'Maewing' };
 const isLinked = () => !!(getTok() && me);
 function needLink() { if (isLinked()) return false; $('linkModal').style.display = 'flex'; return true; }
 let tpanel = 'server';
@@ -848,33 +866,44 @@ function renderMyShop() {
     <div class="card"><h3 style="font-size:18px;margin-bottom:8px">🔔 Avisos</h3>${n.length ? n.slice(0, 8).map(x => `<div class="small" style="padding:5px 0;border-bottom:1px solid var(--line)">${esc(x.text)}</div>`).join('') : '<p class="small mut" style="margin:0">Sin avisos.</p>'}</div>`;
 }
 // ---------- mapa de la tribu ----------
-let tmapData = null, tmapSel = null, tmapShow = { me: true, dino: true, dead: true }, tmapFocus = null;
+// sin vincular: mapa de ejemplo. Vinculado: su personaje gratis. Pase personal: + sus dinos y muertes. Pase de tribu: toda la tribu.
+let tmapData = null, tmapSel = null, tmapShow = { me: true, dino: true, dead: true };
+const TMAP_DEMO = { demo: true, plan: 'tribu', label: 'Tribu de ejemplo', plans: { personal: { ars: 10000, name: 'Pase personal' }, tribu: { ars: 15000, name: 'Pase de tribu' } }, days: 30, maps: [{ id: 'TheIsland', name: 'The Island', img: 'The_Island_Map.jpg', savedAt: Date.now() - 6 * 60000,
+  players: [{ name: 'Vos', lat: 25.3, lon: 76.8 }, { name: 'Compañero', sleeping: true, lat: 78.6, lon: 28.1 }],
+  dinos: [{ name: 'Rexona', species: 'Rex', level: 224, sex: 'hembra', lat: 26.1, lon: 75.2 }, { name: 'Volador', species: 'Argentavis', level: 180, sex: 'macho', lat: 24.8, lon: 77.9 }, { name: 'Tanque', species: 'Anquilosaurio', level: 140, sex: 'hembra', lat: 31, lon: 76.2 },
+    { name: 'Pirulon', species: 'Pteranodon', level: 152, sex: 'hembra', lat: 78.5, lon: 28.4 }, { name: '', species: 'Triceratops', level: 95, sex: 'macho', lat: 66.4, lon: 39.8 }, { name: 'Perdido', species: 'Parasaurio', level: 60, sex: 'macho', lat: 45.2, lon: 52.7 }],
+  deaths: [{ owner: 'Vos', items: 42, lat: 40.1, lon: 61.3 }, { owner: 'Compañero', items: 7, lat: 70.5, lon: 34.9 }] }] };
 async function loadTribeMap() {
-  if (!isLinked()) { $('tmapBox').innerHTML = '<div class="need-link"><div class="nl-ico">🔒</div><div><b>Vinculá tu cuenta para ver el mapa de tu tribu</b></div><a class="btn" href="#cuenta">🔗 Vincular ahora</a></div>'; return; }
+  if (!isLinked()) { tmapData = TMAP_DEMO; renderTribeMap(); return; }
   $('tmapBox').innerHTML = '<p class="mut">Leyendo el mapa...</p>';
   try { tmapData = await post('tribemap', { token: getTok() }); } catch { $('tmapBox').innerHTML = '<p class="mut">No se pudo conectar con el server.</p>'; return; }
   renderTribeMap();
 }
-function buyTribeMap() {
+async function tmapDonar(plan) {
   if (needLink()) return;
-  if (!confirm('¿Comprar el pase del mapa de la tribu por ' + tmapData.price + ' AC (' + tmapData.days + ' días)?')) return;
-  post('tribemapbuy', { token: getTok() }).then(r => { alert(r.error || r.text); loadMe(); loadTribeMap(); }).catch(() => alert('No se pudo conectar con el server.'));
+  const P = tmapData.plans[plan];
+  const note = prompt(`${P.name}: transferí $${P.ars.toLocaleString('es-AR')} al alias ${tmapData.alias || 'danielmfaggi'}.\nDespués escribí acá tu nombre de la transferencia o el número de comprobante y tocá Aceptar para avisar al admin:`);
+  if (note === null) return;
+  try { const r = await post('act', { token: getTok(), cmd: 'donar ' + (plan === 'personal' ? 'mapa' : 'mapatribu') + ' ' + note }); alert((r.replies || []).join('\n') || 'Listo'); loadMe(); }
+  catch { alert('No se pudo conectar con el server.'); }
+}
+function tmapOffer(d) {
+  const P = d.plans, a = d.alias || 'danielmfaggi';
+  const card = (plan, ico, title, what, price) => `<div class="card" style="text-align:center;border-color:#f39c12;background:radial-gradient(circle at 50% 0%,rgba(243,156,18,.18),rgba(0,0,0,0) 70%)">
+    <div style="font-size:42px">${ico}</div><h3 style="margin:2px 0 6px">${title}</h3><p class="small" style="margin:0 0 8px">${what}</p>
+    <div style="font:700 28px Oswald;color:var(--acc)">$${price.toLocaleString('es-AR')} <span class="small mut" style="font:400 13px Inter,sans-serif">por mes</span></div>
+    ${d.demo ? '' : `<button class="btn" style="margin-top:8px" onclick="tmapDonar('${plan}')">Ya transferí: avisar</button>`}</div>`;
+  return `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:12px 0">
+    ${d.plan === 'personal' ? '' : card('personal', '🦖', 'Pase personal', 'Ves tu personaje, <b>todos tus dinos</b> con nombre y nivel, y <b>dónde quedaron tus bolsas de muerte</b>.', P.personal.ars)}
+    ${card('tribu', '🗺️', 'Pase de tribu', 'Ves a <b>toda la tribu</b>: tus compañeros, <b>todos los dinos de la tribu</b> y todas las bolsas de muerte.', P.tribu.ars)}</div>
+    <p class="small mut" style="text-align:center;margin:0 0 12px">Se paga por transferencia al alias <b>${esc(a)}</b>. Cuando el admin confirma, se activa por 30 días.</p>`;
 }
 function renderTribeMap() {
   const d = tmapData; if (!d) return;
-  if (d.error) { $('tmapBox').innerHTML = '<p class="mut">' + esc(d.error) + '</p>'; return; }
-  if (!d.pass) {
-    $('tmapBox').innerHTML = `<div class="card" style="text-align:center;border-color:#f39c12;background:radial-gradient(circle at 50% 0%,rgba(243,156,18,.2),rgba(0,0,0,0) 70%)">
-      <div style="font-size:60px">🗺️</div><h3 style="font-size:24px;margin:0 0 6px">Pase del mapa de la tribu</h3>
-      <p style="margin:0 0 6px">Para <b>${esc(d.label)}</b>: ves en el mapa a tus compañeros 🧍, <b>todos tus dinos tameados</b> 🦖 con nombre y nivel, y <b>dónde quedaron tus bolsas de muerte</b> 💀.</p>
-      <p class="small mut" style="margin:0 0 12px">Lo compra cualquier miembro y sirve para toda la tribu. Gratis 30 días con la donación de 10.000 AC.</p>
-      <div style="font:700 34px Oswald;color:var(--acc)">${d.price.toLocaleString('es-AR')} AC <span class="small mut" style="font:400 14px Inter,sans-serif">por ${d.days} días</span></div>
-      <button class="btn" style="margin-top:8px" onclick="buyTribeMap()">Comprar pase</button></div>`;
-    return;
-  }
+  if (d.error && !(d.maps || []).length) { $('tmapBox').innerHTML = '<p class="mut">' + esc(d.error) + '</p>'; return; }
   if (!tmapSel || !d.maps.some(m => m.id === tmapSel)) tmapSel = (d.maps.find(m => m.players.length || m.dinos.length) || d.maps[0])?.id;
   const m = d.maps.find(x => x.id === tmapSel);
-  const mins = m ? Math.round((Date.now() - m.savedAt) / 60000) : 0;
+  const mins = m ? Math.max(0, Math.round((Date.now() - m.savedAt) / 60000)) : 0;
   const pin = (x, cls, html, tip) => `<div class="tmk ${cls}" style="left:${tmapX(x.lon)}%;top:${tmapY(x.lat)}%" data-tip="${esc(tip)}">${html}</div>`;
   let pins = '';
   if (m) {
@@ -883,18 +912,24 @@ function renderTribeMap() {
     if (tmapShow.me) pins += m.players.map(x => pin(x, 'me' + (x.sleeping ? ' zz' : ''), '🧍', `🧍 ${x.name}${x.sleeping ? ' (desconectado)' : ''} · ${x.lat}, ${x.lon}`)).join('');
   }
   const list = m ? [...m.players.map(x => ['🧍', x.name + (x.sleeping ? ' (desconectado)' : ''), x]), ...m.deaths.map(x => ['💀', 'Bolsa de ' + x.owner + ' (' + x.items + ' cosas)', x]),
-    ...m.dinos.sort((a, b) => b.level - a.level).map(x => ['🦖', (x.name || x.species) + ' nv ' + x.level, x])] : [];
-  $('tmapBox').innerHTML = `<div class="tmap-bar">${d.maps.map(x => `<button class="${x.id === tmapSel ? 'on' : ''}" onclick="tmapSel='${x.id}';renderTribeMap()">${esc(x.name)} <span class="small">(${x.dinos.length} 🦖)</span></button>`).join('')}
-      <span class="small mut" style="margin-left:auto">Pase de <b>${esc(d.label)}</b> hasta el ${new Date(d.pass.until).toLocaleDateString('es-AR')}</span></div>
-    <div class="tmap-bar"><label><input type="checkbox" ${tmapShow.me ? 'checked' : ''} onchange="tmapShow.me=this.checked;renderTribeMap()">🧍 Compañeros (${m ? m.players.length : 0})</label>
-      <label><input type="checkbox" ${tmapShow.dino ? 'checked' : ''} onchange="tmapShow.dino=this.checked;renderTribeMap()">🦖 Dinos (${m ? m.dinos.length : 0})</label>
-      <label><input type="checkbox" ${tmapShow.dead ? 'checked' : ''} onchange="tmapShow.dead=this.checked;renderTribeMap()">💀 Bolsas de muerte (${m ? m.deaths.length : 0})</label>
+    ...m.dinos.slice().sort((a, b) => b.level - a.level).map(x => ['🦖', (x.name || x.species) + ' nv ' + x.level, x])] : [];
+  const planTxt = d.demo ? '<b style="color:#e74c3c">MAPA DE EJEMPLO</b> · vinculá tu cuenta para ver el tuyo'
+    : d.plan === 'tribu' ? `Pase de tribu de <b>${esc(d.label)}</b>${d.until ? ' hasta el ' + new Date(d.until).toLocaleDateString('es-AR') : ' (permanente)'}`
+    : d.plan === 'personal' ? `Pase personal hasta el ${new Date(d.until).toLocaleDateString('es-AR')}` : 'Gratis: solo ves tu personaje';
+  const top = d.demo ? `<div class="need-link" style="margin-bottom:12px"><div class="nl-ico">👀</div><div><b>Así se ve el mapa de la tribu.</b> Para ver tu personaje vinculá tu cuenta (gratis). Para ver tus dinos y tus muertes, o los de toda tu tribu, sacá un pase.</div><a class="btn" href="#cuenta">🔗 Vincular cuenta</a></div>` : '';
+  const offer = d.plan === 'tribu' && !d.demo ? '' : tmapOffer(d);
+  const locked = !d.demo && d.plan !== 'tribu';
+  $('tmapBox').innerHTML = top + `<div class="tmap-bar">${d.maps.map(x => `<button class="${x.id === tmapSel ? 'on' : ''}" onclick="tmapSel='${x.id}';renderTribeMap()">${esc(x.name)} <span class="small">(${x.players.length} 🧍 ${x.dinos.length} 🦖)</span></button>`).join('')}
+      <span class="small mut" style="margin-left:auto">${planTxt}</span></div>
+    <div class="tmap-bar"><label><input type="checkbox" ${tmapShow.me ? 'checked' : ''} onchange="tmapShow.me=this.checked;renderTribeMap()">🧍 ${d.plan === 'tribu' ? 'Compañeros' : 'Tu personaje'} (${m ? m.players.length : 0})</label>
+      <label><input type="checkbox" ${tmapShow.dino ? 'checked' : ''} onchange="tmapShow.dino=this.checked;renderTribeMap()">🦖 Dinos (${m ? m.dinos.length : 0})${locked && d.plan !== 'personal' ? ' 🔒' : ''}</label>
+      <label><input type="checkbox" ${tmapShow.dead ? 'checked' : ''} onchange="tmapShow.dead=this.checked;renderTribeMap()">💀 Bolsas de muerte (${m ? m.deaths.length : 0})${locked && d.plan !== 'personal' ? ' 🔒' : ''}</label>
       <span class="small mut">Guardado hace ${mins} min</span></div>
-    <div class="tmap-wrap" id="tmapWrap">${m && m.img ? `<img class="base" src="https://ark.wiki.gg/images/${m.img}" alt="">` : '<div style="padding:120px 0;text-align:center" class="mut">Sin imagen de este mapa</div>'}${pins}<div class="tmap-tip" id="tmapTip"></div></div>
-    <div class="tmap-list">${list.map(([i, t, x]) => `<div onclick="tmapFlash(${x.lat},${x.lon})">${i} ${esc(t)} <span class="mut small">${x.lat}, ${x.lon}</span></div>`).join('') || '<p class="mut">No hay nada tuyo en este mapa.</p>'}</div>`;
+    <div class="tmap-wrap" id="tmapWrap">${m && m.img ? `<img class="base" src="img/wiki/${m.img}" alt="">` : '<div style="padding:120px 0;text-align:center" class="mut">Todavía no hay datos de tu personaje. Entrá al juego y esperá el próximo guardado (15 min).</div>'}${pins}<div class="tmap-tip" id="tmapTip"></div></div>
+    <div class="tmap-list">${list.map(([i, t, x]) => `<div onclick="tmapFlash(${x.lat},${x.lon})">${i} ${esc(t)} <span class="mut small">${x.lat}, ${x.lon}</span></div>`).join('') || '<p class="mut">No hay nada tuyo en este mapa.</p>'}</div>` + offer;
   const wrap = $('tmapWrap'), tip = $('tmapTip');
   wrap.querySelectorAll('.tmk').forEach(el => {
-    el.addEventListener('mouseenter', () => { tip.textContent = el.dataset.tip; tip.style.display = 'block'; tip.style.left = Math.min(el.offsetLeft + 10, wrap.clientWidth - 260) + 'px'; tip.style.top = (el.offsetTop + 12) + 'px'; });
+    el.addEventListener('mouseenter', () => { tip.textContent = el.dataset.tip; tip.style.display = 'block'; tip.style.left = Math.max(4, Math.min(el.offsetLeft + 10, wrap.clientWidth - tip.offsetWidth - 4)) + 'px'; tip.style.top = (el.offsetTop + 12) + 'px'; });
     el.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
     el.addEventListener('click', () => alert(el.dataset.tip));
   });
@@ -909,8 +944,9 @@ function tmapFlash(lat, lon) {
 // ---------- tienda de la tribu ----------
 let tshopKind = 'arma';
 function tshopTab(k) { tshopKind = k; document.querySelectorAll('.tshop-tabs button').forEach(b => b.classList.toggle('on', b.dataset.k === k)); renderTribeShop(); }
-const wikiIcon = n => 'https://ark.wiki.gg/images/thumb/' + n + '.png/96px-' + n + '.png';
+const wikiIcon = n => 'img/wiki/' + n + '.png';
 function renderTribeShop() {
+  renderWallet();
   const L = lastData?.tribeLadder; if (!L || !$('tshopGrid')) return;
   // ACT de la tribu del jugador conectado
   const myTribe = me?.tribe ? (lastData.tribes || []).find(t => t.name === me.tribe) : null;
@@ -930,9 +966,9 @@ function renderTribeShop() {
       <div class="nm">Plano TOP al azar</div><div class="pr">${L.priceRandom.toLocaleString('es-AR')} ACT</div><button onclick="shopBuy('tribu comprar azar')">Comprar</button></div>`;
     return;
   }
-  $('tshopGrid').innerHTML = (L.gear || []).filter(x => x.kind === tshopKind).map(x => `<div class="tshop-item"><span class="q">MEJORADA</span>
+  $('tshopGrid').innerHTML = (L.gear || []).filter(x => x.kind === tshopKind).map(x => `<div class="tshop-item">${x.kind === 'especial' ? '<span class="q" style="background:rgba(46,204,113,.2);color:#7dffb0">GENESIS 2</span>' : (x.price || 0) > L.priceGear ? '<span class="q" style="background:rgba(155,89,182,.3);color:#d7a8f0">PREMIUM</span>' : '<span class="q">MEJORADA</span>'}
     <img src="${wikiIcon(x.icon)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
-    <div class="nm">${esc(x.name)}</div><div class="pr">${L.priceGear} ACT</div>
+    <div class="nm">${esc(x.name)}</div><div class="pr">${(x.price || L.priceGear).toLocaleString('es-AR')} ACT</div>
     <button onclick="shopBuy('tribu item ${x.code}')">Comprar</button></div>`).join('');
 }
 function renderShop() {
@@ -942,7 +978,7 @@ function renderShop() {
   const x = lastData?.shopExtra;
   if (x) {
     $('saddlePrice').textContent = x.saddlePrice; $('dinoPrice').textContent = x.dinoPrice;
-    $('saddleList').innerHTML = x.saddles.map(m => card((SADDLE_ICON[m.code] || 'Rex') + '_Saddle', 'Montura de ' + m.name, x.saddlePrice + ' AC', `<button onclick="shopBuy('comprar montura ${esc(m.code)}')">Comprar</button>`)).join('');
+    $('saddleList').innerHTML = x.saddles.map(m => card((SADDLE_ICON[m.code] || 'Rex') + '_Saddle', 'Montura de ' + m.name, (m.price || x.saddlePrice) + ' AC', `<button onclick="shopBuy('comprar montura ${esc(m.code)}')">Comprar</button>`)).join('');
     $('dinoList').innerHTML = x.dinos.map(d => card(DINO_ICON[d.code] || 'Rex', d.name + ' nv 1', x.dinoPrice + ' AC',
       `<button onclick="shopBuy('comprar dino ${esc(d.code)}')">Comprar</button><div class="sx"><button onclick="shopBuy('comprar dino ${esc(d.code)} hembra')">♀ Hembra</button><button onclick="shopBuy('comprar dino ${esc(d.code)} macho')">♂ Macho</button></div>`, x.cryo ? 'CRIOPOD' : '')).join('');
   }
@@ -1016,7 +1052,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610141654';
+const WEB_VERSION = '202610150412';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
@@ -1029,7 +1065,7 @@ $('fk').innerHTML += KIBBLE.map(x => `<option>${x.k}</option>`).join('') + '<opt
 
 const DHAB = {"Dilophosaur":"Selvas y pantanos.","Dodo":"Playas y llanuras, casi en todos lados.","Kairuku":"Costas frías y zonas nevadas.","Mesopithecus":"Selvas y bosques.","Parasaur":"Playas y llanuras.","Phiomia":"Llanuras y bosques.","Archaeopteryx":"Copas de los bosques de secuoyas.","Diplocaulus":"Pantanos, lagos y cuevas con agua.","Gallimimus":"Llanuras abiertas, en manada.","Giant Bee":"Colmenas en acantilados y bosques de secuoyas.","Ichthyosaurus":"Mar, cerca de la costa.","Iguanodon":"Llanuras y bosques.","Megaloceros":"Bosques y praderas.","Morellatops":"Desiertos y zonas áridas.","Pachy":"Llanuras y bosques.","Raptor":"Llanuras, playas y bosques, en grupos.","Triceratops":"Llanuras y costas.","Anglerfish":"Aguas profundas y oscuras.","Ankylosaurus":"Montañas y zonas rocosas.","Baryonyx":"Ríos, lagos y costas.","Beelzebufo":"Pantanos.","Carbonemys":"Lagos, ríos y costas.","Carnotaurus":"Llanuras y montañas.","Dimetrodon":"Pantanos.","Diplodocus":"Llanuras y playas.","Doedicurus":"Montañas y zonas rocosas.","Equus":"Llanuras y praderas, más en zonas frías.","Gigantopithecus":"Bosques de secuoyas y zonas nevadas.","Ichthyornis":"Costas y acantilados del mar.","Kaprosuchus":"Pantanos.","Kentrosaurus":"Pantanos y selvas.","Lymantria":"Desiertos y zonas áridas.","Pelagornis":"Costas y lagos.","Pteranodon":"Costas y acantilados.","Purlovia":"Zonas nevadas, escondido bajo tierra.","Sabertooth":"Montañas y zonas nevadas.","Sarco":"Ríos y pantanos.","Pulmonoscorpius":"Cuevas y desiertos.","Stegosaurus":"Llanuras y bosques.","Terror Bird":"Llanuras y bosques.","Thorny Dragon":"Desiertos.","Velonasaur":"Zonas áridas y montañas.","Allosaurus":"Bosques y montañas, en manada.","Argentavis":"Montañas y picos altos.","Castoroides":"Junto a lagos y ríos, cerca de sus diques.","Daeodon":"Bosques y zonas nevadas.","Dire Bear":"Bosques nevados y de secuoyas.","Direwolf":"Zonas nevadas, en manada.","Dunkleosteus":"Mar profundo.","Mammoth":"Zonas nevadas.","Megalodon":"Mar abierto.","Megalosaurus":"Cuevas y bosques (de día duerme).","Megatherium":"Bosques de secuoyas y zonas nevadas.","Paraceratherium":"Llanuras y costas.","Plesiosaur":"Mar abierto.","Snow Owl":"Zonas nevadas.","Tapejara":"Acantilados y montañas.","Woolly Rhino":"Zonas nevadas.","Xiphactinus":"Mar y ríos.","Amargasaurus":"Llanuras y selvas.","Basilosaurus":"Mar abierto.","Brontosaurus":"Llanuras, costas y bosques.","Dinopithecus":"Selvas.","Giganotosaurus":"Volcán y montañas (no aparece en todos los mapas).","Mosasaurus":"Mar profundo.","Quetzal":"Sobrevuela llanuras y montañas.","Rex":"Selvas, montañas y bosques del centro del mapa.","Therizinosaur":"Bosques y selvas.","Spino":"Ríos, pantanos y costas.","Griffin":"Montañas altas.","Megalania":"Cuevas.","Rock Elemental":"Zonas volcánicas y desiertos.","Thylacoleo":"Bosques de secuoyas, colgado de los árboles.","Yutyrannus":"Zonas nevadas.","Compy":"Selvas y bosques, en grupo.","Microraptor":"Bosques de secuoyas.","Procoptodon":"Llanuras y bosques.","Ovis":"Montañas y praderas.","Tusoteuthis":"Mar profundo.","Electrophorus":"Ríos y lagos.","Lystrosaurus":"Bosques y llanuras.","Moschops":"Desiertos y llanuras.","Onyc":"Cuevas.","Arthropluera":"Cuevas.","Araneo":"Cuevas.","Dung Beetle":"Cuevas.","Chalicotherium":"Zonas nevadas y montañas.","Manta":"Mar.","Mantis":"Desiertos.","Vulture":"Desiertos y montañas.","Pegomastax":"Bosques y llanuras.","Hyaenodon":"Llanuras y bosques.","Liopleurodon":"Mar abierto (raro, aparece por poco tiempo).","Titanoboa":"Cuevas.","Otter":"Ríos y lagos.","Hesperornis":"Lagos y ríos.","Wyvern":"Trincheras de wyverns: se roba un huevo y se cría.","Ice Wyvern":"Zonas heladas: se roba un huevo y se cría.","Rock Drake":"Nidos en Aberration: se roba un huevo y se cría.","Deinonychus":"Nidos en acantilados: se roba un huevo y se cría.","Andrewsarchus":"Montañas y cuevas.","Fjordhawk":"Fjordur.","Fenrir":"Fjordur.","Desmodus":"Cuevas.","Sinomacrops":"Bosques."};
 const DICON = {"Triceratops":"Trike","Pulmonoscorpius":"Scorpion","Castoroides":"Giant_Beaver","Woolly Rhino":"Woolly_Rhinoceros","Araneo":"Spider"};
-const dinoImg = d => { const n = DICON[d.n] || d.n.replace(/ /g, '_'); return 'https://ark.wiki.gg/images/thumb/' + n + '.png/96px-' + n + '.png'; };
+const dinoImg = d => { const n = DICON[d.n] || d.n.replace(/ /g, '_'); return 'img/wiki/' + n + '.png'; };
 function comida(d) {
   const alt = { 'Carnívoro': 'Carne de cordero cruda > Carne prime cruda > Carne cruda',
     'Herbívoro': 'Verduras (Rockarrot, Longrass, Savoroot, Citronal) > Mejobayas',
