@@ -237,6 +237,7 @@ section:not(.tabon) .wallet-box{display:none}
     <div class="card guia-c" style="border-color:#f1c40f"><h3>🎖️ Rangos en la tribu</h3><ul><li>Soldado raso → Cabo → Cabo primero → <b>Sargento</b> → Sargento primero → Suboficial → Teniente → Capitán → Mayor → Coronel. El líder es <b>Comandante</b>.</li><li>El comandante te manda <b>pruebas</b> (tamear, subir niveles, notas, PvP, traer materiales...). Si la cumplís: <b>+50 AC y subís un rango</b>.</li><li>Desde <b>Sargento</b> podés mandar mensajes a toda la tribu. Cada rango tiene su color.</li></ul></div>
     <div class="card guia-c" style="border-color:#2ecc71"><h3>🤝 Entrar a una tribu</h3><ul><li>En <a href="#cuenta">Mi cuenta</a> → <b>Unirme a una tribu</b>: elegís la tribu, le contás algo y mandás la solicitud.</li><li>El líder la acepta o la rechaza desde la página, y te avisamos en el juego.</li><li>Si te aceptan, el líder te invita en el juego (te mira, mantiene <b>E</b> → "Invitar a la tribu").</li><li>También podés buscar tribu en Discord: <b>🤝・busco-tribu</b>.</li></ul></div>
     <div class="card guia-c" style="border-color:#5865f2"><h3>💬 Discord de ArgentoPro</h3><ul><li>Entrá: <a href="https://discord.gg/2EqEE46DjW" target="_blank" rel="noopener">discord.gg/2EqEE46DjW</a> y vinculá tu cuenta con <code>/vincular</code> (te da el rol verde <b>✅ Vinculado</b>).</li><li><b>🏆・ranking</b>: la mejor tribu del mes, misiones y los mejores, actualizado solo.</li><li><b>🏅・logros-y-premios</b>: cada logro, ascenso y premio grande.</li><li><b>Canal privado para tu tribu</b> (texto y voz): el líder lo compra en la página por <b>3000 ACT</b> y aparece con el rol dorado <b>👑 Líder</b>.</li></ul></div>
+    <div class="card guia-c" style="border-color:#f1c40f"><h3>👑 Monarcas, alfas y protección</h3><ul><li><b>Cazador de alfas:</b> cada alfa que matás (Raptor, Carno, Rex, Megalodon...) te da <b>+25 AC</b> y <b>+15 ACT</b> para tu tribu. El que más mata en el día gana <b>200 AC</b>.</li><li><b>Monarca del mapa:</b> la tribu con <b>más cabezas de boss</b> en un mapa es la dueña: las demás tribus de ese mapa le pagan <b>50 ACT por día</b>. Para destronarla, juntá más cabezas.</li><li><b>Protección por ACT:</b> una tribu protege a otra y le cobra 50 ACT por día (se acuerda en Mi cuenta). Si un protector mata a un protegido: <b>-1000 AC</b>, y a la 2da vez <b>24 hs de ban</b>.</li></ul></div>
     <div class="card guia-c" style="border-color:#c0392b"><h3>⚔️ PvP y reglas</h3><ul><li><b>PvP:</b> lunes a viernes de <b>21 a 22 hs</b>, sábados y domingos de <b>12 a 23 hs</b>. El resto del día es paz (PvE): <b>no se puede matar a nadie, ni con el personaje ni con un dino</b>. Si pasa, multa y castigo de asesinato ilegal (si fue un dino, lo paga el líder de su tribu).</li><li><b>Asedios</b> (romper bases): sábados y domingos de <b>20 a 22 hs</b>.</li><li><b>Pelear solo es legal si los dos son nivel 80 o más.</b> Para romper bases hay que ser nivel 100+.</li><li>Matar a alguien de menos de nivel 80: <b>100 AC de multa</b> para la víctima y ganás AC a media velocidad. A los 10 sos <b>Criminal</b>.</li><li>Nada de cheats, exploits, ni bloquear cuevas o spawns: ban directo.</li></ul></div>
 
     <div class="card guia-c"><h3>🗳️ Votar</h3><ul><li><b>Votá el server</b> todos los días: <a href="votar.html" target="_blank" rel="noopener">tinyurl.com/votaargentoark</a>. En la página de votos entrá <b>con tu cuenta de STEAM</b> (no con Google ni Discord) y tocá Upvote: las <b>100 AC te llegan solas</b> en unos minutos mientras estés jugando.</li><li><b>Votá el próximo mapa rotativo:</b> <code>/votar</code> en el juego o en Mi cuenta. El que gana entra el lunes a las 06:00.</li></ul></div>
@@ -268,6 +269,12 @@ section:not(.tabon) .wallet-box{display:none}
   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
     <div class="card"><h3 style="font-size:19px;margin-bottom:8px">📋 Misiones de esta semana</h3><ul class="online rank small" id="msList"></ul></div>
     <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🏆 Ranking del mes</h3><div id="msChamp" class="small" style="margin-bottom:6px"></div><ol class="online rank" id="msRank"></ol></div>
+  </div>
+  <h3 style="font-size:24px;margin:26px 0 10px">👑 Monarcas de los mapas · 🦖 Cazador de alfas</h3>
+  <p class="sub">La tribu con <b>más cabezas de boss</b> en un mapa es su <b>MONARCA</b>: las demás tribus de ese mapa le pagan <b><span id="trTax">50</span> ACT por día</b>. Cada <b>alfa</b> que matás te da AC y ACT para tu tribu.</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+    <div class="card" style="border-color:#f1c40f"><h3 style="font-size:19px;margin-bottom:8px">👑 Monarcas</h3><div id="trMon" class="small"></div></div>
+    <div class="card" style="border-color:#e74c3c"><h3 style="font-size:19px;margin-bottom:8px">🦖 Cazador de alfas</h3><div id="trAlpha" class="small"></div></div>
   </div>
   <h3 style="font-size:24px;margin:26px 0 10px">🏅 Logros del server</h3>
   <p class="sub">Como los logros de Steam, pero de lo que hacés en ArgentoPro. Cada logro tiene 5 grados (I a V) y cada grado da AC. Mirá los tuyos en <a href="#cuenta">Mi cuenta</a>.</p>
@@ -329,6 +336,7 @@ section:not(.tabon) .wallet-box{display:none}
     <div class="card" style="margin-bottom:14px;border-color:#f1c40f"><h3 style="font-size:19px;margin-bottom:8px">🎖️ Rangos y pruebas de la tribu</h3><div id="myRangos" class="small"></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#5865f2;background:radial-gradient(circle at 0% 0%,rgba(88,101,242,.18),rgba(0,0,0,0) 60%)"><h3 style="font-size:19px;margin-bottom:8px">💬 Canal de Discord de la tribu</h3><div id="myDiscord" class="small"></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#2ecc71"><h3 style="font-size:19px;margin-bottom:8px">🤝 Unirme a una tribu · solicitudes</h3><div id="mySolic" class="small"></div></div>
+    <div class="card" style="margin-bottom:14px;border-color:#3498db"><h3 style="font-size:19px;margin-bottom:8px">🛡️ Protección por ACT</h3><div id="myGuard" class="small"></div></div>
     <div class="card" style="margin-bottom:14px"><h3 style="font-size:20px;margin-bottom:10px">🏅 Mis logros</h3><div id="myLogros" class="lg-grid"><p class="mut small">Cargando...</p></div></div>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-bottom:14px">
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🎯 Misiones de mi tribu</h3><div id="myMisiones" class="small"></div></div>
@@ -911,7 +919,17 @@ function bounty() {
 }
 function logout() { const t = getTok(); if (t) post('logout', { token: t }).catch(() => { }); try { localStorage.removeItem(TK); } catch { } showLogin(); }
 function md(t) { return esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
+function renderTrofeos() {
+  const T = lastData?.trofeos; if (!T || !$('trMon')) return;
+  $('trTax').textContent = T.prizes.tax;
+  $('trMon').innerHTML = T.monarchs.map(m => `<div class="tmsg"><b>${esc(m.map)}</b>: ${m.name ? `👑 <b style="color:#f1c40f">${esc(m.name)}</b> · ${m.heads} cabeza${m.heads > 1 ? 's' : ''} de boss` : '<span class="mut">sin monarca todavía: la primera tribu que mate un boss se queda con el mapa</span>'}
+    ${m.ranking && m.ranking.length > 1 ? `<div class="mut">${m.ranking.slice(1).map(r => esc(r.name) + ' (' + r.heads + ')').join(' · ')}</div>` : ''}</div>`).join('');
+  $('trAlpha').innerHTML = `<p style="margin:0 0 6px">Cada alfa: <b>+${T.prizes.perAlpha} AC</b> y <b>+${T.prizes.actPerAlpha} ACT</b> para tu tribu. El que más mata en el día gana <b>${T.prizes.daily} AC</b>.</p>
+    <b>Hoy:</b> ${T.alphaToday.map((x, i) => `${['🥇', '🥈', '🥉'][i] || ''} ${esc(x.name)} (${x.n})`).join(' · ') || '<span class="mut">nadie todavía</span>'}
+    <ul class="online rank small" style="margin-top:6px">${T.feed.map(f => `<li style="display:block">🦖 <b>${esc(f.who)}</b> mató un <b>${esc(f.kind)}</b> <span class="mut">en ${esc(f.map)}</span></li>`).join('') || '<li class="mut">Los alfas que maten van a aparecer acá.</li>'}</ul>`;
+}
 function renderLogrosPublic() {
+  renderTrofeos();
   const L = lastData?.logros, M = lastData?.misiones; if (!L || !$('lgRace')) return;
   const ROM = ['I', 'II', 'III', 'IV', 'V'];
   $('lgRace').innerHTML = L.race ? `<div style="font:700 22px Oswald;margin-bottom:4px">${L.race.icon} ${esc(L.race.name)}</div><p class="mut" style="margin:0 0 8px">Gana el que más ${esc(L.race.unit)} sume hasta el domingo. Premios: <b>${L.race.prizes.join(' / ')} AC</b></p>
@@ -957,7 +975,7 @@ async function loadMyLogros() {
     + (msgs.length ? msgs.slice(0, 8).map(m => `<div class="tmsg" style="border-left:4px solid ${m.color || '#ffd700'}"><b>${m.label}</b> · ${esc(m.text)} <div class="mut">${m.rank ? `<span class="rk-b" style="color:${m.color}">${esc(m.rank)}</span> ` : ''}${esc(m.by)} · ${new Date(m.t).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</div></div>`).join('')
       : `<p class="mut">Todavía no hay mensajes en tu tribu.</p>`)
     + (!(r.rangos?.canMessage || P.isLeader) && r.rangos ? `<p class="mut" style="margin-top:8px">Desde <b>${esc(r.rangos.msgRank)}</b> podés mandar mensajes. Pedile pruebas a tu comandante para subir de rango.</p>` : '');
-  renderRangos(r.rangos); renderTribeDiscord(r.discord); renderSolic(r.solicitudes);
+  renderRangos(r.rangos); renderTribeDiscord(r.discord); renderSolic(r.solicitudes); renderGuard(r.proteccion);
 }
 let tmPactos = null;
 function renderPactos() {
@@ -1032,6 +1050,26 @@ function renderSolic(S) {
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><input class="inp" id="solText" maxlength="200" placeholder="Contales algo: tu nivel, qué te gusta hacer, horarios..." style="flex:1;min-width:180px"><button onclick="solicAct('request')">Pedir unirme</button></div>`;
   if (S.mine.length) h += '<h4 style="margin:12px 0 6px">Mis solicitudes</h4>' + S.mine.map(x => `<div>${esc(x.tribeName)}: ${st[x.status]} <span class="mut">(${when(x.t)})</span></div>`).join('');
   $('mySolic').innerHTML = h;
+}
+function renderGuard(P) {
+  if (!$('myGuard') || !P) return;
+  if (!P.tribe) { $('myGuard').innerHTML = '<p class="mut">No estás en ninguna tribu.</p>'; return; }
+  const st = { propuesto: '⏳ esperando respuesta', activo: '✅ activo', terminado: '✖ terminado' };
+  let h = `<p class="mut" style="margin:0 0 8px">Una tribu <b>protege</b> a otra y le cobra <b>${P.price} ACT por día</b>. Los de la tribu protectora <b>no pueden matar</b> a los protegidos: si lo hacen, pierden <b>${P.fine} AC</b> (van para la víctima) y a la <b>2da vez tienen ${P.banHours} hs de ban</b>. Si la protegida no tiene los ACT del día, se termina solo.</p>`;
+  h += P.deals.map(d => `<div class="tmsg">${d.iAmGuard ? `🛡️ Protegés a <b>${esc(d.client)}</b> (cobrás ${P.price} ACT por día)` : `🛡️ <b>${esc(d.guard)}</b> protege a tu tribu (pagás ${P.price} ACT por día)`} · ${d.incoming ? '📩 <b>te lo proponen</b>' : st[d.status]}${d.why ? ` <span class="mut">(${esc(d.why)})</span>` : ''}
+    ${P.isLeader && d.status !== 'terminado' ? `<div class="acts" style="margin-top:4px">${d.incoming ? `<button onclick="guardAct('accept',${d.id})">Aceptar</button><button class="b2" onclick="guardAct('reject',${d.id})">Rechazar</button>` : `<button class="b2" onclick="guardAct('cancel',${d.id})">${d.status === 'propuesto' ? 'Retirar' : 'Terminar acuerdo'}</button>`}</div>` : ''}</div>`).join('') || '<p class="mut">Tu tribu no tiene acuerdos de protección.</p>';
+  if (P.isLeader) h += `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"><select class="inp" id="gdRole"><option value="guard">Quiero proteger a (y cobrarle)</option><option value="client">Quiero que me proteja (y pagarle)</option></select>
+    <select class="inp" id="gdTribe" style="flex:1;min-width:160px">${P.tribes.map(t => `<option value="${esc(t.id)}">${esc(t.name)} (${t.members})</option>`).join('')}</select><button onclick="guardAct('propose')">Proponer</button></div>
+    <p class="mut" style="margin-top:4px">Tu tribu tiene ${P.act.toLocaleString('es-AR')} ACT.</p>`;
+  else h += `<p class="mut" style="margin-top:8px">Los acuerdos los maneja el líder de tu tribu.</p>`;
+  $('myGuard').innerHTML = h;
+}
+async function guardAct(action, id) {
+  const body = { token: getTok(), action, id, myTribe: selTribe };
+  if (action === 'propose') { body.tribe = $('gdTribe').value; body.role = $('gdRole').value; }
+  if (action === 'cancel' && !confirm('¿Terminar el acuerdo de protección?')) return;
+  if (action === 'accept' && !confirm('¿Aceptar? La tribu protegida paga 50 ACT ahora y 50 cada día.')) return;
+  try { const r = await post('proteccion', body); alert(r.error || r.text); if (r.ok) loadMyLogros(); } catch { alert('No se pudo conectar con el server.'); }
 }
 async function solicAct(action, id) {
   const body = { token: getTok(), action, id };
@@ -1373,7 +1411,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610161530';
+const WEB_VERSION = '202610161552';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
