@@ -732,10 +732,17 @@ function marketButtons(l) {
   if (l.status === 'reservada') return l.buyer === me.char ? '<div class="acts">' + b('recibido ' + l.id, 'Ya lo recibí', true) + '</div>' : '';
   return '<div class="acts">' + (l.kind === 'busco' ? b('tengo ' + l.id, 'Lo tengo', true) : b('comprar ' + l.id, 'Comprar', true)) + '</div>';
 }
-async function post(path, data) {
+async function post(path, data, retry = true) {
   if (apiBase === null) await getStatus().catch(() => { });
   const url = apiBase ? apiBase + '/api/' + path : 'api/' + path;
-  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+  let r;
+  try { r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }); }
+  catch (e) {
+    // si el server se reinicio, la direccion cambia: se busca la nueva y se reintenta una vez
+    if (!retry) throw e;
+    apiBase = null; await getStatus().catch(() => { });
+    return post(path, data, false);
+  }
   return r.json();
 }
 async function doLink() {
@@ -1360,7 +1367,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610161236';
+const WEB_VERSION = '202610161523';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
