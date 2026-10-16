@@ -1014,7 +1014,11 @@ function renderTribeDiscord(D) {
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><input class="inp" id="dcName" maxlength="40" placeholder="Nuevo nombre del canal" style="flex:1;min-width:160px"><button onclick="tribeDc('rename')">Cambiar nombre</button></div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><input class="inp" id="dcTopic" maxlength="300" placeholder="Tema del canal (aparece arriba)" style="flex:1;min-width:160px"><button onclick="tribeDc('topic')">Cambiar tema</button></div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><input class="inp" id="dcMsg" maxlength="500" placeholder="Mensaje para la tribu en Discord (los menciona a todos)" style="flex:1;min-width:160px"><button onclick="tribeDc('announce')">Publicar</button></div>
-      <div class="acts" style="margin-top:6px"><button class="b2" onclick="tribeDc('sync')">🔄 Actualizar miembros</button></div></div>` : ''}`;
+      <div class="acts" style="margin-top:6px"><button class="b2" onclick="tribeDc('sync')">🔄 Actualizar miembros</button></div>
+      <div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px"><b>🔑 Clave para entrar al canal</b> <span class="mut">(${D.hasPass ? 'hay una clave puesta' : 'sin clave: solo entran los miembros'})</span>
+        <p class="mut" style="margin:4px 0">Si querés que entre alguien que no es de la tribu (un aliado, un amigo), poné una clave y pasásela. En Discord escribe <code>/entrartribu</code> con el nombre de la tribu y la clave. El canal de voz lo ven todos con candado; el de texto, solo los que tienen acceso.</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap"><input class="inp" id="dcPass" maxlength="30" placeholder="Nueva clave (vacío = sin clave)" style="flex:1;min-width:160px"><button onclick="tribeDc('pass')">Guardar clave</button></div>
+        ${D.guests.length ? '<p class="mut" style="margin:8px 0 4px">Entraron con la clave:</p>' + D.guests.map(g => `<span class="rk-b" style="color:#f39c12">🔑 ${esc(g.name)} <a href="#" onclick="tribeDc('kick','${g.id}');return false" style="color:#e74c3c">✖</a></span>`).join(' ') : ''}</div></div>` : ''}`;
 }
 function renderSolic(S) {
   if (!$('mySolic') || !S) return;
@@ -1034,8 +1038,10 @@ async function solicAct(action, id) {
   if (action === 'request') { body.tribe = $('solTribe').value; body.text = $('solText').value; }
   try { const r = await post('solicitud', body); alert(r.error || r.text); if (r.ok) loadMyLogros(); } catch { alert('No se pudo conectar con el server.'); }
 }
-async function tribeDc(action) {
-  const body = { token: getTok(), action, tribe: selTribe };
+async function tribeDc(action, id) {
+  const body = { token: getTok(), action, tribe: selTribe, id };
+  if (action === 'pass') body.pass = $('dcPass').value;
+  if (action === 'kick' && !confirm('¿Sacarle el acceso al canal?')) return;
   if (action === 'buy' && !confirm('¿Crear el canal de Discord de tu tribu por 3.000 ACT?')) return;
   if (action === 'rename') body.name = $('dcName').value;
   if (action === 'topic') body.topic = $('dcTopic').value;
@@ -1367,7 +1373,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610161523';
+const WEB_VERSION = '202610161530';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
