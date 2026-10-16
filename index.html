@@ -165,6 +165,25 @@ section:not(.tabon) .wallet-box{display:none}
 .rk-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--line)}
 .rk-ladder{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0 10px}
 .tmsg{padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);margin-bottom:6px}
+.slot-wrap{display:grid;grid-template-columns:minmax(300px,440px) 1fr;gap:14px;align-items:start}
+@media (max-width:760px){.slot-wrap{grid-template-columns:1fr}}
+.slot-machine{border-radius:22px;padding:18px;background:linear-gradient(180deg,#3a1d06,#1a0d03);border:3px solid #f39c12;box-shadow:0 0 30px rgba(243,156,18,.35),inset 0 0 30px rgba(0,0,0,.6)}
+.slot-top{text-align:center;font:700 22px Oswald,sans-serif;letter-spacing:2px;color:#f39c12;margin-bottom:12px}.slot-top b{color:#fff}
+.slot-reels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:#0c0702;border-radius:14px;padding:12px;border:2px solid #6b3a0a}
+.reel{height:104px;display:flex;align-items:center;justify-content:center;font-size:64px;background:linear-gradient(180deg,#fff7e6,#f0d9a8);border-radius:10px;box-shadow:inset 0 6px 10px rgba(0,0,0,.35),inset 0 -6px 10px rgba(0,0,0,.25)}
+.reel.spin{animation:reelspin .09s linear infinite}
+@keyframes reelspin{0%{transform:translateY(-6px);filter:blur(1.5px)}50%{transform:translateY(6px);filter:blur(2px)}100%{transform:translateY(-6px);filter:blur(1.5px)}}
+.reel.win{box-shadow:0 0 18px #f1c40f,inset 0 0 12px rgba(241,196,15,.7)}
+.slot-msg{text-align:center;font:700 20px Oswald,sans-serif;margin:12px 0;min-height:28px;color:#ffe2b0}
+.slot-msg.big{color:#f1c40f;text-shadow:0 0 12px #f39c12;font-size:24px}
+.slot-bets{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+.slot-bets button{padding:8px 14px;border-radius:12px;border:2px solid #6b3a0a;background:#2a1505;color:#ffe2b0;font-weight:800;cursor:pointer}
+.slot-bets button.on{border-color:#f1c40f;background:#f39c12;color:#1a0d03}
+.slot-go{display:block;width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(180deg,#e74c3c,#a93226);color:#fff;font:700 24px Oswald,sans-serif;letter-spacing:2px;cursor:pointer;box-shadow:0 5px 0 #6e1d14}
+.slot-go:active{transform:translateY(3px);box-shadow:0 2px 0 #6e1d14}.slot-go:disabled{opacity:.6;cursor:wait}
+.slot-side table{width:100%;border-collapse:collapse}.slot-side td{padding:4px 2px;border-bottom:1px solid var(--line)}
+.share-btns{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.share-btns a,.share-btns button{padding:8px 12px;border-radius:10px;font-weight:700;text-decoration:none;color:#fff;border:none;cursor:pointer;font-size:14px}
 </style>
 </head>
 <body>
@@ -330,6 +349,9 @@ section:not(.tabon) .wallet-box{display:none}
         <div style="font:700 24px Oswald;color:var(--acc)" id="refCode"></div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin:6px 0"><input class="inp" id="refLink" readonly style="flex:1;min-width:160px"><button class="b2 p" onclick="copyRef()">Copiar link</button></div>
         <div class="mut small" id="refStatus"></div>
+        <div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px"><b>📣 Compartí en tus redes y ganá 50 AC por día</b>
+          <p class="small mut" style="margin:4px 0">Compartí tu link: cuando alguien entra a la página por tu link, ganás <b>50 AC</b> (1 vez por día). Tus propias entradas no cuentan.</p>
+          <div class="share-btns" id="shareBtns"></div><div class="small" id="shareStatus"></div></div>
         <div id="refBox" style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px"><b class="small">¿Te invitó alguien?</b>
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><input class="inp" id="refInput" placeholder="Código, ej: ARG-TRUP3R" style="flex:1;min-width:140px;text-transform:uppercase"><button class="b2" onclick="act('referido ' + $('refInput').value.trim())">Cargar</button></div></div></div>
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🎫 Abrir un ticket</h3>
@@ -418,6 +440,7 @@ section:not(.tabon) .wallet-box{display:none}
     <button class="hub-tile" data-p="mercado" onclick="tshow('mercado')"><img src="img/wiki/Black_Pearl.png" alt="" loading="lazy"><b>Mercado</b><span>Comprale a otros jugadores</span></button>
     <button class="hub-tile" data-p="vender" onclick="tshow('vender')"><img src="img/wiki/Polymer.png" alt="" loading="lazy"><b>Vender</b><span>Lo que tenés en el juego</span></button>
     <button class="hub-tile" data-p="personal" onclick="tshow('personal')"><img src="img/wiki/Dossier_Rex.png" alt="" loading="lazy"><b>Mi tienda</b><span>Saldo, ventas y avisos</span></button>
+    <button class="hub-tile" data-p="slots" onclick="tshow('slots')"><span style="font-size:58px;line-height:72px">🎰</span><b>Tragamonedas</b><span>Jugá con tus AC</span></button>
     <button class="hub-tile" data-p="mapa" onclick="tshow('mapa')"><img src="img/wiki/Transponder_Tracker.png" alt="" loading="lazy"><b>Mapa de la tribu</b><span>Mirá un ejemplo · tu personaje gratis</span></button><button class="hub-tile" data-p="ac" onclick="tshow('ac')"><div class="hub-emoji">💝</div><b>Comprar AC</b><span>Bancá al server</span></button>
   </div>
   <div class="tpanel" data-p="server">
@@ -487,6 +510,22 @@ section:not(.tabon) .wallet-box{display:none}
   <div class="tpanel" data-p="mapa">
     <h3 class="tsec">🗺️ Mapa de la tribu</h3><p class="sub" style="margin:-4px 0 12px">Mirá sobre el mapa real dónde está tu personaje, tus dinos tameados, tus bolsas de muerte y tu tribu. Se actualiza con cada guardado del server (cada 15 minutos). Cada uno ve solo lo suyo.</p>
     <div id="tmapBox"></div>
+  </div>
+  <div class="tpanel" data-p="slots">
+    <h3 class="tsec">🎰 Tragamonedas ArgentoPro</h3><p class="sub" style="margin:-4px 0 12px">Apostá tus AC y probá suerte. Tres iguales pagan a lo grande: <b>tres 💎 Element = 200 veces</b> lo que apostaste.</p>
+    <div class="slot-wrap">
+      <div class="slot-machine">
+        <div class="slot-top">ARGENTO<b>PRO</b> · CASINO</div>
+        <div class="slot-reels"><div class="reel" id="r0">🦖</div><div class="reel" id="r1">💎</div><div class="reel" id="r2">🦖</div></div>
+        <div class="slot-msg" id="slotMsg">¡Elegí cuánto apostar y tirá!</div>
+        <div class="slot-bets" id="slotBets"></div>
+        <button class="slot-go" id="slotGo" onclick="slotSpin()">🎰 TIRAR</button>
+        <div class="small mut" id="slotInfo" style="text-align:center;margin-top:8px"></div>
+      </div>
+      <div class="card slot-side"><h3 style="font-size:18px;margin-bottom:6px">💰 Tabla de premios</h3><div id="slotTable" class="small"></div>
+        <h3 style="font-size:18px;margin:12px 0 6px">🏆 Últimos premios grandes</h3><ul class="online rank small" id="slotFeed"></ul>
+        <p class="mut small" style="margin-top:10px">El resultado lo decide el server al azar. Límite por día: <span id="slotLim"></span>. Jugá con lo que te sobre 😉</p></div>
+    </div>
   </div>
   <div class="tpanel" data-p="ac">
     <h3 class="tsec">💝 Comprar ArgenCoins</h3><p class="sub" style="margin:-4px 0 12px">Bancá al server y recibí AC en tu personaje.</p>
@@ -783,7 +822,7 @@ async function loadMe() {
       r.online ? '<span style="color:var(--ok)">● Jugando en ' + esc(r.online) + '</span>' : '<span class="mut">Desconectado del juego</span>',
       r.prizes ? '<b style="color:var(--acc)">🏆 ' + r.prizes + ' premio(s) para reclamar</b>' : ''].filter(Boolean).join(' · ');
     $('accBal').textContent = r.balance + ' AC';
-    renderAccButtons(); renderMarket(); renderTickets(); renderRef(); renderNotices(); renderTribeShop(); renderLoginHint(); renderWallet(); loadMyLogros();
+    renderAccButtons(); renderMarket(); renderTickets(); renderRef(); renderNotices(); renderTribeShop(); renderLoginHint(); renderWallet(); loadMyLogros(); renderSlots();
   } catch { }
 }
 function renderAccButtons() {
@@ -826,6 +865,7 @@ function openTicket() {
   $('tText').value = ''; $('tProof').value = '';
 }
 const REF_IN = (new URLSearchParams(location.search).get('ref') || '').toUpperCase();
+if (REF_IN) setTimeout(() => { try { if (sessionStorage.getItem('argento_vis') === REF_IN) return; sessionStorage.setItem('argento_vis', REF_IN); } catch { } post('sharevisit', { code: REF_IN }).catch(() => { }); }, 1500);
 function renderRef() {
   if (REF_IN) {
     $('refBanner').style.display = '';
@@ -836,6 +876,9 @@ function renderRef() {
   const r = me.referral;
   $('refCode').textContent = r.code;
   $('refLink').value = location.origin + location.pathname + '?ref=' + r.code + '#cuenta';
+  const link = encodeURIComponent(location.origin + location.pathname + '?ref=' + r.code), txt = encodeURIComponent('🦖🇦🇷 Sumate a ArgentoPro, el server argentino de ARK x5: tienda, eventos, logros, tribus y PvP con reglas. Entrá acá 👉');
+  $('shareBtns').innerHTML = `<a style="background:#1877f2" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${link}">Facebook</a><a style="background:#25d366" target="_blank" rel="noopener" href="https://wa.me/?text=${txt}%20${link}">WhatsApp</a><a style="background:#000" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=${txt}&url=${link}">X</a><a style="background:#229ed9" target="_blank" rel="noopener" href="https://t.me/share/url?url=${link}&text=${txt}">Telegram</a><button style="background:#555" onclick="copyRef()">Copiar link</button>`;
+  const sh = me.share; if (sh) $('shareStatus').innerHTML = sh.paidToday ? `✅ <b>Hoy ya cobraste tus ${sh.reward} AC</b> por compartir. Visitas por tu link hoy: ${sh.visitsToday} · en total: ${sh.total}` : `⏳ Todavía nadie entró hoy por tu link. Compartilo y cobrás ${sh.reward} AC. Visitas en total: ${sh.total}`;
   $('refStatus').textContent = `Invitaste a ${r.invited} · premiados: ${r.rewarded}${r.pending.length ? ' · esperando: ' + r.pending.join(', ') : ''}`;
   $('refBox').style.display = r.myRef ? 'none' : '';
   if (REF_IN && !r.myRef && !sessionStorage.refTried) { try { sessionStorage.refTried = 1; } catch { } act('referido ' + REF_IN); }
@@ -1023,6 +1066,7 @@ function tshow(p) {
   if (p === 'personal') renderMyShop();
   if (p === 'ranking') renderTribeRank();
   if (p === 'mapa') loadTribeMap();
+  if (p === 'slots') renderSlots();
 }
 const card = (img, name, price, buyHtml, tag) => `<div class="tshop-item">${tag ? '<span class="q">' + tag + '</span>' : ''}<img src="${wikiIcon(img)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><div class="nm">${esc(name)}</div><div class="pr">${price}</div>${buyHtml}</div>`;
 function renderTribeRank() {
@@ -1041,6 +1085,34 @@ function renderMyShop() {
     <div class="card" style="text-align:center"><div class="small mut">Tus ventas activas</div><div style="font:700 34px Oswald">${ls.length}</div><button class="b2" onclick="tshow('vender')">💰 Vender algo</button></div></div>
     <div class="card" style="margin-bottom:12px"><h3 style="font-size:18px;margin-bottom:8px">Tus publicaciones</h3>${ls.length ? ls.map(l => `<div class="small" style="padding:6px 0;border-bottom:1px solid var(--line)">#${l.id} <b>${esc(l.dino)}</b> por ${l.qty} ${esc(l.currencyName)} · ${l.status === 'reservada' ? '<span style="color:var(--acc)">comprada por ' + esc(l.buyer || '') + ', esperando entrega</span>' : 'a la venta'} <button class="b2" style="font-size:11px;padding:2px 6px" onclick="act('cancelar ${l.id}')">Cancelar</button></div>`).join('') : '<p class="small mut" style="margin:0">No tenés nada publicado.</p>'}</div>
     <div class="card"><h3 style="font-size:18px;margin-bottom:8px">🔔 Avisos</h3>${n.length ? n.slice(0, 8).map(x => `<div class="small" style="padding:5px 0;border-bottom:1px solid var(--line)">${esc(x.text)}</div>`).join('') : '<p class="small mut" style="margin:0">Sin avisos.</p>'}</div>`;
+}
+// ---------- tragamonedas ----------
+let slotBet = 10, slotBusy = false;
+function renderSlots() {
+  const S = (me && me.slots) || lastData?.slots; if (!S || !$('slotBets')) return;
+  if (!S.bets.includes(slotBet)) slotBet = S.bets[0];
+  $('slotBets').innerHTML = S.bets.map(b => `<button class="${b === slotBet ? 'on' : ''}" onclick="slotBet=${b};renderSlots()">${b} AC</button>`).join('');
+  $('slotTable').innerHTML = '<table>' + S.table.map(t => `<tr><td style="font-size:22px">${t.e}${t.e}${t.e}</td><td>${esc(t.name)}</td><td style="text-align:right"><b style="color:var(--acc)">x${t.x3}</b></td></tr>`).join('')
+    + S.table.filter(t => t.x2).map(t => `<tr><td style="font-size:22px">${t.e}${t.e}</td><td>dos ${esc(t.name)}</td><td style="text-align:right"><b>x${t.x2}</b></td></tr>`).join('')
+    + `<tr><td style="font-size:22px">💎💎</td><td>dos Element</td><td style="text-align:right"><b>x${S.element2}</b></td></tr><tr><td style="font-size:22px">💎</td><td>un Element</td><td style="text-align:right"><b>x${S.element1}</b></td></tr></table>`;
+  $('slotFeed').innerHTML = (S.feed || []).map(f => `<li style="display:block">${f.reels.map(r => ({ carne: '🍖', huevo: '🥚', hueso: '🦴', rex: '🦖', dodo: '🐦', element: '💎' })[r] || r).join('')} <b>${esc(f.who)}</b> ganó <b style="color:var(--acc)">${f.win.toLocaleString('es-AR')} AC</b></li>`).join('') || '<li class="mut">Todavía nadie sacó un premio grande. ¿Vos?</li>';
+  $('slotLim').textContent = `${S.maxSpins} tiradas y hasta ${S.maxLoss} AC de pérdida`;
+  $('slotInfo').innerHTML = isLinked() ? `Saldo: <b>${Math.floor(me.balance).toLocaleString('es-AR')} AC</b> · te quedan ${S.spinsLeft} tiradas hoy` : 'Vinculá tu cuenta para jugar';
+}
+async function slotSpin() {
+  if (needLink() || slotBusy) return;
+  slotBusy = true; $('slotGo').disabled = true; $('slotMsg').className = 'slot-msg'; $('slotMsg').textContent = 'Girando...';
+  const R = [0, 1, 2].map(i => $('r' + i)); R.forEach(r => { r.classList.remove('win'); r.classList.add('spin'); });
+  const pool = ['🍖', '🥚', '🦴', '🦖', '🐦', '💎']; const tick = setInterval(() => R.forEach(r => { if (r.classList.contains('spin')) r.textContent = pool[Math.floor(Math.random() * pool.length)]; }), 70);
+  let res; try { res = await post('slot', { token: getTok(), bet: slotBet }); } catch { res = { error: 'No se pudo conectar con el server.' }; }
+  if (res.error) { clearInterval(tick); R.forEach(r => r.classList.remove('spin')); $('slotMsg').textContent = res.error; slotBusy = false; $('slotGo').disabled = false; return; }
+  for (let i = 0; i < 3; i++) { await new Promise(ok => setTimeout(ok, 450 + i * 250)); R[i].classList.remove('spin'); R[i].textContent = res.reels[i]; }
+  clearInterval(tick);
+  if (res.win > 0) { if (res.win >= res.bet * 3) R.forEach(r => r.classList.add('win')); $('slotMsg').className = 'slot-msg' + (res.win >= res.bet * 15 ? ' big' : ''); $('slotMsg').textContent = `¡${res.why}! Ganaste ${res.win.toLocaleString('es-AR')} AC`; }
+  else $('slotMsg').textContent = 'Nada esta vez... ¡otra!';
+  me.balance = res.balance; if (me.slots) { me.slots.spinsLeft = res.spinsLeft; }
+  renderSlots(); renderWallet(); if ($('accBal')) $('accBal').textContent = res.balance + ' AC';
+  slotBusy = false; $('slotGo').disabled = false;
 }
 // ---------- mapa de la tribu ----------
 // sin vincular: mapa de ejemplo. Vinculado: su personaje gratis. Pase personal: + sus dinos y muertes. Pase de tribu: toda la tribu.
@@ -1236,7 +1308,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610160022';
+const WEB_VERSION = '202610161117';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
