@@ -330,6 +330,7 @@ section:not(.tabon) .wallet-box{display:none}
       <div class="acts" style="margin-top:12px"><button style="background:var(--acc);color:#1a1206;font-weight:700;font-size:16px;padding:10px 16px" onclick="openInv()">📦 Vender lo que tengo en el inventario</button></div>
       <div id="noticeBox" style="margin-top:12px"></div>
     </div>
+    <div class="card" style="margin-bottom:14px;border-color:#1abc9c;background:radial-gradient(circle at 0% 0%,rgba(26,188,156,.15),rgba(0,0,0,0) 60%)"><h3 style="font-size:20px;margin-bottom:8px">🏠 Teleport a casa · 🛡️ Zona segura</h3><div id="myHogar" class="small"></div></div>
     <div id="tribeSel"></div>
     <div id="peaceBan"></div>
     <div class="card" style="margin-bottom:14px;border-color:#3498db"><h3 style="font-size:19px;margin-bottom:8px">📢 Mensajes de mi tribu</h3><div id="myTribeMsgs" class="small"></div></div>
@@ -975,7 +976,7 @@ async function loadMyLogros() {
     + (msgs.length ? msgs.slice(0, 8).map(m => `<div class="tmsg" style="border-left:4px solid ${m.color || '#ffd700'}"><b>${m.label}</b> · ${esc(m.text)} <div class="mut">${m.rank ? `<span class="rk-b" style="color:${m.color}">${esc(m.rank)}</span> ` : ''}${esc(m.by)} · ${new Date(m.t).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</div></div>`).join('')
       : `<p class="mut">Todavía no hay mensajes en tu tribu.</p>`)
     + (!(r.rangos?.canMessage || P.isLeader) && r.rangos ? `<p class="mut" style="margin-top:8px">Desde <b>${esc(r.rangos.msgRank)}</b> podés mandar mensajes. Pedile pruebas a tu comandante para subir de rango.</p>` : '');
-  renderRangos(r.rangos); renderTribeDiscord(r.discord); renderSolic(r.solicitudes); renderGuard(r.proteccion);
+  renderHogar(r.hogar); renderRangos(r.rangos); renderTribeDiscord(r.discord); renderSolic(r.solicitudes); renderGuard(r.proteccion);
 }
 let tmPactos = null;
 function renderPactos() {
@@ -1070,6 +1071,22 @@ async function guardAct(action, id) {
   if (action === 'cancel' && !confirm('¿Terminar el acuerdo de protección?')) return;
   if (action === 'accept' && !confirm('¿Aceptar? La tribu protegida paga 50 ACT ahora y 50 cada día.')) return;
   try { const r = await post('proteccion', body); alert(r.error || r.text); if (r.ok) loadMyLogros(); } catch { alert('No se pudo conectar con el server.'); }
+}
+function renderHogar(H) {
+  if (!$('myHogar') || !H) return;
+  const soon = !H.ready.tp ? '<p style="color:#f39c12;margin:0 0 8px">⏳ Se activa en el server muy pronto: ya podés dejarlo listo.</p>' : '';
+  let h = soon + `<p style="margin:0 0 6px"><b>Teleport a casa:</b> guardás tu base y desde cualquier lugar del mapa volvés con <code>/home</code>. Cuesta <b>${H.tpCost} AC cada vez</b> (20 segundos quieto; si te movés se cancela y no se cobra).</p>`;
+  h += H.enabled ? `<p style="color:#2ecc71;margin:0 0 6px">✅ <b>Activado.</b> En el juego: parate en tu base y escribí <code>/sethome</code>. Para volver: <code>/home</code>.</p>`
+    + (H.homes.length ? `<p class="mut" style="margin:0 0 8px">Casas guardadas: ${H.homes.map(x => '<b>' + esc(x.map) + '</b>').join(', ')} (una por mapa).</p>` : '<p class="mut" style="margin:0 0 8px">Todavía no guardaste tu casa: entrá al juego y escribí /sethome en tu base.</p>')
+    : `<button class="btn" style="background:#1abc9c;color:#06221c;margin:4px 0 10px" onclick="hogarAct('activate')">🏠 Activar teleport a Casa</button>`;
+  h += `<div style="border-top:1px solid var(--line);padding-top:8px;margin-top:4px"><p style="margin:0 0 6px"><b>🛡️ Zona segura:</b> una burbuja de <b>30 metros</b> alrededor de tu casa donde <b>nadie te puede matar ni romper tus estructuras</b>. <b>${H.zonePrice.toLocaleString('es-AR')} AC</b> por ${H.zoneDays} días.</p>`
+    + (H.zone ? `<p style="color:#2ecc71;margin:0">✅ Tenés zona segura en <b>${esc(H.zone.map)}</b> hasta el ${new Date(H.zone.until).toLocaleDateString('es-AR')}.</p><button class="b2" style="margin-top:6px" onclick="hogarAct('zone')">Renovar 30 días más</button>`
+      : `<button class="btn" style="margin-top:4px" onclick="hogarAct('zone')">🛡️ Comprar zona segura (${H.zonePrice.toLocaleString('es-AR')} AC)</button><p class="mut" style="margin:6px 0 0">Se arma alrededor de la última casa que guardaste con /sethome. ¿Te faltan AC? Mirá el pack de 30.000 AC en <a href="#tienda" onclick="setTimeout(()=>tshow('ac'),50)">Comprar AC</a>.</p>`) + '</div>';
+  $('myHogar').innerHTML = h;
+}
+async function hogarAct(action) {
+  if (action === 'zone' && !confirm('¿Comprar la zona segura por 30.000 AC (30 días)?')) return;
+  try { const r = await post('hogar', { token: getTok(), action }); alert(r.error || r.text); if (r.ok) { loadMe(); loadMyLogros(); } } catch { alert('No se pudo conectar con el server.'); }
 }
 async function solicAct(action, id) {
   const body = { token: getTok(), action, id };
@@ -1411,7 +1428,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610161559';
+const WEB_VERSION = '202610162009';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
