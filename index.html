@@ -1105,12 +1105,21 @@ function renderHogar(H) {
     + (H.homes.length ? `<p class="mut" style="margin:0 0 8px">Casas guardadas: ${H.homes.map(x => '<b>' + esc(x.map) + '</b>').join(', ')} (una por mapa).</p>` : '<p class="mut" style="margin:0 0 8px">Todavía no guardaste tu casa: entrá al juego y escribí /sethome en tu base.</p>')
     : `<button class="btn" style="background:#1abc9c;color:#06221c;margin:4px 0 10px" onclick="hogarAct('activate')">🏠 Activar teleport a Casa</button>`;
   h += `<div style="border-top:1px solid var(--line);padding-top:8px;margin-top:4px"><p style="margin:0 0 6px"><b>🛡️ Zona segura:</b> una burbuja de <b>30 metros</b> alrededor de tu casa donde <b>nadie te puede matar ni romper tus estructuras</b>. <b>${H.zonePrice.toLocaleString('es-AR')} AC</b> por ${H.zoneDays} días.</p>`
-    + (H.zone ? `<p style="color:#2ecc71;margin:0">✅ Tenés zona segura en <b>${esc(H.zone.map)}</b> hasta el ${new Date(H.zone.until).toLocaleDateString('es-AR')}.</p><button class="b2" style="margin-top:6px" onclick="hogarAct('zone')">Renovar 30 días más</button>`
-      : `<button class="btn" style="margin-top:4px" onclick="hogarAct('zone')">🛡️ Comprar zona segura (${H.zonePrice.toLocaleString('es-AR')} AC)</button><p class="mut" style="margin:6px 0 0">Se arma alrededor de la última casa que guardaste con /sethome. ¿Te faltan AC? Mirá el pack de 30.000 AC en <a href="#tienda" onclick="setTimeout(()=>tshow('ac'),50)">Comprar AC</a>.</p>`) + '</div>';
+    + (H.zone ? `<p style="color:#2ecc71;margin:0">✅ Tenés zona segura en <b>${esc(H.zone.map)}</b> hasta el ${new Date(H.zone.until).toLocaleDateString('es-AR')}.</p><p style="margin:6px 0 0"><b>Renovar 30 días más:</b></p>` + `<div class="acts" style="margin-top:6px;flex-wrap:wrap"><button onclick="hogarAct('zone')">💰 Pagar ${H.zonePrice.toLocaleString('es-AR')} AC</button><button class="b2" onclick="hogarAct('zoneact')">🏆 Pagar ${H.zonePrice.toLocaleString('es-AR')} ACT de la tribu</button><button class="b2" onclick="zonaDinero()">💵 Pagar con pesos o dólares ($40.000 o USD 25)</button></div>`
+      : `<p style="margin:4px 0 0"><b>Elegí cómo pagarla:</b></p>` + `<div class="acts" style="margin-top:6px;flex-wrap:wrap"><button onclick="hogarAct('zone')">💰 Pagar ${H.zonePrice.toLocaleString('es-AR')} AC</button><button class="b2" onclick="hogarAct('zoneact')">🏆 Pagar ${H.zonePrice.toLocaleString('es-AR')} ACT de la tribu</button><button class="b2" onclick="zonaDinero()">💵 Pagar con pesos o dólares ($40.000 o USD 25)</button></div>` + `<p class="mut" style="margin:6px 0 0">Se arma alrededor de la última casa que guardaste con /sethome. Con ACT paga la tribu (solo el líder). Con pesos o dólares transferís y te llegan 30.000 AC para comprarla.</p>`);
   $('myHogar').innerHTML = h;
+}
+// pagar la zona con pesos o dolares: lleva a la donacion con el pack de 30.000 AC elegido
+function zonaDinero() {
+  const p = (lastData?.donations?.packs || []).find(x => x.ac === 30000);
+  location.hash = '#tienda'; if (typeof tshow === 'function') tshow('ac');
+  if (p) { donPick = p.id; renderDonations(); if ($('donBtn')) $('donBtn').disabled = false; }
+  setTimeout(() => { $('donPacks')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 200);
+  alert('Transferí $40.000 (o USD 25) al alias que figura y tocá "Ya transferí". Cuando el admin confirme te llegan 30.000 AC y con eso comprás la zona segura en Mi cuenta.');
 }
 async function hogarAct(action) {
   if (action === 'zone' && !confirm('¿Comprar la zona segura por 30.000 AC (30 días)?')) return;
+  if (action === 'zoneact' && !confirm('¿Comprar la zona segura con 30.000 ACT de tu tribu (30 días)? Solo lo puede hacer el líder.')) return;
   try { const r = await post('hogar', { token: getTok(), action }); alert(r.error || r.text); if (r.ok) { loadMe(); loadMyLogros(); } } catch { alert('No se pudo conectar con el server.'); }
 }
 async function solicAct(action, id) {
@@ -1453,7 +1462,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610162205';
+const WEB_VERSION = '202610162220';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
