@@ -222,7 +222,7 @@ section:not(.tabon) .wallet-box{display:none}
 
     <div class="card guia-c"><h3>🛒 Tienda oficial</h3><ul><li>Flechas y dardos, narcóticos, metal, polímero, criopods, leche de wyvern, GPS, transpondedores y un <b>kit de 5 planos de armas</b>.</li><li><b>Monturas:</b> 250 AC (Giga, Carcha y Quetzal plataforma 1500 AC).</li><li><b>Dinos nivel 1 en criopod:</b> 1000 AC, elegís el sexo.</li><li>Comprás desde la <a href="#tienda">Tienda</a> de la página o en el juego: <code>/tienda</code>, <code>/comprar T1</code>, <code>/comprar montura rex</code>, <code>/comprar dino rex hembra</code>.</li><li>Los dinos llegan en criopod: en el juego escribí <code>/recibir</code>.</li></ul></div>
 
-    <div class="card guia-c"><h3>📦 Mercado entre jugadores</h3><ul><li>En la Tienda → <b>Vender</b>: ves tu inventario real del juego, elegís qué vender y le ponés precio en AC.</li><li>Cuando alguien te compra, te avisamos y el item se entrega solo.</li><li>También podés publicar dinos y pedidos: <code>/vender</code> y <code>/buscar</code>.</li><li><b>Canje:</b> garras y dientes de alfa se cambian por premios (<code>/canjear</code>).</li></ul></div>
+    <div class="card guia-c"><h3>📦 Mercado entre jugadores</h3><ul><li>En la Tienda → <b>Vender</b>: ves tu inventario real del juego, elegís qué vender y le ponés precio en AC.</li><li><b>Todo automático:</b> al publicar, el item <b>sale de tu inventario</b> y queda guardado en el mercado. Cuando alguien lo compra, <b>te llegan las AC al instante</b>, el item aparece solo en el inventario del comprador y la venta desaparece de la página. Si la cancelás, vuelve a tu inventario.</li><li>También podés publicar dinos y pedidos: <code>/vender</code> y <code>/buscar</code>.</li><li><b>Canje:</b> garras y dientes de alfa se cambian por premios (<code>/canjear</code>).</li></ul></div>
 
     <div class="card guia-c" style="border-color:#f39c12"><h3>🏅 Logros del server</h3><p>Como los logros de Steam, pero de lo que hacés en ArgentoPro. Cada uno tiene 5 grados (I a V) y cada grado da AC:</p><ul><li>📜 <b>Explorador</b>: notas de explorador (5 a 100).</li><li>🦖 <b>Domador</b>: dinos tameados (5 a 250).</li><li>⭐ <b>Superviviente</b>: nivel (25 a 150).</li><li>🔧 <b>Ingeniero</b>: engramas (25 a 200).</li><li>⚔️ <b>Guerrero</b>: peleas PvP legales (1 a 50).</li><li>💃 <b>Artista</b>: gestos (3 a 20).</li></ul><p>🏁 <b>Carrera de la semana:</b> cada lunes se elige un logro y el que más avanza gana 500 / 250 / 100 AC. Tus logros, en <a href="#cuenta">Mi cuenta</a>.</p></div>
 
@@ -517,7 +517,7 @@ section:not(.tabon) .wallet-box{display:none}
     <h3 class="tsec">💰 Vender</h3><p class="sub" style="margin:-4px 0 12px">Publicá lo que tenés encima en el juego. Cuando le llega al comprador, el server te paga solo.</p>
     <div class="card" style="margin-bottom:14px;border-color:var(--acc)">
       <h3 style="font-size:20px;margin-bottom:6px" id="invCard">📦 Vendé lo que tenés en el juego</h3>
-      <p class="small" style="margin:0 0 8px">Te mostramos lo que tenés <b>encima en el juego</b> (dinos en criopod, armas, planos, monturas, recursos). Elegís qué vender, le ponés precio en AC y queda publicado. Cuando alguien lo compra te avisamos; se lo entregás en el juego y <b>apenas le llega al comprador, el server te acredita las AC solo</b>.</p>
+      <p class="small" style="margin:0 0 8px">Te mostramos lo que tenés <b>encima en el juego</b> (dinos en criopod, armas, planos, monturas, recursos). Elegís qué vender y le ponés precio en AC (tenés que estar <b>conectado en el juego</b>). <b>El item sale de tu inventario</b> y queda guardado en el mercado. Cuando alguien lo compra <b>te llegan las AC al instante</b> y el item aparece solo en el inventario del comprador (si no está conectado, le llega apenas entra, en cualquier mapa). Si cancelás la venta, el item vuelve a tu inventario.</p>
       <div class="acts"><button onclick="loadInv()">🔄 Ver mi inventario</button></div>
       <div id="invMsg" class="small mut" style="margin-top:6px"></div>
       <div id="invList" style="display:grid;gap:6px;margin-top:8px;max-height:420px;overflow:auto"></div>
@@ -741,9 +741,14 @@ const getTok = () => { try { return localStorage.getItem(TK); } catch { return n
 function marketButtons(l) {
   if (!me) return '';
   const b = (cmd, label, main) => `<button class="${main ? 'b2 p' : ''}" onclick="act('${cmd}')">${label}</button>`;
-  if (l.seller === me.char) return '<div class="acts">' + b('vendido ' + l.id, 'Vendido') + b('cancelar ' + l.id, 'Cancelar') + '</div>';
+  if (l.seller === me.char) return '<div class="acts">' + (l.item ? '' : b('vendido ' + l.id, 'Vendido')) + `<button class="b2" onclick="cancelSale(${l.id}, ${!!l.item})">${l.item ? '↩️ Cancelar y devolver a mi inventario' : 'Cancelar'}</button>` + '</div>';
   if (l.status === 'reservada') return l.buyer === me.char ? '<div class="acts">' + b('recibido ' + l.id, 'Ya lo recibí', true) + '</div>' : '';
   return '<div class="acts">' + (l.kind === 'busco' ? b('tengo ' + l.id, 'Lo tengo', true) : b('comprar ' + l.id, 'Comprar', true)) + '</div>';
+}
+// cancelar una venta propia: si es un item de la pagina, vuelve solo al inventario del juego
+function cancelSale(id, item) {
+  if (!confirm(item ? '¿Cancelar la venta #' + id + '? El item vuelve a tu inventario del juego (si no estás conectado, apenas entres).' : '¿Cancelar la venta #' + id + '?')) return;
+  act('cancelar ' + id);
 }
 async function post(path, data, retry = true) {
   if (apiBase === null) await getStatus().catch(() => { });
@@ -1222,7 +1227,7 @@ function renderMyShop() {
     <div class="card" style="text-align:center"><div class="small mut">Tu saldo</div><div style="font:700 34px Oswald;color:var(--acc)">${me.balance} AC</div></div>
     <div class="card" style="text-align:center"><div class="small mut">Premios para reclamar</div><div style="font:700 34px Oswald">${me.prizes || 0}</div><button class="b2" onclick="act('premio')">🏆 Reclamar</button></div>
     <div class="card" style="text-align:center"><div class="small mut">Tus ventas activas</div><div style="font:700 34px Oswald">${ls.length}</div><button class="b2" onclick="tshow('vender')">💰 Vender algo</button></div></div>
-    <div class="card" style="margin-bottom:12px"><h3 style="font-size:18px;margin-bottom:8px">Tus publicaciones</h3>${ls.length ? ls.map(l => `<div class="small" style="padding:6px 0;border-bottom:1px solid var(--line)">#${l.id} <b>${esc(l.dino)}</b> por ${l.qty} ${esc(l.currencyName)} · ${l.status === 'reservada' ? '<span style="color:var(--acc)">comprada por ' + esc(l.buyer || '') + ', esperando entrega</span>' : 'a la venta'} <button class="b2" style="font-size:11px;padding:2px 6px" onclick="act('cancelar ${l.id}')">Cancelar</button></div>`).join('') : '<p class="small mut" style="margin:0">No tenés nada publicado.</p>'}</div>
+    <div class="card" style="margin-bottom:12px"><h3 style="font-size:18px;margin-bottom:8px">Tus publicaciones</h3>${ls.length ? ls.map(l => `<div class="small" style="padding:6px 0;border-bottom:1px solid var(--line)">#${l.id} <b>${esc(l.dino)}</b> por ${l.qty} ${esc(l.currencyName)} · ${l.status === 'reservada' ? '<span style="color:var(--acc)">comprada por ' + esc(l.buyer || '') + ', esperando entrega</span>' : 'a la venta'} <button class="b2" style="font-size:11px;padding:2px 6px" onclick="cancelSale(${l.id}, ${!!l.item})">${l.item ? '↩️ Cancelar y devolver a mi inventario' : 'Cancelar'}</button></div>`).join('') : '<p class="small mut" style="margin:0">No tenés nada publicado.</p>'}</div>
     <div class="card"><h3 style="font-size:18px;margin-bottom:8px">🔔 Avisos</h3>${n.length ? n.slice(0, 8).map(x => `<div class="small" style="padding:5px 0;border-bottom:1px solid var(--line)">${esc(x.text)}</div>`).join('') : '<p class="small mut" style="margin:0">Sin avisos.</p>'}</div>`;
 }
 // ---------- tragamonedas ----------
@@ -1447,7 +1452,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610162101';
+const WEB_VERSION = '202610162150';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
