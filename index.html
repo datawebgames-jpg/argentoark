@@ -214,7 +214,7 @@ section:not(.tabon) .wallet-box{display:none}
   <div class="guia-grid">
     <div class="card guia-c"><h3>🦖 El server</h3><ul><li><b>ARK: Survival Evolved</b>, server argentino.</li><li>Experiencia, tameo, farmeo, cría y maduración <b>x5</b>. Estructuras <b>x20</b>.</li><li><b>Fin de semana x10</b> (sábados y domingos).</li><li>Mapas: <b>The Island</b> y <b>Fjordur</b> fijos + un <b>mapa rotativo</b> que eligen ustedes votando.</li><li>Steam y <b>Epic</b> (crossplay).</li><li>Reinicio diario a las <b>06:00</b>.</li></ul></div>
 
-    <div class="card guia-c"><h3>🚪 Cómo entrar</h3><ul><li>En el juego: <b>Join ARK → Unofficial</b> → buscá <b>ArgentoPro</b>.</li><li>Directo: en el menú apretá <b>TAB</b> y escribí <code>open 190.174.182.122:7777</code> (The Island), <code>:7779</code> (Fjordur) o <code>:7781</code> (rotativo).</li><li>Para pasar de mapa usá el <b>Obelisco</b> o un transmisor: los dinos y los items viajan.</li></ul></div>
+    <div class="card guia-c"><h3>🚪 Cómo entrar</h3><ul><li>En el juego: <b>Join ARK → Unofficial</b> → buscá <b>ArgentoPro</b>.</li><li>Directo: en el menú apretá <b>TAB</b> y escribí <code>open <span class="srvip">186.131.40.26</span>:7777</code> (The Island), <code>:7779</code> (Fjordur) o <code>:7781</code> (rotativo).</li><li>Para pasar de mapa usá el <b>Obelisco</b> o un transmisor: los dinos y los items viajan.</li></ul></div>
 
     <div class="card guia-c" style="border-color:#2ecc71"><h3>🔗 Vinculá tu cuenta (¡lo primero!)</h3><ol><li>En el juego escribí <code>/vincular</code> → te da un código de 6 letras.</li><li>Ponelo en esta página, en <a href="#cuenta">Mi cuenta</a>.</li></ol><p>Sin vincular no podés comprar, vender, votar ni reclamar premios. Para abrir la página desde el juego: <b>SHIFT + TAB</b> → navegador de Steam → <b>tinyurl.com/argentoark</b>.</p></div>
 
@@ -721,7 +721,7 @@ async function live() {
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
   $('ipCards').innerHTML = d.ip ? d.maps.map(m => `<div style="background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:10px"><b>${esc(m.name)}</b>${m.rotating ? ' <span class="tag">rotativo</span>' : ''}<div class="small" style="margin-top:4px">Consola: <code>open ${esc(d.ip)}:${m.port}</code> <button class="b2" style="font-size:11px;padding:1px 6px" onclick="navigator.clipboard?.writeText('open ${esc(d.ip)}:${m.port}');this.textContent='Copiado!'">Copiar</button></div><div class="small mut">Favoritos de Steam: <code>${esc(d.ip)}:${m.queryPort}</code></div></div>`).join('') : '<span class="mut">Pedila en el Discord</span>';
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
-  lastData = d; renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderVoteSites(); renderDonations(); renderTribeShop(); renderAccButtons(); renderEvents(); renderRep(); renderMarked();
+  lastData = d; if (d.ip) document.querySelectorAll('.srvip').forEach(e => { e.textContent = d.ip; }); renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderVoteSites(); renderDonations(); renderTribeShop(); renderAccButtons(); renderEvents(); renderRep(); renderMarked();
 }
 let lastData = null, rankKey = 'level';
 const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins', likes: 'likes' };
@@ -1462,7 +1462,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610162220';
+const WEB_VERSION = '202610171415';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
