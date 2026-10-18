@@ -1208,7 +1208,7 @@ const SADDLE_ICON = { raptor: 'Raptor', rex: 'Rex', trike: 'Trike', stego: 'Steg
   carno: 'Carno', alo: 'Allosaurus', theri: 'Therizinosaurus', bary: 'Baryonyx', tapejara: 'Tapejara', castor: 'Castoroides', oso: 'Dire_Bear', megatherium: 'Megatherium',
   giga: 'Giganotosaurus', bronto: 'Bronto', pachy: 'Pachy', ictio: 'Ichthyosaurus', plesio: 'Plesiosaur', basilo: 'Basilosaurus', rino: 'Woolly_Rhino', kapro: 'Kaprosuchus',
   sarco: 'Sarco', tortuga: 'Carbonemys', pela: 'Pelagornis', ciervo: 'Megaloceros', equus: 'Equus', daeodon: 'Daeodon', yuty: 'Yutyrannus', megalania: 'Megalania',
-  iguanodon: 'Iguanodon', terror: 'Terror_Bird', chali: 'Chalicotherium', canguro: 'Procoptodon', galli: 'Gallimimus', carcha: 'Carcha', quetzalplataforma: 'Quetz_Platform', maewing: 'Maewing', desmodus: 'Desmodus', gacha: 'Gacha' };
+  iguanodon: 'Iguanodon', terror: 'Terror_Bird', chali: 'Chalicotherium', canguro: 'Procoptodon', galli: 'Gallimimus', carcha: 'Carcha', quetzalplataforma: 'Quetz_Platform', maewing: 'Maewing', desmodus: 'Desmodus', gacha: 'Gacha', buho: 'Snow_Owl' };
 const isLinked = () => !!(getTok() && me);
 function needLink() { if (isLinked()) return false; $('linkModal').style.display = 'flex'; return true; }
 let tpanel = 'server';
@@ -1462,7 +1462,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610180010';
+const WEB_VERSION = '202610180020';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
