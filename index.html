@@ -260,6 +260,7 @@ section:not(.tabon) .wallet-box{display:none}
   <h2>Eventos y novedades</h2>
   <p class="sub">Todo lo que pasa en el server: desafíos, reyes de la semana, recompensas y premios.</p>
   <div id="boostBanner"></div>
+  <div id="warsPublic"></div>
   <div class="card" style="margin-bottom:14px;border-color:#2ecc71">
     <h3 style="font-size:22px;margin-bottom:6px">🗳️ Votá por ArgentoPro todos los días</h3>
     <p class="small" style="margin:0 0 10px">Cada voto nos sube en el ranking de las páginas de servers y así llegan más jugadores. Es gratis: entrás con tu cuenta de Steam y tocás <b>Upvote</b>. Se puede votar <b>1 vez por día</b>.</p>
@@ -346,6 +347,7 @@ section:not(.tabon) .wallet-box{display:none}
     <div class="card" style="margin-bottom:14px;border-color:#5865f2;background:radial-gradient(circle at 0% 0%,rgba(88,101,242,.18),rgba(0,0,0,0) 60%)"><h3 style="font-size:19px;margin-bottom:8px">💬 Canal de Discord de la tribu</h3><div id="myDiscord" class="small"></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#9b59b6"><h3 style="font-size:19px;margin-bottom:8px">🔑 Permisos para invitar a la tribu</h3><div id="myTAdmin" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#2ecc71"><h3 style="font-size:19px;margin-bottom:8px">🤝 Unirme a una tribu · solicitudes</h3><div id="mySolic" class="small"></div></div>
+    <div class="card" style="margin-bottom:14px;border-color:#e74c3c;background:radial-gradient(circle at 0% 0%,rgba(231,76,60,.15),rgba(0,0,0,0) 60%)"><h3 style="font-size:19px;margin-bottom:8px">⚔️ Guerras de tribus</h3><div id="myWars" class="small"></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#3498db"><h3 style="font-size:19px;margin-bottom:8px">🛡️ Protección por ACT</h3><div id="myGuard" class="small"></div></div>
     <div class="card" style="margin-bottom:14px"><h3 style="font-size:20px;margin-bottom:10px">🏅 Mis logros</h3><div id="myLogros" class="lg-grid"><p class="mut small">Cargando...</p></div></div>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-bottom:14px">
@@ -1015,7 +1017,7 @@ async function loadMyLogros() {
     + (msgs.length ? msgs.slice(0, 8).map(m => `<div class="tmsg" style="border-left:4px solid ${m.color || '#ffd700'}"><b>${m.label}</b> · ${esc(m.text)} <div class="mut">${m.rank ? `<span class="rk-b" style="color:${m.color}">${esc(m.rank)}</span> ` : ''}${esc(m.by)} · ${new Date(m.t).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</div>${readLine(m)}${m.canDelete ? `<button class="b2" style="font-size:11px;padding:2px 8px;margin-top:4px" onclick="tribeMsgDelete('${m.id}','msgs')">🗑️ Borrar</button>` : ''}</div>`).join('')
       : `<p class="mut">Todavía no hay mensajes en tu tribu.</p>`)
     + (!(r.rangos?.canMessage || P.isLeader) && r.rangos ? `<p class="mut" style="margin-top:8px">Desde <b>${esc(r.rangos.msgRank)}</b> podés mandar mensajes. Pedile pruebas a tu comandante para subir de rango.</p>` : '');
-  loadTAdmin(); tChatStart(); renderHogar(r.hogar); renderRangos(r.rangos); renderTribeDiscord(r.discord); renderSolic(r.solicitudes); renderGuard(r.proteccion);
+  loadTAdmin(); tChatStart(); renderWars(r.guerras); renderHogar(r.hogar); renderRangos(r.rangos); renderTribeDiscord(r.discord); renderSolic(r.solicitudes); renderGuard(r.proteccion);
 }
 let tmPactos = null;
 function renderPactos() {
@@ -1069,6 +1071,50 @@ async function loadTAdmin(action, member) {
     + (r.ready ? '' : '<p class="mut">⏳ Ahora no se puede ver la lista: la tribu tiene que estar en un mapa encendido.</p>')
     + (ms.length ? ms.map(m => `<div class="rk-row">${m.admin ? '🔑' : '👤'} <b>${esc(m.name)}</b> ${m.admin ? '<span style="color:#2ecc71">puede invitar</span>' : '<span class="mut">sin permiso</span>'}
       ${r.leader && r.ready ? (m.admin ? `<button class="b2" style="margin-left:6px" onclick="loadTAdmin('quitar','${esc(m.name).replace(/'/g, "\'")}')">Sacar permiso</button>` : `<button style="margin-left:6px" onclick="loadTAdmin('dar','${esc(m.name).replace(/'/g, "\'")}')">Dar permiso</button>`) : ''}</div>`).join('') : '<p class="mut">No hay otros miembros en la tribu.</p>');
+}
+// ---------- guerras de tribus ----------
+const warWhen = t => new Date(t).toLocaleString('es-AR', { weekday: 'long', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+const WAR_ST = { propuesta: '⏳ esperando respuesta', aceptada: '✅ confirmada', en_curso: '🔥 EN CURSO', terminada: '🏁 terminada' };
+function renderWars(W) {
+  const box = $('myWars'); if (!box) return;
+  if (!W) { box.innerHTML = '<p class="mut">No estás en ninguna tribu.</p>'; return; }
+  let h = `<p class="mut" style="margin:0 0 8px">El líder le declara la guerra a otra tribu para un día y hora <b>dentro del horario de PvP</b>. Durante la guerra, cada muerte entre las dos tribus suma un punto (sin multas). La que más mata gana y se lleva las dos apuestas de ACT.</p>`;
+  h += W.wars.length ? W.wars.map(w => `<div class="tmsg" style="border-left:4px solid ${w.status === 'en_curso' ? '#e74c3c' : '#f39c12'}"><b>${esc(W.tribe)} vs ${esc(w.vs)}</b> · ${WAR_ST[w.status] || w.status}
+      <div class="mut">${warWhen(w.start)} · ${esc(w.map)} · ${Math.round((w.end - w.start) / 3600000)} h${w.stake ? ' · apuesta ' + w.stake + ' ACT por tribu' : ''}${w.status === 'en_curso' ? ` · <b style="color:#fff">marcador ${w.score[0]} - ${w.score[1]}</b>` : ''}</div>
+      ${W.isLeader && w.status === 'propuesta' && !w.attacker ? `<div class="acts" style="margin-top:4px"><button onclick="warAct('accept',${w.id})">⚔️ Aceptar</button><button class="b2" onclick="warAct('reject',${w.id})">Rechazar</button></div>` : ''}
+      ${W.isLeader && w.attacker && ['propuesta', 'aceptada'].includes(w.status) ? `<button class="b2" style="font-size:11px;padding:2px 8px;margin-top:4px" onclick="warAct('cancel',${w.id})">Cancelar guerra</button>` : ''}</div>`).join('')
+    : '<p class="mut">Tu tribu no tiene guerras programadas.</p>';
+  if (W.isLeader) {
+    const d = new Date(); d.setMinutes(0, 0, 0); d.setHours(d.getHours() + 2);
+    const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+    h += `<h4 style="margin:12px 0 6px">Declarar una guerra</h4><div style="display:flex;gap:6px;flex-wrap:wrap">
+      <select class="inp" id="warTarget" style="flex:1;min-width:160px">${W.tribes.map(t => `<option value="${esc(t.id)}">${esc(t.name)}</option>`).join('')}</select>
+      <select class="inp" id="warMap">${W.maps.map(m => `<option value="${esc(m.id)}">${esc(m.name)}</option>`).join('')}</select>
+      <input class="inp" id="warStart" type="datetime-local" value="${local}">
+      <select class="inp" id="warHours">${[1, 2, 3].slice(0, W.maxHours).map(n => `<option value="${n}">${n} hora${n > 1 ? 's' : ''}</option>`).join('')}</select>
+      <input class="inp" id="warStake" type="number" min="0" max="${W.maxStake}" step="50" value="0" style="width:120px" title="Apuesta en ACT (0 = sin apuesta)">
+      <button onclick="warDeclare()">⚔️ Declarar guerra</button></div>
+      <p class="mut" style="margin:6px 0 0">Horario de PvP: lunes a viernes 21 a 22 · sábados y domingos 12 a 23. Apuesta en ACT (0 = sin apuesta, máximo ${W.maxStake}): si rechazan, se devuelve.</p>`;
+  } else h += '<p class="mut" style="margin-top:8px">Las guerras las declara y acepta el líder de tu tribu.</p>';
+  box.innerHTML = h;
+}
+async function warDeclare() {
+  const body = { token: getTok(), action: 'declare', tribe: selTribe, target: $('warTarget').value, map: $('warMap').value, start: new Date($('warStart').value).toISOString(), hours: $('warHours').value, stake: $('warStake').value };
+  if (!confirm('¿Declararle la guerra a ' + $('warTarget').selectedOptions[0].text + '?')) return;
+  try { const r = await post('guerra', body); alert(r.error || r.text); if (r.ok) loadMyLogros(); } catch { alert('No se pudo conectar con el server.'); }
+}
+async function warAct(action, id) {
+  if (!confirm(action === 'accept' ? '¿Aceptar la guerra? Si hay apuesta, se descuenta de los ACT de tu tribu.' : action === 'reject' ? '¿Rechazar la guerra?' : '¿Cancelar la guerra?')) return;
+  try { const r = await post('guerra', { token: getTok(), action, id }); alert(r.error || r.text); if (r.ok) loadMyLogros(); } catch { alert('No se pudo conectar con el server.'); }
+}
+function renderWarsPublic() {
+  const box = $('warsPublic'); if (!box) return;
+  const L = lastData?.guerras || [];
+  if (!L.length) { box.innerHTML = ''; return; }
+  box.innerHTML = `<div class="card" style="margin-bottom:14px;border-color:#e74c3c"><h3 style="font-size:21px;margin-bottom:8px">⚔️ Guerras de tribus</h3>`
+    + L.map(w => `<div class="tmsg" style="border-left:4px solid ${w.status === 'en_curso' ? '#e74c3c' : w.status === 'terminada' ? '#7f8c8d' : '#f39c12'}"><b>${esc(w.a)} vs ${esc(w.b)}</b> · ${WAR_ST[w.status] || w.status}
+      ${w.status !== 'aceptada' ? ` · <b style="font-size:16px">${w.score.a} - ${w.score.b}</b>` : ''}${w.winner ? ` · 🏆 ganó <b>${esc(w.winner)}</b>` : w.status === 'terminada' ? ' · empate' : ''}
+      <div class="mut">${warWhen(w.start)} · ${esc(w.map)}${w.stake ? ' · en juego ' + (w.stake * 2) + ' ACT' : ''}</div></div>`).join('') + '</div>';
 }
 function renderTribeDiscord(D) {
   if (!$('myDiscord')) return;
@@ -1215,6 +1261,7 @@ async function pactoAct(action, pact) {
 }
 function renderEvents() {
   renderLogrosPublic();
+  renderWarsPublic();
   const e = lastData?.events; if (!e) return;
   $('evRecruiters').innerHTML = (lastData.recruiters || []).map((x, i) => `<li><span class="pos">${i + 1}</span><span class="nm">${esc(x.name)}</span><span class="val">${x.value}</span></li>`).join('') || '<li class="mut">Todavía nadie invitó a un amigo. ¡Sé el primero!</li>';
   $('boostBanner').innerHTML = e.weekend?.active
@@ -1554,7 +1601,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610202130';
+const WEB_VERSION = '202610202230';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
