@@ -335,6 +335,7 @@ section:not(.tabon) .wallet-box{display:none}
       <div class="acts" style="margin-top:12px"><button style="background:var(--acc);color:#1a1206;font-weight:700;font-size:16px;padding:10px 16px" onclick="openInv()">📦 Vender lo que tengo en el inventario</button></div>
       <div id="noticeBox" style="margin-top:12px"></div>
     </div>
+    <div class="card" id="statsCard" style="display:none;margin-bottom:14px;border-color:#9b59b6;background:radial-gradient(circle at 0% 0%,rgba(155,89,182,.18),rgba(0,0,0,0) 60%)"><h3 style="font-size:19px;margin-bottom:8px">📊 Estadísticas de la página <span class="small mut">(solo la ves vos)</span></h3><div id="statsBox" class="small"></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#1abc9c;background:radial-gradient(circle at 0% 0%,rgba(26,188,156,.15),rgba(0,0,0,0) 60%)"><h3 style="font-size:20px;margin-bottom:8px">🏠 Teleport a casa · 🛡️ Zona segura</h3><div id="myHogar" class="small"></div></div>
     <div id="tribeSel"></div>
     <div id="peaceBan"></div>
@@ -845,6 +846,30 @@ function renderWallet() {
     <div><div class="wb-v act">${tr ? Number(tr.act || 0).toLocaleString('es-AR', { maximumFractionDigits: 0 }) : '0'} ACT</div><div class="wb-l">${tr ? 'Puntos de tribu · ' + esc(tr.name) : 'Sin tribu'}</div></div>
     <a class="btn" href="#tienda" onclick="setTimeout(()=>tshow('ac'),50)">💰 Comprar AC</a>`;
 }
+// ---------- estadisticas de visitas (solo admin) ----------
+const flag = c => /^[A-Z]{2}$/.test(c) ? String.fromCodePoint(...[...c].map(x => 0x1F1E6 + x.charCodeAt(0) - 65)) : '🌐';
+const countryName = c => { if (!/^[A-Z]{2}$/.test(c)) return 'Desconocido'; try { return new Intl.DisplayNames(['es'], { type: 'region' }).of(c); } catch { return c; } };
+async function loadStats() {
+  let r; try { r = await post('stats', { token: getTok(), days: 30 }); } catch { return; }
+  if (!r || !r.ok) { $('statsCard').style.display = 'none'; return; }
+  $('statsCard').style.display = '';
+  const max = Math.max(1, ...r.days.map(d => d.visits));
+  const box = (n, t, c) => `<div style="flex:1;min-width:110px;text-align:center;padding:8px;border:1px solid var(--line);border-radius:10px"><div style="font:700 26px Oswald;color:${c || 'var(--acc)'}">${n.toLocaleString('es-AR')}</div><div class="mut">${t}</div></div>`;
+  const bars = r.days.map(d => `<div title="${d.day}: ${d.visits} visitas, ${d.uniques} personas" style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;min-width:6px"><div style="width:100%;background:linear-gradient(#b07cd6,#7d3c98);border-radius:3px 3px 0 0;height:${Math.round(d.visits / max * 100)}%"></div></div>`).join('');
+  const totalC = r.countries.reduce((s, x) => s + x[1], 0) || 1, totalS = r.sources.reduce((s, x) => s + x[1], 0) || 1;
+  const rows = (list, total, label) => list.slice(0, 12).map(([k, v]) => `<div style="display:flex;align-items:center;gap:8px;margin:3px 0"><span style="width:150px">${label(k)}</span><div style="flex:1;background:rgba(255,255,255,.06);border-radius:4px;height:10px"><div style="width:${Math.round(v / total * 100)}%;height:10px;border-radius:4px;background:#9b59b6"></div></div><span style="width:70px;text-align:right">${v} (${Math.round(v / total * 100)}%)</span></div>`).join('') || '<p class="mut">Todavía no hay datos.</p>';
+  $('statsBox').innerHTML = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${box(r.online, 'mirando ahora', '#2ecc71')}${box(r.today.visits, 'visitas hoy')}${box(r.today.uniques, 'personas hoy')}${box(r.total.visits, 'visitas en 30 días')}${box(r.total.uniques, 'personas en 30 días')}</div>
+    <p class="mut" style="margin:0 0 4px">Visitas por día (últimos 30 días)</p>
+    <div style="display:flex;gap:2px;height:90px;align-items:stretch;border-bottom:1px solid var(--line);margin-bottom:4px">${bars}</div>
+    <div class="mut" style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:12px"><span>${r.days[0].day.slice(5).split('-').reverse().join('/')}</span><span>hoy</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px">
+      <div><b>🌎 Países</b>${rows(r.countries, totalC, c => flag(c) + ' ' + esc(countryName(c)))}</div>
+      <div><b>🔗 De dónde llegan</b>${rows(r.sources, totalS, x => esc(x))}</div></div>
+    <p class="mut" style="margin:10px 0 0">Una visita = alguien que abre la página (si vuelve después de 30 minutos cuenta otra). "Personas" = visitantes distintos. No se guardan las IP.</p>`;
+}
+// aviso de visita: una vez por pestania
+(async () => { try { if (sessionStorage.getItem('argVisit')) return; sessionStorage.setItem('argVisit', '1'); } catch { }
+  try { await post('visit', { ref: document.referrer || '', linked: !!getTok() }); } catch { } })();
 async function loadMe() {
   const token = getTok();
   if (!token) return showLogin();
@@ -852,6 +877,7 @@ async function loadMe() {
     const r = await post('me', { token });
     if (r.error) { try { localStorage.removeItem(TK); } catch { } return showLogin(r.error); }
     me = r; $('loginBox').style.display = 'none'; $('accBox').style.display = '';
+    loadStats();
     $('accName').textContent = r.char;
     $('accInfo').innerHTML = [r.level ? 'Nivel ' + r.level : '', r.tribe ? 'Tribu ' + esc(r.tribe) : 'Sin tribu',
       r.online ? '<span style="color:var(--ok)">● Jugando en ' + esc(r.online) + '</span>' : '<span class="mut">Desconectado del juego</span>',
@@ -1527,7 +1553,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610201430';
+const WEB_VERSION = '202610202100';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
