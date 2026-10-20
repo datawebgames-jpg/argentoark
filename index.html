@@ -210,6 +210,7 @@ section:not(.tabon) .wallet-box{display:none}
 <main>
 <section id="guia" data-tab="guia"><div class="wrap">
   <h2>📖 Guía de ArgentoPro ARK x5</h2>
+  <p style="margin:0 0 10px"><a class="btn" href="guia.html" target="_blank" rel="noopener" style="display:inline-block;background:var(--acc);color:#1a1206;font-weight:700;padding:10px 16px;border-radius:10px;text-decoration:none">📖 Abrir la guía completa (para leer o compartir)</a></p>
   <p class="sub">Todo lo que tiene el server, explicado. Si algo no se entiende, preguntá en el <a href="https://discord.gg/2EqEE46DjW" target="_blank" rel="noopener">Discord</a> o buscá a <b>Viejomanco</b>.</p>
   <div class="guia-grid">
     <div class="card guia-c"><h3>🦖 El server</h3><ul><li><b>ARK: Survival Evolved</b>, server argentino.</li><li>Experiencia, tameo, farmeo, cría y maduración <b>x5</b>. Estructuras <b>x20</b>.</li><li><b>Fin de semana x10</b> (sábados y domingos).</li><li>Mapas: <b>The Island</b> y <b>Fjordur</b> fijos + un <b>mapa rotativo</b> que eligen ustedes votando.</li><li>Steam y <b>Epic</b> (crossplay).</li><li>Reinicio diario a las <b>06:00</b>.</li></ul></div>
@@ -1553,7 +1554,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610202100';
+const WEB_VERSION = '202610202130';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }

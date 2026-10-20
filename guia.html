@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía completa · ArgentoPro ARK x5</title>
+<meta name="description" content="Todo lo que tiene el server ArgentoPro ARK x5: cómo entrar, ArgenCoins, tienda, mercado, tribus, monarcas, teleport, zona segura, comandos, PvP y reglas.">
+<style>
+  :root { --bg:#0e1116; --card:#161b22; --line:#2a313c; --txt:#e6e6e6; --mut:#9aa4b1; --acc:#f39c12; --acc2:#74acdf; --ok:#2ecc71; --bad:#e74c3c; }
+  * { box-sizing:border-box }
+  body { margin:0; background:var(--bg); color:var(--txt); font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif }
+  header { padding:28px 16px 18px; text-align:center; background:linear-gradient(180deg,rgba(243,156,18,.18),transparent) }
+  header h1 { margin:0; font-size:30px; letter-spacing:.5px } header p { margin:6px 0 0; color:var(--mut) }
+  .wrap { max-width:960px; margin:0 auto; padding:0 16px 40px }
+  nav { position:sticky; top:0; z-index:5; background:rgba(14,17,22,.95); border-bottom:1px solid var(--line); padding:8px 16px; display:flex; gap:6px; flex-wrap:wrap; justify-content:center }
+  nav a { color:var(--acc2); text-decoration:none; font-size:13px; padding:3px 8px; border:1px solid var(--line); border-radius:20px }
+  nav a:hover { border-color:var(--acc2) }
+  section { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin:16px 0 }
+  section h2 { margin:0 0 10px; font-size:21px } h3 { margin:14px 0 6px; font-size:16px; color:var(--acc) }
+  ul { margin:6px 0; padding-left:20px } li { margin:3px 0 }
+  code { background:#0b0e13; border:1px solid var(--line); border-radius:6px; padding:1px 6px; font-size:13px; color:#ffd479 }
+  table { width:100%; border-collapse:collapse; margin:6px 0; font-size:14px } td, th { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top } th { color:var(--mut); font-weight:600 }
+  .tag { display:inline-block; font-size:12px; padding:1px 8px; border-radius:20px; background:rgba(243,156,18,.15); color:var(--acc); margin-left:6px }
+  .note { color:var(--mut); font-size:13px } .warn { color:var(--bad) } .good { color:var(--ok) }
+  a { color:var(--acc2) }
+  @media (max-width:600px) { header h1 { font-size:24px } section { padding:14px } table { font-size:13px } }
+</style>
+</head>
+<body>
+<header>
+  <h1>🦖 Guía completa de ArgentoPro ARK x5</h1>
+  <p>Todo lo que tiene el server, en un solo lugar · Actualizada el 20/10/2026</p>
+  <p><a href="./">← Volver a la página del server</a> · <a href="https://discord.gg/2EqEE46DjW">Discord</a></p>
+</header>
+<nav>
+  <a href="#entrar">Entrar</a><a href="#cuenta">Cuenta</a><a href="#ac">ArgenCoins</a><a href="#tienda">Tienda</a><a href="#mercado">Mercado</a>
+  <a href="#tribus">Tribus</a><a href="#monarca">Monarca</a><a href="#casa">Casa y zona segura</a><a href="#baules">Baúles</a><a href="#comandos">Comandos</a>
+  <a href="#eventos">Eventos y logros</a><a href="#pvp">PvP y reglas</a><a href="#votar">Votar y donar</a>
+</nav>
+<div class="wrap">
+
+<section id="entrar">
+  <h2>🚪 Cómo entrar</h2>
+  <ul>
+    <li><b>ARK: Survival Evolved</b> (Steam y Epic, con crossplay). <b>Sin mods</b>: no hay que bajar nada.</li>
+    <li>En ARK: <b>Unirse a ARK → No oficiales</b> y buscá <b>ArgentoPro</b>.</li>
+    <li>Directo: en el menú apretá <b>TAB</b> y escribí:
+      <br><code>open argentopro.duckdns.org:7777</code> → The Island
+      <br><code>open argentopro.duckdns.org:7779</code> → Fjordur
+      <br><code>open argentopro.duckdns.org:7781</code> → mapa rotativo</li>
+    <li><b>Mapas:</b> The Island y Fjordur fijos, más un <b>mapa rotativo</b> que cambia cada lunes según lo que voten (<code>/votar</code>). Los mapas están unidos: podés llevar personaje, dinos e items por el Obelisco.</li>
+    <li><b>Tasas:</b> experiencia, tameo, farmeo, cría y maduración <b>x5</b> · estructuras x20 · <b>fines de semana x10</b>.</li>
+    <li><b>Reinicio diario a las 06:00</b> (se avisa antes). Si el server se cae o se corta la luz, vuelve solo.</li>
+  </ul>
+</section>
+
+<section id="cuenta">
+  <h2>🔗 Vinculá tu cuenta (lo primero)</h2>
+  <ul>
+    <li>En el juego escribí <code>/vincular</code> → te da un código de 6 letras.</li>
+    <li>Ponelo en la página, en <b>Mi cuenta</b>. Listo: ya podés comprar, vender, cobrar votos, reclamar premios y manejar tu tribu desde la página.</li>
+    <li>También podés vincular tu Discord para recibir avisos.</li>
+  </ul>
+</section>
+
+<section id="ac">
+  <h2>💰 ArgenCoins (AC): la moneda del server</h2>
+  <h3>Cómo se ganan</h3>
+  <ul>
+    <li><b>Jugando:</b> AC por cada minuto conectado.</li>
+    <li><b>Premio diario</b> al entrar (más grande si venís seguido) y <b>premio por jugar 4 horas en el día</b>.</li>
+    <li><b>Votar</b> por el server: AC por cada voto (ver <a href="#votar">Votar</a>).</li>
+    <li><b>Compartir</b> tu link de la página: <b>50 AC por día</b>.</li>
+    <li><b>Invitar amigos</b> con tu código (<code>/invitar</code>, el nuevo usa <code>/referido</code>): premio para los dos.</li>
+    <li><b>Logros</b>, <b>eventos</b>, <b>cazar alfas</b> (25 AC cada uno) y <b>vender</b> en el mercado.</li>
+  </ul>
+  <h3>Cómo se usan</h3>
+  <ul><li>Tienda oficial, monturas, dinos nivel 1, mercado entre jugadores, teleport a casa, zona segura, mapa rastreador, tragamonedas, traer tu cuerpo y más.</li>
+  <li><code>/saldo</code> para ver cuánto tenés · <code>/pagar Nombre 100</code> para pasarle AC a otro.</li></ul>
+</section>
+
+<section id="tienda">
+  <h2>🛒 Tienda</h2>
+  <h3>Tienda oficial (en la página o con <code>/comprar T1</code>…)</h3>
+  <ul><li>Flechas y dardos tranquilizantes, narcóticos, estimulantes, boleadoras, metal, polímero, cemento, perlas negras y de sílice, criopods, carne prime, leche de wyvern, GPS, rastreador y transpondedores, <b>50 zanahorias por 50 AC</b> y un kit de planos de armas.</li>
+  <li>Todo llega <b>solo al inventario</b> (tenés que estar conectado).</li></ul>
+  <h3>Monturas</h3>
+  <ul><li><b>250 AC</b> cada una (Rex, Raptor, Argentavis, Quetzal, Spino, Mamut, Desmodus, Gacha, Búho de las nieves, Maewing y muchas más). <code>/monturas</code> para la lista.</li>
+  <li>Premium: <b>Giganotosaurio, Carcharodontosaurio y Quetzal plataforma: 1.500 AC</b>.</li></ul>
+  <h3>Dinos nivel 1 en criopod</h3>
+  <ul><li><b>1.000 AC</b>, elegís macho o hembra (ideal para criar). Llegan con <code>/recibir</code>.</li></ul>
+  <h3>Tienda de la tribu (se paga con ACT, la usa el líder)</h3>
+  <ul><li>Armas y monturas mejoradas (calidad oficial a maestro), planos TOP, monturas premium a 1.500 ACT.</li>
+  <li><b>Incubadora</b> 2.500 · <b>Fabricador</b> 2.000 · <b>Mesa de química</b> 2.000 · <b>Cocina industrial</b> 1.000 · <b>Tek Stryder recolector</b> 15.000 ACT.</li></ul>
+  <h3>🎰 Tragamonedas</h3>
+  <ul><li>En la página: apostás 10, 25, 50 o 100 AC. Tiene un límite diario para que nadie se funda.</li></ul>
+</section>
+
+<section id="mercado">
+  <h2>📦 Mercado entre jugadores (automático)</h2>
+  <ul>
+    <li>En la página → Tienda → <b>Vender</b>: elegís qué vender de tu inventario y el precio en AC (tenés que estar conectado).</li>
+    <li><b>El item sale de tu inventario</b> y queda publicado: armas, monturas, recursos y <b>criopods con el dino adentro</b>.</li>
+    <li>Cuando alguien lo compra, <b>te llegan las AC al instante</b> y el item aparece solo en el inventario del comprador, en cualquier mapa.</li>
+    <li>¿Te arrepentiste? <b>Cancelar y devolver a mi inventario</b> (o <code>/cancelar 12</code>). Las ventas duran 7 días; si nadie compra, vuelve solo.</li>
+    <li>También hay pedidos: <code>/buscar</code> en el chat del mercado de la página, y canje de garras y dientes de alfa por premios (<code>/canjear</code>).</li>
+  </ul>
+</section>
+
+<section id="tribus">
+  <h2>🏆 Tribus</h2>
+  <h3>ACT: los puntos de la tribu</h3>
+  <ul><li>La tribu junta ACT jugando, tameando, ganando PvP, matando alfas y cumpliendo misiones. Los gasta el líder en la tienda de la tribu.</li></ul>
+  <h3>Misiones y mejor tribu</h3>
+  <ul><li><b>5 misiones de tribu nuevas cada lunes.</b> La que más puntos junta en el mes es la <b>MEJOR TRIBU DEL SERVER</b> y gana ACT.</li></ul>
+  <h3>Rangos y pruebas</h3>
+  <ul><li>El líder les manda <b>pruebas</b> a sus miembros (tamear, subir de nivel, juntar materiales…). Cada prueba cumplida da AC y sube un rango: Soldado raso, Cabo, Sargento… hasta Coronel.</li>
+  <li>Desde <b>Sargento</b> se pueden mandar mensajes a toda la tribu.</li></ul>
+  <h3>Comunicación</h3>
+  <ul><li><b>Mensajes del líder</b> (Se necesita, Se busca, Aviso, Reunión): llegan al juego y a la página, con <b>"leído por"</b>.</li>
+  <li><b>💬 Chat de la tribu</b> en Mi cuenta: para hablar con los tuyos aunque no estén en el juego.</li>
+  <li><b>Canal de Discord propio de la tribu</b> (3.000 ACT): canal de texto y de voz, con rol dorado para el líder y entrada con contraseña.</li></ul>
+  <h3>Organización</h3>
+  <ul><li><b>Permisos para invitar:</b> el líder, desde la página, le da a quien quiera el permiso de invitar gente.</li>
+  <li><b>Solicitudes:</b> cualquiera puede pedir entrar a una tribu desde la página.</li>
+  <li><b>Una tribu por mapa:</b> si estás en tribus distintas según el mapa, elegís cuál manejar en Mi cuenta.</li></ul>
+  <h3>Pactos y protección</h3>
+  <ul><li><b>Pactos de no agresión:</b> los líderes los firman en la página y se vuelven <b>alianzas de verdad en el juego</b> (se ven en azul, no se lastiman). Si un miembro mata a uno de la otra tribu, paga 300 AC de multa.</li>
+  <li><b>Protección por ACT:</b> una tribu le paga a otra 50 ACT por día para que la cuide. Si el protector la ataca: 1.000 AC de multa, y la segunda vez, 24 horas de ban.</li></ul>
+  <h3>🗺️ Mapa rastreador</h3>
+  <ul><li>En la página ves tu personaje gratis. Con el <b>pase de tribu (3.000 AC por mes)</b> ves a toda tu tribu, todos los dinos y las bolsas de muerte. Tiene <b>buscador</b>: escribís un nombre o especie y te lo marca.</li></ul>
+</section>
+
+<section id="monarca">
+  <h2>👑 Monarca del mapa, alfas y jefes</h2>
+  <ul>
+    <li>La tribu que tiene más <b>cabezas de jefes</b> (trofeos) es la <b>MONARCA</b> de ese mapa.</li>
+    <li>La tribu monarca queda <b>aliada con todas las tribus del mapa</b>, y cada tribu le paga un <b>tributo diario de 50 ACT</b>.</li>
+    <li>La tribu que <b>no paga</b> sale de la alianza, se anuncia en un cartel, y la tribu monarca la puede atacar y raidear.</li>
+    <li>En el chat, los de la tribu monarca hablan <b>en azul</b>, con su rango, y el líder figura como <b>(Rey Monarca)</b>.</li>
+    <li><b>Cazador de alfas:</b> cada alfa que matás da <b>25 AC y 15 ACT</b>. El que más mata en el día gana 200 AC.</li>
+    <li><b>Títulos en el chat:</b> según lo que hacés aparecen títulos de color, como (Buena gente) por los likes (<code>/like Nombre</code>) o (Peligroso) por los asesinatos.</li>
+  </ul>
+</section>
+
+<section id="casa">
+  <h2>🏠 Teleport a casa y 🛡️ zona segura</h2>
+  <ul>
+    <li>Activalo en la página (Mi cuenta → <b>Activar teleport a Casa</b>).</li>
+    <li>Parado en tu base: <code>/sethome</code>. Desde cualquier lugar: <code>/home</code>, quedate quieto 20 segundos y aparecés en tu casa. <b>200 AC</b> cada vez (si te movés se cancela y no se cobra).</li>
+    <li><b>Zona segura:</b> una burbuja de <b>30 metros</b> alrededor de tu casa donde nadie te puede matar ni romper las estructuras. <b>30.000 AC por 30 días</b>; también se puede pagar con <b>30.000 ACT</b> de la tribu (líder) o con pesos/dólares en la página.</li>
+  </ul>
+</section>
+
+<section id="baules">
+  <h2>🔒 Baúles y cajones protegidos</h2>
+  <ul>
+    <li>Los cajones, baúles, heladeras y forjas <b>solo los abre tu tribu</b>, aunque estén sin llave. Lo mismo el inventario de tus dinos y de tu personaje dormido.</li>
+    <li>Los cuerpos muertos y las bolsas sí se pueden saquear (es PvP).</li>
+    <li><code>/baulprivado</code> parado al lado de tu baúl → <b>solo lo abrís vos</b>, ni los de tu tribu.</li>
+    <li><code>/baulclave 1234</code> le pone clave; el que la sepa abre con <code>/baul 1234</code>. <code>/baulpublico</code> lo devuelve a la tribu.</li>
+  </ul>
+</section>
+
+<section id="comandos">
+  <h2>🧭 Comandos del juego</h2>
+  <table>
+    <tr><th>Comando</th><th>Para qué sirve</th></tr>
+    <tr><td><code>/ayuda</code></td><td>Lista de comandos.</td></tr>
+    <tr><td><code>/vincular</code></td><td>Código para vincular tu cuenta en la página.</td></tr>
+    <tr><td><code>/saldo</code> · <code>/pagar Nombre 100</code></td><td>Tus AC · pasarle AC a otro jugador.</td></tr>
+    <tr><td><code>/kit</code> · <code>/premio</code></td><td>Kit de inicio (por nivel) · reclamar tus premios.</td></tr>
+    <tr><td><code>/tienda</code> · <code>/comprar T1</code></td><td>Tienda oficial.</td></tr>
+    <tr><td><code>/monturas</code> · <code>/dinos</code> · <code>/recibir</code></td><td>Monturas, dinos nivel 1 y retirar lo comprado.</td></tr>
+    <tr><td><code>/vender</code> · <code>/ventas</code> · <code>/cancelar 12</code></td><td>Mercado entre jugadores.</td></tr>
+    <tr><td><code>/sethome</code> · <code>/home</code></td><td>Teleport a tu casa (200 AC).</td></tr>
+    <tr><td><code>/gps</code> · <code>/gps on</code></td><td>Tus coordenadas (cada 20 segundos por 5 minutos con "on").</td></tr>
+    <tr><td><code>/dino</code></td><td>Mirando a un dino tuyo o salvaje: nivel, sexo, estadísticas y puntos.</td></tr>
+    <tr><td><code>/buscar Nombre</code></td><td>Te guía por el chat hasta un compañero de tribu o un dino tuyo.</td></tr>
+    <tr><td><code>/cuerpo</code></td><td>Te trae tu último cuerpo o bolsa (100 AC; si te mató un jugador, 15 minutos de espera).</td></tr>
+    <tr><td><code>/matarbebe</code></td><td>Mata a un bebé de tu tribu que estás mirando (pide confirmación).</td></tr>
+    <tr><td><code>/baulprivado</code> · <code>/baulclave</code></td><td>Baúl solo tuyo y con clave.</td></tr>
+    <tr><td><code>/tribu</code> · <code>/mapatribu</code></td><td>Tu tribu y sus ACT · el mapa rastreador.</td></tr>
+    <tr><td><code>/eventos</code> · <code>/mision</code> · <code>/recompensa</code></td><td>Eventos del día, misiones y recompensas por cabeza.</td></tr>
+    <tr><td><code>/votar mapa</code> · <code>/votos</code></td><td>Votar el próximo mapa rotativo.</td></tr>
+    <tr><td><code>/like Nombre</code></td><td>Darle un like a un jugador (suma para el título "Buena gente").</td></tr>
+    <tr><td><code>/pvp</code></td><td>Si ahora hay PvP y los horarios.</td></tr>
+    <tr><td><code>/ticket texto</code></td><td>Pedir ayuda a los admins.</td></tr>
+    <tr><td><code>/discord</code> · <code>/web</code></td><td>Links de Discord y de la página.</td></tr>
+  </table>
+  <p class="note">También: las <b>estructuras se levantan en cualquier momento</b>, y los <b>dinos que salen del criopod no se duermen</b>.</p>
+</section>
+
+<section id="eventos">
+  <h2>🏅 Eventos y logros</h2>
+  <ul>
+    <li><b>Desafío del día:</b> domar un dino determinado (premio en AC).</li>
+    <li><b>Cazador del día</b> (el que más tamea) y <b>gran misión</b> de la semana.</li>
+    <li><b>Se busca:</b> recompensas por la cabeza de un jugador (<code>/recompensa</code>), se cobran en PvP.</li>
+    <li><b>Reyes de la semana</b> (top nivel y top tameos) y <b>sorteo semanal</b> entre los que jugaron: premios cada lunes.</li>
+    <li><b>Logros estilo Steam</b> con 5 grados cada uno (Explorador, Domador, Superviviente…): cada grado da AC. Los ves en Mi cuenta.</li>
+    <li><b>Carrera semanal</b> de logros y <b>ranking en vivo</b> en Discord.</li>
+  </ul>
+</section>
+
+<section id="pvp">
+  <h2>⚔️ PvP y reglas</h2>
+  <table>
+    <tr><th></th><th>Horario</th></tr>
+    <tr><td>PvP lunes a viernes</td><td><b>21 a 22 hs</b></td></tr>
+    <tr><td>PvP sábados y domingos</td><td><b>12 a 23 hs</b></td></tr>
+    <tr><td>Asedios (romper bases)</td><td>sábados y domingos <b>20 a 22 hs</b>, nivel 100+</td></tr>
+  </table>
+  <ul>
+    <li><b>Pelear solo es legal entre jugadores nivel 80 o más.</b></li>
+    <li><b class="warn">En horario PvE no se puede matar a nadie, ni con dinos.</b> Matar fuera de las reglas tiene <b>multa de AC para la víctima</b>; si se repite, el asesino queda como <b>Criminal</b> y pierde beneficios.</li>
+    <li><b>Fuego amigo apagado:</b> los de una misma tribu y las alianzas no se lastiman.</li>
+    <li><b>Construcciones abandonadas desaparecen:</b> paja 5 días, madera 10, piedra 15 y metal 20 sin que nadie de la tribu pase cerca.</li>
+    <li><b>🤝 Respeto en el chat:</b> insultos, comentarios racistas o discriminatorios y hablar mal de los admins no se permiten. 1ra vez: aviso en pantalla con tu nombre. Si seguís: <b>ban de 7 días</b>.</li>
+    <li>Nada de cheats, exploits, ni bloquear cuevas o spawns: ban directo.</li>
+    <li>¿Problemas? Abrí un ticket (<code>/ticket</code>, en la página o en Discord).</li>
+  </ul>
+</section>
+
+<section id="votar">
+  <h2>🗳️ Votar y ❤️ donar</h2>
+  <ul>
+    <li><b>Votá por el server</b> en <a href="https://tinyurl.com/votaargentoark">tinyurl.com/votaargentoark</a>: entrá con tu cuenta de <b>Steam</b>, tocá Upvote y las AC te llegan solas.</li>
+    <li>Mirá quién está jugando en <a href="https://www.battlemetrics.com/servers/ark/41664135">BattleMetrics</a>.</li>
+    <li><b>Donaciones</b> (bancan el server): packs de <b>1.000 AC</b> (USD 5 / $8.000), <b>10.000 AC</b> (USD 20 / $35.000) y <b>30.000 AC</b> (USD 25 / $40.000). En la página → Comprar AC.</li>
+  </ul>
+</section>
+
+<p class="note" style="text-align:center">¿Algo no está claro? Preguntá en el <a href="https://discord.gg/2EqEE46DjW">Discord</a> o abrí un ticket. ¡A disfrutar!</p>
+</div>
+</body>
+</html>
