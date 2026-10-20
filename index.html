@@ -260,6 +260,7 @@ section:not(.tabon) .wallet-box{display:none}
   <h2>Eventos y novedades</h2>
   <p class="sub">Todo lo que pasa en el server: desafíos, reyes de la semana, recompensas y premios.</p>
   <div id="boostBanner"></div>
+  <div id="expedPublic"></div>
   <div id="wantedPublic"></div>
   <div id="warsPublic"></div>
   <div class="card" style="margin-bottom:14px;border-color:#2ecc71">
@@ -467,6 +468,7 @@ section:not(.tabon) .wallet-box{display:none}
     <button class="hub-tile" data-p="tribu" onclick="tshow('tribu')"><img src="img/wiki/Assault_Rifle.png" alt="" loading="lazy"><b>Tienda de la tribu</b><span>Con los ACT de tu tribu</span></button>
     <button class="hub-tile" data-p="ranking" onclick="tshow('ranking')"><div class="hub-emoji">🏆</div><b>Ranking de tribus</b><span>Quién junta más ACT</span></button>
     <button class="hub-tile" data-p="mercado" onclick="tshow('mercado')"><img src="img/wiki/Black_Pearl.png" alt="" loading="lazy"><b>Mercado</b><span>Comprale a otros jugadores</span></button>
+    <button class="hub-tile" data-p="adopcion" onclick="tshow('adopcion')"><img src="img/wiki/Cryopod.png" alt="" loading="lazy"><b>Adopción</b><span>Dinos para los nuevos</span></button>
     <button class="hub-tile" data-p="vender" onclick="tshow('vender')"><img src="img/wiki/Polymer.png" alt="" loading="lazy"><b>Vender</b><span>Lo que tenés en el juego</span></button>
     <button class="hub-tile" data-p="personal" onclick="tshow('personal')"><img src="img/wiki/Dossier_Rex.png" alt="" loading="lazy"><b>Mi tienda</b><span>Saldo, ventas y avisos</span></button>
     <button class="hub-tile" data-p="slots" onclick="tshow('slots')"><span style="font-size:58px;line-height:72px">🎰</span><b>Tragamonedas</b><span>Jugá con tus AC</span></button>
@@ -500,6 +502,13 @@ section:not(.tabon) .wallet-box{display:none}
   <div class="tpanel" data-p="ranking">
     <h3 class="tsec">🏆 Ranking de tribus</h3><p class="sub" style="margin:-4px 0 12px">Las tribus que más ACT juntaron. Todos los miembros suman jugando, tameando y en PvP legal.</p>
     <div id="tribeRank" class="rank-list"></div>
+  </div>
+  <div class="tpanel" data-p="adopcion">
+    <h3 class="tsec">🐣 Adopción de dinos</h3><p class="sub" style="margin:-4px 0 12px">Los jugadores veteranos donan dinos en criopod para ayudar a los que recién empiezan.</p>
+    <div class="card" style="margin-bottom:12px;border-color:#f1c40f"><p class="small" style="margin:0">
+      <b>¿Sos nuevo?</b> (menos de 40 horas jugadas) Podés adoptar <b>1 dino por semana</b> por solo <b>100 AC</b>: te llega solo al inventario en un criopod, en cualquier mapa.<br>
+      <b>¿Querés ayudar?</b> En <b>Vender</b> (tu inventario), los criopods con dino tienen el botón <b>🐣 Dar en adopción</b>. Si el dino es nivel 30 o más, te regalamos 100 AC de agradecimiento (1 vez por día). Si nadie lo adopta en 14 días, vuelve a tu inventario.</p></div>
+    <div id="adoptList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px"></div>
   </div>
   <div class="tpanel" data-p="mercado">
     <h3 class="tsec">🤝 Mercado de jugadores</h3><p class="sub" style="margin:-4px 0 12px">Comprale a otros jugadores. Las ventas con ✔ verificado las controla el server.</p>
@@ -804,8 +813,26 @@ async function loadInv() {
       <div style="flex:1;min-width:180px"><b>${esc(it.name)}</b>${it.qty > 1 ? ' <span class="mut">x' + it.qty + '</span>' : ''}${it.quality ? ' <span class="tag">' + esc(it.quality) + (it.rating ? ' ' + it.rating : '') + '</span>' : ''}</div>
       ${it.stack ? `<input class="inp" id="invQ${i}" type="number" min="1" max="${it.qty}" value="${it.qty}" style="width:80px" title="Cantidad">` : ''}
       <input class="inp" id="invP${i}" type="number" min="1" placeholder="Precio AC" style="width:110px">
-      <button onclick="sellInv(${i})">Publicar</button></div>`).join('');
+      <button onclick="sellInv(${i})">Publicar</button>${it.dino ? `<button class="b2" onclick="adoptGive(${i})" title="Regalarlo a los jugadores nuevos">🐣 Dar en adopción</button>` : ''}</div>`).join('');
   } catch { $('invMsg').textContent = 'No se pudo conectar con el server. Probá en un rato.'; }
+}
+// ---------- adopcion ----------
+async function adoptGive(i) {
+  const it = invItems[i]; if (!it) return;
+  if (!confirm('¿Dar ' + it.name + ' en adopción? Sale de tu inventario y lo puede adoptar un jugador nuevo. Si nadie lo adopta en 14 días, vuelve.')) return;
+  try {
+    const r = await post('sellitem', { token: getTok(), uid: it.uid, adopt: true });
+    $('invMsg').innerHTML = r.error ? '<span style="color:#ff8a7a">' + esc(r.error) + '</span>' : '<b style="color:var(--ok)">' + esc(r.text) + '</b>';
+    if (!r.error) { live(); loadMe(); }
+  } catch { $('invMsg').textContent = 'No se pudo conectar con el server.'; }
+}
+function renderAdoption() {
+  const box = $('adoptList'); if (!box) return;
+  const L = lastData?.market?.adopcion || [];
+  box.innerHTML = L.length ? L.map(l => `<div class="card" style="text-align:center;padding:12px"><div style="font-size:34px">🦖</div><b>${esc(l.dino)}</b>
+      <div class="small mut">${l.level ? 'nivel ' + l.level : ''}${l.sex ? ' · ' + esc(l.sex) : ''} · donado por ${esc(l.seller)}</div>
+      ${me && l.seller === me.char ? `<button class="b2" style="margin-top:8px" onclick="act('cancelar ${l.id}')">Retirarlo</button>` : `<button style="margin-top:8px" onclick="if(!needLink())act('adoptar ${l.id}')">Adoptar (100 AC)</button>`}</div>`).join('')
+    : '<p class="mut">Ahora no hay dinos en adopción. ¡Si sos veterano, doná uno desde Vender!</p>';
 }
 async function sellInv(i) {
   const it = invItems[i], price = +$('invP' + i).value, qty = it.stack ? +$('invQ' + i).value : 1;
@@ -1150,6 +1177,19 @@ async function seguroBuy(i) {
   if (!confirm(`¿Asegurar a ${d.name} (${d.species} nv ${d.level}) por ${seguroData.price} AC durante ${seguroData.days} días?`)) return;
   try { const r = await post('seguro', { token: getTok(), action: 'insure', mapId: d.mapId, team: d.team, name: d.name, species: d.species }); alert(r.error || r.text); if (r.ok) { loadSeguro(); loadMe(); } } catch { alert('No se pudo conectar con el server.'); }
 }
+// expedicion semanal
+function renderExped() {
+  const box = $('expedPublic'); if (!box) return;
+  const E = lastData?.expedicion; if (!E) { box.innerHTML = ''; return; }
+  const c = E.current;
+  const when = new Date(E.next).toLocaleString('es-AR', { weekday: 'long', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+  box.innerHTML = `<div class="card" style="margin-bottom:14px;border-color:#27ae60;background:radial-gradient(circle at 0% 0%,rgba(39,174,96,.2),rgba(0,0,0,0) 60%)"><h3 style="font-size:21px;margin-bottom:6px">🗺️ Expedición semanal</h3>`
+    + (c ? `<p style="margin:0 0 6px;font-size:17px">🔥 <b>EN CURSO en ${esc(c.map)}</b> · zona <b>Lat ${c.lat} Lon ${c.lon}</b> · termina a las ${new Date(c.end).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}</p>`
+        + (c.ranking.length ? '<ol class="rank">' + c.ranking.map((x, i) => `<li><span class="pos">${i + 1}</span><span class="nm">${esc(x.name)}</span><span class="val">${x.n} alfa${x.n > 1 ? 's' : ''}</span></li>`).join('') + '</ol>' : '<p class="mut">Todavía ninguna tribu mató un alfa.</p>')
+      : `<p style="margin:0 0 6px">Próxima: <b>${esc(when)}</b></p>`)
+    + `<p class="small mut" style="margin:6px 0 0">Aparecen 5 alfas nivel 150 en una zona del mapa. La tribu que más alfas mate en 2 horas gana <b>${E.prize} ACT</b> (además de los 25 AC y 15 ACT por cada alfa). En el juego: <code>/expedicion</code>.</p>`
+    + (E.history.length ? '<p class="small" style="margin:6px 0 0">Últimas: ' + E.history.map(h => `${esc(h.map)}: ${h.winner ? '🏆 ' + esc(h.winner) + ' (' + h.alphas + ')' : 'sin ganador'}`).join(' · ') + '</p>' : '') + '</div>';
+}
 function renderWarsPublic() {
   const box = $('warsPublic'); if (!box) return;
   const L = lastData?.guerras || [];
@@ -1302,10 +1342,13 @@ async function pactoAct(action, pact) {
   if (action === 'cancel' && !confirm('¿Terminar el pacto? Sigue vigente 12 horas más.')) return;
   try { const r = await post('pacto', body); alert(r.error || r.text); loadMyLogros(); } catch { alert('No se pudo conectar con el server.'); }
 }
+function renderEventsAdopt() { try { renderAdoption(); } catch { } }
 function renderEvents() {
+  renderEventsAdopt();
   renderLogrosPublic();
   renderWarsPublic();
   renderWanted();
+  renderExped();
   const e = lastData?.events; if (!e) return;
   $('evRecruiters').innerHTML = (lastData.recruiters || []).map((x, i) => `<li><span class="pos">${i + 1}</span><span class="nm">${esc(x.name)}</span><span class="val">${x.value}</span></li>`).join('') || '<li class="mut">Todavía nadie invitó a un amigo. ¡Sé el primero!</li>';
   $('boostBanner').innerHTML = e.weekend?.active
@@ -1645,7 +1688,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610202345';
+const WEB_VERSION = '202610210030';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
