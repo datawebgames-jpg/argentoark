@@ -1352,7 +1352,7 @@ function renderTribeMap() {
   if (!tmapSel || !d.maps.some(m => m.id === tmapSel)) tmapSel = (d.maps.find(m => m.players.length || m.dinos.length) || d.maps[0])?.id;
   const m = d.maps.find(x => x.id === tmapSel);
   const mins = m ? Math.max(0, Math.round((Date.now() - m.savedAt) / 60000)) : 0;
-  const pin = (x, cls, html, tip) => `<div class="tmk ${cls}" style="left:${tmapX(x.lon)}%;top:${tmapY(x.lat)}%" data-tip="${esc(tip)}">${html}</div>`;
+  const pin = (x, cls, html, tip) => `<div class="tmk ${cls}" style="left:${tmapX(x.lon)}%;top:${tmapY(x.lat)}%" data-tip="${esc(tip)}" data-q="${esc(tmapNorm(tip))}" data-lat="${x.lat}" data-lon="${x.lon}">${html}</div>`;
   let pins = '';
   if (m) {
     if (tmapShow.dino) pins += m.dinos.map(x => pin(x, 'dino', '', `🦖 ${x.name ? x.name + ' (' + x.species + ')' : x.species} · nv ${x.level} · ${x.sex} · ${x.lat}, ${x.lon}`)).join('');
@@ -1373,14 +1373,40 @@ function renderTribeMap() {
       <label><input type="checkbox" ${tmapShow.dino ? 'checked' : ''} onchange="tmapShow.dino=this.checked;renderTribeMap()">🦖 Dinos (${m ? m.dinos.length : 0})${locked && d.plan !== 'personal' ? ' 🔒' : ''}</label>
       <label><input type="checkbox" ${tmapShow.dead ? 'checked' : ''} onchange="tmapShow.dead=this.checked;renderTribeMap()">💀 Bolsas de muerte (${m ? m.deaths.length : 0})${locked && d.plan !== 'personal' ? ' 🔒' : ''}</label>
       <span class="small mut">Guardado hace ${mins} min</span></div>
+    <div class="tmap-bar"><input class="inp" id="tmapQ" style="flex:1;min-width:220px" placeholder="🔎 Buscar en el mapa: compañero, nombre del dino o especie (ej: rex)" value="${esc(tmapQ)}" oninput="tmapQ=this.value;tmapSearch()"><span class="small" id="tmapQRes"></span></div>
     <div class="tmap-wrap" id="tmapWrap">${m && m.img ? `<img class="base" src="img/wiki/${m.img}" alt="">` : '<div style="padding:120px 0;text-align:center" class="mut">Todavía no hay datos de tu personaje. Entrá al juego y esperá el próximo guardado (15 min).</div>'}${pins}<div class="tmap-tip" id="tmapTip"></div></div>
-    <div class="tmap-list">${list.map(([i, t, x]) => `<div onclick="tmapFlash(${x.lat},${x.lon})">${i} ${esc(t)} <span class="mut small">${x.lat}, ${x.lon}</span></div>`).join('') || '<p class="mut">No hay nada tuyo en este mapa.</p>'}</div>` + offer;
+    <div class="tmap-list">${list.map(([i, t, x]) => `<div data-q="${esc(tmapNorm(t + ' ' + (x.species || '')))}" onclick="tmapFlash(${x.lat},${x.lon})">${i} ${esc(t)} <span class="mut small">${x.lat}, ${x.lon}</span></div>`).join('') || '<p class="mut">No hay nada tuyo en este mapa.</p>'}</div>` + offer;
   const wrap = $('tmapWrap'), tip = $('tmapTip');
   wrap.querySelectorAll('.tmk').forEach(el => {
     el.addEventListener('mouseenter', () => { tip.textContent = el.dataset.tip; tip.style.display = 'block'; tip.style.left = Math.max(4, Math.min(el.offsetLeft + 10, wrap.clientWidth - tip.offsetWidth - 4)) + 'px'; tip.style.top = (el.offsetTop + 12) + 'px'; });
     el.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
     el.addEventListener('click', () => alert(el.dataset.tip));
   });
+  tmapSearch();
+}
+// ---------- buscador del mapa ----------
+let tmapQ = '';
+const tmapNorm = t => String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+function tmapSearch() {
+  const wrap = $('tmapWrap'); if (!wrap) return;
+  const q = tmapNorm(tmapQ).trim();
+  const pins = [...wrap.querySelectorAll('.tmk[data-q]')], rows = [...document.querySelectorAll('.tmap-list [data-q]')];
+  pins.forEach(p => { p.style.display = !q || p.dataset.q.includes(q) ? '' : 'none'; });
+  rows.forEach(x => { x.style.display = !q || x.dataset.q.includes(q) ? '' : 'none'; });
+  wrap.querySelectorAll('.tmk-found').forEach(x => x.remove());
+  const res = $('tmapQRes'); if (!res) return;
+  if (!q) { res.innerHTML = ''; return; }
+  const hits = pins.filter(p => p.dataset.q.includes(q));
+  // circulo alrededor de cada resultado (hasta 15)
+  hits.slice(0, 15).forEach(p => { const f = document.createElement('div'); f.className = 'tmk tmk-found'; f.style.cssText = `left:${p.style.left};top:${p.style.top};width:34px;height:34px;border:3px solid #ffd700;border-radius:50%;box-shadow:0 0 14px #ffd700;pointer-events:none;background:transparent`; wrap.appendChild(f); });
+  // tambien en los otros mapas
+  const others = (tmapData?.maps || []).filter(m => m.id !== tmapSel).map(m => {
+    const n = [...(m.players || []).map(x => x.name), ...(m.dinos || []).map(x => (x.name || '') + ' ' + x.species), ...(m.deaths || []).map(x => 'bolsa ' + x.owner)].filter(t => tmapNorm(t).includes(q)).length;
+    return n ? `<a href="javascript:void 0" onclick="tmapSel='${m.id}';renderTribeMap()">${esc(m.name)} (${n})</a>` : '';
+  }).filter(Boolean);
+  res.innerHTML = (hits.length ? `<b style="color:#ffd700">${hits.length} encontrado${hits.length > 1 ? 's' : ''}</b> en este mapa` : '<span class="mut">No está en este mapa</span>')
+    + (others.length ? ' · También en: ' + others.join(', ') : '');
+  if (hits.length === 1) tmapFlash(+hits[0].dataset.lat, +hits[0].dataset.lon);
 }
 // los mapas de la wiki tienen un marco con las reglas: lat/lon 0-100 no ocupa toda la imagen
 const tmapY = lat => 2.3 + lat * 0.963, tmapX = lon => 1.55 + lon * 0.992;
@@ -1501,7 +1527,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610201000';
+const WEB_VERSION = '202610201430';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
