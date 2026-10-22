@@ -353,6 +353,7 @@ section:not(.tabon) .wallet-box{display:none}
     <div class="card" style="margin-bottom:14px;border-color:#5865f2;background:radial-gradient(circle at 0% 0%,rgba(88,101,242,.18),rgba(0,0,0,0) 60%)"><h3 style="font-size:19px;margin-bottom:8px">💬 Canal de Discord de la tribu</h3><div id="myDiscord" class="small"></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#9b59b6"><h3 style="font-size:19px;margin-bottom:8px">🔑 Permisos para invitar a la tribu</h3><div id="myTAdmin" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#2ecc71"><h3 style="font-size:19px;margin-bottom:8px">🤝 Unirme a una tribu · solicitudes</h3><div id="mySolic" class="small"></div></div>
+    <div class="card" style="margin-bottom:14px;border-color:#8e44ad"><h3 style="font-size:19px;margin-bottom:8px">🦖 Dinos caídos: revivir</h3><div id="myRevivir" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#16a085"><h3 style="font-size:19px;margin-bottom:8px">🛡️ Seguro de dinos</h3><div id="mySeguro" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#e74c3c;background:radial-gradient(circle at 0% 0%,rgba(231,76,60,.15),rgba(0,0,0,0) 60%)"><h3 style="font-size:19px;margin-bottom:8px">⚔️ Guerras de tribus</h3><div id="myWars" class="small"></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#3498db"><h3 style="font-size:19px;margin-bottom:8px">🛡️ Protección por ACT</h3><div id="myGuard" class="small"></div></div>
@@ -1050,7 +1051,7 @@ async function loadMyLogros() {
     + (msgs.length ? msgs.slice(0, 8).map(m => `<div class="tmsg" style="border-left:4px solid ${m.color || '#ffd700'}"><b>${m.label}</b> · ${esc(m.text)} <div class="mut">${m.rank ? `<span class="rk-b" style="color:${m.color}">${esc(m.rank)}</span> ` : ''}${esc(m.by)} · ${new Date(m.t).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</div>${readLine(m)}${m.canDelete ? `<button class="b2" style="font-size:11px;padding:2px 8px;margin-top:4px" onclick="tribeMsgDelete('${m.id}','msgs')">🗑️ Borrar</button>` : ''}</div>`).join('')
       : `<p class="mut">Todavía no hay mensajes en tu tribu.</p>`)
     + (!(r.rangos?.canMessage || P.isLeader) && r.rangos ? `<p class="mut" style="margin-top:8px">Desde <b>${esc(r.rangos.msgRank)}</b> podés mandar mensajes. Pedile pruebas a tu comandante para subir de rango.</p>` : '');
-  loadTAdmin(); tChatStart(); renderWars(r.guerras); loadSeguro(); renderHogar(r.hogar); renderRangos(r.rangos); renderTribeDiscord(r.discord); renderSolic(r.solicitudes); renderGuard(r.proteccion);
+  loadTAdmin(); tChatStart(); renderWars(r.guerras); loadSeguro(); loadRevivir(); renderHogar(r.hogar); renderRangos(r.rangos); renderTribeDiscord(r.discord); renderSolic(r.solicitudes); renderGuard(r.proteccion);
 }
 let tmPactos = null;
 function renderPactos() {
@@ -1153,6 +1154,23 @@ function renderWanted() {
     + '<p class="small mut" style="margin:0 0 6px">En horario de PvP se anuncia cada 5 minutos por dónde anda. La recompensa sube con cada asesinato suyo y con cada anuncio que sobrevive. El que lo mata la cobra en AC.</p>'
     + (top ? '<b class="small">Asesinos de la semana</b><ol class="rank" style="margin-top:4px">' + top + '</ol>' : '')
     + (last ? `<p class="small" style="margin:6px 0 0">🏆 Último cazado: <b>${esc(last.victim)}</b> por <b>${esc(last.killer)}</b> (+${last.pool} AC)</p>` : '') + '</div>';
+}
+// ---------- revivir dinos muertos ----------
+let revData = null;
+async function loadRevivir() {
+  if (!$('myRevivir') || !getTok()) return;
+  try { revData = await post('revivir', { token: getTok() }); } catch { $('myRevivir').innerHTML = '<p class="mut">No se pudo conectar con el server.</p>'; return; }
+  const R = revData;
+  if (R.error) { $('myRevivir').innerHTML = `<p class="mut">${esc(R.error)}</p>`; return; }
+  const left = d => Math.max(1, Math.ceil((d.until - Date.now()) / 86400000));
+  $('myRevivir').innerHTML = `<p class="mut" style="margin:0 0 8px">Si se muere un dino adulto de tu tribu, lo podés revivir durante <b>${R.days} días</b> por <b>${R.price} AC</b>. Vuelve <b>igual</b> (nivel, estadísticas, colores, mutaciones e impronta), con la vida llena, al lado tuyo en el mapa donde estés. Vuelve <b>sin montura ni inventario</b> (eso queda en el cuerpo). Tenés que estar conectado en el juego. También en el juego: <code>/revivir</code>.</p>`
+    + (R.dinos.length ? R.dinos.map((d, i) => `<div class="rk-row">💀 <b>${esc(d.name || 'Sin nombre')}</b> <span class="mut">${esc(d.species)} ${esc(d.sex)} nv ${d.level} · murió en ${esc(d.map)} el ${new Date(d.time).toLocaleDateString('es-AR')} · quedan ${left(d)} día(s)</span> <button style="margin-left:6px;font-size:12px;padding:3px 8px" onclick="revivirDino(${i})">Revivir (${R.price} AC)</button></div>`).join('')
+      : '<p class="mut">No hay dinos muertos de tu tribu para revivir. ¡Bien cuidados!</p>');
+}
+async function revivirDino(i) {
+  const d = revData.dinos[i]; if (!d) return;
+  if (!confirm(`¿Revivir a ${d.name || d.species} (${d.species} nv ${d.level}) por ${revData.price} AC?\n\nTenés que estar conectado en el juego: aparece al lado tuyo, sin montura ni inventario.`)) return;
+  try { const r = await post('revivir', { token: getTok(), action: 'revive', id: d.id }); alert(r.error || r.text); if (r.ok) { loadRevivir(); loadMe(); } } catch { alert('No se pudo conectar con el server.'); }
 }
 // ---------- seguro de dinos ----------
 let seguroData = null, seguroQ = '';
@@ -1692,7 +1710,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610210100';
+const WEB_VERSION = '202610220100';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
