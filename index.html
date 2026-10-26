@@ -353,6 +353,7 @@ section:not(.tabon) .wallet-box{display:none}
     <div class="card" style="margin-bottom:14px;border-color:#5865f2;background:radial-gradient(circle at 0% 0%,rgba(88,101,242,.18),rgba(0,0,0,0) 60%)"><h3 style="font-size:19px;margin-bottom:8px">💬 Canal de Discord de la tribu</h3><div id="myDiscord" class="small"></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#9b59b6"><h3 style="font-size:19px;margin-bottom:8px">🔑 Permisos para invitar a la tribu</h3><div id="myTAdmin" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#2ecc71"><h3 style="font-size:19px;margin-bottom:8px">🤝 Unirme a una tribu · solicitudes</h3><div id="mySolic" class="small"></div></div>
+    <div class="card" style="margin-bottom:14px;border-color:#27ae60"><h3 style="font-size:19px;margin-bottom:8px">✅ Mis dinos por mapa</h3><div id="myDinoMap" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#2980b9"><h3 style="font-size:19px;margin-bottom:8px">📍 Ir a un compañero de tribu</h3><div id="myTp" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#8e44ad"><h3 style="font-size:19px;margin-bottom:8px">🦖 Dinos caídos: revivir</h3><div id="myRevivir" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#16a085"><h3 style="font-size:19px;margin-bottom:8px">🛡️ Seguro de dinos</h3><div id="mySeguro" class="small"><p class="mut">Cargando...</p></div></div>
@@ -1052,7 +1053,7 @@ async function loadMyLogros() {
     + (msgs.length ? msgs.slice(0, 8).map(m => `<div class="tmsg" style="border-left:4px solid ${m.color || '#ffd700'}"><b>${m.label}</b> · ${esc(m.text)} <div class="mut">${m.rank ? `<span class="rk-b" style="color:${m.color}">${esc(m.rank)}</span> ` : ''}${esc(m.by)} · ${new Date(m.t).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</div>${readLine(m)}${m.canDelete ? `<button class="b2" style="font-size:11px;padding:2px 8px;margin-top:4px" onclick="tribeMsgDelete('${m.id}','msgs')">🗑️ Borrar</button>` : ''}</div>`).join('')
       : `<p class="mut">Todavía no hay mensajes en tu tribu.</p>`)
     + (!(r.rangos?.canMessage || P.isLeader) && r.rangos ? `<p class="mut" style="margin-top:8px">Desde <b>${esc(r.rangos.msgRank)}</b> podés mandar mensajes. Pedile pruebas a tu comandante para subir de rango.</p>` : '');
-  loadTAdmin(); tChatStart(); renderWars(r.guerras); loadSeguro(); loadRevivir(); loadTp(); renderHogar(r.hogar); renderRangos(r.rangos); renderTribeDiscord(r.discord); renderSolic(r.solicitudes); renderGuard(r.proteccion);
+  loadTAdmin(); tChatStart(); renderWars(r.guerras); loadSeguro(); loadRevivir(); loadTp(); loadDinoMap(); renderHogar(r.hogar); renderRangos(r.rangos); renderTribeDiscord(r.discord); renderSolic(r.solicitudes); renderGuard(r.proteccion);
 }
 let tmPactos = null;
 function renderPactos() {
@@ -1155,6 +1156,34 @@ function renderWanted() {
     + '<p class="small mut" style="margin:0 0 6px">En horario de PvP se anuncia cada 5 minutos por dónde anda. La recompensa sube con cada asesinato suyo y con cada anuncio que sobrevive. El que lo mata la cobra en AC.</p>'
     + (top ? '<b class="small">Asesinos de la semana</b><ol class="rank" style="margin-top:4px">' + top + '</ol>' : '')
     + (last ? `<p class="small" style="margin:6px 0 0">🏆 Último cazado: <b>${esc(last.victim)}</b> por <b>${esc(last.killer)}</b> (+${last.pool} AC)</p>` : '') + '</div>';
+}
+// ---------- dinos por mapa (checklist) ----------
+let dmData = null, dmSel = null, dmFilter = 'todos';
+async function loadDinoMap() {
+  if (!$('myDinoMap') || !getTok()) return;
+  try { dmData = await post('dinomapas', { token: getTok() }); } catch { $('myDinoMap').innerHTML = '<p class="mut">No se pudo conectar con el server.</p>'; return; }
+  renderDinoMap();
+}
+function renderDinoMap() {
+  const R = dmData; if (!R || !$('myDinoMap')) return;
+  if (R.error) { $('myDinoMap').innerHTML = `<p class="mut">${esc(R.error)}</p>`; return; }
+  if (!dmSel || !R.maps.find(m => m.id === dmSel)) dmSel = R.maps[0]?.id;
+  const m = R.maps.find(x => x.id === dmSel);
+  const pct = m.total ? Math.round(m.done * 100 / m.total) : 0;
+  const shown = m.dinos.filter(d => dmFilter === 'todos' || (dmFilter === 'faltan' ? !(d.auto || d.manual) : (d.auto || d.manual)));
+  $('myDinoMap').innerHTML = `<p class="mut" style="margin:0 0 8px">Marcá los dinos que ya tameaste en cada mapa. Los que tameaste con tu personaje y figuran en el registro de tu tribu se marcan <b>solos</b> (🤖). Así sabés cuál te falta para el logro de Steam.</p>`
+    + '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">' + R.maps.map(x => `<button onclick="dmSel='${x.id}';renderDinoMap()" style="font-size:12px;padding:4px 10px;${x.id === dmSel ? 'background:#27ae60;color:#fff' : ''}">${esc(x.name)} (${x.done}/${x.total})</button>`).join('') + '</div>'
+    + `<div style="background:#0003;border-radius:6px;height:14px;overflow:hidden;margin-bottom:6px"><div style="height:100%;width:${pct}%;background:#27ae60"></div></div>`
+    + `<p style="margin:0 0 6px"><b>${m.done} de ${m.total}</b> tameados en ${esc(m.name)} (${pct}%).</p>`
+    + (m.missing.length ? `<p style="margin:0 0 8px">🎯 <b>Te faltan (${m.missing.length}):</b> ${m.missing.map(esc).join(', ')}</p>` : '<p style="margin:0 0 8px">🏆 <b>¡Tameaste todos los dinos de este mapa!</b></p>')
+    + '<div style="display:flex;gap:6px;margin-bottom:6px">' + [['todos', 'Todos'], ['faltan', 'Me faltan'], ['hechos', 'Ya tameados']].map(([v, t]) => `<button onclick="dmFilter='${v}';renderDinoMap()" style="font-size:12px;padding:3px 8px;${dmFilter === v ? 'background:#2980b9;color:#fff' : ''}">${t}</button>`).join('') + '</div>'
+    + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:4px">'
+    + shown.map(d => `<label style="display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:5px;background:${d.auto || d.manual ? '#27ae6033' : '#0002'};cursor:${d.auto ? 'default' : 'pointer'}">
+        <input type="checkbox" ${d.auto || d.manual ? 'checked' : ''} ${d.auto ? 'disabled' : ''} onchange="dmToggle('${d.key}', this)"> ${esc(d.name)}${d.auto ? ' <span title="detectado en el registro de tu tribu">🤖</span>' : ''}</label>`).join('')
+    + '</div>';
+}
+async function dmToggle(key, el) {
+  try { const r = await post('dinomapas', { token: getTok(), action: 'toggle', map: dmSel, key }); if (r.error) { alert(r.error); el.checked = !el.checked; return; } loadDinoMap(); } catch { alert('No se pudo conectar con el server.'); el.checked = !el.checked; }
 }
 // ---------- teleport a un compañero de tribu ----------
 let tpData = null;
@@ -1730,7 +1759,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610240200';
+const WEB_VERSION = '202610260100';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
