@@ -354,6 +354,7 @@ section:not(.tabon) .wallet-box{display:none}
     <div class="card" style="margin-bottom:14px;border-color:#9b59b6"><h3 style="font-size:19px;margin-bottom:8px">🔑 Permisos para invitar a la tribu</h3><div id="myTAdmin" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#2ecc71"><h3 style="font-size:19px;margin-bottom:8px">🤝 Unirme a una tribu · solicitudes</h3><div id="mySolic" class="small"></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#27ae60"><h3 style="font-size:19px;margin-bottom:8px">✅ Mis dinos por mapa</h3><div id="myDinoMap" class="small"><p class="mut">Cargando...</p></div></div>
+    <div class="card" style="margin-bottom:14px;border-color:#e67e22"><h3 style="font-size:19px;margin-bottom:8px">🔎 Buscador de la tribu</h3><div id="myFind" class="small"><p class="mut" style="margin:0 0 8px">Buscá materiales, monturas, planos y armas en los cajones, forjas, herrerías, fabricadores y dinos de tu tribu. Trasladalos a donde quieras y mirá quién sacó qué.</p><button onclick="findLoad()">Abrir el buscador</button></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#2980b9"><h3 style="font-size:19px;margin-bottom:8px">📍 Ir a un compañero de tribu</h3><div id="myTp" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#8e44ad"><h3 style="font-size:19px;margin-bottom:8px">🦖 Dinos caídos: revivir</h3><div id="myRevivir" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#16a085"><h3 style="font-size:19px;margin-bottom:8px">🛡️ Seguro de dinos</h3><div id="mySeguro" class="small"><p class="mut">Cargando...</p></div></div>
@@ -1185,6 +1186,76 @@ function renderDinoMap() {
 async function dmToggle(key, el) {
   try { const r = await post('dinomapas', { token: getTok(), action: 'toggle', map: dmSel, key }); if (r.error) { alert(r.error); el.checked = !el.checked; return; } loadDinoMap(); } catch { alert('No se pudo conectar con el server.'); el.checked = !el.checked; }
 }
+// ---------- buscador de la tribu ----------
+let fdData = null, fdCat = 'todo', fdMap = null, fdQ = '', fdOpen = null;
+const FD_CATS = [['todo', 'Todo'], ['materiales', 'Materiales'], ['monturas', 'Monturas'], ['planos', 'Planos'], ['armas', 'Armas'], ['armaduras', 'Armaduras'], ['consumibles', 'Consumibles'], ['estructuras', 'Estructuras']];
+const FD_ICON = { forja: '🔥', herreria: '🔨', fabricador: '⚙️', cajon: '📦', heladera: '❄️', dino: '🦖', torreta: '🎯', otro: '🏠' };
+const fdNorm = t => String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+async function findLoad(fresh) {
+  if (!$('myFind') || !getTok()) return;
+  $('myFind').innerHTML = '<p class="mut">Buscando en los cajones de tu tribu...</p>';
+  try { fdData = await post('buscador', { token: getTok(), fresh: !!fresh }); } catch { $('myFind').innerHTML = '<p class="mut">No se pudo conectar con el server.</p>'; return; }
+  if (fdData.error) { $('myFind').innerHTML = `<p class="mut">${esc(fdData.error)}</p>`; return; }
+  if (!fdMap || !fdData.maps.find(m => m.id === fdMap)) fdMap = fdData.maps[0].id;
+  findRender();
+}
+function findGroups(m) {
+  const q = fdNorm(fdQ.trim()), groups = new Map();
+  for (const r of m.items) {
+    const [h, n, qty, cat, bp, eq, stack, rating, id] = r;
+    if (fdCat !== 'todo' && cat !== fdCat) continue;
+    const name = m.names[n] + (bp ? ' (plano)' : '');
+    if (q && !fdNorm(name).includes(q) && !fdNorm(m.holders[h][1]).includes(q)) continue;
+    const g = groups.get(name) || { name, cat, total: 0, rows: [] };
+    g.total += qty; g.rows.push({ h, qty, eq, stack, rating, id }); groups.set(name, g);
+  }
+  return [...groups.values()].sort((a, b) => a.name.localeCompare(b.name));
+}
+function findRender() {
+  const R = fdData, m = R.maps.find(x => x.id === fdMap);
+  const groups = findGroups(m), shown = groups.slice(0, 80);
+  const hold = i => m.holders[i];
+  const where = i => { const h = hold(i); return `${FD_ICON[h[2]] || '🏠'} <b>${esc(h[1])}</b>${h[1] !== h[3] ? ` <span class="mut">(${esc(h[3])})</span>` : ''}${h[4] != null ? ` <span class="mut">· ${h[4]}, ${h[5]}</span>` : ''}`; };
+  let html = `<p class="mut" style="margin:0 0 8px">Tribu <b>${esc(R.tribe)}</b>. Solo vos y tu tribu ven esto. Los baúles privados no aparecen.</p>`
+    + `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px"><input id="fdQ" placeholder="Buscar: metal, montura rex, plano..." value="${esc(fdQ)}" oninput="fdQ=this.value;findRender();setTimeout(()=>{const e=$('fdQ');e.focus();e.setSelectionRange(e.value.length,e.value.length)},0)" style="flex:1;min-width:180px">`
+    + `<button onclick="findLoad(true)" style="font-size:12px">↻ Actualizar</button></div>`
+    + (R.maps.length > 1 ? '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px">' + R.maps.map(x => `<button onclick="fdMap='${x.id}';fdOpen=null;findRender()" style="font-size:12px;padding:4px 10px;${x.id === fdMap ? 'background:#e67e22;color:#fff' : ''}">${esc(x.name)}</button>`).join('') + '</div>' : '')
+    + '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">' + FD_CATS.map(([v, t]) => `<button onclick="fdCat='${v}';fdOpen=null;findRender()" style="font-size:12px;padding:3px 8px;${fdCat === v ? 'background:#2980b9;color:#fff' : ''}">${t}</button>`).join('') + '</div>';
+  if (!groups.length) html += '<p class="mut">No encontramos nada con eso en este mapa.</p>';
+  html += shown.map((g, gi) => `<details style="background:#0002;border-radius:6px;padding:6px 8px;margin-bottom:4px" ${fdOpen === g.name ? 'open' : ''} ontoggle="if(this.open)fdOpen=${esc(JSON.stringify(g.name))}">
+      <summary style="cursor:pointer"><b>${esc(g.name)}</b> <span class="mut">· ${g.total.toLocaleString('es-AR')} en ${g.rows.length} lugar${g.rows.length > 1 ? 'es' : ''}</span></summary>
+      ${g.rows.map((r, ri) => `<div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:4px 0;border-top:1px solid #fff1">
+        <span style="flex:1;min-width:200px">${where(r.h)} — ${r.stack ? r.qty.toLocaleString('es-AR') : (r.rating ? 'calidad ' + r.rating : '1')}${r.eq ? ' <span class="mut">(puesto)</span>' : ''}</span>
+        ${r.eq ? '' : `<button style="font-size:12px;padding:3px 8px" onclick="findMoveForm('${gi}_${ri}', ${r.h}, '${r.id}', ${r.stack}, ${r.qty})">Trasladar</button>`}
+        <div id="fdm_${gi}_${ri}" style="width:100%"></div></div>`).join('')}
+    </details>`).join('');
+  if (groups.length > shown.length) html += `<p class="mut">Y ${groups.length - shown.length} más: escribí algo en el buscador para encontrarlo.</p>`;
+  html += '<h4 style="margin:14px 0 6px">🧾 Quién usó qué</h4>' + (R.uses.length ? '<div style="max-height:260px;overflow:auto">' + R.uses.slice(0, 50).map(u => `<div style="padding:3px 0;border-top:1px solid #fff1">${new Date(u.t).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })} · <b>${esc(u.who)}</b> ${u.how === 'pagina' ? 'trasladó' : 'sacó'} <b>${u.qty.toLocaleString('es-AR')} ${esc(u.what)}</b> de ${esc(u.from)} a ${esc(u.to)} <span class="mut">(${esc(u.map)}${u.how === 'pagina' ? ', desde la página' : ''})</span></div>`).join('') + '</div>' : '<p class="mut">Todavía no hay movimientos registrados.</p>');
+  $('myFind').innerHTML = html;
+}
+function findMoveForm(k, h, id, stack, qty) {
+  const m = fdData.maps.find(x => x.id === fdMap), box = $('fdm_' + k);
+  if (box.innerHTML) { box.innerHTML = ''; return; }
+  const order = ['forja', 'herreria', 'fabricador', 'cajon', 'heladera', 'dino', 'otro', 'torreta'];
+  const dests = m.holders.map((x, i) => ({ x, i })).filter(d => d.i !== h && d.x[2] !== 'torreta').sort((a, b) => order.indexOf(a.x[2]) - order.indexOf(b.x[2]) || a.x[1].localeCompare(b.x[1]));
+  const me = fdData.online === fdMap;
+  box.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:4px;background:#0003;padding:6px;border-radius:6px">
+    Llevar a <select id="fds_${k}" style="max-width:260px">${me ? '<option value="yo">🎒 Mi inventario</option>' : ''}${dests.map(d => `<option value="${d.x[0]}">${FD_ICON[d.x[2]] || '🏠'} ${esc(d.x[1])}${d.x[1] !== d.x[3] ? ' (' + esc(d.x[3]) + ')' : ''}</option>`).join('')}</select>
+    ${stack ? `cantidad <input id="fdq_${k}" type="number" min="1" max="${qty}" value="${qty}" style="width:90px">` : ''}
+    <button style="font-size:12px" onclick="findMove('${k}', ${h}, '${id}', ${stack})">Mover</button>
+    ${me ? '' : '<span class="mut" style="width:100%">Para mandarlo a tu inventario tenés que estar conectado en este mapa.</span>'}<span id="fdr_${k}" style="width:100%"></span></div>`;
+}
+async function findMove(k, h, id, stack) {
+  const m = fdData.maps.find(x => x.id === fdMap);
+  const to = $('fds_' + k).value, qty = stack ? +$('fdq_' + k).value : 1;
+  $('fdr_' + k).textContent = 'Trasladando...';
+  try {
+    const r = await post('buscador', { token: getTok(), action: 'move', map: fdMap, from: m.holders[h][0], to, id, qty });
+    if (r.error) { $('fdr_' + k).textContent = '❌ ' + r.error; return; }
+    alert('✅ ' + r.text);
+    findLoad(true);
+  } catch { $('fdr_' + k).textContent = 'No se pudo conectar con el server.'; }
+}
 // ---------- teleport a un compañero de tribu ----------
 let tpData = null;
 async function loadTp() {
@@ -1759,7 +1830,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610270100';
+const WEB_VERSION = '202610270200';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
