@@ -235,7 +235,7 @@ section:not(.tabon) .wallet-box{display:none}
 
     <div class="card guia-c"><h3>🎉 Eventos</h3><ul><li>🎯 <b>Desafío del día:</b> domar un dino elegido (150 AC al primero).</li><li>🏹 <b>Cazador del día:</b> el que más tamea gana 100 AC.</li><li>📋 <b>Gran misión de 24 hs</b> (<code>/mision</code>): premio planos de montura.</li><li>💀 <b>Se busca:</b> poné AC por la cabeza de alguien con <code>/recompensa jugador 100</code>.</li><li>👑 <b>Reyes de la semana</b> (los lunes): planos de más nivel.</li><li>Todo con <code>/eventos</code> y en <a href="#eventos">Eventos</a>.</li></ul></div>
 
-    <div class="card guia-c" style="border-color:#1abc9c"><h3>🏆 Tribus: ACT, misiones y la mejor tribu</h3><ul><li>Cada tribu junta <b>ACT</b> (puntos de tribu): jugando conectados, tameando, ganando peleas PvP y con la gran misión.</li><li>El <b>líder</b> los gasta en la <b>Tienda de la tribu</b>: armas y monturas mejoradas, planos TOP, incubadora, fabricador, mesa de química, cocina industrial y el Tek Stryder recolector.</li><li>🔑 <b>Permisos para invitar:</b> el líder, desde Mi cuenta, puede darle a cualquiera de la tribu el permiso de <b>invitar gente</b> (queda como administrador de la tribu en el juego).</li><li>🎯 <b>Misiones de tribu:</b> 5 nuevas cada lunes. La tribu con más puntos del mes es la <b>MEJOR TRIBU DEL SERVER</b> y gana ACT.</li><li>🗺️ <b>Mapa rastreador:</b> en la página ves dónde están tus compañeros, tus dinos y tus bolsas de muerte (pase de tribu 3000 AC por mes).</li></ul></div>
+    <div class="card guia-c" style="border-color:#1abc9c"><h3>🏆 Tribus: ACT, misiones y la mejor tribu</h3><ul><li>Cada tribu junta <b>ACT</b> (puntos de tribu): jugando conectados, tameando, ganando peleas PvP y con la gran misión.</li><li>El <b>líder</b> los gasta en la <b>Tienda de la tribu</b>: armas y monturas mejoradas, planos TOP, incubadora, fabricador, mesa de química, cocina industrial y el Tek Stryder recolector.</li><li>🔑 <b>Permisos para invitar:</b> el líder, desde Mi cuenta, puede darle a cualquiera de la tribu el permiso de <b>invitar gente</b> (queda como administrador de la tribu en el juego).</li><li>🎯 <b>Misiones de tribu:</b> 5 nuevas cada lunes. La tribu con más puntos del mes es la <b>MEJOR TRIBU DEL SERVER</b> y gana ACT.</li><li>🗺️ <b>Mapa rastreador:</b> en la página ves dónde están tus compañeros, tus dinos y tus bolsas de muerte (pase de tribu 50.000 ACT por mes, lo compra el líder).</li></ul></div>
 
     <div class="card guia-c" style="border-color:#2ecc71"><h3>🤝 Pactos de paz y mensajes del líder</h3><ul><li>Si dos tribus no se quieren pelear, el <b>líder</b> propone un <b>pacto de no agresión</b> en <a href="#cuenta">Mi cuenta</a> y el líder de la otra lo acepta.</li><li>A todos los miembros de las dos tribus les aparece el aviso en el juego y en la página: <b>están en paz</b>.</li><li>Si alguien mata a uno de la tribu amiga paga <b>300 AC de multa</b> para la víctima. Al 3er pacto roto se cae.</li><li>Consejo: hagan también una <b>alianza</b> en el menú de tribu del juego.</li><li>📢 El líder puede mandar <b>mensajes a toda su tribu</b> desde la página: avisos, <b>"se necesita"</b> (materiales, ayuda) o <b>"se busca"</b> (dinos, items). Les llega al juego y a la página.</li></ul></div>
 
@@ -1542,7 +1542,7 @@ async function slotSpin() {
 // ---------- mapa de la tribu ----------
 // sin vincular: mapa de ejemplo. Vinculado: su personaje gratis. Pase personal: + sus dinos y muertes. Pase de tribu: toda la tribu.
 let tmapData = null, tmapSel = null, tmapShow = { me: true, dino: true, dead: true };
-const TMAP_DEMO = { demo: true, plan: 'tribu', label: 'Tribu de ejemplo', plans: { personal: { ars: 10000, name: 'Pase personal' }, tribu: { ars: 15000, ac: 3000, name: 'Pase de tribu' } }, days: 30, maps: [{ id: 'TheIsland', name: 'The Island', img: 'The_Island_Map.jpg', savedAt: Date.now() - 6 * 60000,
+const TMAP_DEMO = { demo: true, plan: 'tribu', label: 'Tribu de ejemplo', plans: { personal: { ars: 10000, name: 'Pase personal' }, tribu: { ars: 15000, act: 50000, name: 'Pase de tribu' } }, days: 30, maps: [{ id: 'TheIsland', name: 'The Island', img: 'The_Island_Map.jpg', savedAt: Date.now() - 6 * 60000,
   players: [{ name: 'Vos', lat: 25.3, lon: 76.8 }, { name: 'Compañero', sleeping: true, lat: 78.6, lon: 28.1 }],
   dinos: [{ name: 'Rexona', species: 'Rex', level: 224, sex: 'hembra', lat: 26.1, lon: 75.2 }, { name: 'Volador', species: 'Argentavis', level: 180, sex: 'macho', lat: 24.8, lon: 77.9 }, { name: 'Tanque', species: 'Anquilosaurio', level: 140, sex: 'hembra', lat: 31, lon: 76.2 },
     { name: 'Pirulon', species: 'Pteranodon', level: 152, sex: 'hembra', lat: 78.5, lon: 28.4 }, { name: '', species: 'Triceratops', level: 95, sex: 'macho', lat: 66.4, lon: 39.8 }, { name: 'Perdido', species: 'Parasaurio', level: 60, sex: 'macho', lat: 45.2, lon: 52.7 }],
@@ -1555,8 +1555,8 @@ async function loadTribeMap() {
 }
 async function tmapBuyAC() {
   if (needLink()) return;
-  const ac = tmapData.plans.tribu.ac;
-  if (!confirm('¿Comprar el pase de tribu del mapa rastreador por ' + ac.toLocaleString('es-AR') + ' AC (30 días para toda tu tribu)?')) return;
+  const act = tmapData.plans.tribu.act;
+  if (!confirm('¿Comprar el pase de tribu del mapa rastreador por ' + act.toLocaleString('es-AR') + ' ACT de tu tribu (30 días para toda la tribu)? Solo lo puede comprar el líder.')) return;
   try { const r = await post('tribemapbuy', { token: getTok() }); alert(r.error || r.text); loadMe(); loadTribeMap(); } catch { alert('No se pudo conectar con el server.'); }
 }
 async function tmapDonar(plan) {
@@ -1571,7 +1571,7 @@ function tmapOffer(d) {
   const P = d.plans, a = d.alias || 'danielmfaggi';
   const card = (plan, ico, title, what, price) => `<div class="card" style="text-align:center;border-color:#f39c12;background:radial-gradient(circle at 50% 0%,rgba(243,156,18,.18),rgba(0,0,0,0) 70%)">
     <div style="font-size:42px">${ico}</div><h3 style="margin:2px 0 6px">${title}</h3><p class="small" style="margin:0 0 8px">${what}</p>
-    ${P[plan].ac ? `<div style="font:700 30px Oswald;color:var(--acc)">${P[plan].ac.toLocaleString('es-AR')} AC <span class="small mut" style="font:400 13px Inter,sans-serif">por mes</span></div>${d.demo ? '' : `<button class="btn" style="margin:6px 0 8px" onclick="tmapBuyAC()">Comprar con AC</button>`}<div class="small mut">o ${price.toLocaleString('es-AR')} por transferencia</div>` : `<div style="font:700 28px Oswald;color:var(--acc)">${price.toLocaleString('es-AR')} <span class="small mut" style="font:400 13px Inter,sans-serif">por mes</span></div>`}
+    ${P[plan].act ? `<div style="font:700 30px Oswald;color:var(--acc)">${P[plan].act.toLocaleString('es-AR')} ACT <span class="small mut" style="font:400 13px Inter,sans-serif">por mes</span></div>${d.demo ? '' : `<button class="btn" style="margin:6px 0 8px" onclick="tmapBuyAC()">Comprar con ACT (líder)</button>`}<div class="small mut">o ${price.toLocaleString('es-AR')} por transferencia</div>` : `<div style="font:700 28px Oswald;color:var(--acc)">${price.toLocaleString('es-AR')} <span class="small mut" style="font:400 13px Inter,sans-serif">por mes</span></div>`}
     ${d.demo ? '' : `<button class="btn" style="margin-top:8px" onclick="tmapDonar('${plan}')">Ya transferí: avisar</button>`}</div>`;
   return `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:12px 0">
     ${d.plan === 'personal' ? '' : card('personal', '🦖', 'Pase personal', 'Ves tu personaje, <b>todos tus dinos</b> con nombre y nivel, y <b>dónde quedaron tus bolsas de muerte</b>.', P.personal.ars)}
@@ -1759,7 +1759,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610260100';
+const WEB_VERSION = '202610270100';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
