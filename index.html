@@ -354,6 +354,7 @@ section:not(.tabon) .wallet-box{display:none}
     <div class="card" style="margin-bottom:14px;border-color:#9b59b6"><h3 style="font-size:19px;margin-bottom:8px">🔑 Permisos para invitar a la tribu</h3><div id="myTAdmin" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#2ecc71"><h3 style="font-size:19px;margin-bottom:8px">🤝 Unirme a una tribu · solicitudes</h3><div id="mySolic" class="small"></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#27ae60"><h3 style="font-size:19px;margin-bottom:8px">✅ Mis dinos por mapa</h3><div id="myDinoMap" class="small"><p class="mut">Cargando...</p></div></div>
+    <div class="card" style="margin-bottom:14px;border-color:#8e44ad"><h3 style="font-size:19px;margin-bottom:8px">🔷 Hexágonos de HLN-A</h3><div id="myHex" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#e67e22"><h3 style="font-size:19px;margin-bottom:8px">🔎 Buscador de la tribu</h3><div id="myFind" class="small"><p class="mut" style="margin:0 0 8px">Buscá materiales, monturas, planos y armas en los cajones, forjas, herrerías, fabricadores y dinos de tu tribu. Trasladalos a donde quieras y mirá quién sacó qué.</p><button onclick="findLoad()">Abrir el buscador</button></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#2980b9"><h3 style="font-size:19px;margin-bottom:8px">📍 Ir a un compañero de tribu</h3><div id="myTp" class="small"><p class="mut">Cargando...</p></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#8e44ad"><h3 style="font-size:19px;margin-bottom:8px">🦖 Dinos caídos: revivir</h3><div id="myRevivir" class="small"><p class="mut">Cargando...</p></div></div>
@@ -1054,7 +1055,7 @@ async function loadMyLogros() {
     + (msgs.length ? msgs.slice(0, 8).map(m => `<div class="tmsg" style="border-left:4px solid ${m.color || '#ffd700'}"><b>${m.label}</b> · ${esc(m.text)} <div class="mut">${m.rank ? `<span class="rk-b" style="color:${m.color}">${esc(m.rank)}</span> ` : ''}${esc(m.by)} · ${new Date(m.t).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</div>${readLine(m)}${m.canDelete ? `<button class="b2" style="font-size:11px;padding:2px 8px;margin-top:4px" onclick="tribeMsgDelete('${m.id}','msgs')">🗑️ Borrar</button>` : ''}</div>`).join('')
       : `<p class="mut">Todavía no hay mensajes en tu tribu.</p>`)
     + (!(r.rangos?.canMessage || P.isLeader) && r.rangos ? `<p class="mut" style="margin-top:8px">Desde <b>${esc(r.rangos.msgRank)}</b> podés mandar mensajes. Pedile pruebas a tu comandante para subir de rango.</p>` : '');
-  loadTAdmin(); tChatStart(); renderWars(r.guerras); loadSeguro(); loadRevivir(); loadTp(); loadDinoMap(); renderHogar(r.hogar); renderRangos(r.rangos); renderTribeDiscord(r.discord); renderSolic(r.solicitudes); renderGuard(r.proteccion);
+  loadTAdmin(); tChatStart(); renderWars(r.guerras); loadSeguro(); loadRevivir(); loadTp(); loadDinoMap(); loadHex(); renderHogar(r.hogar); renderRangos(r.rangos); renderTribeDiscord(r.discord); renderSolic(r.solicitudes); renderGuard(r.proteccion);
 }
 let tmPactos = null;
 function renderPactos() {
@@ -1185,6 +1186,33 @@ function renderDinoMap() {
 }
 async function dmToggle(key, el) {
   try { const r = await post('dinomapas', { token: getTok(), action: 'toggle', map: dmSel, key }); if (r.error) { alert(r.error); el.checked = !el.checked; return; } loadDinoMap(); } catch { alert('No se pudo conectar con el server.'); el.checked = !el.checked; }
+}
+// ---------- hexagonos de HLN-A: comprar con AC y vender por AC o ACT ----------
+let hxData = null;
+async function loadHex() {
+  if (!$('myHex') || !getTok()) return;
+  try { hxData = await post('hexagonos', { token: getTok() }); } catch { $('myHex').innerHTML = '<p class="mut">No se pudo conectar con el server.</p>'; return; }
+  renderHex();
+}
+function renderHex(msgs) {
+  const R = hxData; if (!R || !$('myHex')) return;
+  if (R.error) { $('myHex').innerHTML = `<p class="mut">${esc(R.error)}</p>`; return; }
+  const f = n => Number(n).toLocaleString('es-AR');
+  const can = R.online && R.have != null;
+  let h = `<p class="mut" style="margin:0 0 8px">Los hexágonos son la plata de la tienda de <b>HLN-A</b> (llamala en el juego con <b>/hlna</b>, en cualquier mapa). Viven en tu personaje: para cargar o vender tenés que estar <b>conectado y vivo</b>.</p>`;
+  h += can ? `<p style="margin:0 0 8px">Estás en <b>${esc(R.map)}</b> con <b>${f(R.have)} hexágonos</b>. Saldo: <b>${f(R.balance)} AC</b>.</p>`
+    : `<p style="margin:0 0 8px">⚠️ No estás conectado al juego${R.online ? ' (o estás muerto)' : ''}. Saldo: <b>${f(R.balance)} AC</b>.</p>`;
+  h += `<h4 style="margin:8px 0 4px">Comprar (1.000 hexágonos = ${f(1000 / R.rate)} AC) <span class="mut">· hoy podés cargar ${f(R.buyLeft)}</span></h4><div style="display:flex;flex-wrap:wrap;gap:6px">`
+    + R.packs.map(p => `<button ${can && p <= R.buyLeft ? '' : 'disabled'} onclick="hexDo('${p}')">${f(p)} por ${f(p / R.rate)} AC</button>`).join('') + '</div>';
+  h += `<h4 style="margin:12px 0 4px">Vender (1.000 hexágonos = ${f(1000 / R.sellRate)} AC o ACT) <span class="mut">· hoy podés vender ${f(R.sellLeft)}</span></h4>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center"><input id="hxQty" type="number" min="${R.sellMin}" step="${R.sellRate}" value="${R.sellMin}" style="width:110px">
+    <button ${can ? '' : 'disabled'} onclick="hexDo('vender '+$('hxQty').value)">Vender por AC</button>
+    <button ${can && R.tribe ? '' : 'disabled'} onclick="hexDo('act '+$('hxQty').value)">Vender por ACT${R.tribe ? ' para ' + esc(R.tribe) : ' (sin tribu)'}</button></div>`;
+  if (msgs && msgs.length) h += '<div style="margin-top:8px;background:#0003;padding:6px 8px;border-radius:6px">' + msgs.map(m => `<div>${esc(m)}</div>`).join('') + '</div>';
+  $('myHex').innerHTML = h;
+}
+async function hexDo(cmd) {
+  try { const r = await post('hexagonos', { token: getTok(), cmd }); if (r.error) { alert(r.error); return; } hxData = r; renderHex(r.msgs); } catch { alert('No se pudo conectar con el server.'); }
 }
 // ---------- buscador de la tribu ----------
 let fdData = null, fdCat = 'todo', fdMap = null, fdQ = '', fdOpen = null;
@@ -1830,7 +1858,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610270200';
+const WEB_VERSION = '202610280100';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
