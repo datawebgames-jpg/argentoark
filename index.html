@@ -1858,7 +1858,7 @@ renderRef();
 loadMe(); setInterval(loadMe, 60000);
 document.addEventListener('click', e => { const a = e.target.closest('.tnav a'); if (!a) return; e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
 // si se publico una version nueva de la pagina, se recarga sola (el navegador guarda la vieja hasta 10 min)
-const WEB_VERSION = '202610280100';
+const WEB_VERSION = '202610281300';
 async function checkVersion() {
   try { const v = (await (await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' })).text()).trim(); if (v && v !== WEB_VERSION) location.reload(); } catch { }
 }
@@ -1906,5 +1906,152 @@ function render() {
 ['q', 'fm', 'ft', 'fk'].forEach(id => $(id).addEventListener('input', render));
 render();
 </script>
+<style id="jgCss">
+/* ---------- modo juego: la pagina adentro de ARK (navegador de Steam, Shift+Tab) ---------- */
+body.juego{font-size:16px;background:#07090a}
+body.juego>*:not(#jg):not(.modal):not(#linkModal):not(script){display:none!important}
+#jg{display:none}
+body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:auto 1fr;min-height:100vh;
+  background:radial-gradient(1200px 600px at 100% -10%,rgba(240,160,32,.10),transparent 60%),radial-gradient(900px 500px at -10% 110%,rgba(116,172,223,.10),transparent 60%),#07090a}
+#jgSide{grid-row:1/3;background:linear-gradient(180deg,#121614,#0b0e0c);border-right:1px solid var(--line);padding:16px 12px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow-y:auto}
+#jgSide .jg-logo{font:700 26px Oswald,sans-serif;letter-spacing:1px;margin:2px 6px 14px;line-height:1}
+#jgSide .jg-logo b{color:var(--acc)}#jgSide .jg-logo small{display:block;font:600 11px Inter,sans-serif;color:var(--mut);letter-spacing:3px;margin-top:4px}
+#jgSide button{all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;font:600 17px Inter,sans-serif;color:var(--txt);border:1px solid transparent;transition:.15s}
+#jgSide button .i{font-size:22px;width:28px;text-align:center}
+#jgSide button:hover{background:rgba(255,255,255,.05)}
+#jgSide button.on{background:linear-gradient(90deg,rgba(240,160,32,.22),rgba(240,160,32,.04));border-color:rgba(240,160,32,.45);color:#fff;box-shadow:inset 3px 0 0 var(--acc)}
+#jgSide .jg-foot{margin-top:auto;display:flex;flex-direction:column;gap:6px;padding-top:12px;border-top:1px solid var(--line)}
+#jgSide .jg-foot a{font-size:13px;color:var(--mut);text-decoration:none;padding:4px 8px}#jgSide .jg-foot a:hover{color:var(--acc)}
+#jgTop{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--line);background:rgba(10,12,11,.85);position:sticky;top:0;z-index:20;backdrop-filter:blur(6px)}
+#jgTop .jg-who{font:700 20px Oswald,sans-serif}#jgTop .jg-who span{display:block;font:500 13px Inter,sans-serif;color:var(--mut)}
+#jgTop .jg-pills{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.jg-pill{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font:700 16px Oswald,sans-serif;white-space:nowrap}
+.jg-pill small{font:600 11px Inter,sans-serif;color:var(--mut);margin-left:4px}
+.jg-pill.ac{border-color:rgba(240,160,32,.5);color:var(--acc)}.jg-pill.act{border-color:rgba(116,172,223,.5);color:var(--acc2)}.jg-pill.hex{border-color:rgba(155,89,182,.6);color:#c59ae0}
+#jgMain{padding:22px;min-width:0}
+#jgMain [data-tab]{display:block!important}
+#jgMain .wrap{max-width:none;padding:0;margin:0}
+#jgMain section{padding:0!important}
+#jgMain>.jg-sec{display:none;animation:jgIn .18s ease}#jgMain>.jg-sec.on{display:block}
+@keyframes jgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.jg-h{display:flex;align-items:center;gap:12px;margin:0 0 16px}.jg-h .i{font-size:34px}
+.jg-h h2{margin:0;font:700 32px Oswald,sans-serif;letter-spacing:.5px}.jg-h p{margin:2px 0 0;color:var(--mut);font-size:14px}
+#jgMain .card{margin-bottom:14px}
+.jg-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:14px;align-items:start}
+.jg-cols>.card{margin:0}
+.jg-lock{text-align:center;padding:34px 20px;border:1px dashed rgba(240,160,32,.5);border-radius:16px;background:rgba(240,160,32,.06)}
+.jg-lock .i{font-size:52px}.jg-lock h3{font:700 24px Oswald,sans-serif;margin:6px 0}
+.jg-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
+.jg-tile{background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:16px;padding:16px}
+.jg-tile .l{font:600 12px Inter,sans-serif;color:var(--mut);text-transform:uppercase;letter-spacing:1px}
+.jg-tile .v{font:700 30px Oswald,sans-serif;margin-top:4px;line-height:1.1}
+.jg-tile .s{font-size:13px;color:var(--mut);margin-top:4px}
+.jg-go{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.jg-go button{all:unset;cursor:pointer;text-align:center;padding:18px 10px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.04);transition:.15s}
+.jg-go button:hover{border-color:var(--acc);background:rgba(240,160,32,.1);transform:translateY(-2px)}
+.jg-go button .i{font-size:34px;display:block}.jg-go button b{display:block;font:700 17px Oswald,sans-serif;margin-top:6px}.jg-go button span{font-size:12px;color:var(--mut)}
+.jg-quick{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.jg-quick button{background:var(--acc);color:#1a1206;border:0;border-radius:12px;padding:12px 18px;font:700 16px Inter,sans-serif;cursor:pointer}
+.jg-quick button.s{background:rgba(255,255,255,.07);color:var(--txt);border:1px solid var(--line)}
+#jgToast{position:fixed;right:20px;bottom:20px;max-width:440px;background:#151a17;border:1px solid var(--acc);border-radius:14px;padding:14px 16px;white-space:pre-wrap;font-size:14px;box-shadow:0 10px 40px rgba(0,0,0,.6);z-index:99;display:none}
+#jgToast.on{display:block;animation:jgIn .2s ease}
+@media(max-width:820px){body.juego #jg{grid-template-columns:1fr}#jgSide{grid-row:auto;position:static;height:auto;flex-direction:row;flex-wrap:wrap}#jgSide .jg-logo,#jgSide .jg-foot{display:none}#jgSide button{padding:8px 10px;font-size:14px}}
+</style>
+<div id="jg">
+  <aside id="jgSide"><div class="jg-logo"><b>ARGENTO</b>PRO<small>PANEL DEL JUEGO</small></div><div id="jgNav"></div>
+    <div class="jg-foot"><a href="https://discord.gg/2EqEE46DjW" target="_blank" rel="noopener">💬 Discord de ArgentoPro</a><a href="?completa">🌐 Ver la página completa</a></div></aside>
+  <div id="jgTop"><div class="jg-who" id="jgWho">ArgentoPro ARK x5<span>Vinculá tu cuenta para ver todo</span></div><div class="jg-pills" id="jgPills"></div></div>
+  <main id="jgMain"></main>
+</div>
+<div id="jgToast"></div>
+<script>
+// ---------- modo juego: secciones grandes para el navegador de Steam (Shift+Tab en ARK) ----------
+// Se activa con ?juego o solo si la abre el navegador de Steam. Reusa las tarjetas de la pagina (las mueve, no las copia).
+(function () {
+  const qs = location.search;
+  const steam = /GameOverlay|Valve Steam/i.test(navigator.userAgent);
+  if (/[?&]completa\b/.test(qs) || !(/[?&]juego\b/.test(qs) || steam)) return;
+  document.body.classList.add('juego');
+  const head = h => (h.querySelector('h3,h2')?.textContent || '').trim();
+  const cards = re => [...document.querySelectorAll('.card')].filter(c => re.test(head(c)) && !c.closest('#jg'));
+  const SECS = [
+    { id: 'inicio', i: '🏠', t: 'Inicio', d: 'Tu resumen y accesos rápidos' },
+    { id: 'tienda', i: '🛒', t: 'Tienda', d: 'Comprá con AC: llega solo a tu inventario', move: () => [$('mercado')] },
+    { id: 'tribu', i: '👥', t: 'Mi tribu', d: 'Chat, rangos, misiones, pactos y guerras', login: true, cols: true,
+      move: () => [$('tribeSel'), $('peaceBan'), ...cards(/Mensajes de mi tribu|Chat de la tribu|Rangos y pruebas|Misiones de mi tribu|Pactos de no agresi|Guerras de tribus|Protecci.n por ACT|Canal de Discord de la tribu|Permisos para invitar|Unirme a una tribu/)] },
+    { id: 'buscador', i: '🔎', t: 'Buscador', d: 'Dónde está cada cosa de la tribu, trasladar y quién usó qué', login: true, move: () => cards(/Buscador de la tribu/), open: () => { if (typeof fdData !== 'undefined' && !fdData && typeof findLoad === 'function') findLoad(); } },
+    { id: 'viajar', i: '📍', t: 'Viajar', d: 'Teleport a casa, zona segura y a tus compañeros', login: true, move: () => cards(/Teleport a casa|Ir a un compa/) },
+    { id: 'dinos', i: '🦖', t: 'Mis dinos', d: 'Dónde están, revivir caídos y seguro', login: true, move: () => cards(/Mis dinos por mapa|Dinos ca.dos|Seguro de dinos/) },
+    { id: 'hex', i: '🔷', t: 'HLN-A', d: 'Hexágonos: comprar con AC y vender por AC o ACT', login: true, move: () => cards(/Hex.gonos de HLN-A/) },
+    { id: 'eventos', i: '🎉', t: 'Eventos', d: 'Desafíos, misiones, logros, reyes y calendario', move: () => [...cards(/Votar el pr.ximo mapa/), $('eventos')] },
+    { id: 'cuenta', i: '👤', t: 'Mi cuenta', d: 'Vincular, logros, invitar amigos, tickets y pagos',
+      needs: true, move: () => [$('loginBox'), $('accName')?.closest('.card'), ...cards(/Mis logros|Invit. amigos|Abrir un ticket|Pagar a un jugador|Poner precio a una cabeza|Estad.sticas de la p.gina/)] },
+  ];
+  const main = $('jgMain'), nav = $('jgNav');
+  for (const s of SECS) {
+    const b = document.createElement('button'); b.dataset.s = s.id; b.innerHTML = `<span class="i">${s.i}</span>${s.t}`; b.onclick = () => go(s.id); nav.appendChild(b);
+    const box = document.createElement('div'); box.className = 'jg-sec'; box.dataset.s = s.id;
+    box.innerHTML = `<div class="jg-h"><span class="i">${s.i}</span><div><h2>${s.t}</h2><p>${s.d}</p></div></div>` + (s.login ? '<div class="jg-lockbox"></div>' : '');
+    const body = document.createElement('div'); if (s.cols) body.className = 'jg-cols'; box.appendChild(body);
+    if (s.move) for (const el of s.move()) if (el) { el.style.display = el.id === 'loginBox' || el.id === 'accBox' ? el.style.display : ''; body.appendChild(el); }
+    s.body = body; s.box = box; main.appendChild(box);
+  }
+  const lockHtml = '<div class="jg-lock"><div class="i">🔒</div><h3>Vinculá tu cuenta</h3><p class="mut">En el chat del juego escribí <code>/vincular</code>, te llega un código de 6 letras y lo ponés en <b>Mi cuenta</b>.</p><button class="b2 p" onclick="jgGo(\'cuenta\')">🔗 Ir a vincular</button></div>';
+  let cur = 'inicio';
+  function go(id) {
+    cur = id;
+    document.querySelectorAll('#jgNav button').forEach(b => b.classList.toggle('on', b.dataset.s === id));
+    const s = SECS.find(x => x.id === id);
+    document.querySelectorAll('#jgMain>.jg-sec').forEach(b => b.classList.toggle('on', b === s.box));
+    refresh(); s.open && s.open(); window.scrollTo(0, 0);
+    try { localStorage.setItem('argento_jg', id); } catch { }
+  }
+  window.jgGo = go;
+  function fmt(n) { return Number(n || 0).toLocaleString('es-AR', { maximumFractionDigits: 0 }); }
+  function tribeAct() {
+    if (!me || !lastData) return null;
+    const st = typeof myTribeSel === 'function' ? myTribeSel() : null;
+    return st ? { name: st.name, act: st.act } : me.tribe ? (lastData.tribes || []).find(t => t.name === me.tribe) || null : null;
+  }
+  function refresh() {
+    const linked = !!me;
+    const cu = SECS.find(x => x.id === 'cuenta'); for (const el of cu.body.children) if (el.id !== 'loginBox') el.style.display = linked ? '' : 'none';
+    for (const s of SECS) if (s.login) { s.box.querySelector('.jg-lockbox').innerHTML = linked ? '' : lockHtml; s.body.style.display = linked ? '' : 'none'; }
+    const tr = tribeAct(), hx = typeof hxData !== 'undefined' && hxData && hxData.have != null ? hxData.have : null;
+    $('jgWho').innerHTML = linked ? `${esc(me.char)}<span>${[me.level ? 'Nivel ' + me.level : '', me.tribe ? 'Tribu ' + esc(me.tribe) : 'Sin tribu', me.online ? '● En ' + esc(me.online) : 'Desconectado'].filter(Boolean).join(' · ')}</span>` : 'ArgentoPro ARK x5<span>Vinculá tu cuenta para ver todo</span>';
+    $('jgPills').innerHTML = linked ? `<span class="jg-pill ac">${fmt(me.balance)}<small>AC</small></span>` + (tr ? `<span class="jg-pill act">${fmt(tr.act)}<small>ACT</small></span>` : '') + (hx != null ? `<span class="jg-pill hex">${fmt(hx)}<small>HEX</small></span>` : '') + (me.prizes ? `<span class="jg-pill" style="border-color:var(--acc);cursor:pointer" onclick="act('premio')">🏆 ${me.prizes}<small>premio${me.prizes > 1 ? 's' : ''}</small></span>` : '') : '';
+    if (cur === 'inicio') renderHome(tr, hx);
+  }
+  function renderHome(tr, hx) {
+    const box = SECS[0].body, d = lastData;
+    const on = d ? d.maps.filter(m => m.online) : [], pl = d ? d.maps.reduce((a, m) => a + m.players, 0) : 0;
+    const chal = ($('evChallenge')?.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 150);
+    const tiles = me ? `<div class="jg-tiles">
+      <div class="jg-tile" style="border-color:rgba(240,160,32,.45)"><div class="l">Tus ArgenCoins</div><div class="v" style="color:var(--acc)">${fmt(me.balance)} AC</div><div class="s">Se ganan jugando, votando y en eventos</div></div>
+      <div class="jg-tile" style="border-color:rgba(116,172,223,.45)"><div class="l">Tu tribu</div><div class="v" style="color:var(--acc2)">${tr ? fmt(tr.act) + ' ACT' : '—'}</div><div class="s">${me.tribe ? esc(me.tribe) : 'Todavía sin tribu'}</div></div>
+      <div class="jg-tile" style="border-color:rgba(155,89,182,.5)"><div class="l">Hexágonos</div><div class="v" style="color:#c59ae0">${hx != null ? fmt(hx) : '—'}</div><div class="s">Para la tienda de HLN-A (/hlna)</div></div>
+      <div class="jg-tile"><div class="l">Estado</div><div class="v" style="font-size:22px">${me.online ? '<span style="color:var(--ok)">● ' + esc(me.online) + '</span>' : '<span class="mut">Desconectado</span>'}</div><div class="s">${me.level ? 'Nivel ' + me.level : ''}</div></div></div>
+      <div class="jg-quick"><button onclick="act('kit')">🎁 Pedir kit</button><button onclick="act('premio')">🏆 Reclamar premio</button><button class="s" onclick="act('saldo')">💰 Mi saldo</button><button class="s" onclick="jgGo('viajar')">🏠 Ir a casa</button></div>`
+      : `<div class="jg-lock" style="margin-bottom:16px"><div class="i">👋</div><h3>¡Bienvenido a ArgentoPro!</h3><p class="mut">Vinculá tu cuenta una sola vez y manejá todo desde acá sin salir del juego: tienda, tribu, buscador, teleport, dinos y eventos.</p><button class="b2 p" onclick="jgGo('cuenta')">🔗 Vincular mi cuenta</button></div>`;
+    box.innerHTML = tiles + `<div class="jg-go">${SECS.slice(1).map(s => `<button onclick="jgGo('${s.id}')"><span class="i">${s.i}</span><b>${s.t}</b><span>${s.d}</span></button>`).join('')}</div>
+      <div class="jg-cols"><div class="card"><h3 style="font-size:19px;margin-bottom:8px">🌐 El server ahora</h3>${d ? `<p style="margin:0 0 6px"><b>${pl}</b> jugadores conectados · mapa rotativo <b>${esc(d.rotation.active)}</b></p>` + d.maps.map(m => `<div class="small" style="padding:3px 0;border-top:1px solid var(--line)"><span class="dot ${m.online ? 'on' : ''}"></span> ${esc(m.name)} <span class="mut">· ${m.online ? m.players + '/' + m.maxPlayers + ' jugadores' : 'apagado'}</span></div>`).join('') + (d.pvp ? `<p class="small" style="margin:8px 0 0">${d.pvp.now.pvp ? '<b style="color:var(--bad)">⚔️ PVP ACTIVO</b>' : '🕊️ Ahora es PVE (paz)'}</p>` : '') : '<p class="mut">Cargando...</p>'}</div>
+      <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🎯 Hoy</h3><p class="small" style="margin:0 0 8px">${chal ? esc(chal) : 'Mirá los desafíos y misiones en Eventos.'}</p><button class="b2" onclick="jgGo('eventos')">Ver eventos</button></div></div>`;
+  }
+  // respuestas de los botones (kit, comprar, premio...): aparecen en un cartel abajo
+  let tT = null;
+  new MutationObserver(() => { const t = $('actLog').textContent; if (!t || /^Las respuestas/.test(t)) return; const e = $('jgToast'); e.textContent = t; e.classList.add('on'); clearTimeout(tT); tT = setTimeout(() => e.classList.remove('on'), /\.\.\.$/.test(t) ? 15000 : 7000); }).observe($('actLog'), { childList: true, characterData: true, subtree: true });
+  $('jgToast').onclick = () => $('jgToast').classList.remove('on');
+  // links internos de la pagina (#cuenta, #mercado...) llevan a la seccion que corresponde
+  const HASH = { cuenta: 'cuenta', mercado: 'tienda', tienda: 'tienda', eventos: 'eventos', novedades: 'eventos' };
+  window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (HASH[h]) go(HASH[h]); });
+  // se refresca cuando cambian los datos de la cuenta o del server
+  const wrap = n => { const f = window[n]; if (typeof f !== 'function') return; window[n] = function () { const r = f.apply(this, arguments); Promise.resolve(r).then(refresh, refresh); return r; }; };
+  ['renderWallet', 'renderHex'].forEach(wrap);
+  setInterval(refresh, 5000);
+  let start = 'inicio'; try { start = localStorage.getItem('argento_jg') || 'inicio'; } catch { }
+  go(SECS.some(s => s.id === start) ? start : 'inicio');
+})();
+</script>
+
 </body>
 </html>
