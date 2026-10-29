@@ -1951,6 +1951,10 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
 .jg-go button:hover{border-color:var(--acc);background:rgba(240,160,32,.1);transform:translateY(-2px)}
 .jg-go button .i{font-size:34px;display:block}.jg-go button b{display:block;font:700 17px Oswald,sans-serif;margin-top:6px}.jg-go button span{font-size:12px;color:var(--mut)}
 .jg-quick{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.jg-big{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:18px}
+.jg-big button{border:0;border-radius:14px;padding:18px 14px;font:800 19px Inter,sans-serif;cursor:pointer;color:#fff;display:flex;flex-direction:column;align-items:center;gap:4px}
+.jg-big button span{font-size:34px;line-height:40px}
+.jg-big button small{font:500 13px Inter,sans-serif;opacity:.85}
 .jg-quick button{background:var(--acc);color:#1a1206;border:0;border-radius:12px;padding:12px 18px;font:700 16px Inter,sans-serif;cursor:pointer}
 .jg-quick button.s{background:rgba(255,255,255,.07);color:var(--txt);border:1px solid var(--line)}
 #jgToast{position:fixed;right:20px;bottom:20px;max-width:440px;background:#151a17;border:1px solid var(--acc);border-radius:14px;padding:14px 16px;white-space:pre-wrap;font-size:14px;box-shadow:0 10px 40px rgba(0,0,0,.6);z-index:99;display:none}
@@ -2007,6 +2011,12 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
     try { localStorage.setItem('argento_jg', id); } catch { }
   }
   window.jgGo = go;
+  const scrollTo = el => setTimeout(() => el?.scrollIntoView({ block: 'start', behavior: 'smooth' }), 300);
+  window.jgIr = w => {
+    if (w === 'donar') { go('tienda'); if (typeof tshow === 'function') tshow('ac'); scrollTo(document.querySelector('.tpanel[data-p="ac"]')); }
+    else if (w === 'chat') { go('tribu'); scrollTo(cards(/Chat de la tribu/)[0]); }
+    else if (w === 'tp') { go('tribu'); scrollTo(cards(/Ir a un compa/)[0]); }
+  };
   function fmt(n) { return Number(n || 0).toLocaleString('es-AR', { maximumFractionDigits: 0 }); }
   function tribeAct() {
     if (!me || !lastData) return null;
@@ -2033,7 +2043,8 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
       <div class="jg-tile"><div class="l">Estado</div><div class="v" style="font-size:22px">${me.online ? '<span style="color:var(--ok)">● ' + esc(me.online) + '</span>' : '<span class="mut">Desconectado</span>'}</div><div class="s">${me.level ? 'Nivel ' + me.level : ''}</div></div></div>
       <div class="jg-quick"><button onclick="act('kit')">🎁 Pedir kit</button><button onclick="act('premio')">🏆 Reclamar premio</button><button class="s" onclick="act('saldo')">💰 Mi saldo</button><button class="s" onclick="jgGo('viajar')">🏠 Ir a casa</button></div>`
       : `<div class="jg-lock" style="margin-bottom:16px"><div class="i">👋</div><h3>¡Bienvenido a ArgentoPro!</h3><p class="mut">Vinculá tu cuenta una sola vez y manejá todo desde acá sin salir del juego: tienda, tribu, buscador, teleport, dinos y eventos.</p><button class="b2 p" onclick="jgGo('cuenta')">🔗 Vincular mi cuenta</button></div>`;
-    box.innerHTML = tiles + `<div class="jg-go">${SECS.slice(1).map(s => `<button onclick="jgGo('${s.id}')"><span class="i">${s.i}</span><b>${s.t}</b><span>${s.d}</span></button>`).join('')}</div>
+    const big = `<div class="jg-big"><button style="background:linear-gradient(135deg,#e0569b,#b03a78)" onclick="jgIr('donar')"><span>💝</span>Donar AC<small>Bancá el server y recibí AC</small></button><button style="background:linear-gradient(135deg,#1abc9c,#128a72)" onclick="jgIr('chat')"><span>💬</span>Chat de mi tribu<small>Hablá con tu tribu</small></button><button style="background:linear-gradient(135deg,#2f80c9,#1f5a92)" onclick="jgIr('tp')"><span>📍</span>Teleport de tribu<small>Viajá a un compañero</small></button></div>`;
+    box.innerHTML = big + tiles + `<div class="jg-go">${SECS.slice(1).map(s => `<button onclick="jgGo('${s.id}')"><span class="i">${s.i}</span><b>${s.t}</b><span>${s.d}</span></button>`).join('')}</div>
       <div class="jg-cols"><div class="card"><h3 style="font-size:19px;margin-bottom:8px">🌐 El server ahora</h3>${d ? `<p style="margin:0 0 6px"><b>${pl}</b> jugadores conectados · mapa rotativo <b>${esc(d.rotation.active)}</b></p>` + d.maps.map(m => `<div class="small" style="padding:3px 0;border-top:1px solid var(--line)"><span class="dot ${m.online ? 'on' : ''}"></span> ${esc(m.name)} <span class="mut">· ${m.online ? m.players + '/' + m.maxPlayers + ' jugadores' : 'apagado'}</span></div>`).join('') + (d.pvp ? `<p class="small" style="margin:8px 0 0">${d.pvp.now.pvp ? '<b style="color:var(--bad)">⚔️ PVP ACTIVO</b>' : '🕊️ Ahora es PVE (paz)'}</p>` : '') : '<p class="mut">Cargando...</p>'}</div>
       <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🎯 Hoy</h3><p class="small" style="margin:0 0 8px">${chal ? esc(chal) : 'Mirá los desafíos y misiones en Eventos.'}</p><button class="b2" onclick="jgGo('eventos')">Ver eventos</button></div></div>`;
   }
@@ -2050,7 +2061,7 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
   setInterval(refresh, 5000);
   let start = 'inicio'; try { start = localStorage.getItem('argento_jg') || 'inicio'; } catch { }
   const ir = (new URLSearchParams(location.search).get('ir') || '').toLowerCase();
-  if (ir === 'donar') { go('tienda'); if (typeof tshow === 'function') tshow('ac'); setTimeout(() => document.querySelector('.tpanel[data-p="ac"]')?.scrollIntoView({ block: 'start' }), 300); }
+  if (['donar', 'chat', 'tp'].includes(ir)) window.jgIr(ir);
   else go(SECS.some(s => s.id === ir) ? ir : SECS.some(s => s.id === start) ? start : 'inicio');
 })();
 </script>
