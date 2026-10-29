@@ -1977,10 +1977,10 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
   const SECS = [
     { id: 'inicio', i: '🏠', t: 'Inicio', d: 'Tu resumen y accesos rápidos' },
     { id: 'tienda', i: '🛒', t: 'Tienda', d: 'Comprá con AC: llega solo a tu inventario', move: () => [$('mercado')] },
-    { id: 'tribu', i: '👥', t: 'Mi tribu', d: 'Chat, rangos, misiones, pactos y guerras', login: true, cols: true,
-      move: () => [$('tribeSel'), $('peaceBan'), ...cards(/Mensajes de mi tribu|Chat de la tribu|Rangos y pruebas|Misiones de mi tribu|Pactos de no agresi|Guerras de tribus|Protecci.n por ACT|Canal de Discord de la tribu|Permisos para invitar|Unirme a una tribu/)] },
+    { id: 'tribu', i: '👥', t: 'Mi tribu', d: 'Chat, teleport a tus compañeros, rangos, misiones, pactos y guerras', login: true, cols: true,
+      move: () => [...cards(/Ir a un compa/), ...cards(/Chat de la tribu/), $('tribeSel'), $('peaceBan'), ...cards(/Mensajes de mi tribu|Rangos y pruebas|Misiones de mi tribu|Pactos de no agresi|Guerras de tribus|Protecci.n por ACT|Canal de Discord de la tribu|Permisos para invitar|Unirme a una tribu/)] },
     { id: 'buscador', i: '🔎', t: 'Buscador', d: 'Dónde está cada cosa de la tribu, trasladar y quién usó qué', login: true, move: () => cards(/Buscador de la tribu/), open: () => { if (typeof fdData !== 'undefined' && !fdData && typeof findLoad === 'function') findLoad(); } },
-    { id: 'viajar', i: '📍', t: 'Viajar', d: 'Teleport a casa, zona segura y a tus compañeros', login: true, move: () => cards(/Teleport a casa|Ir a un compa/) },
+    { id: 'viajar', i: '📍', t: 'Viajar', d: 'Teleport a casa y zona segura (a tus compañeros: en Mi tribu)', login: true, move: () => cards(/Teleport a casa/) },
     { id: 'dinos', i: '🦖', t: 'Mis dinos', d: 'Dónde están, revivir caídos y seguro', login: true, move: () => cards(/Mis dinos por mapa|Dinos ca.dos|Seguro de dinos/) },
     { id: 'hex', i: '🔷', t: 'HLN-A', d: 'Hexágonos: comprar con AC y vender por AC o ACT', login: true, move: () => cards(/Hex.gonos de HLN-A/) },
     { id: 'eventos', i: '🎉', t: 'Eventos', d: 'Desafíos, misiones, logros, reyes y calendario', move: () => [...cards(/Votar el pr.ximo mapa/), $('eventos')] },
@@ -2049,7 +2049,9 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
   ['renderWallet', 'renderHex'].forEach(wrap);
   setInterval(refresh, 5000);
   let start = 'inicio'; try { start = localStorage.getItem('argento_jg') || 'inicio'; } catch { }
-  go(SECS.some(s => s.id === start) ? start : 'inicio');
+  const ir = (new URLSearchParams(location.search).get('ir') || '').toLowerCase();
+  if (ir === 'donar') { go('tienda'); if (typeof tshow === 'function') tshow('ac'); setTimeout(() => document.querySelector('.tpanel[data-p="ac"]')?.scrollIntoView({ block: 'start' }), 300); }
+  else go(SECS.some(s => s.id === ir) ? ir : SECS.some(s => s.id === start) ? start : 'inicio');
 })();
 </script>
 
