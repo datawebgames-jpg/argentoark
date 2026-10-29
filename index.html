@@ -2061,6 +2061,8 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
   ['renderWallet', 'renderHex'].forEach(wrap);
   setInterval(refresh, 5000);
   let start = 'inicio'; try { start = localStorage.getItem('argento_jg') || 'inicio'; } catch { }
+  // abierta desde la F1 sin sesion: el panel reconoce al jugador conectado (ya vinculado) y entra solo
+  if (!getTok()) post('auto', {}).then(r => { if (r && r.token) { try { localStorage.setItem(TK, r.token); } catch { } loadMe(); } }).catch(() => { });
   const ir = (new URLSearchParams(location.search).get('ir') || '').toLowerCase();
   if (['donar', 'chat', 'tp', 'votar'].includes(ir)) window.jgIr(ir);
   else go(SECS.some(s => s.id === ir) ? ir : SECS.some(s => s.id === start) ? start : 'inicio');
