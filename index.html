@@ -332,8 +332,15 @@ section:not(.tabon) .wallet-box{display:none}
     <ol class="steps"><li>Entrá al juego y escribí <code>/vincular</code> en el chat.</li><li>Te llega un código de 6 caracteres (dura 10 minutos).</li><li>Escribilo acá:</li></ol>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><input class="inp" id="linkCode" placeholder="Código, ej: A1B2C3" maxlength="6" style="text-transform:uppercase;width:200px"><button class="b2 p" onclick="doLink()">Vincular</button></div>
     <p class="mut small" id="linkMsg"></p>
+    <div style="border-top:1px solid var(--line);margin-top:12px;padding-top:12px"><b>🔑 ¿Ya te vinculaste antes?</b> Entrá con tu nombre y tu <b>código personal</b>:
+      <div id="pinWho" style="margin:6px 0"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><input class="inp" id="pinName" placeholder="Tu personaje" style="width:180px"><input class="inp" id="pinCode" type="password" inputmode="numeric" maxlength="6" placeholder="Código personal" style="width:150px" onkeydown="if(event.key==='Enter')pinLogin()"><button class="b2 p" onclick="pinLogin()">Entrar</button></div>
+      <p class="mut small" id="pinMsg"></p></div>
   </div>
   <div id="accBox" style="display:none">
+    <div class="card" id="pinSet" style="display:none;margin-bottom:14px;border-color:var(--acc);background:rgba(240,160,32,.1)"><b>🔑 Creá tu código personal</b> (4 a 6 números). Si el navegador de Steam se olvida de tu sesión, entrás con tu nombre y este código, sin pedir otro <code>/vincular</code>.
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><input class="inp" id="pinNew" type="password" inputmode="numeric" maxlength="6" placeholder="Ej: 4821" style="width:150px"><button class="b2 p" onclick="savePin()">Guardar mi código</button></div>
+      <p class="mut small" id="pinSetMsg"></p></div>
     <div class="card" style="margin-bottom:14px">
       <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:center">
         <div><h3 style="font-size:24px" id="accName"></h3><div class="mut small" id="accInfo"></div></div>
@@ -765,7 +772,21 @@ function renderRank() {
 function hace(t) { const m = Math.round((Date.now() - t) / 60000); return m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.round(m / 60)} h` : `hace ${Math.round(m / 1440)} días`; }
 let me = null;
 const TK = 'argentoark_token';
-const getTok = () => { try { return localStorage.getItem(TK); } catch { return null; } };
+// si el navegador de Steam no guarda nada, la sesion queda al menos mientras la pagina este abierta
+let memTok = null;
+const getTok = () => { try { return localStorage.getItem(TK) || memTok; } catch { return memTok; } };
+const setTok = t => { memTok = t; try { localStorage.setItem(TK, t); } catch { } };
+// sin sesion: si esta jugando (ya vinculado) el panel lo reconoce por su IP y entra solo. Varios en la misma casa: elige quien es
+let autoDone = false, autoList = [];
+async function tryAuto(pick) {
+  if (autoDone && pick == null) return false; autoDone = true;
+  try {
+    const r = await post('auto', {});
+    if (r && r.token) { setTok(r.token); await loadMe(); return true; }
+    if (r && r.choose) { autoList = r.choose; $('pinWho').innerHTML = '<b>¿Quién sos?</b> ' + r.choose.map((c, i) => `<button class="b2" onclick="$('pinName').value=autoList[${i}];$('pinCode').focus()">${esc(c)}</button>`).join(' '); }
+  } catch { }
+  return false;
+}
 function marketButtons(l) {
   if (!me) return '';
   const b = (cmd, label, main) => `<button class="${main ? 'b2 p' : ''}" onclick="act('${cmd}')">${label}</button>`;
@@ -791,13 +812,26 @@ async function post(path, data, retry = true) {
   }
   return r.json();
 }
+// entrar con nombre y codigo personal / crear el codigo personal
+async function pinLogin() {
+  const name = $('pinName').value.trim(), pin = $('pinCode').value.trim();
+  if (!name || !/^\d{4,6}$/.test(pin)) { $('pinMsg').textContent = 'Poné tu personaje y tu código personal (4 a 6 números).'; return; }
+  try { const r = await post('pinlogin', { name, pin }); if (r.error) { $('pinMsg').textContent = r.error; return; } $('pinCode').value = ''; setTok(r.token); loadMe(); }
+  catch { $('pinMsg').textContent = 'No pude conectar, probá de nuevo.'; }
+}
+async function savePin() {
+  const pin = $('pinNew').value.trim();
+  if (!/^\d{4,6}$/.test(pin)) { $('pinSetMsg').textContent = 'Tienen que ser de 4 a 6 números.'; return; }
+  try { const r = await post('pin', { token: getTok(), pin }); if (r.error) { $('pinSetMsg').textContent = r.error; return; } $('pinNew').value = ''; $('pinSet').style.display = 'none'; if (me) me.hasPin = true; alert('Listo! Tu código personal quedó guardado. Si la página te pide entrar de nuevo, poné tu nombre y este código.'); }
+  catch { $('pinSetMsg').textContent = 'No pude conectar, probá de nuevo.'; }
+}
 async function doLink() {
   const code = $('linkCode').value.trim().toUpperCase();
   if (code.length !== 6) { $('linkMsg').textContent = 'El código tiene 6 caracteres.'; return; }
   try {
     const r = await post('link', { code });
     if (r.error) { $('linkMsg').textContent = r.error; return; }
-    try { localStorage.setItem(TK, r.token); } catch { }
+    setTok(r.token);
     loadMe();
   } catch { $('linkMsg').textContent = 'No se pudo conectar con el server. Probá en un rato.'; }
 }
@@ -914,11 +948,11 @@ async function loadStats() {
   try { await post('visit', { ref: document.referrer || '', linked: !!getTok() }); } catch { } })();
 async function loadMe() {
   const token = getTok();
-  if (!token) return showLogin();
+  if (!token) { showLogin(); return tryAuto(); }
   try {
     const r = await post('me', { token });
-    if (r.error) { try { localStorage.removeItem(TK); } catch { } return showLogin(r.error); }
-    me = r; $('loginBox').style.display = 'none'; $('accBox').style.display = '';
+    if (r.error) { memTok = null; try { localStorage.removeItem(TK); } catch { } showLogin(r.error); return tryAuto(); }
+    me = r; $('loginBox').style.display = 'none'; $('accBox').style.display = ''; $('pinSet').style.display = r.hasPin ? 'none' : '';
     loadStats();
     $('accName').textContent = r.char;
     $('accInfo').innerHTML = [r.level ? 'Nivel ' + r.level : '', r.tribe ? 'Tribu ' + esc(r.tribe) : 'Sin tribu',
@@ -998,7 +1032,7 @@ function bounty() {
   if (!to || !(amt >= 20)) { $('actLog').textContent = 'Completá jugador y monto (mínimo 20 AC).'; return; }
   if (confirm('¿Poner ' + amt + ' AC por la cabeza de ' + to + '?')) act('recompensa ' + to + ' ' + amt);
 }
-function logout() { const t = getTok(); if (t) post('logout', { token: t }).catch(() => { }); try { localStorage.removeItem(TK); } catch { } showLogin(); }
+function logout() { const t = getTok(); if (t) post('logout', { token: t }).catch(() => { }); memTok = null; try { localStorage.removeItem(TK); } catch { } autoDone = true; showLogin(); }
 function md(t) { return esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
 function renderTrofeos() {
   const T = lastData?.trofeos; if (!T || !$('trMon')) return;
@@ -2062,8 +2096,6 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
   ['renderWallet', 'renderHex'].forEach(wrap);
   setInterval(refresh, 5000);
   let start = 'inicio'; try { start = localStorage.getItem('argento_jg') || 'inicio'; } catch { }
-  // abierta desde la F1 sin sesion: el panel reconoce al jugador conectado (ya vinculado) y entra solo
-  if (!getTok()) post('auto', {}).then(r => { if (r && r.token) { try { localStorage.setItem(TK, r.token); } catch { } loadMe(); } }).catch(() => { });
   const ir = (new URLSearchParams(location.search).get('ir') || '').toLowerCase();
   if (['donar', 'chat', 'tp', 'votar'].includes(ir)) window.jgIr(ir);
   else go(SECS.some(s => s.id === ir) ? ir : SECS.some(s => s.id === start) ? start : 'inicio');
