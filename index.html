@@ -858,7 +858,7 @@ async function loadInv() {
       <div style="flex:1;min-width:180px"><b>${esc(it.name)}</b>${it.qty > 1 ? ' <span class="mut">x' + it.qty + '</span>' : ''}${it.quality ? ' <span class="tag">' + esc(it.quality) + (it.rating ? ' ' + it.rating : '') + '</span>' : ''}</div>
       ${it.stack ? `<input class="inp" id="invQ${i}" type="number" min="1" max="${it.qty}" value="${it.qty}" style="width:80px" title="Cantidad">` : ''}
       <input class="inp" id="invP${i}" type="number" min="1" placeholder="Precio AC" style="width:110px">
-      <button onclick="sellInv(${i})">Publicar</button>${it.dino ? `<button class="b2" onclick="adoptGive(${i})" title="Regalarlo a los jugadores nuevos">🐣 Dar en adopción</button>` : ''}</div>`).join('');
+      <button onclick="sellInv(${i})">Publicar</button><button class="b2" onclick="sendInv(${i})" title="Mandarlo a un compañero de tu tribu (200 AC; 4000 en horario PvP)">🎁 Mandar a un compa</button>${it.dino ? `<button class="b2" onclick="adoptGive(${i})" title="Regalarlo a los jugadores nuevos">🐣 Dar en adopción</button>` : ''}</div>`).join('');
   } catch { $('invMsg').textContent = 'No se pudo conectar con el server. Probá en un rato.'; }
 }
 // ---------- adopcion ----------
@@ -887,6 +887,19 @@ async function sellInv(i) {
     $('invMsg').innerHTML = r.error ? '<span style="color:#ff8a7a">' + esc(r.error) + '</span>' : '<b style="color:var(--ok)">' + esc(r.text) + '</b> Ya aparece en la Tienda.';
     if (!r.error) { live(); loadMe(); }
   } catch { $('invMsg').textContent = 'No se pudo publicar. Probá en un rato.'; }
+}
+// mandar un item a un compañero de tribu: 200 AC (4000 en horario PvP)
+async function sendInv(i) {
+  const it = invItems[i]; if (!it) return;
+  const qty = it.stack ? +$('invQ' + i).value : 1;
+  const mates = (me && me.tribe && (lastData?.tribes || []).find(t => t.name === me.tribe)?.members) || [];
+  const to = prompt('¿A qué compañero de tu tribu le mandás ' + (qty > 1 ? qty + ' ' : '') + it.name + '?' + (mates.length ? '\nTu tribu: ' + mates.filter(n => n !== me.char).join(', ') : '') + '\n\nCuesta 200 AC (4000 en horario PvP).');
+  if (!to || !to.trim()) return;
+  try {
+    const r = await post('mandar', { token: getTok(), uid: it.uid, qty, to: to.trim() });
+    $('invMsg').innerHTML = r.error ? '<span style="color:#ff8a7a">' + esc(r.error) + '</span>' : '<b style="color:var(--ok)">' + esc(r.text) + '</b>';
+    if (!r.error) { loadMe(); loadInv(); }
+  } catch { $('invMsg').textContent = 'No se pudo mandar. Probá en un rato.'; }
 }
 // ---------- donaciones ----------
 let donPick = null;
