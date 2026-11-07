@@ -1098,6 +1098,7 @@ const myTribeSel = () => myTribes.find(t => t.id === selTribe) || null;
 let jefesData = null, jefesMapa = 'TheIsland';
 async function loadJefes() {
   const box = $('jefesCont'); box.innerHTML = '<p class="mut small">Cargando...</p>';
+  if (apiBase === null) await getStatus().catch(() => { });
   const tok = getTok();
   try { jefesData = tok ? await post('jefes', { token: getTok() }) : await (await fetch(apiBase ? apiBase + '/api/jefespub' : 'api/jefespub', { cache: 'no-store' })).json(); } catch { box.innerHTML = '<p class="mut small">No se pudo conectar.</p>'; return; }
   if (jefesData && !tok) jefesData.aviso = 'Entrá a Mi cuenta para ver cuánto tiene tu tribu.';
