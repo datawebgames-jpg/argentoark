@@ -190,7 +190,7 @@ section:not(.tabon) .wallet-box{display:none}
 <div class="bgimg"></div>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
+  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#jefes" data-t="jefes">🐉 Jefes</a><a href="#info" data-t="info">📜 PvP y reglas</a>
 </nav>
 
 <header class="wrap hero" data-tab="mapas">
@@ -255,7 +255,7 @@ section:not(.tabon) .wallet-box{display:none}
 
     <div class="card guia-c"><h3>🎁 Premios y kits</h3><ul><li><code>/kit</code>: kit inicial, kit nivel 50 (herramientas de metal) y kit nivel 100 (armadura de metal completa).</li><li><code>/premio</code>: reclamás los premios pendientes (planos, eventos).</li><li><b>Invitá amigos:</b> <code>/invitar</code> te da tu código. Cuando tu amigo juega, ganás un <b>plano rojo</b>.</li></ul></div>
 
-    <div class="card guia-c" style="border-color:#e74c3c"><h3>❤️ Donaciones (bancá el server)</h3><ul><li><b>1.000 AC</b> = USD 5 o $8.000.</li><li><b>10.000 AC</b> = USD 20 o $35.000 (+30 días del mapa rastreador para tu tribu).</li><li>Transferí al alias <b>danielmfaggi</b> y avisá en <a href="#tienda">Tienda → Comprar AC</a> o con <code>/donar</code>. Cuando el admin confirma, te llegan las AC.</li></ul></div>
+    <div class="card guia-c" style="border-color:#e74c3c"><h3>💝 Comprar AC y ACT</h3><ul><li><b>1.000 AC</b> = USD 5 o $8.000.</li><li><b>10.000 AC</b> = USD 20 o $35.000 (+30 días del mapa rastreador para tu tribu).</li><li>Transferí al alias <b>danielmfaggi</b> y avisá en <a href="#tienda">Tienda → Comprar AC</a> o con <code>/compraac</code> (ACT para tu tribu: <code>/compraact</code>). Cuando el admin confirma, te llegan las AC.</li></ul></div>
 
     <div class="card guia-c"><h3>⌨️ Comandos del chat</h3><p class="small"><code>/ayuda</code> <code>/vincular</code> <code>/saldo</code> <code>/kit</code> <code>/premio</code> <code>/tienda</code> <code>/comprar</code> <code>/monturas</code> <code>/dinos</code> <code>/recibir</code> <code>/vender</code> <code>/buscar</code> <code>/canjear</code> <code>/eventos</code> <code>/mision</code> <code>/recompensa</code> <code>/votar</code> <code>/votos</code> <code>/reclamar</code> <code>/tribu</code> <code>/tribus</code> <code>/mapatribu</code> <code>/invitar</code> <code>/referido</code> <code>/donar</code> <code>/ticket</code></p></div>
 
@@ -351,6 +351,8 @@ section:not(.tabon) .wallet-box{display:none}
       <div id="actLog">Las respuestas aparecen acá. Lo que se entrega como item (kits, tienda, premios) necesita que estés conectado al juego.</div>
       <div class="acts" style="margin-top:12px"><button style="background:var(--acc);color:#1a1206;font-weight:700;font-size:16px;padding:10px 16px" onclick="openInv()">📦 Vender lo que tengo en el inventario</button></div>
       <div id="noticeBox" style="margin-top:12px"></div>
+      <div id="oficioBox" style="margin-top:14px"></div>
+      <div class="card" style="margin-top:14px"><b>🐉 Jefes</b> · Mirá qué piden los jefes y qué le falta a tu tribu en la pestaña <a href="#jefes">🐉 Jefes</a> del menú.</div>
     </div>
     <div class="card" id="statsCard" style="display:none;margin-bottom:14px;border-color:#9b59b6;background:radial-gradient(circle at 0% 0%,rgba(155,89,182,.18),rgba(0,0,0,0) 60%)"><h3 style="font-size:19px;margin-bottom:8px">📊 Estadísticas de la página <span class="small mut">(solo la ves vos)</span></h3><div id="statsBox" class="small"></div></div>
     <div class="card" style="margin-bottom:14px;border-color:#1abc9c;background:radial-gradient(circle at 0% 0%,rgba(26,188,156,.15),rgba(0,0,0,0) 60%)"><h3 style="font-size:20px;margin-bottom:8px">🏠 Teleport a casa · 🛡️ Zona segura</h3><div id="myHogar" class="small"></div></div>
@@ -443,7 +445,7 @@ section:not(.tabon) .wallet-box{display:none}
     <div class="card"><h3 style="font-size:20px;margin-bottom:8px">Online ahora</h3><ul class="online rank" id="onlineList"><li class="mut">Cargando...</li></ul></div>
     <div class="card">
       <div class="tabs" id="rankTabs">
-        <button data-r="level" class="on">Nivel</button><button data-r="kills">Asesinatos</button><button data-r="deaths">Muertes</button><button data-r="tames">Tameos</button><button data-r="coins">Más ricos</button><button data-r="likes">Más queridos</button>
+        <button data-r="level" class="on">Nivel</button><button data-r="kills">Asesinatos</button><button data-r="deaths">Muertes</button><button data-r="tames">Tameos</button><button data-r="jefes">👑 Jefes</button><button data-r="alfas">⚔️ Alfas</button><button data-r="imp">🦖 Tameos top</button><button data-r="coins">Más ricos</button><button data-r="likes">Más queridos</button>
       </div>
       <ol class="rank" id="rankList"></ol>
       <p class="mut small" style="margin:10px 0 0">Tameos: se cuentan del registro de cada tribu, así que armá tu tribu (aunque sea solo) para entrar al ranking. Asesinatos: jugadores y dinos de otras tribus (ARK no registra los dinos salvajes).</p>
@@ -586,7 +588,7 @@ section:not(.tabon) .wallet-box{display:none}
   <div class="tpanel" data-p="ac">
     <h3 class="tsec">💝 Comprar ArgenCoins</h3><p class="sub" style="margin:-4px 0 12px">Bancá al server y recibí AC en tu personaje.</p>
     <div class="card" style="margin-bottom:14px;border-color:#e0569b">
-      <h3 style="font-size:20px;margin-bottom:6px">💝 Donar al server</h3>
+      <h3 style="font-size:20px;margin-bottom:6px">💝 Comprar AC</h3>
       <p class="small" style="margin:0 0 8px">Bancá al server y recibí ArgenCoins en tu personaje. Transferí al alias <b id="donAlias" style="color:var(--acc);font-size:16px">danielmfaggi</b> <button class="b2" style="font-size:12px;padding:2px 8px" onclick="navigator.clipboard?.writeText($('donAlias').textContent);this.textContent='Copiado!'">Copiar</button> y avisanos acá. Cuando el admin confirme que llegó, te acreditamos las AC y te avisamos.</p>
       <div id="donPacks" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-bottom:8px"></div>
       <input class="inp" id="donNote" placeholder="Nombre del titular o número de operación (para encontrar tu transferencia)" style="width:100%;margin-bottom:6px">
@@ -624,6 +626,11 @@ section:not(.tabon) .wallet-box{display:none}
   </div>
 </div></section>
 
+<section id="jefes" data-tab="jefes"><div class="wrap">
+  <h2>🐉 Jefes</h2>
+  <p class="sub">Qué pide cada jefe de cada mapa para invocarlo (gamma, beta y alfa). Si entrás con tu cuenta, también ves cuánto tiene tu tribu juntado (baúles, dinos y jugadores) y cuánto le falta.</p>
+  <div id="jefesCont"><p class="mut small">Cargando...</p></div>
+</div></section>
 <section id="dinos" data-tab="dinos"><div class="wrap">
   <h2>Guía de dinos</h2>
   <p class="sub">Todas las criaturas que se pueden tamear en ArgentoPro: dónde están, qué comen y cómo tamearlas. En el server el tameo es <b>x5</b> (tarda la quinta parte) y el finde <b>x10</b>.</p>
@@ -759,14 +766,15 @@ async function live() {
   lastData = d; if (d.ip) document.querySelectorAll('.srvip').forEach(e => { e.textContent = d.ip; }); renderOnline(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderVoteSites(); renderDonations(); renderTribeShop(); renderAccButtons(); renderEvents(); renderRep(); renderMarked();
 }
 let lastData = null, rankKey = 'level';
-const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins', likes: 'likes' };
+const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins', likes: 'likes', jefes: 'jefes matados', alfas: 'alfas matados', imp: 'tameos importantes' };
 function renderOnline() {
   const on = lastData?.online || [];
   $('onlineList').innerHTML = on.length ? on.map(p => `<li><span class="nm"><span class="dot on"></span>${nameT(p)}</span><span class="mut small">${p.level ? 'Nvl ' + p.level + ' · ' : ''}${p.tribe ? esc(p.tribe) + ' · ' : ''}${esc(p.map)}</span></li>`).join('')
     : '<li class="mut">No hay nadie conectado en este momento.</li>';
 }
 function renderRank() {
-  const list = lastData?.rankings?.[rankKey] || [];
+  const HZ = { jefes: 'jefes', alfas: 'alfas', imp: 'tameos' };
+  const list = (HZ[rankKey] ? lastData?.hazanas?.[HZ[rankKey]] : lastData?.rankings?.[rankKey]) || [];
   $('rankList').innerHTML = list.length ? list.map((p, i) => `<li><span class="pos">${i + 1}</span><span class="nm">${nameT(p)}${rankKey !== 'level' && p.level ? ` <span class="mut small">· Nvl ${p.level}</span>` : ''}</span><span class="val">${p.value}${rankKey === 'coins' ? ' <span class="small">AC</span>' : ''}</span></li>`).join('')
     : `<li class="mut">Todavía no hay datos de ${RLABEL[rankKey]}. ¡Entrá a jugar y aparecé acá!</li>`;
 }
@@ -973,7 +981,7 @@ async function loadMe() {
       r.online ? '<span style="color:var(--ok)">● Jugando en ' + esc(r.online) + '</span>' : '<span class="mut">Desconectado del juego</span>',
       r.prizes ? '<b style="color:var(--acc)">🏆 ' + r.prizes + ' premio(s) para reclamar</b>' : ''].filter(Boolean).join(' · ');
     $('accBal').textContent = r.balance + ' AC';
-    renderAccButtons(); renderMarket(); renderTickets(); renderRef(); renderNotices(); renderTribeShop(); renderLoginHint(); renderWallet(); loadMyLogros(); renderSlots();
+    renderAccButtons(); renderMarket(); renderTickets(); renderRef(); renderNotices(); renderTribeShop(); renderLoginHint(); renderWallet(); loadMyLogros(); renderSlots(); renderOficio();
   } catch { }
 }
 function renderAccButtons() {
@@ -988,6 +996,15 @@ function renderAccButtons() {
     $('buySaddleP').textContent = x.saddlePrice; $('buyDinoP').textContent = x.dinoPrice;
     if (x.cryo) $('dinoHow1').textContent = 'Dino nivel 1: llega en una criopod. Después escribí /recibir en el juego con el código que te damos.';
   }
+}
+function elegirOficio(id) { if (confirm('¿Elegir ' + id + '? Lo podés cambiar recién en 7 días.')) act('oficio ' + id); }
+function renderOficio() {
+  const box = $('oficioBox'); const o = me && me.oficio; if (!box || !o) return;
+  const mio = o.clases.find(c => c.k === o.mio);
+  let h = '<h3 style="margin:0 0 4px">🛠️ Mi oficio</h3><p class="mut small" style="margin:0 0 10px">Elegí un oficio: te da ventajas y una contra. Cada oficio tiene misiones semanales que pagan AC. Se cambia una vez por semana.' + (mio && o.cambiaEn ? ' Podés cambiarlo en ' + o.cambiaEn + ' día(s).' : '') + '</p>';
+  if (mio) h += '<div class="card" style="margin-bottom:10px;border-color:var(--acc)"><b>Sos ' + mio.n + '</b> · misiones de esta semana:' + o.misiones.map(m => '<div style="display:flex;justify-content:space-between;gap:8px;margin-top:6px"><span>' + (m.done ? '✅ ' : '🎯 ') + m.text + '</span><span class="mut">' + (m.done ? 'cumplida' : m.value + ' / ' + m.goal) + ' · <b style="color:var(--acc)">+' + m.ac + ' AC</b></span></div>').join('') + '</div>';
+  h += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px">' + o.clases.map(c => '<div class="card"' + (c.k === o.mio ? ' style="border-color:var(--acc)"' : '') + '><b style="font-size:17px">' + c.n + '</b><div class="small" style="margin:6px 0">✔️ ' + c.mas + '<br>✖️ ' + c.menos + '</div><div class="mut small">Misiones: ' + c.misiones.map(m => m.text + ' (+' + m.ac + ' AC)').join(' · ') + '</div>' + (c.k === o.mio ? '<div style="margin-top:8px;color:var(--acc)"><b>Tu oficio</b></div>' : '<button class="b2 p" style="margin-top:8px" data-oficio="' + c.id + '" onclick="elegirOficio(this.dataset.oficio)">Elegir</button>') + '</div>').join('') + '</div>';
+  box.innerHTML = h;
 }
 async function act(cmd) {
   const token = getTok(); if (!token) return;
@@ -1078,6 +1095,35 @@ let selTribe = null; try { selTribe = localStorage.getItem('argento_tribu'); } c
 let myTribes = [];
 function pickTribe(id) { selTribe = id; try { localStorage.setItem('argento_tribu', id); } catch { } loadMyLogros(); renderTribeShop(); }
 const myTribeSel = () => myTribes.find(t => t.id === selTribe) || null;
+let jefesData = null, jefesMapa = 'TheIsland';
+async function loadJefes() {
+  const box = $('jefesCont'); box.innerHTML = '<p class="mut small">Cargando...</p>';
+  const tok = getTok();
+  try { jefesData = tok ? await post('jefes', { token: getTok() }) : await (await fetch(apiBase ? apiBase + '/api/jefespub' : 'api/jefespub', { cache: 'no-store' })).json(); } catch { box.innerHTML = '<p class="mut small">No se pudo conectar.</p>'; return; }
+  if (jefesData && !tok) jefesData.aviso = 'Entrá a Mi cuenta para ver cuánto tiene tu tribu.';
+  if (!jefesData || jefesData.error) { box.innerHTML = '<p class="mut small">' + ((jefesData && jefesData.error) || 'Error') + '</p>'; return; }
+  renderJefes();
+}
+function renderJefes() {
+  const box = $('jefesCont'); const d = jefesData; if (!d) return;
+  const m = d.mapas.find(x => x.id === jefesMapa) || d.mapas[0]; const t = (d.tribu || []).find(x => x.id === m.id) || {};
+  let h = '<div class="acts" style="margin:8px 0">' + d.mapas.map(x => '<button data-mapa="' + x.id + '" onclick="jefesMapa=this.dataset.mapa;renderJefes()"' + (x.id === m.id ? ' style="background:var(--acc);color:#1a1206"' : '') + '>' + x.nombre + '</button>').join('') + '</div>';
+  if (d.aviso) h += '<p class="mut small">' + d.aviso + '</p>';
+  h += '<p class="small">' + (t.tribu ? 'Tribu: <b>' + t.tribu + '</b>' : '') + (t.estado ? ' <span class="mut">' + t.estado + '</span>' : '') + '</p>';
+  const c = t.cuenta || null;
+  for (const j of m.jefes) {
+    h += '<div class="card" style="margin-bottom:10px"><b style="font-size:17px">' + j.nombre + '</b>' + (j.nota ? '<div class="mut small">' + j.nota + '</div>' : '');
+    for (const df of j.dificultades) {
+      let todo = true;
+      const filas = df.items.map(it => { const tiene = c ? (c[it.c] || 0) : null; const falta = tiene == null ? null : Math.max(0, it.n - tiene); if (falta) todo = false; if (tiene == null) todo = false;
+        return '<tr><td>' + it.nombre + '</td><td style="text-align:right">' + it.n + '</td><td style="text-align:right">' + (tiene == null ? '-' : tiene) + '</td><td style="text-align:right;color:' + (falta ? '#ff6b6b' : '#5fd068') + '">' + (falta == null ? '-' : falta ? 'faltan ' + falta : '✔') + '</td></tr>'; }).join('');
+      h += '<div style="margin-top:8px"><b style="text-transform:capitalize">' + df.d + '</b>' + (df.nivel ? ' <span class="mut small">(nivel ' + df.nivel + ')</span>' : '') + (c && todo ? ' <span style="color:#5fd068">✅ ¡tienen todo!</span>' : '') +
+        '<table class="small" style="width:100%;margin-top:4px"><tr class="mut"><td>Item</td><td style="text-align:right">Pide</td><td style="text-align:right">Tienen</td><td style="text-align:right">Falta</td></tr>' + filas + '</table></div>';
+    }
+    h += '</div>';
+  }
+  box.innerHTML = h;
+}
 async function loadMyLogros() {
   if (!isLinked() || !$('myLogros')) return;
   let r; try { r = await post('logros', { token: getTok(), tribe: selTribe }); } catch { return; }
@@ -1899,10 +1945,11 @@ document.querySelectorAll('#rankTabs button').forEach(b => b.onclick = () => {
   document.querySelectorAll('#rankTabs button').forEach(x => x.classList.toggle('on', x === b));
   rankKey = b.dataset.r; renderRank();
 });
-const TAB_OF = { guia: 'guia', reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'eventos', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info' };
+const TAB_OF = { jefes: 'jefes', guia: 'guia', reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'eventos', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info' };
 function showTab() {
   const h = (location.hash || '#mapas').slice(1);
   const tab = TAB_OF[h] || 'mapas';
+  if (tab === 'jefes' && typeof loadJefes === 'function') loadJefes();
   document.querySelectorAll('[data-tab]').forEach(el => el.classList.toggle('tabon', el.dataset.tab === tab));
   document.querySelectorAll('nav a[data-t]').forEach(a => a.classList.toggle('on', a.dataset.t === tab));
   const target = document.getElementById(h);
