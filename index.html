@@ -190,7 +190,7 @@ section:not(.tabon) .wallet-box{display:none}
 <div class="bgimg"></div>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#jefes" data-t="jefes">🐉 Jefes</a><a href="#info" data-t="info">📜 PvP y reglas</a>
+  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#jefes" data-t="jefes">🐉 Jefes</a><a href="#misdinos" data-t="misdinos">🦖 Mis dinos</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
 </nav>
 
 <header class="wrap hero" data-tab="mapas">
@@ -626,6 +626,12 @@ section:not(.tabon) .wallet-box{display:none}
   </div>
 </div></section>
 
+<section id="misdinos" data-tab="misdinos"><div class="wrap">
+  <h2>🦖 Mis dinos</h2>
+  <p class="sub">Ranking de los dinos de tu tribu por estadística (puntos salvajes, lo que heredan las crías). Tocá un dino para ver su ficha: estadísticas, padres, en qué mutó, si conviene criarlo y con quién. Tenés que estar <b>conectado en el juego</b> en el mapa donde están tus dinos.</p>
+  <div class="acts" id="mdStats" style="margin:8px 0"></div>
+  <div id="mdCont"><p class="mut small">Cargando...</p></div>
+</div></section>
 <section id="jefes" data-tab="jefes"><div class="wrap">
   <h2>🐉 Jefes</h2>
   <p class="sub">Qué pide cada jefe de cada mapa para invocarlo (gamma, beta y alfa). Si entrás con tu cuenta, también ves cuánto tiene tu tribu juntado (baúles, dinos y jugadores) y cuánto le falta.</p>
@@ -1124,6 +1130,31 @@ function renderJefes() {
     h += '</div>';
   }
   box.innerHTML = h;
+}
+const MD_STATS = [[0, 'Vida'], [8, 'Daño'], [7, 'Peso'], [1, 'Energía'], [9, 'Velocidad'], [3, 'Oxígeno'], [4, 'Comida']];
+let mdStat = 0;
+function mdBotones() {
+  $('mdStats').innerHTML = MD_STATS.map(([i, n]) => '<button data-st="' + i + '" onclick="mdStat=+this.dataset.st;loadMisDinos()"' + (i === mdStat ? ' style="background:var(--acc);color:#1a1206"' : '') + '>' + n + '</button>').join('');
+}
+async function loadMisDinos() {
+  mdBotones();
+  const box = $('mdCont');
+  if (!getTok()) { box.innerHTML = '<p>Primero entrá en <a href="#cuenta">Mi cuenta</a> con tu personaje.</p>'; return; }
+  box.innerHTML = '<p class="mut small">Leyendo tus dinos...</p>';
+  let r; try { r = await post('misdinos', { token: getTok(), stat: mdStat }); } catch { box.innerHTML = '<p class="mut small">No se pudo conectar.</p>'; return; }
+  if (r.error) { box.innerHTML = '<p>' + r.error + '</p>'; return; }
+  const nombre = (MD_STATS.find(x => x[0] === mdStat) || MD_STATS[0])[1];
+  if (!r.dinos.length) { box.innerHTML = '<p>Tu tribu no tiene dinos en ' + r.mapa + '.</p>'; return; }
+  box.innerHTML = '<p class="small">' + r.total + ' dinos de tu tribu en <b>' + r.mapa + '</b> · ranking por <b>' + nombre + '</b></p>' +
+    '<table class="small" style="width:100%"><tr class="mut"><td>#</td><td>Dino</td><td style="text-align:right">' + nombre + '</td><td style="text-align:right">Puntos</td><td style="text-align:right">Mut.</td><td></td></tr>' +
+    r.dinos.map((d, i) => '<tr><td>' + (i + 1) + '</td><td><b>' + d.nombre + '</b> <span class="mut">' + d.especie + ' nv ' + d.nivel + ' ' + (d.sexo === 'H' ? '♀' : '♂') + '</span></td><td style="text-align:right">' + d.valor + '</td><td style="text-align:right">' + d.pts + '</td><td style="text-align:right">' + d.mut + '</td><td style="text-align:right"><button class="b2" data-a="' + d.id1 + '" data-b="' + d.id2 + '" onclick="mdFicha(this.dataset.a,this.dataset.b)">Ficha</button></td></tr>').join('') + '</table>';
+}
+async function mdFicha(id1, id2) {
+  const box = $('mdCont'); box.innerHTML = '<p class="mut small">Leyendo la ficha...</p>';
+  let r; try { r = await post('dinoficha', { token: getTok(), id1, id2 }); } catch { box.innerHTML = '<p class="mut small">No se pudo conectar.</p>'; return; }
+  const esc = t => String(t).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
+  box.innerHTML = '<button class="b2" onclick="loadMisDinos()">← Volver al ranking</button>' + (r.error ? '<p>' + r.error + '</p>' :
+    '<div class="card" style="margin-top:10px">' + r.lineas.map(l => /VALE ORO|VALE LA PENA|SIRVE:/.test(l) ? '<p style="color:#5fd068"><b>' + esc(l) + '</b></p>' : /NI PA/.test(l) ? '<p style="color:#ff6b6b"><b>' + esc(l) + '</b></p>' : /^Para mutar/.test(l) ? '<p style="color:var(--acc)">🧬 ' + esc(l) + '</p>' : '<div class="small">' + esc(l) + '</div>').join('') + '</div>');
 }
 async function loadMyLogros() {
   if (!isLinked() || !$('myLogros')) return;
@@ -1946,11 +1977,12 @@ document.querySelectorAll('#rankTabs button').forEach(b => b.onclick = () => {
   document.querySelectorAll('#rankTabs button').forEach(x => x.classList.toggle('on', x === b));
   rankKey = b.dataset.r; renderRank();
 });
-const TAB_OF = { jefes: 'jefes', guia: 'guia', reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'eventos', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info' };
+const TAB_OF = { misdinos: 'misdinos', jefes: 'jefes', guia: 'guia', reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'eventos', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info' };
 function showTab() {
   const h = (location.hash || '#mapas').slice(1);
   const tab = TAB_OF[h] || 'mapas';
   if (tab === 'jefes' && typeof loadJefes === 'function') loadJefes();
+  if (tab === 'misdinos' && typeof loadMisDinos === 'function') loadMisDinos();
   document.querySelectorAll('[data-tab]').forEach(el => el.classList.toggle('tabon', el.dataset.tab === tab));
   document.querySelectorAll('nav a[data-t]').forEach(a => a.classList.toggle('on', a.dataset.t === tab));
   const target = document.getElementById(h);
