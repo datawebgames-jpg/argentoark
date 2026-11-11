@@ -190,7 +190,7 @@ section:not(.tabon) .wallet-box{display:none}
 <div class="bgimg"></div>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#jefes" data-t="jefes">🐉 Jefes</a><a href="#misdinos" data-t="misdinos">🦖 Mis dinos</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
+  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#jefes" data-t="jefes">🐉 Jefes</a><a href="#pueblo" data-t="pueblo">🏘️ El Pueblo</a><a href="#misdinos" data-t="misdinos">🦖 Mis dinos</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
 </nav>
 
 <header class="wrap hero" data-tab="mapas">
@@ -491,6 +491,16 @@ section:not(.tabon) .wallet-box{display:none}
   <div id="walletBox" class="wallet-box"></div>
   <h2>Tienda</h2>
   <p class="sub">Elegí qué querés ver. Todo se puede mirar; <b>para comprar o vender tenés que vincular tu cuenta</b>.</p>
+<div id="armadurasBox" class="card" style="border-color:#95a5a6;margin:12px 0">
+    <h3 style="margin:0 0 6px">🛡️ Armaduras</h3>
+    <p class="small mut" style="margin:0 0 10px">Set completo (casco, pechera, guantes, pantalón y botas) por <b>1000 AC</b>, o los 5 planos por <b>1000 ACT</b> de tu tribu. Tenés que estar conectado en el juego: llega solo a tu inventario.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px">
+      <div><b>⚙️ Metal</b><br><button class="btn" onclick="comprarArma('metal','set',this)">Set · 1000 AC</button> <button class="btn" onclick="comprarArma('metal','plano',this)">Planos · 1000 ACT</button></div>
+      <div><b>🛡️ Antidisturbios</b><br><button class="btn" onclick="comprarArma('antidisturbio','set',this)">Set · 1000 AC</button> <button class="btn" onclick="comprarArma('antidisturbio','plano',this)">Planos · 1000 ACT</button></div>
+      <div><b>🐻 Pelaje</b><br><button class="btn" onclick="comprarArma('pelaje','set',this)">Set · 1000 AC</button> <button class="btn" onclick="comprarArma('pelaje','plano',this)">Planos · 1000 ACT</button></div>
+    </div>
+    <p id="armaMsg" class="small" style="margin:8px 0 0"></p>
+  </div>
   <div id="tiendaLogin" class="need-link">
     <div class="nl-ico">🔒</div>
     <div><b>Para comprar tenés que vincular tu cuenta</b><br><span class="small">Es una sola vez y tarda 1 minuto: en el juego escribí <code>/vincular</code>, te llega un código de 6 letras y lo ponés en Mi cuenta.</span></div>
@@ -651,6 +661,11 @@ section:not(.tabon) .wallet-box{display:none}
   <h2>🐉 Jefes</h2>
   <p class="sub">Qué pide cada jefe de cada mapa para invocarlo (gamma, beta y alfa). Si entrás con tu cuenta, también ves cuánto tiene tu tribu juntado (baúles, dinos y jugadores) y cuánto le falta.</p>
   <div id="jefesCont"><p class="mut small">Cargando...</p></div>
+</div></section>
+<section id="pueblo" data-tab="pueblo"><div class="wrap">
+  <h2>🏘️ El Pueblo</h2>
+  <p class="sub">La gente del pueblito: qué venden, de qué trabajan, sus historias, sus misiones y qué opinan del Monarca del momento (el dueño de la tribu que va primera en el ranking). Lo que dicen cambia todos los días. En el pueblito hay cajones <b>PUEBLO COMPRA</b> y <b>PUEBLO VENTA</b>: comprás y vendés con AC de verdad.</p>
+  <div id="puebloCont"><p class="mut small">Cargando...</p></div>
 </div></section>
 <section id="dinos" data-tab="dinos"><div class="wrap">
   <h2>Guía de dinos</h2>
@@ -828,6 +843,14 @@ function marketButtons(l) {
 function cancelSale(id, item) {
   if (!confirm(item ? '¿Cancelar la venta #' + id + '? El item vuelve a tu inventario del juego (si no estás conectado, apenas entres).' : '¿Cancelar la venta #' + id + '?')) return;
   act('cancelar ' + id);
+}
+async function comprarArma(set, tipo, btn) {
+  const msg = $('armaMsg'); const tok = getTok();
+  if (!tok) { msg.textContent = 'Vinculá tu cuenta en Mi cuenta para comprar.'; return; }
+  if (!confirm((tipo === 'plano' ? 'Comprar los 5 planos de ' + set + ' por 1000 ACT de tu tribu?' : 'Comprar el set completo de ' + set + ' por 1000 AC?'))) return;
+  btn.disabled = true; msg.textContent = 'Comprando...';
+  try { const d = await post('armadura', { token: tok, set, tipo }); msg.textContent = d.error ? '❌ ' + d.error : '✅ ' + d.text; } catch { msg.textContent = 'No se pudo conectar.'; }
+  btn.disabled = false;
 }
 async function post(path, data, retry = true) {
   if (apiBase === null) await getStatus().catch(() => { });
@@ -1117,6 +1140,18 @@ let myTribes = [];
 function pickTribe(id) { selTribe = id; try { localStorage.setItem('argento_tribu', id); } catch { } loadMyLogros(); renderTribeShop(); }
 const myTribeSel = () => myTribes.find(t => t.id === selTribe) || null;
 let jefesData = null, jefesMapa = 'TheIsland', jefesTribu = null;
+async function loadPueblo() {
+  const box = $('puebloCont'); box.innerHTML = '<p class="mut small">Cargando...</p>';
+  if (apiBase === null) await getStatus().catch(() => { });
+  let d; try { d = await (await fetch(apiBase ? apiBase + '/api/pueblo' : 'api/pueblo', { cache: 'no-store' })).json(); } catch { box.innerHTML = '<p class="mut small">No se pudo conectar.</p>'; return; }
+  const col = { 'Leal al Monarca': '#2ecc71', 'Crítico del Monarca': '#e74c3c', 'Espera que cambie': '#f39c12', 'Sigue al Monarca': '#3498db' };
+  let h = '<div class="card" style="border-color:#f1c40f;margin-bottom:14px"><b>👑 Monarca del momento:</b> ' + (d.monarca ? d.monarca.nombre + ' <span class="mut">(' + d.monarca.tribu + ')</span>' : 'todavía no hay') + '</div>';
+  h += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px">';
+  for (const p of d.gente) h += '<div class="card" style="border-left:4px solid ' + (col[p.bando] || '#888') + '"><h3 style="margin:0 0 2px">' + (p.sexo === 'mujer' ? '👩 ' : '👨 ') + p.nombre + '</h3><div class="small mut">' + p.oficio + ' · <span style="color:' + (col[p.bando] || '#888') + '">' + p.bando + '</span></div>'
+    + '<p class="small" style="margin:8px 0">' + p.historia + '</p><p style="margin:6px 0">💬 <i>"' + p.dice + '"</i></p><p style="margin:6px 0">👑 <i>"' + p.sobreMonarca + '"</i></p>'
+    + '<div class="small" style="margin-top:8px;padding:8px;border-radius:8px;background:rgba(255,255,255,.05)">📜 <b>' + p.mision.nombre + ':</b> ' + p.mision.que + ' <b>Premio: ' + p.mision.premio + '</b></div></div>';
+  box.innerHTML = h + '</div>';
+}
 async function loadJefes() {
   const box = $('jefesCont'); box.innerHTML = '<p class="mut small">Cargando...</p>';
   if (apiBase === null) await getStatus().catch(() => { });
@@ -1998,6 +2033,7 @@ function showTab() {
   const h = (location.hash || '#mapas').slice(1);
   const tab = TAB_OF[h] || 'mapas';
   if (tab === 'jefes' && typeof loadJefes === 'function') loadJefes();
+  if (tab === 'pueblo' && typeof loadPueblo === 'function') loadPueblo();
   if (tab === 'misdinos' && typeof loadMisDinos === 'function') loadMisDinos();
   document.querySelectorAll('[data-tab]').forEach(el => el.classList.toggle('tabon', el.dataset.tab === tab));
   document.querySelectorAll('nav a[data-t]').forEach(a => a.classList.toggle('on', a.dataset.t === tab));
@@ -2148,6 +2184,7 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
   const cards = re => [...document.querySelectorAll('.card')].filter(c => re.test(head(c)) && !c.closest('#jg'));
   const SECS = [
     { id: 'inicio', i: '🏠', t: 'Inicio', d: 'Tu resumen y accesos rápidos' },
+    { id: 'armaduras', i: '🛡️', t: 'Armaduras', d: 'Sets completos por 1000 AC y planos por 1000 ACT', move: () => [$('armadurasBox')] },
     { id: 'tienda', i: '🛒', t: 'Tienda', d: 'Comprá con AC: llega solo a tu inventario', move: () => [$('mercado')] },
     { id: 'tribu', i: '👥', t: 'Mi tribu', d: 'Chat, teleport a tus compañeros, rangos, misiones, pactos y guerras', login: true, cols: true,
       move: () => [...cards(/Ir a un compa/), ...cards(/Chat de la tribu/), $('tribeSel'), $('peaceBan'), ...cards(/Mensajes de mi tribu|Rangos y pruebas|Misiones de mi tribu|Pactos de no agresi|Guerras de tribus|Protecci.n por ACT|Canal de Discord de la tribu|Permisos para invitar|Unirme a una tribu/)] },
@@ -2155,6 +2192,7 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
     { id: 'viajar', i: '📍', t: 'Viajar', d: 'Teleport a casa y zona segura (a tus compañeros: en Mi tribu)', login: true, move: () => cards(/Teleport a casa/) },
     { id: 'dinos', i: '🦖', t: 'Mis dinos', d: 'Dónde están, revivir caídos y seguro', login: true, move: () => cards(/Mis dinos por mapa|Dinos ca.dos|Seguro de dinos/) },
     { id: 'stats', i: '📊', t: 'Stats de dinos', d: 'Ranking de tu tribu por vida, daño, peso... y la ficha de cada dino: padres, mutaciones y si conviene criarlo', login: true, move: () => [$('mdStats'), $('mdCont')], open: () => { if (typeof loadMisDinos === 'function') loadMisDinos(); } },
+    { id: 'pueblo', i: '🏘️', t: 'El Pueblo', d: 'La gente del pueblito, sus misiones y qué opinan del Monarca', move: () => [$('puebloCont')], open: () => { if (typeof loadPueblo === 'function') loadPueblo(); } },
     { id: 'jefes', i: '🐉', t: 'Jefes', d: 'Qué pide cada jefe y qué le falta a tu tribu', move: () => [$('jefesCont')], open: () => { if (typeof loadJefes === 'function') loadJefes(); } },
     { id: 'hex', i: '🔷', t: 'HLN-A', d: 'Hexágonos: comprar con AC y vender por AC o ACT', login: true, move: () => cards(/Hex.gonos de HLN-A/) },
     { id: 'eventos', i: '🎉', t: 'Eventos', d: 'Desafíos, misiones, logros, reyes y calendario', move: () => [...cards(/Votar el pr.ximo mapa/), $('eventos')] },
