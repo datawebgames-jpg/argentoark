@@ -124,6 +124,12 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .dino ol{margin:4px 0 0;padding-left:20px;font-size:13.5px}
 .dino .wiki{font-size:12.5px}
 .dtip{text-align:center}.dtip .di{font-size:34px}.dtip p{margin:4px 0 0}
+.arma-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.arma-card{border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px;border:1px solid rgba(255,255,255,.15);box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.arma-ico{font-size:38px;line-height:1}.arma-nom{font:700 22px Oswald,sans-serif;color:#fff}.arma-desc{font-size:13px;color:rgba(255,255,255,.75)}
+.arma-btn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 12px;border-radius:10px;border:0;cursor:pointer;background:var(--acc,#f0a020);color:#1a1206;text-align:left;transition:transform .1s,filter .1s}
+.arma-btn span{font-size:12.5px;opacity:.85}.arma-btn:hover{transform:translateY(-1px);filter:brightness(1.08)}.arma-btn:disabled{opacity:.5;cursor:wait}
+.arma-btn.plano{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3)}
 .tmap-wrap{position:relative;width:100%;max-width:900px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#0b1a24}
 .tmap-wrap img.base{width:100%;display:block}
 .tmk{position:absolute;transform:translate(-50%,-50%);cursor:pointer;line-height:1;filter:drop-shadow(0 1px 2px #000)}
@@ -494,11 +500,23 @@ section:not(.tabon) .wallet-box{display:none}
   <p class="sub">Elegí qué querés ver. Todo se puede mirar; <b>para comprar o vender tenés que vincular tu cuenta</b>.</p>
 <div id="armadurasBox" class="card" style="border-color:#95a5a6;margin:12px 0">
     <h3 style="margin:0 0 6px">🛡️ Armaduras</h3>
-    <p class="small mut" style="margin:0 0 10px">Set completo (casco, pechera, guantes, pantalón y botas) por <b>1000 AC</b>, o los 5 planos por <b>1000 ACT</b> de tu tribu. Tenés que estar conectado en el juego: llega solo a tu inventario.</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px">
-      <div><b>⚙️ Metal</b><br><button class="btn" onclick="comprarArma('metal','set',this)">Set · 1000 AC</button> <button class="btn" onclick="comprarArma('metal','plano',this)">Planos · 1000 ACT</button></div>
-      <div><b>🛡️ Antidisturbios</b><br><button class="btn" onclick="comprarArma('antidisturbio','set',this)">Set · 1000 AC</button> <button class="btn" onclick="comprarArma('antidisturbio','plano',this)">Planos · 1000 ACT</button></div>
-      <div><b>🐻 Pelaje</b><br><button class="btn" onclick="comprarArma('pelaje','set',this)">Set · 1000 AC</button> <button class="btn" onclick="comprarArma('pelaje','plano',this)">Planos · 1000 ACT</button></div>
+    <p class="small mut" style="margin:0 0 12px">Casco, pechera, guantes, pantalón y botas. <b>Cada pieza sale con su propia calidad</b> (de aprendiz a ascendente: ninguna es igual) y el set viene <b>pintado con colores al azar</b>. Los planos nunca son comunes. Tenés que estar conectado: llega solo a tu inventario.</p>
+    <div class="arma-grid">
+      <div class="arma-card" style="background:linear-gradient(160deg,#5d6d7e,#2c3e50)">
+        <div class="arma-ico">⚙️</div><b class="arma-nom">Metal</b><span class="arma-desc">La más resistente al daño</span>
+        <button class="arma-btn" onclick="comprarArma('metal','set',this)"><b>Set completo</b><span>1.000 AC · colores al azar</span></button>
+        <button class="arma-btn plano" onclick="comprarArma('metal','plano',this)"><b>5 planos</b><span>1.000 ACT · calidad oficial o mejor</span></button>
+      </div>
+      <div class="arma-card" style="background:linear-gradient(160deg,#2471a3,#1b2631)">
+        <div class="arma-ico">🛡️</div><b class="arma-nom">Antidisturbios</b><span class="arma-desc">Ideal contra armas de fuego</span>
+        <button class="arma-btn" onclick="comprarArma('antidisturbio','set',this)"><b>Set completo</b><span>1.000 AC · colores al azar</span></button>
+        <button class="arma-btn plano" onclick="comprarArma('antidisturbio','plano',this)"><b>5 planos</b><span>1.000 ACT · calidad oficial o mejor</span></button>
+      </div>
+      <div class="arma-card" style="background:linear-gradient(160deg,#a04000,#4a235a)">
+        <div class="arma-ico">🐻</div><b class="arma-nom">Pelaje</b><span class="arma-desc">Para el frío y la nieve</span>
+        <button class="arma-btn" onclick="comprarArma('pelaje','set',this)"><b>Set completo</b><span>1.000 AC · colores al azar</span></button>
+        <button class="arma-btn plano" onclick="comprarArma('pelaje','plano',this)"><b>5 planos</b><span>1.000 ACT · calidad oficial o mejor</span></button>
+      </div>
     </div>
     <p id="armaMsg" class="small" style="margin:8px 0 0"></p>
   </div>
