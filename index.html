@@ -190,7 +190,7 @@ section:not(.tabon) .wallet-box{display:none}
 <div class="bgimg"></div>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#jefes" data-t="jefes">🐉 Jefes</a><a href="#pueblo" data-t="pueblo">🏘️ El Pueblo</a><a href="#misdinos" data-t="misdinos">🦖 Mis dinos</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
+  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#jefes" data-t="jefes">🐉 Jefes</a><a href="#pueblo" data-t="pueblo">🏘️ El Pueblo</a><a href="#juegos" data-t="juegos">🎲 Juegos</a><a href="#party" data-t="party">🤝 Party</a><a href="#buscadino" data-t="buscadino">📍 Buscar dinos</a><a href="#misdinos" data-t="misdinos">🦖 Mis dinos</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
 </nav>
 
 <header class="wrap hero" data-tab="mapas">
@@ -667,6 +667,21 @@ section:not(.tabon) .wallet-box{display:none}
   <h2>🏘️ El Pueblo</h2>
   <p class="sub">La gente del pueblito: qué venden, de qué trabajan, sus historias, sus misiones y qué opinan del Monarca del momento (el dueño de la tribu que va primera en el ranking). Lo que dicen cambia todos los días. En el pueblito hay cajones <b>PUEBLO COMPRA</b> y <b>PUEBLO VENTA</b>: comprás y vendés con AC de verdad.</p>
   <div id="puebloCont"><p class="mut small">Cargando...</p></div>
+</div></section>
+<section id="juegos" data-tab="juegos"><div class="wrap">
+  <h2>🎲 Juegos</h2>
+  <p class="sub">Truco contra El Gaucho, La Selva Argento con sus misiones, quiniela, bingo y lotería. Jugás con tus AC y lo que ganás va directo a tu saldo. Para la Selva tenés que estar conectado: los dinos salen en tu mapa.</p>
+  <div id="juegosCont"><p class="mut small">Cargando...</p></div>
+</div></section>
+<section id="party" data-tab="party"><div class="wrap">
+  <h2>🤝 Party</h2>
+  <p class="sub">Armá party con los de tu tribu desde acá: ves la vida de cada uno en pantalla y dónde está. Tenés que estar conectado y en el mismo mapa.</p>
+  <div id="partyCont"><p class="mut small">Cargando...</p></div>
+</div></section>
+<section id="buscadino" data-tab="buscadino"><div class="wrap">
+  <h2>📍 Buscar dinos salvajes</h2>
+  <p class="sub">Elegí el mapa y el dino: te marca en el mapa dónde hay ahora mismo (se actualiza cada minuto).</p>
+  <div id="sdCont"><p class="mut small">Cargando...</p></div>
 </div></section>
 <section id="dinos" data-tab="dinos"><div class="wrap">
   <h2>Guía de dinos</h2>
@@ -1152,6 +1167,76 @@ async function loadPueblo() {
     + '<p class="small" style="margin:8px 0">' + p.historia + '</p><p style="margin:6px 0">💬 <i>"' + p.dice + '"</i></p><p style="margin:6px 0">👑 <i>"' + p.sobreMonarca + '"</i></p>'
     + '<div class="small" style="margin-top:8px;padding:8px;border-radius:8px;background:rgba(255,255,255,.05)">📜 <b>' + p.mision.nombre + ':</b> ' + p.mision.que + ' <b>Premio: ' + p.mision.premio + '</b></div></div>';
   box.innerHTML = h + '</div>';
+}
+// ---------- Juegos (misma lógica que el F1) ----------
+const jgBtn = (x, fn) => x ? `<button class="btn" style="margin:2px" data-a="${esc(x.acc)}" onclick="${fn}(this.dataset.a)">${esc(x.label)}</button>` : '';
+function juegosFn(a) { juegosAcc('fn', { arg: a }); }
+async function juegosAcc(action, extra = {}) {
+  const box = $('juegosCont'), tok = getTok();
+  if (!tok) { box.innerHTML = '<div class="card"><p>Para jugar tenés que <a href="#cuenta">vincular tu cuenta</a>.</p></div>'; return; }
+  let d; try { d = await post('juegosweb', { token: tok, action, ...extra }); } catch { box.innerHTML = '<p class="mut small">No se pudo conectar.</p>'; return; }
+  if (d.error) { box.innerHTML = '<div class="card"><p>' + esc(d.error) + '</p></div>'; return; }
+  let h = `<div class="card" style="margin-bottom:12px"><h3 style="margin:0 0 4px">${esc(d.title || 'Juegos')}</h3><p class="small mut" style="margin:0">${esc(d.sub || '')}</p>
+    <p class="small" style="margin:6px 0 0">💰 Tu saldo: <b>${Number(d.balance || 0).toLocaleString('es-AR')} AC</b>${d.online ? '' : ' · <span class="mut">no estás conectado en el juego</span>'}</p></div>`;
+  if (d.aviso) h += `<div class="card" style="border-color:var(--acc);margin-bottom:12px">${esc(d.aviso)}</div>`;
+  h += '<div style="display:grid;gap:8px">' + (d.rows || []).filter(Boolean).map(r => `<div class="card" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 14px">
+    <div style="flex:1;min-width:200px"><b>${esc(r.t)}</b>${r.s ? `<div class="small mut">${esc(r.s)}</div>` : ''}</div>${r.d ? `<span class="small">${esc(r.d)}</span>` : ''}${jgBtn(r.a, 'juegosFn')}${jgBtn(r.b, 'juegosFn')}</div>`).join('') + '</div>';
+  if (d.chat) h += `<div class="card" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><input class="inp" id="juegosTxt" style="flex:1;min-width:160px" placeholder="Tu número"><button class="btn" onclick="juegosAcc('texto',{text:$('juegosTxt').value})">Enviar</button></div>`;
+  if (d.juego) h += `<p style="margin-top:10px"><button class="btn" onclick="juegosAcc('menu')">⬅ Todos los juegos</button></p>`;
+  box.innerHTML = h;
+}
+function loadJuegos() { juegosAcc('ver'); }
+// ---------- Party con la tribu ----------
+function partyInv(n) { partyAcc('invitar', n); }
+async function partyAcc(action, name) {
+  const box = $('partyCont'), tok = getTok();
+  if (!tok) { box.innerHTML = '<div class="card"><p>Para armar party tenés que <a href="#cuenta">vincular tu cuenta</a>.</p></div>'; return; }
+  let d; try { d = await post('partyweb', { token: tok, action, name }); } catch { box.innerHTML = '<p class="mut small">No se pudo conectar.</p>'; return; }
+  if (d.error) { box.innerHTML = '<div class="card"><p>' + esc(d.error) + '</p></div>'; return; }
+  const enParty = new Set((d.party || []).map(p => p.name.toLowerCase()));
+  let h = d.online ? '' : '<div class="card" style="margin-bottom:12px">🎮 Entrá al juego para armar la party (tenés que estar conectado y en el mismo mapa que tu compañero).</div>';
+  if (d.aviso) h += `<div class="card" style="border-color:var(--acc);margin-bottom:12px">${esc(d.aviso)}</div>`;
+  if (d.invitacion) h += `<div class="card" style="margin-bottom:12px">📨 Te invitaron a una party. <button class="btn" onclick="partyAcc('aceptar')">Aceptar</button></div>`;
+  h += `<div class="card" style="margin-bottom:12px"><h3 style="margin:0 0 8px">Tu party${d.map ? ' en ' + esc(d.map) : ''}</h3>` + ((d.party || []).length
+    ? d.party.map(p => `<div style="display:flex;gap:10px;align-items:center;margin:6px 0"><b style="min-width:140px">${esc(p.name)}</b><div style="flex:1;max-width:260px;height:12px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden"><div style="height:100%;width:${Math.max(0, p.hp)}%;background:${p.hp < 30 ? '#e74c3c' : '#2ecc71'}"></div></div><span class="small">${p.hp < 0 ? 'muerto' : p.hp + '%'}</span></div>`).join('')
+      + `<p style="margin:10px 0 0"><button class="btn" onclick="partyAcc('salir')">Salir de la party</button></p>`
+    : '<p class="mut small" style="margin:0">No estás en ninguna party. Invitá a alguien de tu tribu.</p>') + '</div>';
+  h += '<div class="card"><h3 style="margin:0 0 8px">Tu tribu</h3>' + ((d.mates || []).length ? d.mates.map(m => `<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0;padding:6px 0;border-bottom:1px solid var(--line)">
+    <span>${m.online ? '🟢' : '⚫'}</span><b style="flex:1;min-width:140px">${esc(m.name)}</b><span class="small mut">${m.online ? esc(m.map) : 'desconectado'}</span>
+    ${enParty.has(m.name.toLowerCase()) ? '<span class="small">✅ en tu party</span>' : m.sameMap ? `<button class="btn" data-n="${esc(m.name)}" onclick="partyInv(this.dataset.n)">Invitar a party</button>` : ''}</div>`).join('') : '<p class="mut small" style="margin:0">No tenés compañeros de tribu.</p>') + '</div>';
+  box.innerHTML = h;
+}
+function loadParty() { partyAcc('ver'); }
+// ---------- Buscar dinos salvajes ----------
+let sdMap = '', sdEsp = '', sdEsps = null;
+const sdNom = n => String(n).replace(/\?/g, 'é');
+async function sdGet(q) {
+  if (apiBase === null) await getStatus().catch(() => { });
+  return (await fetch((apiBase ? apiBase + '/api/salvajes' : 'api/salvajes') + '?' + new URLSearchParams(q), { cache: 'no-store' })).json();
+}
+async function loadSalvajes(map) {
+  const box = $('sdCont'); box.innerHTML = '<p class="mut small">Buscando en el mapa...</p>';
+  if (map !== undefined) { sdMap = map; sdEsp = ''; }
+  let d; try { d = await sdGet({ map: sdMap }); } catch { box.innerHTML = '<p class="mut small">No se pudo conectar.</p>'; return; }
+  sdMap = d.map || ''; sdEsps = d.especies || [];
+  if (!d.maps || !d.maps.length) { box.innerHTML = '<div class="card">No hay mapas prendidos ahora.</div>'; return; }
+  box.innerHTML = `<div class="tmap-bar">${d.maps.map(m => `<button class="${m.id === sdMap ? 'on' : ''}" onclick="loadSalvajes('${m.id}')">${esc(m.name)}</button>`).join('')}</div>
+    <div class="tmap-bar"><input class="inp" id="sdQ" style="flex:1;min-width:220px" placeholder="🔎 Escribí el dino (ej: Rex, Argentavis, Giganotosaurio)" value="${esc(sdNom(sdEsp))}" onkeydown="if(event.key==='Enter')sdBuscar(this.value)"><button class="btn" onclick="sdBuscar($('sdQ').value)">Buscar</button></div>
+    <div id="sdRes">${d.error ? '<p class="mut">' + esc(d.error) + '</p>' : `<p class="small mut">${sdEsps.length} especies salvajes en este mapa. Tocá una:</p><div style="display:flex;flex-wrap:wrap;gap:6px">${sdEsps.map(e => `<button class="btn" style="padding:4px 10px" data-n="${esc(e.n)}" onclick="sdBuscar(this.dataset.n)">${esc(sdNom(e.n))} <span class="small">(${e.c})</span></button>`).join('')}</div>`}</div>`;
+}
+async function sdBuscar(esp) {
+  esp = String(esp || '').trim(); if (!esp) return;
+  const L = x => sdNom(x).toLowerCase(), q = esp.toLowerCase();
+  const e = (sdEsps || []).find(x => x.n.toLowerCase() === q || L(x.n) === q) || (sdEsps || []).find(x => L(x.n).startsWith(q)) || (sdEsps || []).find(x => L(x.n).includes(q));
+  if (!e) { $('sdRes').innerHTML = `<p class="mut">No hay ningún "${esc(esp)}" salvaje en este mapa ahora.</p>`; return; }
+  sdEsp = e.n; if ($('sdQ')) $('sdQ').value = sdNom(sdEsp);
+  $('sdRes').innerHTML = '<p class="mut small">Buscando...</p>';
+  let d; try { d = await sdGet({ map: sdMap, esp: sdEsp }); } catch { $('sdRes').innerHTML = '<p class="mut small">No se pudo conectar.</p>'; return; }
+  const ds = d.dinos || [], nom = esc(sdNom(sdEsp));
+  const pins = ds.map(x => `<div class="tmk dino" style="left:${tmapX(x.lon)}%;top:${tmapY(x.lat)}%;${x.lvl >= 120 ? 'background:#e74c3c;width:14px;height:14px' : ''}" title="${nom} nv ${x.lvl} · ${x.sex} · ${x.lat}, ${x.lon}"></div>`).join('');
+  $('sdRes').innerHTML = `<p><b>${ds.length} ${nom}</b> salvajes ahora${ds.length >= 150 ? ' (mostrando 150)' : ''} · <span style="color:#e74c3c">●</span> nivel 120 o más · <a href="javascript:loadSalvajes()">⬅ otro dino</a></p>
+    <div class="tmap-wrap">${d.img ? `<img class="base" src="img/wiki/${d.img}" alt="">` : ''}${pins}</div>
+    <div class="tmap-list">${ds.slice(0, 40).map(x => `<div>🦖 nv <b>${x.lvl}</b> · ${x.sex} <span class="mut small">Lat ${x.lat} Lon ${x.lon}</span></div>`).join('')}</div>`;
 }
 async function loadJefes() {
   const box = $('jefesCont'); box.innerHTML = '<p class="mut small">Cargando...</p>';
@@ -2029,12 +2114,15 @@ document.querySelectorAll('#rankTabs button').forEach(b => b.onclick = () => {
   document.querySelectorAll('#rankTabs button').forEach(x => x.classList.toggle('on', x === b));
   rankKey = b.dataset.r; renderRank();
 });
-const TAB_OF = { misdinos: 'misdinos', jefes: 'jefes', guia: 'guia', reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'eventos', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info' };
+const TAB_OF = { misdinos: 'misdinos', jefes: 'jefes', guia: 'guia', reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'eventos', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info', pueblo: 'pueblo', juegos: 'juegos', party: 'party', buscadino: 'buscadino' };
 function showTab() {
   const h = (location.hash || '#mapas').slice(1);
   const tab = TAB_OF[h] || 'mapas';
   if (tab === 'jefes' && typeof loadJefes === 'function') loadJefes();
   if (tab === 'pueblo' && typeof loadPueblo === 'function') loadPueblo();
+  if (tab === 'juegos') loadJuegos();
+  if (tab === 'party') loadParty();
+  if (tab === 'buscadino') loadSalvajes();
   if (tab === 'misdinos' && typeof loadMisDinos === 'function') loadMisDinos();
   document.querySelectorAll('[data-tab]').forEach(el => el.classList.toggle('tabon', el.dataset.tab === tab));
   document.querySelectorAll('nav a[data-t]').forEach(a => a.classList.toggle('on', a.dataset.t === tab));
@@ -2194,6 +2282,9 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
     { id: 'dinos', i: '🦖', t: 'Mis dinos', d: 'Dónde están, revivir caídos y seguro', login: true, move: () => cards(/Mis dinos por mapa|Dinos ca.dos|Seguro de dinos/) },
     { id: 'stats', i: '📊', t: 'Stats de dinos', d: 'Ranking de tu tribu por vida, daño, peso... y la ficha de cada dino: padres, mutaciones y si conviene criarlo', login: true, move: () => [$('mdStats'), $('mdCont')], open: () => { if (typeof loadMisDinos === 'function') loadMisDinos(); } },
     { id: 'pueblo', i: '🏘️', t: 'El Pueblo', d: 'La gente del pueblito, sus misiones y qué opinan del Monarca', move: () => [$('puebloCont')], open: () => { if (typeof loadPueblo === 'function') loadPueblo(); } },
+    { id: 'juegos', i: '🎲', t: 'Juegos', d: 'Truco, La Selva Argento con misiones, quiniela, bingo y lotería', move: () => [$('juegosCont')], open: () => loadJuegos() },
+    { id: 'party', i: '🤝', t: 'Party', d: 'Armá party con los de tu tribu y mirá su vida', login: true, move: () => [$('partyCont')], open: () => loadParty() },
+    { id: 'buscadino', i: '📍', t: 'Buscar dinos', d: 'Elegí un dino y te marca en el mapa dónde hay ahora', move: () => [$('sdCont')], open: () => loadSalvajes() },
     { id: 'jefes', i: '🐉', t: 'Jefes', d: 'Qué pide cada jefe y qué le falta a tu tribu', move: () => [$('jefesCont')], open: () => { if (typeof loadJefes === 'function') loadJefes(); } },
     { id: 'hex', i: '🔷', t: 'HLN-A', d: 'Hexágonos: comprar con AC y vender por AC o ACT', login: true, move: () => cards(/Hex.gonos de HLN-A/) },
     { id: 'eventos', i: '🎉', t: 'Eventos', d: 'Desafíos, misiones, logros, reyes y calendario', move: () => [...cards(/Votar el pr.ximo mapa/), $('eventos')] },
