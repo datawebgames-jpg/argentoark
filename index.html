@@ -134,6 +134,47 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .nov-card h3{margin:2px 0 10px;font:700 22px Oswald,sans-serif}.nov-fecha{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--acc,#f0a020)}
 .nov-blk{margin:8px 0}.nov-blk ul{margin:6px 0 0;padding-left:20px}.nov-blk li{margin:4px 0;line-height:1.45}
 .nov-tag{display:inline-block;font:700 12px sans-serif;letter-spacing:.05em;padding:3px 8px;border-radius:6px}.nov-tag.nuevo{background:#1e8449;color:#fff}.nov-tag.arreglo{background:#2471a3;color:#fff}
+.mesa-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.mesa-tile{display:flex;flex-direction:column;gap:6px;padding:14px;border-radius:14px;background:radial-gradient(circle at 30% 20%,#1f7a4a,#0d3b24);border:2px solid #6b4a1e;box-shadow:inset 0 0 30px rgba(0,0,0,.4)}
+.mesa-tile-ico{font-size:40px;line-height:1}.mesa-tile b{font:700 22px Oswald,sans-serif;color:#fff}
+.mesa-crear{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin:0 0 12px}.mesa-crear select{width:auto;display:inline-block}
+.mesa-fila{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--line)}.mesa-ico{font-size:28px}
+.mesa-top{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.mesa-paño{position:relative;width:100%;max-width:900px;margin:0 auto;aspect-ratio:16/10;border-radius:50%/42%;background:radial-gradient(ellipse at 50% 40%,#2a9a5c,#11552f 70%,#0b3d21);border:14px solid #6b4423;box-shadow:inset 0 0 50px rgba(0,0,0,.55),0 10px 30px rgba(0,0,0,.5)}
+.mesa-paño.selva{background:radial-gradient(ellipse at 50% 40%,#3d8b2f,#1e4d16 70%,#13330e)}
+.mesa-centro{position:absolute;left:16%;right:16%;top:22%;bottom:22%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
+.mesa-asiento{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;z-index:2;min-width:86px}
+.mesa-avatar{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 24px Oswald,sans-serif;color:#1a1206;background:linear-gradient(#f6d27a,#c98a1c);border:3px solid #3a2410;box-shadow:0 3px 8px rgba(0,0,0,.6)}
+.mesa-asiento.vacio .mesa-avatar{background:rgba(0,0,0,.35);color:#aaa;border-style:dashed}
+.mesa-asiento.turno .mesa-avatar{box-shadow:0 0 0 4px #2ecc71,0 0 22px #2ecc71;animation:mesaLatido 1.2s infinite}
+.mesa-asiento.mio .mesa-avatar{border-color:#fff}
+@keyframes mesaLatido{50%{box-shadow:0 0 0 6px #2ecc71,0 0 32px #2ecc71}}
+.mesa-nom{background:rgba(0,0,0,.65);padding:1px 8px;border-radius:8px;font-size:13px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mesa-asiento .small{background:rgba(0,0,0,.5);padding:0 6px;border-radius:6px}
+.mesa-reloj{font-size:12px;color:#ffd24a}
+.mesa-mano-otro{display:flex;gap:2px}.mesa-mano-otro svg{filter:drop-shadow(0 2px 3px rgba(0,0,0,.5))}
+.mesa-bazas{display:flex;gap:14px}.mesa-baza{display:flex;flex-direction:column;align-items:center;gap:3px}
+.mesa-hueco{display:inline-block;width:46px;height:69px;border:2px dashed rgba(255,255,255,.25);border-radius:6px}.mesa-hueco.p{width:50px;height:75px}
+.mesa-marcador{background:rgba(0,0,0,.55);padding:4px 14px;border-radius:10px;font-size:16px}.mesa-marcador b{font:700 22px Oswald,sans-serif;color:#ffd24a}
+.mesa-canto{font:700 26px Oswald,sans-serif;color:#ffd24a;text-shadow:0 2px 6px #000;animation:mesaLatido 1s infinite}
+.mesa-comunes{display:flex;gap:6px}.mesa-comunes svg,.mesa-baza svg{filter:drop-shadow(0 3px 4px rgba(0,0,0,.5))}
+.mesa-pozo{background:rgba(0,0,0,.55);padding:4px 14px;border-radius:10px}
+.mesa-espera{display:flex;flex-direction:column;align-items:center;gap:4px;background:rgba(0,0,0,.35);padding:14px 20px;border-radius:14px}
+.mesa-fin{font:700 26px Oswald,sans-serif;color:#ffd24a;background:rgba(0,0,0,.6);padding:6px 16px;border-radius:12px}
+.mesa-mimano{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 6px}
+.mesa-micarta{background:none;border:0;padding:0;cursor:pointer;transition:transform .12s}.mesa-micarta:not(:disabled):hover{transform:translateY(-10px) rotate(-2deg)}.mesa-micarta:disabled{cursor:default;opacity:.85}
+.mesa-micarta svg{filter:drop-shadow(0 4px 6px rgba(0,0,0,.6))}
+.mesa-acciones{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.mesa-log{max-height:130px;overflow:auto;font-size:13px;background:rgba(0,0,0,.35);border-radius:10px;padding:8px 12px;margin-top:8px}.mesa-log div:first-child{color:#ffd24a}
+.selva-pista{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;max-width:100%}
+.selva-c{position:relative;width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:16px}
+.selva-c.esp{background:rgba(241,196,15,.25)}.selva-c.meta{background:#c0392b}.selva-n{position:absolute;top:0;left:3px;font-size:9px;opacity:.7}
+.selva-f{position:absolute;bottom:-4px;right:-4px;width:18px;height:18px;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;color:#fff;border:2px solid #fff}
+.f0{background:#e74c3c}.f1{background:#3498db}.f2{background:#9b59b6}.f3{background:#e67e22}
+.mesa-avatar.f0,.mesa-avatar.f1,.mesa-avatar.f2,.mesa-avatar.f3{color:#fff}
+.mesa-dado{display:flex;align-items:center;gap:8px}
+.mesa-cartxt{display:inline-block;background:#f6eed8;color:#222;padding:4px;border-radius:4px;font-size:11px}
+@media(max-width:640px){.mesa-paño{aspect-ratio:3/4;border-radius:40%/30%}.mesa-centro{left:8%;right:8%}.mesa-avatar{width:40px;height:40px;font-size:18px}.mesa-bazas{gap:6px}.selva-c{width:26px;height:26px;font-size:12px}}
 .tmap-wrap{position:relative;width:100%;max-width:900px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#0b1a24}
 .tmap-wrap img.base{width:100%;display:block}
 .tmk{position:absolute;transform:translate(-50%,-50%);cursor:pointer;line-height:1;filter:drop-shadow(0 1px 2px #000)}
@@ -697,7 +738,9 @@ section:not(.tabon) .wallet-box{display:none}
 </div></section>
 <section id="juegos" data-tab="juegos"><div class="wrap">
   <h2>🎲 Juegos</h2>
-  <p class="sub">Truco contra El Gaucho, La Selva Argento con sus misiones, quiniela, bingo y lotería. Jugás con tus AC y lo que ganás va directo a tu saldo. Para la Selva tenés que estar conectado: los dinos salen en tu mapa.</p>
+  <p class="sub">Sentate a una mesa con otros jugadores: truco, póker o La Selva. O jugá contra la máquina: El Gaucho, La Selva Argento con misiones, quiniela, bingo y lotería. Lo que ganás va directo a tu saldo.</p>
+  <div id="mesasCont"></div>
+  <h3 style="margin:22px 0 10px">🤖 Contra la máquina</h3>
   <div id="juegosCont"><p class="mut small">Cargando...</p></div>
 </div></section>
 <section id="party" data-tab="party"><div class="wrap">
@@ -707,7 +750,7 @@ section:not(.tabon) .wallet-box{display:none}
 </div></section>
 <section id="buscadino" data-tab="buscadino"><div class="wrap">
   <h2>📍 Buscar dinos salvajes</h2>
-  <p class="sub">Elegí el mapa y el dino: te marca en el mapa dónde hay ahora mismo (se actualiza cada minuto).</p>
+  <p class="sub">Elegí el mapa y el dino: te marca en el mapa dónde hay ahora mismo. Ver qué dinos hay es gratis; <b>cada búsqueda en el mapa cuesta 50 AC</b>.</p>
   <div id="sdCont"><p class="mut small">Cargando...</p></div>
 </div></section>
 <section id="dinos" data-tab="dinos"><div class="wrap">
@@ -802,6 +845,7 @@ section:not(.tabon) .wallet-box{display:none}
 </div></footer>
 
 <script src="dinos.js"></script>
+<script src="cartas.js"></script>
 <script>
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -1212,7 +1256,7 @@ async function juegosAcc(action, extra = {}) {
   if (d.juego) h += `<p style="margin-top:10px"><button class="btn" onclick="juegosAcc('menu')">⬅ Todos los juegos</button></p>`;
   box.innerHTML = h;
 }
-function loadJuegos() { juegosAcc('ver'); }
+function loadJuegos() { juegosAcc('ver'); loadMesas(); }
 // ---------- Party con la tribu ----------
 function partyInv(n) { partyAcc('invitar', n); }
 async function partyAcc(action, name) {
@@ -1257,11 +1301,15 @@ async function sdBuscar(esp) {
   const e = (sdEsps || []).find(x => x.n.toLowerCase() === q || L(x.n) === q) || (sdEsps || []).find(x => L(x.n).startsWith(q)) || (sdEsps || []).find(x => L(x.n).includes(q));
   if (!e) { $('sdRes').innerHTML = `<p class="mut">No hay ningún "${esc(esp)}" salvaje en este mapa ahora.</p>`; return; }
   sdEsp = e.n; if ($('sdQ')) $('sdQ').value = sdNom(sdEsp);
+  const tok = getTok();
+  if (!tok) { $('sdRes').innerHTML = '<p>Para buscar dinos en el mapa tenés que <a href="#cuenta">vincular tu cuenta</a>. Cada búsqueda cuesta 50 AC.</p>'; return; }
+  if (!confirm('Buscar ' + sdNom(sdEsp) + ' en el mapa cuesta 50 AC. ¿Buscar?')) return;
   $('sdRes').innerHTML = '<p class="mut small">Buscando...</p>';
-  let d; try { d = await sdGet({ map: sdMap, esp: sdEsp }); } catch { $('sdRes').innerHTML = '<p class="mut small">No se pudo conectar.</p>'; return; }
+  let d; try { d = await post('buscardino', { token: tok, map: sdMap, esp: sdEsp }); } catch { $('sdRes').innerHTML = '<p class="mut small">No se pudo conectar.</p>'; return; }
+  if (d.error) { $('sdRes').innerHTML = '<p>❌ ' + esc(d.error) + '</p>'; return; }
   const ds = d.dinos || [], nom = esc(sdNom(sdEsp));
   const pins = ds.map(x => `<div class="tmk dino" style="left:${tmapX(x.lon)}%;top:${tmapY(x.lat)}%;${x.lvl >= 120 ? 'background:#e74c3c;width:14px;height:14px' : ''}" title="${nom} nv ${x.lvl} · ${x.sex} · ${x.lat}, ${x.lon}"></div>`).join('');
-  $('sdRes').innerHTML = `<p><b>${ds.length} ${nom}</b> salvajes ahora${ds.length >= 150 ? ' (mostrando 150)' : ''} · <span style="color:#e74c3c">●</span> nivel 120 o más · <a href="javascript:loadSalvajes()">⬅ otro dino</a></p>
+  $('sdRes').innerHTML = `<p><b>${ds.length} ${nom}</b> salvajes ahora${ds.length >= 150 ? ' (mostrando 150)' : ''} · se cobraron 50 AC (te quedan ${Number(d.balance || 0).toLocaleString('es-AR')}) · <span style="color:#e74c3c">●</span> nivel 120 o más · <a href="javascript:loadSalvajes()">⬅ otro dino</a></p>
     <div class="tmap-wrap">${d.img ? `<img class="base" src="img/wiki/${d.img}" alt="">` : ''}${pins}</div>
     <div class="tmap-list">${ds.slice(0, 40).map(x => `<div>🦖 nv <b>${x.lvl}</b> · ${x.sex} <span class="mut small">Lat ${x.lat} Lon ${x.lon}</span></div>`).join('')}</div>`;
 }
@@ -1272,6 +1320,119 @@ async function loadNovedades() {
   const f = x => new Date(x + 'T12:00:00').toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   const li = (arr, cls, tag) => arr && arr.length ? `<div class="nov-blk"><span class="nov-tag ${cls}">${tag}</span><ul>${arr.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : '';
   box.innerHTML = d.map(n => `<article class="nov-card"><div class="nov-fecha">${f(n.fecha)}</div><h3>${esc(n.titulo || 'Actualización')}</h3>${li(n.nuevo, 'nuevo', '✨ NUEVO')}${li(n.arreglado, 'arreglo', '🔧 ARREGLADO')}</article>`).join('');
+}
+// ---------- Mesas entre jugadores: truco, póker y La Selva ----------
+let mesaId = null, mesaTimer = null, mesaUlt = '';
+const mesaCard = (c, w, dorso) => typeof carta === 'function' ? (c ? carta(c.n, c.p, w) : carta(1, 'oro', w, true)) : `<span class="mesa-cartxt">${c ? c.n + ' ' + c.p : '🂠'}</span>`;
+async function mesasPost(data) { const tok = getTok(); if (!tok) return { error: 'Vinculá tu cuenta para jugar.' }; try { return await post('mesas', { token: tok, ...data }); } catch { return { error: 'No se pudo conectar.' }; } }
+async function loadMesas() {
+  const box = $('mesasCont'); if (!box) return;
+  if (!getTok()) { box.innerHTML = '<div class="card"><p>Para jugar con otros jugadores tenés que <a href="#cuenta">vincular tu cuenta</a>.</p></div>'; return; }
+  if (mesaId) return verMesa(mesaId);
+  const d = await mesasPost({ action: 'lista' });
+  if (d.error) { box.innerHTML = '<div class="card">' + esc(d.error) + '</div>'; return; }
+  const fila = (M, btn) => `<div class="mesa-fila"><span class="mesa-ico">${M.ico}</span><div style="flex:1;min-width:160px"><b>${esc(M.nombre)}</b> · entrada <b>${Number(M.apuesta).toLocaleString('es-AR')} AC</b><div class="small mut">Mesa de ${esc(M.host)} · ${M.jugadores.map(esc).join(', ')} (${M.jugadores.length}/${M.max})${M.estado === 'jugando' ? ' · <b style="color:#2ecc71">jugando</b>' : M.estado === 'fin' ? ' · terminada' : ' · esperando'}</div></div>${btn}</div>`;
+  const tile = (k, J, desc) => `<div class="mesa-tile"><div class="mesa-tile-ico">${J.ico}</div><b>${J.nombre}</b><span class="small">${desc}</span><span class="small mut">${J.min === J.max ? J.max + ' jugadores' : J.min + ' a ' + J.max + ' jugadores'}</span><button class="arma-btn" onclick="crearMesa('${k}')"><b>Abrir mesa</b><span>e invitar</span></button></div>`;
+  box.innerHTML = `<div class="card mesa-lobby">
+    <h3 style="margin:0 0 4px">🎴 Jugá contra otros jugadores</h3>
+    <p class="small mut" style="margin:0 0 12px">Abrí una mesa, elegí la entrada e invitá a quien quieras (cualquier jugador del server). Cada uno pone la entrada y <b>el que gana se lleva el pozo</b> (menos 5% de la casa). Tu saldo: <b>${Number(d.balance).toLocaleString('es-AR')} AC</b></p>
+    <div class="mesa-crear"><label>Entrada: <select id="mesaAp" class="inp">${d.apuestas.map(a => `<option value="${a}">${a.toLocaleString('es-AR')} AC</option>`).join('')}</select></label>
+      <label><input type="checkbox" id="mesaPub" checked> Abierta: cualquiera se puede sentar</label></div>
+    <div class="mesa-tiles">${tile('truco', d.juegos.truco, 'Mano a mano, a 15. Envido, truco y al mazo.')}${tile('poker', d.juegos.poker, "Texas Hold'em. 1.000 fichas cada uno: el último con fichas gana.")}${tile('selva', d.juegos.selva, 'Carrera de dados por la selva: raptores, Argentavis y el Rex.')}</div></div>`
+    + (d.invitaciones.length ? `<div class="card" style="border-color:#f1c40f"><h3 style="margin:0 0 8px">📨 Te invitaron</h3>${d.invitaciones.map(M => fila(M, `<button class="btn" onclick="unirseMesa('${M.id}')">Sentarme</button>`)).join('')}</div>` : '')
+    + (d.mias.length ? `<div class="card"><h3 style="margin:0 0 8px">🪑 Tus mesas</h3>${d.mias.map(M => fila(M, `<button class="btn" onclick="verMesa('${M.id}')">Ir a la mesa</button>`)).join('')}</div>` : '')
+    + `<div class="card"><h3 style="margin:0 0 8px">🌎 Mesas abiertas</h3>${d.abiertas.length ? d.abiertas.map(M => fila(M, `<button class="btn" onclick="unirseMesa('${M.id}')">Sentarme</button>`)).join('') : '<p class="small mut" style="margin:0">No hay mesas esperando jugadores. ¡Abrí una!</p>'}</div>`;
+}
+async function crearMesa(juego) {
+  const ap = +$('mesaAp').value;
+  if (!confirm(`Abrir una mesa de ${juego === 'poker' ? 'póker' : juego === 'selva' ? 'La Selva' : 'truco'} con ${ap.toLocaleString('es-AR')} AC de entrada? Se te descuenta ahora (si nadie se sienta y te levantás, te lo devolvemos).`)) return;
+  const d = await mesasPost({ action: 'crear', juego, apuesta: ap, publica: $('mesaPub').checked });
+  if (d.error) return alert(d.error);
+  verMesa(d.mesa.id);
+}
+async function unirseMesa(id) {
+  const d = await mesasPost({ action: 'unirse', id }); if (d.error) return alert(d.error);
+  verMesa(id);
+}
+function salirMesas() { mesaId = null; clearInterval(mesaTimer); mesaTimer = null; loadMesas(); }
+async function verMesa(id) {
+  mesaId = id; clearInterval(mesaTimer);
+  mesaTimer = setInterval(() => { if (!document.getElementById('mesaMesa') || document.hidden) return; refrescarMesa(); }, 2500);
+  mesaUlt = ''; await refrescarMesa();
+}
+async function refrescarMesa() {
+  const d = await mesasPost({ action: 'ver', id: mesaId });
+  if (d.error) { mesaId = null; clearInterval(mesaTimer); $('mesasCont').innerHTML = '<div class="card">' + esc(d.error) + ' <button class="btn" onclick="salirMesas()">Volver</button></div>'; return; }
+  const k = JSON.stringify(d.mesa); if (k === mesaUlt) return; mesaUlt = k;
+  pintarMesa(d.mesa);
+}
+async function jugarMesa(a) {
+  const d = await mesasPost({ action: 'jugar', id: mesaId, a });
+  if (d.error) { const e = $('mesaErr'); if (e) { e.textContent = d.error; setTimeout(() => { if (e) e.textContent = ''; }, 3000); } }
+  if (d.mesa) { mesaUlt = JSON.stringify(d.mesa); pintarMesa(d.mesa); }
+}
+async function mesaAccion(action) {
+  if (action === 'salir' && !confirm('¿Levantarte de la mesa? Si ya empezó, perdés la entrada.')) return;
+  const extra = action === 'invitar' ? { name: $('mesaInv').value } : {};
+  const d = await mesasPost({ action, id: mesaId, ...extra });
+  if (d.error) return alert(d.error);
+  if (d.aviso) alert(d.aviso);
+  if (action === 'salir') return salirMesas();
+  refrescarMesa();
+}
+// posiciones de los asientos alrededor de la mesa (yo siempre abajo)
+function mesaAsientos(cant, yo) {
+  const pos = { 2: [[50, 92], [50, 8]], 3: [[50, 92], [10, 30], [90, 30]], 4: [[50, 92], [6, 50], [50, 8], [94, 50]], 5: [[50, 92], [6, 62], [22, 10], [78, 10], [94, 62]], 6: [[50, 92], [6, 66], [10, 20], [50, 6], [90, 20], [94, 66]] }[Math.max(2, cant)] || [];
+  const base = yo >= 0 ? yo : 0;
+  return Array.from({ length: cant }, (_, i) => pos[(i - base + cant) % cant]);
+}
+function pintarMesa(M) {
+  const S = M.s, yo = M.yo, n = v => Number(v || 0).toLocaleString('es-AR');
+  const pos = mesaAsientos(Math.max(M.jugadores.length, M.estado === 'espera' ? M.max : 0), yo);
+  const lugares = M.estado === 'espera' ? Array.from({ length: M.max }, (_, i) => M.jugadores[i] ?? null) : M.jugadores;
+  let centro = '', extra = '';
+  if (M.juego === 'truco' && S) {
+    centro = `<div class="mesa-bazas">${S.bazas.map((b, i) => `<div class="mesa-baza"><span class="small">Baza ${i + 1}</span><div>${b[1] ? mesaCard(b[1], 46) : '<i class="mesa-hueco"></i>'}</div><div>${b[0] ? mesaCard(b[0], 46) : '<i class="mesa-hueco"></i>'}</div></div>`).join('')}</div>`
+      + `<div class="mesa-marcador">${esc(M.jugadores[0])} <b>${S.pts[0]}</b> — <b>${S.pts[1]}</b> ${esc(M.jugadores[1] || '')}<span class="small"> · a ${S.puntos}${S.nivel > 1 ? ' · ' + ['', '', 'TRUCO', 'RETRUCO', 'VALE CUATRO'][S.nivel] : ''}</span></div>`
+      + (S.canto ? `<div class="mesa-canto">¡${esc(S.canto)}! <span class="small">(${esc(M.jugadores[S.cantoDe])})</span></div>` : '');
+  }
+  if (M.juego === 'poker' && S) centro = `<div class="mesa-comunes">${[0, 1, 2, 3, 4].map(i => S.comunes[i] ? mesaCard(S.comunes[i], 50) : '<i class="mesa-hueco p"></i>').join('')}</div><div class="mesa-pozo">🪙 Pozo: <b>${n(S.pozo)}</b> fichas</div>`;
+  if (M.juego === 'selva' && S) {
+    const pista = []; for (let c = 0; c <= S.meta; c++) { const aca = S.pos.map((p, i) => p === c ? i : -1).filter(i => i >= 0); pista.push(`<div class="selva-c ${S.casillas[c] ? 'esp' : ''} ${c === S.meta ? 'meta' : ''}"><span class="selva-n">${c === S.meta ? '🏁' : c}</span>${S.casillas[c] || ''}${aca.map(i => `<b class="selva-f f${i}">${esc(M.jugadores[i][0] || '?')}</b>`).join('')}</div>`); }
+    centro = `<div class="selva-pista">${pista.join('')}</div>${S.dado ? `<div class="mesa-dado">${typeof dado === 'function' ? dado(S.dado, 54) : '🎲 ' + S.dado}<span class="small">${esc(M.jugadores[S.ultimo] || '')}</span></div>` : ''}`;
+  }
+  if (M.estado === 'espera') centro = `<div class="mesa-espera"><div style="font-size:42px">${M.ico}</div><b>Esperando jugadores (${M.jugadores.length}/${M.max})</b><span class="small">Entrada ${n(M.apuesta)} AC · pozo ${n(M.pozo)} AC</span></div>`;
+  if (M.estado === 'fin') centro += `<div class="mesa-fin">🏆 ${esc(M.ganador || '')} ganó ${n(M.premio)} AC</div>`;
+  const asientos = lugares.map((nomb, i) => {
+    const [x, y] = pos[i] || [50, 50], turno = M.debe === i, mio = i === yo;
+    let info = '', cartas = '';
+    if (nomb && S && M.juego === 'poker') { info = `<span class="small">${S.fuera[i] ? 'se fue' : n(S.fichas[i]) + ' fichas'}${S.boton === i ? ' · 🔘' : ''}${S.ronda[i] ? ' · apuesta ' + n(S.ronda[i]) : ''}</span>`; if (!mio) cartas = (S.cartas[i] || []).map(c => mesaCard(c, 34)).join(''); }
+    if (nomb && S && M.juego === 'truco' && !mio) cartas = (S.cartas[i] || []).map(c => mesaCard(c, 34)).join('');
+    if (nomb && S && M.juego === 'selva') info = `<span class="small">casillero ${S.pos[i] < 0 ? '—' : S.pos[i]}</span>`;
+    return `<div class="mesa-asiento ${turno ? 'turno' : ''} ${mio ? 'mio' : ''} ${nomb ? '' : 'vacio'}" style="left:${x}%;top:${y}%">
+      ${cartas && y < 50 ? `<div class="mesa-mano-otro">${cartas}</div>` : ''}
+      <div class="mesa-avatar ${M.juego === 'selva' && nomb ? 'f' + i : ''}">${nomb ? esc(nomb[0]).toUpperCase() : '+'}</div><b class="mesa-nom">${nomb ? esc(nomb) : 'libre'}</b>${info}
+      ${cartas && y >= 50 ? `<div class="mesa-mano-otro">${cartas}</div>` : ''}${turno && M.segundos != null ? `<span class="mesa-reloj">⏱️ ${M.segundos}s</span>` : ''}</div>`;
+  }).join('');
+  // mi mano y mis botones
+  let mano = '', botones = '';
+  if (S && yo >= 0) {
+    if (M.juego === 'truco') mano = (S.cartas[yo] || []).map((c, i) => `<button class="mesa-micarta" ${S.puedoTirar ? '' : 'disabled'} onclick="jugarMesa('tirar:${i}')">${mesaCard(c, 84)}</button>`).join('') + (S.miEnvido != null ? `<div class="small mut" style="align-self:center">Tu envido: <b>${S.miEnvido}</b></div>` : '');
+    if (M.juego === 'poker') mano = (S.cartas[yo] || []).map(c => `<span class="mesa-micarta">${mesaCard(c, 84)}</span>`).join('') + (S.jugada ? `<div class="small" style="align-self:center">Tenés: <b>${esc(S.jugada)}</b></div>` : '');
+    botones = (S.acciones || []).map(([a, t]) => `<button class="arma-btn" style="flex-direction:row" onclick="jugarMesa('${a}')"><b>${esc(t)}</b></button>`).join('');
+  }
+  if (M.estado === 'espera') {
+    botones = `<input class="inp" id="mesaInv" placeholder="Nombre del jugador a invitar" style="flex:1;min-width:180px"><button class="arma-btn" style="flex-direction:row" onclick="mesaAccion('invitar')"><b>📨 Invitar</b></button>`
+      + (M.soyHost && M.juego !== 'truco' ? `<button class="arma-btn" style="flex-direction:row" ${M.jugadores.length < M.min ? 'disabled' : ''} onclick="mesaAccion('empezar')"><b>▶ Empezar</b></button>` : '');
+    if (M.invitados.length) extra = `<p class="small mut">Invitados: ${M.invitados.map(esc).join(', ')}</p>`;
+  }
+  $('mesasCont').innerHTML = `<div class="card mesa-sala" id="mesaMesa">
+    <div class="mesa-top"><button class="btn" onclick="salirMesas()">⬅ Mesas</button><b style="font:700 22px Oswald,sans-serif">${M.ico} ${esc(M.nombre)}</b><span class="small">Entrada ${n(M.apuesta)} AC · el ganador se lleva <b>${n(M.premio)} AC</b></span>
+      ${M.estado !== 'fin' ? `<button class="btn" style="margin-left:auto" onclick="mesaAccion('salir')">${M.estado === 'espera' ? 'Levantarme' : 'Abandonar'}</button>` : ''}</div>
+    <div class="mesa-paño ${M.juego}"><div class="mesa-centro">${centro}</div>${asientos}</div>
+    ${mano ? `<div class="mesa-mimano">${mano}</div>` : ''}
+    <div class="mesa-acciones">${botones}</div><p id="mesaErr" class="small" style="color:#e74c3c;min-height:1em;margin:4px 0"></p>${extra}
+    <div class="mesa-log">${M.log.slice().reverse().map(t => `<div>${esc(t)}</div>`).join('')}</div></div>`;
 }
 async function loadJefes() {
   const box = $('jefesCont'); box.innerHTML = '<p class="mut small">Cargando...</p>';
@@ -2319,9 +2480,9 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
     { id: 'stats', i: '📊', t: 'Stats de dinos', d: 'Ranking de tu tribu por vida, daño, peso... y la ficha de cada dino: padres, mutaciones y si conviene criarlo', login: true, move: () => [$('mdStats'), $('mdCont')], open: () => { if (typeof loadMisDinos === 'function') loadMisDinos(); } },
     { id: 'pueblo', i: '🏘️', t: 'El Pueblo', d: 'La gente del pueblito, sus misiones y qué opinan del Monarca', move: () => [$('puebloCont')], open: () => { if (typeof loadPueblo === 'function') loadPueblo(); } },
     { id: 'novedades', i: '📰', t: 'Novedades', d: 'Lo nuevo y lo arreglado, por fecha', move: () => [$('novCont')], open: () => loadNovedades() },
-    { id: 'juegos', i: '🎲', t: 'Juegos', d: 'Truco, La Selva Argento con misiones, quiniela, bingo y lotería', move: () => [$('juegosCont')], open: () => loadJuegos() },
+    { id: 'juegos', i: '🎲', t: 'Juegos', d: 'Truco, póker y La Selva contra otros jugadores, y contra la máquina', move: () => [$('mesasCont'), $('juegosCont')], open: () => loadJuegos() },
     { id: 'party', i: '🤝', t: 'Party', d: 'Armá party con los de tu tribu y mirá su vida', login: true, move: () => [$('partyCont')], open: () => loadParty() },
-    { id: 'buscadino', i: '📍', t: 'Buscar dinos', d: 'Elegí un dino y te marca en el mapa dónde hay ahora', move: () => [$('sdCont')], open: () => loadSalvajes() },
+    { id: 'buscadino', i: '📍', t: 'Buscar dinos', d: 'Elegí un dino y te marca en el mapa dónde hay ahora (50 AC)', move: () => [$('sdCont')], open: () => loadSalvajes() },
     { id: 'jefes', i: '🐉', t: 'Jefes', d: 'Qué pide cada jefe y qué le falta a tu tribu', move: () => [$('jefesCont')], open: () => { if (typeof loadJefes === 'function') loadJefes(); } },
     { id: 'hex', i: '🔷', t: 'HLN-A', d: 'Hexágonos: comprar con AC y vender por AC o ACT', login: true, move: () => cards(/Hex.gonos de HLN-A/) },
     { id: 'eventos', i: '🎉', t: 'Eventos', d: 'Desafíos, misiones, logros, reyes y calendario', move: () => [...cards(/Votar el pr.ximo mapa/), $('eventos')] },
