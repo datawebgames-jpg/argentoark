@@ -1,0 +1,46 @@
+[
+  {
+    "fecha": "2026-11-12",
+    "titulo": "Juegos, party y buscador de dinos en la página",
+    "nuevo": [
+      "🎲 Pestaña Juegos en la página y en el panel del juego: truco contra El Gaucho, La Selva Argento con sus misiones, quiniela, bingo y lotería. Cobra y paga igual que en el F1.",
+      "🤝 Pestaña Party: ves a los de tu tribu, en qué mapa están, y los invitás a party con un botón. Barra de vida de cada uno.",
+      "📍 Buscar dinos salvajes: elegís el mapa y el dino y te marca en el mapa dónde hay ahora mismo, con nivel y sexo. Los de nivel 120 o más salen en rojo.",
+      "🛡️ Armaduras de la tienda: cada pieza sale con su propia calidad (de aprendiz a ascendente) y el set viene pintado con colores al azar. Los planos nunca son comunes.",
+      "🎨 Botones nuevos de armaduras en la tienda: una tarjeta por cada set.",
+      "📰 Esta sección de Novedades."
+    ],
+    "arreglado": [
+      "Las parties ya no se borran cuando se reinicia un mapa o se actualiza el server.",
+      "El Casco Stats que se compraba en la tienda no llegaba al inventario: ya llega.",
+      "Caída de los mapas durante la actualización del mod: a todos los que entraron hoy se les regalaron 500 AC. ¡Gracias por elegirnos y mil disculpas!"
+    ]
+  },
+  {
+    "fecha": "2026-11-11",
+    "titulo": "Armaduras, El Pueblo y la guía de la moneda",
+    "nuevo": [
+      "🛡️ Sets completos de metal, antidisturbios y pelaje a 1000 AC, y sus planos a 1000 ACT, en el F1, la página y el panel del juego.",
+      "🔍 Casco Stats con el aspecto de las antiparras, sin visión nocturna.",
+      "🏘️ Pestaña El Pueblo: 10 personajes con historia, oficio, misión y opinión del Monarca del momento. Cambia todos los días. En el chat: /pueblo.",
+      "📖 Guía de la moneda AC, las tiendas y El Pueblo."
+    ],
+    "arreglado": [
+      "Las armaduras ya no aparecen mezcladas en Kits: tienen su propia sección."
+    ]
+  },
+  {
+    "fecha": "2026-11-07",
+    "titulo": "Jefes, Mis dinos y la guía completa",
+    "nuevo": [
+      "🐉 Pestaña Jefes: qué pide cada jefe y qué le falta a tu tribu, eligiendo la tribu.",
+      "🦖 Pestaña Mis dinos: ranking de tu tribu por vida, daño, peso y más, con la ficha de cada dino (padres, mutaciones y si conviene criarlo).",
+      "📊 Botones Stats de dinos y Jefes en el panel del juego.",
+      "📖 Guía con todo lo que tiene ArgentoPro.",
+      "Oficios con misiones, compra de AC y hazañas."
+    ],
+    "arreglado": [
+      "La pestaña Jefes espera a que el server responda antes de cargar."
+    ]
+  }
+]

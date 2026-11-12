@@ -130,6 +130,10 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .arma-btn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 12px;border-radius:10px;border:0;cursor:pointer;background:var(--acc,#f0a020);color:#1a1206;text-align:left;transition:transform .1s,filter .1s}
 .arma-btn span{font-size:12.5px;opacity:.85}.arma-btn:hover{transform:translateY(-1px);filter:brightness(1.08)}.arma-btn:disabled{opacity:.5;cursor:wait}
 .arma-btn.plano{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3)}
+.nov-card{background:rgba(20,16,10,.82);border:1px solid var(--line);border-left:4px solid var(--acc,#f0a020);border-radius:12px;padding:16px 18px;margin:0 0 16px}
+.nov-card h3{margin:2px 0 10px;font:700 22px Oswald,sans-serif}.nov-fecha{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--acc,#f0a020)}
+.nov-blk{margin:8px 0}.nov-blk ul{margin:6px 0 0;padding-left:20px}.nov-blk li{margin:4px 0;line-height:1.45}
+.nov-tag{display:inline-block;font:700 12px sans-serif;letter-spacing:.05em;padding:3px 8px;border-radius:6px}.nov-tag.nuevo{background:#1e8449;color:#fff}.nov-tag.arreglo{background:#2471a3;color:#fff}
 .tmap-wrap{position:relative;width:100%;max-width:900px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#0b1a24}
 .tmap-wrap img.base{width:100%;display:block}
 .tmk{position:absolute;transform:translate(-50%,-50%);cursor:pointer;line-height:1;filter:drop-shadow(0 1px 2px #000)}
@@ -196,7 +200,7 @@ section:not(.tabon) .wallet-box{display:none}
 <div class="bgimg"></div>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#jefes" data-t="jefes">🐉 Jefes</a><a href="#pueblo" data-t="pueblo">🏘️ El Pueblo</a><a href="#juegos" data-t="juegos">🎲 Juegos</a><a href="#party" data-t="party">🤝 Party</a><a href="#buscadino" data-t="buscadino">📍 Buscar dinos</a><a href="#misdinos" data-t="misdinos">🦖 Mis dinos</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
+  <a href="#novedades" data-t="novedades">📰 Novedades</a><a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#jefes" data-t="jefes">🐉 Jefes</a><a href="#pueblo" data-t="pueblo">🏘️ El Pueblo</a><a href="#juegos" data-t="juegos">🎲 Juegos</a><a href="#party" data-t="party">🤝 Party</a><a href="#buscadino" data-t="buscadino">📍 Buscar dinos</a><a href="#misdinos" data-t="misdinos">🦖 Mis dinos</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
 </nav>
 
 <header class="wrap hero" data-tab="mapas">
@@ -685,6 +689,11 @@ section:not(.tabon) .wallet-box{display:none}
   <h2>🏘️ El Pueblo</h2>
   <p class="sub">La gente del pueblito: qué venden, de qué trabajan, sus historias, sus misiones y qué opinan del Monarca del momento (el dueño de la tribu que va primera en el ranking). Lo que dicen cambia todos los días. En el pueblito hay cajones <b>PUEBLO COMPRA</b> y <b>PUEBLO VENTA</b>: comprás y vendés con AC de verdad.</p>
   <div id="puebloCont"><p class="mut small">Cargando...</p></div>
+</div></section>
+<section id="novedades" data-tab="novedades"><div class="wrap">
+  <h2>📰 Novedades</h2>
+  <p class="sub">Todo lo nuevo y lo que se arregló en ArgentoPro, por fecha.</p>
+  <div id="novCont"><p class="mut small">Cargando...</p></div>
 </div></section>
 <section id="juegos" data-tab="juegos"><div class="wrap">
   <h2>🎲 Juegos</h2>
@@ -1255,6 +1264,14 @@ async function sdBuscar(esp) {
   $('sdRes').innerHTML = `<p><b>${ds.length} ${nom}</b> salvajes ahora${ds.length >= 150 ? ' (mostrando 150)' : ''} · <span style="color:#e74c3c">●</span> nivel 120 o más · <a href="javascript:loadSalvajes()">⬅ otro dino</a></p>
     <div class="tmap-wrap">${d.img ? `<img class="base" src="img/wiki/${d.img}" alt="">` : ''}${pins}</div>
     <div class="tmap-list">${ds.slice(0, 40).map(x => `<div>🦖 nv <b>${x.lvl}</b> · ${x.sex} <span class="mut small">Lat ${x.lat} Lon ${x.lon}</span></div>`).join('')}</div>`;
+}
+// ---------- Novedades (novedades.json, por fecha) ----------
+async function loadNovedades() {
+  const box = $('novCont');
+  let d; try { d = await (await fetch('novedades.json?' + Date.now(), { cache: 'no-store' })).json(); } catch { box.innerHTML = '<p class="mut small">No se pudieron cargar las novedades.</p>'; return; }
+  const f = x => new Date(x + 'T12:00:00').toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const li = (arr, cls, tag) => arr && arr.length ? `<div class="nov-blk"><span class="nov-tag ${cls}">${tag}</span><ul>${arr.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : '';
+  box.innerHTML = d.map(n => `<article class="nov-card"><div class="nov-fecha">${f(n.fecha)}</div><h3>${esc(n.titulo || 'Actualización')}</h3>${li(n.nuevo, 'nuevo', '✨ NUEVO')}${li(n.arreglado, 'arreglo', '🔧 ARREGLADO')}</article>`).join('');
 }
 async function loadJefes() {
   const box = $('jefesCont'); box.innerHTML = '<p class="mut small">Cargando...</p>';
@@ -2132,12 +2149,13 @@ document.querySelectorAll('#rankTabs button').forEach(b => b.onclick = () => {
   document.querySelectorAll('#rankTabs button').forEach(x => x.classList.toggle('on', x === b));
   rankKey = b.dataset.r; renderRank();
 });
-const TAB_OF = { misdinos: 'misdinos', jefes: 'jefes', guia: 'guia', reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'eventos', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info', pueblo: 'pueblo', juegos: 'juegos', party: 'party', buscadino: 'buscadino' };
+const TAB_OF = { misdinos: 'misdinos', jefes: 'jefes', guia: 'guia', reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'novedades', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info', pueblo: 'pueblo', juegos: 'juegos', party: 'party', buscadino: 'buscadino' };
 function showTab() {
   const h = (location.hash || '#mapas').slice(1);
   const tab = TAB_OF[h] || 'mapas';
   if (tab === 'jefes' && typeof loadJefes === 'function') loadJefes();
   if (tab === 'pueblo' && typeof loadPueblo === 'function') loadPueblo();
+  if (tab === 'novedades') loadNovedades();
   if (tab === 'juegos') loadJuegos();
   if (tab === 'party') loadParty();
   if (tab === 'buscadino') loadSalvajes();
@@ -2300,6 +2318,7 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
     { id: 'dinos', i: '🦖', t: 'Mis dinos', d: 'Dónde están, revivir caídos y seguro', login: true, move: () => cards(/Mis dinos por mapa|Dinos ca.dos|Seguro de dinos/) },
     { id: 'stats', i: '📊', t: 'Stats de dinos', d: 'Ranking de tu tribu por vida, daño, peso... y la ficha de cada dino: padres, mutaciones y si conviene criarlo', login: true, move: () => [$('mdStats'), $('mdCont')], open: () => { if (typeof loadMisDinos === 'function') loadMisDinos(); } },
     { id: 'pueblo', i: '🏘️', t: 'El Pueblo', d: 'La gente del pueblito, sus misiones y qué opinan del Monarca', move: () => [$('puebloCont')], open: () => { if (typeof loadPueblo === 'function') loadPueblo(); } },
+    { id: 'novedades', i: '📰', t: 'Novedades', d: 'Lo nuevo y lo arreglado, por fecha', move: () => [$('novCont')], open: () => loadNovedades() },
     { id: 'juegos', i: '🎲', t: 'Juegos', d: 'Truco, La Selva Argento con misiones, quiniela, bingo y lotería', move: () => [$('juegosCont')], open: () => loadJuegos() },
     { id: 'party', i: '🤝', t: 'Party', d: 'Armá party con los de tu tribu y mirá su vida', login: true, move: () => [$('partyCont')], open: () => loadParty() },
     { id: 'buscadino', i: '📍', t: 'Buscar dinos', d: 'Elegí un dino y te marca en el mapa dónde hay ahora', move: () => [$('sdCont')], open: () => loadSalvajes() },
