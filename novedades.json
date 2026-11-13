@@ -1,5 +1,22 @@
 [
   {
+    "fecha": "2026-11-13",
+    "titulo": "Nueva regla de bases abandonadas y martillero público",
+    "nuevo": [
+      "🏚️ Para mantener tu base, alguien de la tribu (o vos, si jugás solo) tiene que estar conectado 1 hora seguida, en cualquier mapa. Desde ese momento arrancan de nuevo 7 días reales.",
+      "💣 Si pasan 7 días sin esa hora, la base queda RAIDEABLE durante 24 horas, aunque sea PvE: cualquiera la puede romper y explotar. Se avisa en el juego, en Discord y en la página.",
+      "🛡️ Si volvés y te quedás 1 hora seguida durante esas 24 horas, la base se salva.",
+      "⏳ Pasadas las 24 horas la base desaparece y sus dinos salen al martillero público de la página.",
+      "🔨 Martillero público: ofertá con AC por los dinos de las bases que desaparecieron. Si te superan, te devolvemos todo. El que gana lo recibe al lado suyo apenas se conecta.",
+      "💳 ¿No podés entrar? Pagá $10.000 o USD 8 en la página y tu base suma 1 semana más.",
+      "💝 Botón de Donar · Comprar AC · ACT siempre a la vista en la página.",
+      "📍 Party: lista verde en pantalla con la vida, la distancia y para qué lado está cada compañero (/party pantalla la apaga o la prende)."
+    ],
+    "arreglado": [
+      "Las marcas de la party arriba de la cabeza ahora se ven más grandes y hasta a 3 km."
+    ]
+  },
+  {
     "fecha": "2026-11-12",
     "titulo": "Juegos, party y buscador de dinos en la página",
     "nuevo": [

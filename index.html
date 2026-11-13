@@ -235,13 +235,30 @@ section:not(.tabon) .wallet-box{display:none}
 .slot-side table{width:100%;border-collapse:collapse}.slot-side td{padding:4px 2px;border-bottom:1px solid var(--line)}
 .share-btns{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
 .share-btns a,.share-btns button{padding:8px 12px;border-radius:10px;font-weight:700;text-decoration:none;color:#fff;border:none;cursor:pointer;font-size:14px}
+.bs-regla{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0 0 14px}
+.bs-paso{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;padding:12px}.bs-paso b{display:block;font:700 20px Oswald,sans-serif;color:var(--acc)}
+.bs-base{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:12px;border-radius:12px;background:rgba(0,0,0,.25);border-left:5px solid var(--ok);margin-bottom:8px}
+.bs-base.warn{border-left-color:#f1c40f}.bs-base.raid{border-left-color:#e74c3c;background:rgba(231,76,60,.12)}
+.bs-cuenta{font:700 26px Oswald,sans-serif}.bs-barra{height:8px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden;width:220px;max-width:100%}.bs-barra i{display:block;height:100%}
+.bs-pago{border:3px solid #e0569b;background:linear-gradient(135deg,rgba(224,86,155,.14),rgba(0,0,0,.2));border-radius:16px;padding:16px;margin:14px 0}
+.bs-pago .precio{font:700 34px Oswald,sans-serif;color:#ffd24a}
+.mart{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.mart-c{background:rgba(0,0,0,.3);border:2px solid #6b4a1e;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.mart-c h4{margin:0;font:700 20px Oswald,sans-serif}.mart-of{font:700 22px Oswald,sans-serif;color:#ffd24a}
+.mart-st{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;font-size:11px;text-align:center}.mart-st span{background:rgba(255,255,255,.06);border-radius:5px;padding:2px}
+.don-flot{position:fixed;right:14px;bottom:14px;z-index:900;background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff;font-weight:700;padding:12px 16px;border-radius:30px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.5);font-size:15px}
+.don-flot:hover{transform:scale(1.05)}
+nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!important;border-radius:8px}
+.don-grupo{margin:10px 0 4px;font:700 17px Oswald,sans-serif}
+@media(max-width:640px){.don-flot{font-size:13px;padding:10px 12px}}
 </style>
 </head>
 <body>
 <div class="bgimg"></div>
+<a class="don-flot" href="#donar">💝 Donar · Comprar AC / ACT</a>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#novedades" data-t="novedades">📰 Novedades</a><a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#jefes" data-t="jefes">🐉 Jefes</a><a href="#pueblo" data-t="pueblo">🏘️ El Pueblo</a><a href="#juegos" data-t="juegos">🎲 Juegos</a><a href="#party" data-t="party">🤝 Party</a><a href="#buscadino" data-t="buscadino">📍 Buscar dinos</a><a href="#misdinos" data-t="misdinos">🦖 Mis dinos</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
+  <a href="#donar" class="nav-don">💝 Donar · AC · ACT</a><a href="#novedades" data-t="novedades">📰 Novedades</a><a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#jefes" data-t="jefes">🐉 Jefes</a><a href="#pueblo" data-t="pueblo">🏘️ El Pueblo</a><a href="#juegos" data-t="juegos">🎲 Juegos</a><a href="#party" data-t="party">🤝 Party</a><a href="#bases" data-t="bases">🏚️ Bases</a><a href="#buscadino" data-t="buscadino">📍 Buscar dinos</a><a href="#misdinos" data-t="misdinos">🦖 Mis dinos</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
 </nav>
 
 <header class="wrap hero" data-tab="mapas">
@@ -675,7 +692,7 @@ section:not(.tabon) .wallet-box{display:none}
     </div>
   </div>
   <div class="tpanel" data-p="ac">
-    <h3 class="tsec">💝 Comprar ArgenCoins</h3><p class="sub" style="margin:-4px 0 12px">Bancá al server y recibí AC en tu personaje.</p>
+    <h3 class="tsec">💝 Donar · Comprar AC · ACT</h3><p class="sub" style="margin:-4px 0 12px">Bancá al server: AC para tu personaje, ACT para tu tribu o 1 semana más para tu base.</p>
     <div class="card" style="margin-bottom:14px;border-color:#e0569b">
       <h3 style="font-size:20px;margin-bottom:6px">💝 Comprar AC</h3>
       <p class="small" style="margin:0 0 8px">Bancá al server y recibí ArgenCoins en tu personaje. Transferí al alias <b id="donAlias" style="color:var(--acc);font-size:16px">danielmfaggi</b> <button class="b2" style="font-size:12px;padding:2px 8px" onclick="navigator.clipboard?.writeText($('donAlias').textContent);this.textContent='Copiado!'">Copiar</button> y avisanos acá. Cuando el admin confirme que llegó, te acreditamos las AC y te avisamos.</p>
@@ -735,6 +752,34 @@ section:not(.tabon) .wallet-box{display:none}
   <h2>📰 Novedades</h2>
   <p class="sub">Todo lo nuevo y lo que se arregló en ArgentoPro, por fecha.</p>
   <div id="novCont"><p class="mut small">Cargando...</p></div>
+</div></section>
+<section id="bases" data-tab="bases"><div class="wrap">
+  <h2>🏚️ Bases abandonadas</h2>
+  <p class="sub">Para que el server no se llene de bases vacías. Vale para todas las tribus y para los que juegan solos.</p>
+  <div class="bs-regla">
+    <div class="bs-paso"><b>1 hora seguida</b>Alguien de la tribu (o vos, si jugás solo) tiene que estar conectado 1 hora seguida, en cualquier mapa. Desde ese momento arrancan de nuevo los 7 días.</div>
+    <div class="bs-paso"><b>7 días reales</b>Si pasan 7 días sin esa hora, la base queda <b>RAIDEABLE</b>: aunque sea PvE, cualquiera la puede romper y explotar. Se avisa en el juego, en Discord y acá.</div>
+    <div class="bs-paso"><b>24 horas</b>Después la base <b>desaparece</b> y sus dinos salen al <b>martillero público</b> de esta página. Si volvés y te quedás 1 hora antes, se salva.</div>
+    <div class="bs-paso"><b>¿No podés entrar?</b>Pagá <b>$10.000 o USD 8</b> acá abajo y tu base suma 1 semana más.</div>
+  </div>
+  <div id="bsMias"></div>
+  <div class="bs-pago" id="bsPago">
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+      <div><div class="small">Mantener mi base 1 semana más</div><div class="precio">$10.000 <span style="font-size:20px">o USD 8</span></div></div>
+      <div style="flex:1;min-width:240px">
+        <p class="small" style="margin:0 0 6px">Transferí al alias <b class="bsAlias" style="color:var(--acc);font-size:17px">danielmfaggi</b> <button class="b2" style="font-size:12px;padding:2px 8px" onclick="navigator.clipboard?.writeText(this.previousElementSibling.textContent);this.textContent='Copiado!'">Copiar</button> y avisá acá. Cuando el admin lo confirma, todas tus bases (y las de tu tribu) suman 1 semana.</p>
+        <input class="inp" id="bsNota" placeholder="Nombre del titular o número de operación" style="width:100%;margin-bottom:6px">
+        <button onclick="bsPagar()">Ya transferí, avisar al admin</button> <a class="btn" href="#donar" style="margin-left:6px">💝 Donar o comprar AC / ACT</a>
+        <div id="bsMsg" class="small" style="margin-top:6px"></div>
+      </div>
+    </div>
+  </div>
+  <h3>💣 Bases que se pueden raidear ahora</h3>
+  <div id="bsRaid" class="small">Cargando…</div>
+  <h3 style="margin-top:18px">🔨 Martillero público</h3>
+  <p class="sub" style="margin-top:-4px">Los dinos de las bases que desaparecieron. Ofertá con AC: si alguien te supera, te devolvemos todo. El que gana lo recibe al lado suyo apenas se conecta, en cualquier mapa.</p>
+  <div id="bsMart" class="mart"></div>
+  <div id="bsBorradas" class="small" style="margin-top:14px"></div>
 </div></section>
 <section id="juegos" data-tab="juegos"><div class="wrap">
   <h2>🎲 Juegos</h2>
@@ -1040,14 +1085,76 @@ async function sendInv(i) {
     if (!r.error) { loadMe(); loadInv(); }
   } catch { $('invMsg').textContent = 'No se pudo mandar. Probá en un rato.'; }
 }
+// ---------- bases abandonadas y martillero ----------
+let bsData = null, bsTimer = null;
+const bsDias = ms => { if (ms <= 0) return 'ya'; const d = Math.floor(ms / 86400000), h = Math.floor(ms % 86400000 / 3600000), m = Math.floor(ms % 3600000 / 60000); return d ? `${d} d ${h} h` : h ? `${h} h ${m} min` : `${m} min`; };
+async function loadBases() {
+  try {
+    bsData = null;
+    if (getTok()) bsData = await post('martillero', { token: getTok(), action: 'ver' }).catch(() => null);
+    if (!bsData || bsData.error) { if (apiBase === null) await getStatus().catch(() => { }); bsData = await (await fetch(apiBase ? apiBase + '/api/bases' : 'api/bases', { cache: 'no-store' })).json(); }
+  } catch { $('bsRaid').textContent = 'No se pudo cargar. Probá en un rato.'; return; }
+  renderBases();
+  clearInterval(bsTimer); bsTimer = setInterval(() => { if (location.hash === '#bases') renderBases(); else clearInterval(bsTimer); }, 30000);
+}
+function renderBases() {
+  const d = bsData; if (!d) return; const now = Date.now();
+  const fF = t => new Date(t).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+  if (!getTok()) $('bsMias').innerHTML = '<div class="card small">🔒 <a href="#cuenta">Vinculá tu cuenta</a> para ver cuánto le queda a tu base.</div>';
+  else if (!d.bases) $('bsMias').innerHTML = '';
+  else if (!d.bases.length) $('bsMias').innerHTML = '<div class="card small">No encontramos bases tuyas ni de tu tribu todavía (se revisan cada 10 minutos).</div>';
+  else {
+    const con = d.conectadoDesde ? Math.floor((now - d.conectadoDesde) / 60000) : null;
+    $('bsMias').innerHTML = '<h3>🏠 Mis bases</h3>' + (con != null ? `<p class="small">🟢 Estás conectado hace <b>${con} min</b>${con < 60 ? ` · faltan <b>${60 - con} min</b> para completar la hora` : ' · ✅ hora completa: tus bases quedan al día'}.</p>` : '')
+      + d.bases.map(b => {
+        const falta = b.vence - now, pct = Math.max(0, Math.min(100, falta / (7 * 86400000) * 100)), col = falta < 86400000 ? '#f1c40f' : 'var(--ok)';
+        const cls = b.raid ? 'raid' : falta < 86400000 ? 'warn' : '';
+        return `<div class="bs-base ${cls}"><div style="font-size:34px">${b.raid ? '💣' : '🏠'}</div><div style="flex:1;min-width:200px"><b>${esc(b.nombre)}</b> · ${esc(b.mapa)} <span class="small">(${b.estructuras} estructuras)</span><br>
+          ${b.raid ? `<span style="color:#ff7a6a"><b>SE PUEDE RAIDEAR.</b> Desaparece en <b>${bsDias(b.borra - now)}</b>: entrá y quedate 1 hora seguida, o pagá acá abajo.</span>` : `<span class="small">Protegida hasta el ${fF(b.vence)}</span>`}</div>
+          ${b.raid ? '' : `<div><div class="bs-cuenta" style="color:${col}">${bsDias(falta)}</div><div class="bs-barra"><i style="width:${pct}%;background:${col}"></i></div></div>`}</div>`;
+      }).join('');
+  }
+  $('bsRaid').innerHTML = (d.raid || []).length ? d.raid.map(r => `<div class="bs-base raid"><div style="font-size:30px">💣</div><div style="flex:1"><b>${esc(r.nombre)}</b> · ${esc(r.mapa)}${r.lat != null ? ` · <b>lat ${r.lat} lon ${r.lon}</b>` : ''} <span class="small">(${r.estructuras} estructuras)</span><br><span class="small">Se puede romper aunque sea PvE. Desaparece en <b>${bsDias(r.borra - now)}</b>.</span></div></div>`).join('')
+    : '<p class="small mut">Ninguna por ahora. 👍</p>';
+  const ms = d.subastas || [];
+  const idx = [0, 1, 3, 4, 7, 8, 9], lab = ['Vida', 'Estamina', 'Oxígeno', 'Comida', 'Peso', 'Daño', 'Velocidad'];
+  $('bsMart').innerHTML = ms.length ? ms.map(s => `<div class="mart-c"><h4>${esc(s.especie)} <span class="small">nv ${s.nivel} · ${s.sexo}</span></h4>${s.nombre ? `<div class="small">"${esc(s.nombre)}"</div>` : ''}
+      <div class="small mut">De la base de ${esc(s.de)} (${esc(s.mapa)})</div>
+      <div class="mart-st">${idx.map((i, k) => `<span>${lab[k]}<br><b>${(s.w || [])[i] ?? '?'}</b></span>`).join('')}</div>
+      ${s.estado === 'vendida' ? `<div class="mart-of">🔨 Vendido a ${esc(s.oferta.char)} por ${s.oferta.monto.toLocaleString('es-AR')} AC</div>`
+      : `<div>${s.oferta ? `Va ganando <b>${esc(s.oferta.char)}</b>${s.oferta.mia ? ' (vos)' : ''}` : 'Sin ofertas · precio base'}: <span class="mart-of">${(s.oferta ? s.oferta.monto : s.base).toLocaleString('es-AR')} AC</span></div>
+        <div class="small">Termina en <b>${bsDias(s.termina - now)}</b></div>
+        <div style="display:flex;gap:6px"><input class="inp" type="number" id="of${s.id}" value="${s.min}" min="${s.min}" step="50" style="width:120px"><button onclick="bsOfertar(${s.id})">🔨 Ofertar</button></div>`}
+    </div>`).join('') : '<p class="small mut">Todavía no hay dinos en el martillero.</p>';
+  $('bsBorradas').innerHTML = (d.borradas || []).length ? '<b>Últimas bases que desaparecieron:</b> ' + d.borradas.map(b => `${esc(b.nombre)} (${esc(b.mapa)}, ${new Date(b.fecha).toLocaleDateString('es-AR')})`).join(' · ') : '';
+}
+async function bsOfertar(id) {
+  if (needLink()) return;
+  const monto = +$('of' + id).value;
+  if (!confirm(`¿Ofertar ${monto.toLocaleString('es-AR')} AC? Quedan reservadas; si alguien te supera, te las devolvemos.`)) return;
+  const r = await post('martillero', { token: getTok(), action: 'ofertar', id, monto }).catch(() => null);
+  if (!r) return alert('No se pudo. Probá en un rato.');
+  alert(r.error || r.text); if (!r.error) { bsData = r; renderBases(); if (typeof loadMe === 'function') loadMe(); }
+}
+async function bsPagar() {
+  if (needLink()) return;
+  const note = $('bsNota').value.trim();
+  if (note.length < 3) { $('bsMsg').textContent = 'Poné el nombre del titular o el número de operación.'; return; }
+  const r = await post('act', { token: getTok(), cmd: 'donar base ' + note }).catch(() => null);
+  $('bsMsg').innerHTML = r ? '<b style="color:var(--ok)">' + esc((r.replies || []).join(' ')) + '</b>' : 'No se pudo enviar. Probá en un rato.';
+}
 // ---------- donaciones ----------
 let donPick = null;
 function renderDonations() {
   const d = lastData?.donations; if (!d || !$('donPacks')) return;
   $('donAlias').textContent = d.alias;
-  $('donPacks').innerHTML = d.packs.map(p => `<label style="cursor:pointer;background:rgba(224,86,155,.08);border:2px solid ${donPick === p.id ? '#e0569b' : 'var(--line)'};border-radius:10px;padding:10px;display:block" onclick="donPick='${p.id}';$('donBtn').disabled=false;renderDonations()">
-    <div style="font:700 24px Oswald;color:var(--acc)">${p.ac.toLocaleString('es-AR')} AC</div>
-    <div class="small">USD ${p.usd} &nbsp;o&nbsp; <b>${p.ars.toLocaleString('es-AR')}</b> ARS</div></label>`).join('');
+  const tile = (id, big, sub) => `<label style="cursor:pointer;background:rgba(224,86,155,.08);border:2px solid ${donPick === id ? '#e0569b' : 'var(--line)'};border-radius:10px;padding:10px;display:block" onclick="donPick='${id}';$('donBtn').disabled=false;renderDonations()">
+    <div style="font:700 24px Oswald;color:var(--acc)">${big}</div><div class="small">${sub}</div></label>`;
+  const pr = p => `USD ${p.usd} &nbsp;o&nbsp; <b>${p.ars.toLocaleString('es-AR')}</b> ARS`;
+  $('donPacks').innerHTML = '<div class="don-grupo" style="grid-column:1/-1">💰 AC para tu personaje</div>' + d.packs.map(p => tile(p.id, p.ac.toLocaleString('es-AR') + ' AC', pr(p))).join('')
+    + ((d.actPacks || []).length ? '<div class="don-grupo" style="grid-column:1/-1">🏛️ ACT para tu tribu</div>' + d.actPacks.map(p => tile(p.id, p.act.toLocaleString('es-AR') + ' ACT', pr(p))).join('') : '')
+    + '<div class="don-grupo" style="grid-column:1/-1">🏚️ Mantener tu base</div>' + tile('base', '1 semana más', 'USD 8 &nbsp;o&nbsp; <b>10.000</b> ARS · si no podés entrar');
+  document.querySelectorAll('.bsAlias').forEach(e => e.textContent = d.alias);
 }
 async function sendDonation() {
   if (needLink()) return;
@@ -2310,7 +2417,7 @@ document.querySelectorAll('#rankTabs button').forEach(b => b.onclick = () => {
   document.querySelectorAll('#rankTabs button').forEach(x => x.classList.toggle('on', x === b));
   rankKey = b.dataset.r; renderRank();
 });
-const TAB_OF = { misdinos: 'misdinos', jefes: 'jefes', guia: 'guia', reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'novedades', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info', pueblo: 'pueblo', juegos: 'juegos', party: 'party', buscadino: 'buscadino' };
+const TAB_OF = { misdinos: 'misdinos', jefes: 'jefes', guia: 'guia', reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'novedades', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info', pueblo: 'pueblo', juegos: 'juegos', party: 'party', buscadino: 'buscadino', bases: 'bases', martillero: 'bases', donar: 'mercado' };
 function showTab() {
   const h = (location.hash || '#mapas').slice(1);
   const tab = TAB_OF[h] || 'mapas';
@@ -2320,6 +2427,8 @@ function showTab() {
   if (tab === 'juegos') loadJuegos();
   if (tab === 'party') loadParty();
   if (tab === 'buscadino') loadSalvajes();
+  if (tab === 'bases') loadBases();
+  if (h === 'donar') setTimeout(() => { if (typeof tshow === 'function') tshow('ac'); document.querySelector('.tpanel[data-p="ac"]')?.scrollIntoView({ behavior: 'smooth' }); }, 120);
   if (tab === 'misdinos' && typeof loadMisDinos === 'function') loadMisDinos();
   document.querySelectorAll('[data-tab]').forEach(el => el.classList.toggle('tabon', el.dataset.tab === tab));
   document.querySelectorAll('nav a[data-t]').forEach(a => a.classList.toggle('on', a.dataset.t === tab));
@@ -2482,6 +2591,7 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
     { id: 'novedades', i: '📰', t: 'Novedades', d: 'Lo nuevo y lo arreglado, por fecha', move: () => [$('novCont')], open: () => loadNovedades() },
     { id: 'juegos', i: '🎲', t: 'Juegos', d: 'Truco, póker y La Selva contra otros jugadores, y contra la máquina', move: () => [$('mesasCont'), $('juegosCont')], open: () => loadJuegos() },
     { id: 'party', i: '🤝', t: 'Party', d: 'Armá party con los de tu tribu y mirá su vida', login: true, move: () => [$('partyCont')], open: () => loadParty() },
+    { id: 'bases', i: '🏚️', t: 'Bases', d: 'Cuánto le queda a tu base, bases raideables y martillero de dinos', move: () => [$('bsMias'), $('bsPago'), $('bsRaid'), $('bsMart')], open: () => loadBases() },
     { id: 'buscadino', i: '📍', t: 'Buscar dinos', d: 'Elegí un dino y te marca en el mapa dónde hay ahora (50 AC)', move: () => [$('sdCont')], open: () => loadSalvajes() },
     { id: 'jefes', i: '🐉', t: 'Jefes', d: 'Qué pide cada jefe y qué le falta a tu tribu', move: () => [$('jefesCont')], open: () => { if (typeof loadJefes === 'function') loadJefes(); } },
     { id: 'hex', i: '🔷', t: 'HLN-A', d: 'Hexágonos: comprar con AC y vender por AC o ACT', login: true, move: () => cards(/Hex.gonos de HLN-A/) },
