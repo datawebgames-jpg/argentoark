@@ -1356,11 +1356,20 @@ function pickTribe(id) { selTribe = id; try { localStorage.setItem('argento_trib
 const myTribeSel = () => myTribes.find(t => t.id === selTribe) || null;
 let jefesData = null, jefesMapa = 'TheIsland', jefesTribu = null;
 let pedidosData = null;
-async function pedidoEntregar(id) {
-  const p = pedidosData && pedidosData.pedidos.find(x => x.id === id); if (!p) return;
-  if (!confirm('¿Entregarle ' + p.texto + ' a ' + p.nombre + '?\n\nSe sacan de tu inventario en el juego. Premio: ' + p.premio + '.')) return;
-  try { const r = await post('pedidos', { token: getTok(), action: 'entregar', id }); alert(r.error ? ('⚠️ ' + r.error) : ('✅ ' + r.text)); } catch { alert('No se pudo conectar con el server.'); }
+async function pedidoEntregar() {
+  const A = pedidosData && pedidosData.activo; if (!A) return;
+  const sel = document.getElementById('pedMontura');
+  if (!confirm('¿Entregarle el pedido a ' + A.nombre + '?\n\nPide: ' + A.pide + '\nPremio: ' + A.premio + '\n\nSe sacan de tu inventario en el juego.')) return;
+  try { const r = await post('pedidos', { token: getTok(), action: 'entregar', id: A.id, montura: sel ? sel.value : '' }); alert(r.error ? ('⚠️ ' + r.error) : ('✅ ' + r.text)); } catch { alert('No se pudo conectar con el server.'); }
   loadPueblo();
+}
+async function pedidoTruco() {
+  try {
+    const r = await post('juegosweb', { token: getTok(), action: 'fn', arg: 'fn:truco:desafio' });
+    if (r.aviso && /^Ahora no|^Ya |Los juegos/.test(r.aviso)) { alert('⚠️ ' + r.aviso); loadPueblo(); return; }
+    if (typeof jgGo === 'function') jgGo('juegos'); else location.hash = '#juegos';
+    if (typeof loadJuegos === 'function') loadJuegos();
+  } catch { alert('No se pudo conectar con el server.'); }
 }
 async function loadPueblo() {
   const box = $('puebloCont'); box.innerHTML = '<p class="mut small">Cargando...</p>';
@@ -1368,16 +1377,39 @@ async function loadPueblo() {
   let d; try { d = await (await fetch(apiBase ? apiBase + '/api/pueblo' : 'api/pueblo', { cache: 'no-store' })).json(); } catch { box.innerHTML = '<p class="mut small">No se pudo conectar.</p>'; return; }
   const col = { 'Leal al Monarca': '#2ecc71', 'Crítico del Monarca': '#e74c3c', 'Espera que cambie': '#f39c12', 'Sigue al Monarca': '#3498db' };
   let me = null; if (getTok()) { try { me = await post('pedidos', { token: getTok() }); } catch { } }
-  pedidosData = me && me.pedidos ? me : null;
-  const PL = pedidosData ? pedidosData.pedidos : (d.pedidos || []);
-  let ped = '<div class="card" style="border-color:#e67e22;margin-bottom:14px"><h3 style="margin:0 0 4px">📜 Pedidos del pueblo (hoy)</h3>'
-    + '<p class="small mut" style="margin:0 0 10px">Los vecinos piden recursos. Juntalos, y tocá <b>Entregar pedido</b>: se sacan del inventario de tu personaje (tenés que estar conectado y vivo), el vecino te contesta en el chat del juego y te da <b>AC o una montura de color al azar</b>. Un pedido por vecino por día; mañana piden otra cosa.</p>'
-    + (getTok() ? (pedidosData && !pedidosData.conectado ? '<p class="small" style="color:#f39c12;margin:0 0 8px">No estás conectado en el juego ahora: no podemos ver tu inventario.</p>' : '') : '<p class="small" style="color:#f39c12;margin:0 0 8px">Para entregar pedidos <a href="#cuenta">vinculá tu cuenta</a>.</p>')
-    + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px">'
-    + PL.map(p => { const tiene = p.tiene, falta = tiene != null && tiene < p.cant; return '<div class="rk-row" style="display:block;padding:10px;border-radius:10px;background:rgba(255,255,255,.05)"><b>' + esc(p.nombre) + '</b> pide <b>' + esc(p.texto) + '</b><div class="small mut" style="margin:3px 0">"' + esc(p.dice.charAt(0).toUpperCase() + p.dice.slice(1)) + '"</div><div class="small">🎁 Premio: <b>' + esc(p.premio) + '</b></div>'
-      + (tiene != null ? '<div class="small" style="margin:3px 0">🎒 Tu inventario: <b style="color:' + (falta ? '#e74c3c' : '#2ecc71') + '">' + Number(tiene).toLocaleString('es-AR') + '</b> / ' + Number(p.cant).toLocaleString('es-AR') + '</div>' : '')
-      + (p.hecho ? '<div class="small" style="color:#2ecc71;margin-top:4px">✅ Ya lo entregaste hoy</div>' : (getTok() ? '<button class="btn" style="margin-top:6px"' + (falta ? ' disabled title="Te faltan recursos"' : '') + ' onclick="pedidoEntregar(\'' + p.id + '\')">📦 Entregar pedido</button>' : '')) + '</div>'; }).join('')
-    + '</div>' + (getTok() ? '<button style="margin-top:8px;font-size:12px;padding:3px 8px" onclick="loadPueblo()">🔄 Actualizar mi inventario</button>' : '') + '</div>';
+  pedidosData = me && me.activo ? me : null;
+  const A = pedidosData ? pedidosData.activo : (d.pedidos && d.pedidos.activo);
+  const OT = pedidosData ? pedidosData.otros : (d.pedidos && d.pedidos.otros) || [];
+  const enTxt = m => m >= 60 ? Math.floor(m / 60) + ' h ' + (m % 60) + ' min' : m + ' min';
+  let ped = '';
+  if (A) {
+    const log = !!getTok(), con = pedidosData && pedidosData.conectado;
+    let acc = '';
+    if (A.hecho) acc = '<div class="small" style="color:#2ecc71;margin-top:8px">✅ Ya lo hiciste esta hora. Esperá al próximo vecino.</div>';
+    else if (!log) acc = '<div class="small" style="color:#f39c12;margin-top:8px">Para participar <a href="#cuenta">vinculá tu cuenta</a>.</div>';
+    else if (A.tipo === 'truco') acc = '<button class="btn" style="margin-top:10px" onclick="pedidoTruco()">🃏 Aceptar desafío de truco</button>';
+    else if (A.tipo === 'mejorar') {
+      const ms = (A.monturas || []).filter(x => x.sirve);
+      acc = (con ? '<div style="margin-top:8px"><label class="small">¿Qué montura querés mejorar? </label><select id="pedMontura" class="inp">' + (ms.length ? ms.map(x => '<option value="' + esc(x.id) + '">' + esc(x.nombre) + ' (' + esc(x.calidadNom) + ')</option>').join('') : '<option value="">No tenés monturas para mejorar</option>') + '</select></div>' : '')
+        + '<button class="btn" style="margin-top:8px"' + (con && ms.length && (A.items || []).every(i => i.tiene >= i.cant) ? '' : ' disabled') + ' onclick="pedidoEntregar()">🛠️ Entregar y mejorar</button>';
+    } else if (A.tipo === 'cambio') {
+      const ok = (A.monturas || []).some(x => x.sirve);
+      acc = (con ? '<div class="small" style="margin-top:8px">🎒 Montura normal en tu inventario: <b style="color:' + (ok ? '#2ecc71' : '#e74c3c') + '">' + (ok ? 'sí, la tenés' : 'no la tenés') + '</b></div>' : '')
+        + '<button class="btn" style="margin-top:8px"' + (ok ? '' : ' disabled') + ' onclick="pedidoEntregar()">🔁 Entregar y cambiar</button>';
+    } else {
+      const ok = (A.items || []).every(i => i.tiene != null && i.tiene >= i.cant);
+      acc = '<button class="btn" style="margin-top:8px"' + (ok ? '' : ' disabled') + ' onclick="pedidoEntregar()">📦 Entregar pedido</button>';
+    }
+    ped = '<div class="card" style="border-color:#e67e22;margin-bottom:14px"><h3 style="margin:0 0 2px">📜 Pedido del pueblo · ' + esc(A.tipoNom) + '</h3>'
+      + '<div style="font-size:17px;margin:4px 0"><b>' + esc(A.nombre) + '</b> pide: <b>' + esc(A.pide) + '</b></div>'
+      + '<div class="small mut">"' + esc(A.dice.charAt(0).toUpperCase() + A.dice.slice(1)) + '"</div>'
+      + '<div class="small" style="margin:6px 0">🎁 Premio: <b>' + esc(A.premio) + '</b> · ⏳ quedan <b>' + A.minutosRestan + ' min</b> (después le toca a otro vecino)</div>'
+      + ((A.items || []).length ? '<div class="small">' + A.items.map(i => '🎒 ' + esc(i.texto) + (i.tiene != null ? ': <b style="color:' + (i.tiene >= i.cant ? '#2ecc71' : '#e74c3c') + '">tenés ' + Number(i.tiene).toLocaleString('es-AR') + '</b>' : '')).join('<br>') + '</div>' : '')
+      + (log && !con && A.tipo !== 'truco' ? '<p class="small" style="color:#f39c12;margin:6px 0 0">No estás conectado y vivo en el juego: no podemos ver tu inventario.</p>' : '')
+      + acc
+      + '<div class="small mut" style="margin-top:10px;border-top:1px solid rgba(255,255,255,.1);padding-top:8px">Próximos turnos: ' + OT.slice(0, 4).map(o => esc(o.nombre) + ' en ' + enTxt(o.en)).join(' · ') + '. Cada vecino pide una vez cada 10 horas, y solo el que está pidiendo tiene el botón activo.</div>'
+      + (log ? '<button style="margin-top:8px;font-size:12px;padding:3px 8px" onclick="loadPueblo()">🔄 Actualizar mi inventario</button>' : '') + '</div>';
+  }
   let h = ped + '<div class="card" style="border-color:#f1c40f;margin-bottom:14px"><b>👑 Monarca del momento:</b> ' + (d.monarca ? d.monarca.nombre + ' <span class="mut">(' + d.monarca.tribu + ')</span>' : 'todavía no hay') + '</div>';
   h += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px">';
   for (const p of d.gente) h += '<div class="card" style="border-left:4px solid ' + (col[p.bando] || '#888') + '"><h3 style="margin:0 0 2px">' + (p.sexo === 'mujer' ? '👩 ' : '👨 ') + p.nombre + '</h3><div class="small mut">' + p.oficio + ' · <span style="color:' + (col[p.bando] || '#888') + '">' + p.bando + '</span></div>'
