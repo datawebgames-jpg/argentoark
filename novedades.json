@@ -1,5 +1,29 @@
 [
   {
+    "fecha": "2026-11-19",
+    "titulo": "Lost Island, casamientos, pedidos del pueblo, Aquática y Fenrir con cría",
+    "nuevo": [
+      "🏝️ Lost Island es el 4º mapa fijo: The Island, Fjordur, Lost Island y el rotativo de la semana (esta semana Scorched Earth). La página y Discord muestran los 4.",
+      "💍 Casamientos: botón \"Casarse\" en el Inicio del panel del juego y pestaña Casamientos en la página. El Padre Argento les pregunta a los dos y, si aceptan, cartel de FELICITACIONES en todos los mapas. Juntos cargan +50% de peso, les salen corazones y se teletransportan a su pareja por 20 AC. Se les puede hacer regalos de casamiento en AC. Si se divorcian pierden todo y por 48 h no se pueden casar; cerca del ex cargan menos y sale fuego. La página tiene el listado y los casados que más tiempo llevan juntos.",
+      "📜 Pedidos del pueblo: cada día cada vecino pide recursos (ej. \"juntame 1.000 de metal\"). Entrá a la F1 > El Pueblo (o al Fogón, o con /entregar), tocá \"Entregar pedido\" y se sacan de tu inventario. El vecino te contesta en el chat y te da AC o una montura de color al azar. Se pide a viva voz en el chat.",
+      "🏘️ El pueblo ahora habla en el chat: saluda a los que entran, contesta preguntas de reglas (kits, PvP/PvE, rates...), charla entre ellos y chusmea. Cuando hay una novedad, la comentan.",
+      "🚨 Crónica Argenta: si aparece un Carcha o un Giga salvaje de más de nivel 100, cartel de alerta en todos los mapas y en Discord, y el pueblo entra en pánico.",
+      "🐺 Los Fenrir ya pueden tener cría: macho y hembra de la misma tribu a menos de 20 m y la hembra queda preñada sola, una vez cada 12 horas reales. /prenez muestra cuánto falta y la tribu recibe avisos.",
+      "🐉 El Patrón se doma con 20 huesos de alfa esqueleto (los que tiran los alfas de Halloween): dormilo, acercate y escribí /alimentar.",
+      "🌊 Aquática (mar de The Island): más de 30 tipos de dinos, entre ellos los de Genesis y todos los de Aquática (Monodon, Tridacna, Dakosaurus, Thunnus, Kathreptis, Wyvern de agua...). Moeder sale una vez por día y ahora SE PUEDE MATAR.",
+      "📦 /soltar: con el criopod en la mano, saca el dino aunque estés en la Cueva Tek antes del boss final.",
+      "🚚 /llevar cuesta 200 AC y /llevarx lleva todo el inventario por 400 AC, siempre (también en horario PvP).",
+      "📍 En el panel del juego, \"Ir a un compañero de tribu\" ya está en el Inicio (200 AC)."
+    ],
+    "arreglado": [
+      "/retirar ya no duplica: antes entregaba 1 de más de cada cosa.",
+      "/cuerpo ahora también trae lo que tenías puesto (armadura y arma en la mano).",
+      "Si la IP del server cambia, se avisa sola en Discord.",
+      "La página mostraba un mapa apagado y el de prueba como si estuvieran en el juego: ahora solo salen los 4 reales.",
+      "Moeder ya no se queda inmune ni se escapa a su cueva, y no vuelve a salir varias veces por día."
+    ]
+  },
+  {
     "fecha": "2026-11-13",
     "titulo": "Nueva regla de bases abandonadas y martillero público",
     "nuevo": [
