@@ -1365,12 +1365,7 @@ async function pedidoEntregar() {
 }
 async function pedidoDiaria() {
   const Dq = pedidosData && pedidosData.diaria; if (!Dq) return;
-  if (!confirm('¿Entregarle a ' + Dq.nombre + ' la misión diaria?
-
-Pide: ' + Dq.pide + '
-Premio: ' + Dq.premio + '
-
-Se sacan de tu inventario en el juego.')) return;
+  if (!confirm('¿Entregarle a ' + Dq.nombre + ' la misión diaria?\n\nPide: ' + Dq.pide + '\nPremio: ' + Dq.premio + '\n\nSe sacan de tu inventario en el juego.')) return;
   try { const r = await post('pedidos', { token: getTok(), action: 'diaria' }); alert(r.error ? ('⚠️ ' + r.error) : ('✅ ' + r.text)); } catch { alert('No se pudo conectar con el server.'); }
   loadPueblo();
 }
