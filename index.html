@@ -1402,6 +1402,10 @@ async function loadPueblo() {
       const ok = (A.monturas || []).some(x => x.sirve);
       acc = (con ? '<div class="small" style="margin-top:8px">🎒 Montura normal en tu inventario: <b style="color:' + (ok ? '#2ecc71' : '#e74c3c') + '">' + (ok ? 'sí, la tenés' : 'no la tenés') + '</b></div>' : '')
         + '<button class="btn" style="margin-top:8px"' + (ok ? '' : ' disabled') + ' onclick="pedidoEntregar()">🔁 Entregar y cambiar</button>';
+    } else if (A.premioTipo === 'eleccion' && A.eleccion) {
+      const ok = (A.items || []).every(i => i.tiene != null && i.tiene >= i.cant);
+      acc = '<div style="margin-top:8px"><label class="small">Tu montura ASCENDENTE: </label><select id="pedMontura" class="inp">' + A.eleccion.map(x => '<option value="' + esc(x) + '">' + esc(x) + '</option>').join('') + '</select></div>'
+        + '<button class="btn" style="margin-top:8px"' + (ok ? '' : ' disabled') + ' onclick="pedidoEntregar()">🏆 Entregar y elegir mi montura</button>';
     } else {
       const ok = (A.items || []).every(i => i.tiene != null && i.tiene >= i.cant);
       acc = '<button class="btn" style="margin-top:8px"' + (ok ? '' : ' disabled') + ' onclick="pedidoEntregar()">📦 Entregar pedido</button>';
