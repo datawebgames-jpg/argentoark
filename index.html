@@ -1363,6 +1363,17 @@ async function pedidoEntregar() {
   try { const r = await post('pedidos', { token: getTok(), action: 'entregar', id: A.id, montura: sel ? sel.value : '' }); alert(r.error ? ('⚠️ ' + r.error) : ('✅ ' + r.text)); } catch { alert('No se pudo conectar con el server.'); }
   loadPueblo();
 }
+async function pedidoDiaria() {
+  const Dq = pedidosData && pedidosData.diaria; if (!Dq) return;
+  if (!confirm('¿Entregarle a ' + Dq.nombre + ' la misión diaria?
+
+Pide: ' + Dq.pide + '
+Premio: ' + Dq.premio + '
+
+Se sacan de tu inventario en el juego.')) return;
+  try { const r = await post('pedidos', { token: getTok(), action: 'diaria' }); alert(r.error ? ('⚠️ ' + r.error) : ('✅ ' + r.text)); } catch { alert('No se pudo conectar con el server.'); }
+  loadPueblo();
+}
 async function pedidoTruco() {
   try {
     const r = await post('juegosweb', { token: getTok(), action: 'fn', arg: 'fn:truco:desafio' });
@@ -1409,6 +1420,19 @@ async function loadPueblo() {
       + acc
       + '<div class="small mut" style="margin-top:10px;border-top:1px solid rgba(255,255,255,.1);padding-top:8px">Próximos turnos: ' + OT.slice(0, 4).map(o => esc(o.nombre) + ' en ' + enTxt(o.en)).join(' · ') + '. Cada vecino pide una vez cada 10 horas, y solo el que está pidiendo tiene el botón activo.</div>'
       + (log ? '<button style="margin-top:8px;font-size:12px;padding:3px 8px" onclick="loadPueblo()">🔄 Actualizar mi inventario</button>' : '') + '</div>';
+  }
+  const Dq = pedidosData ? pedidosData.diaria : (d.pedidos && d.pedidos.diaria);
+  if (Dq) {
+    const lg = !!getTok(), conD = pedidosData && pedidosData.conectado, ok = Dq.tiene != null && Dq.tiene >= 10;
+    ped += '<div class="card" style="border-color:#2ecc71;margin-bottom:14px"><h3 style="margin:0 0 2px">📅 Misión diaria · una vez por día</h3>'
+      + '<div style="font-size:17px;margin:4px 0"><b>' + esc(Dq.nombre) + '</b> pide: <b>' + esc(Dq.pide) + '</b></div>'
+      + '<div class="small mut">"' + esc(Dq.dice.charAt(0).toUpperCase() + Dq.dice.slice(1)) + '"</div>'
+      + '<div class="small" style="margin:6px 0">🎁 Premio: <b>' + esc(Dq.premio) + '</b></div>'
+      + (Dq.tiene != null ? '<div class="small">🎒 Tenés: <b style="color:' + (ok ? '#2ecc71' : '#e74c3c') + '">' + Dq.tiene + '</b></div>' : '')
+      + (Dq.hecho ? '<div class="small" style="color:#2ecc71;margin-top:8px">✅ Ya la hiciste hoy. Mañana hay otra.</div>'
+        : !lg ? '<div class="small" style="color:#f39c12;margin-top:8px">Para participar <a href="#cuenta">vinculá tu cuenta</a>.</div>'
+        : '<button class="btn" style="margin-top:8px"' + (conD && ok ? '' : ' disabled') + ' onclick="pedidoDiaria()">📦 Entregar misión diaria</button>' + (conD ? '' : '<p class="small" style="color:#f39c12;margin:6px 0 0">No estás conectado y vivo en el juego.</p>'))
+      + '</div>';
   }
   let h = ped + '<div class="card" style="border-color:#f1c40f;margin-bottom:14px"><b>👑 Monarca del momento:</b> ' + (d.monarca ? d.monarca.nombre + ' <span class="mut">(' + d.monarca.tribu + ')</span>' : 'todavía no hay') + '</div>';
   h += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px">';
