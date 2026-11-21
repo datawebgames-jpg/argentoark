@@ -8,7 +8,8 @@
       "🃏 Veintiuno (Blackjack) contra El Gaucho: pedí, plantate o doblá. El Blackjack paga 3 a 2. Con límite por día.",
       "🎡 Ruleta de El Gaucho: fichas, rueda que gira y todas las apuestas (pleno x36, docenas x3, rojo/negro x2). Con límite por día.",
       "Entrás a una mesa, invitás a quien quieras y el ganador se lleva el pozo (menos 5% de la casa).",
-      "📖 Cada juego tiene su botón «Cómo se juega» con las reglas, tanto al elegir la mesa como adentro de la partida."
+      "📖 Cada juego tiene su botón «Cómo se juega» con las reglas, tanto al elegir la mesa como adentro de la partida.",
+      "📚 Nuevo botón «Historia» arriba: «La Crónica de las Islas», el libro con la historia del server, de los seis sobrevivientes, los mapas, el pueblo y los que más horas juegan. Se lee como un libro (pasás las hojas) y se baja en PDF para compartir."
     ],
     "arreglado": [
       "🃏 Truco: ahora hay un marcador grande con los puntos de cada uno, y al terminar cada mano se muestra quién ganó, cuántos puntos sumó y las cartas de todos antes de repartir la siguiente. El envido muestra los tantos de cada jugador."
