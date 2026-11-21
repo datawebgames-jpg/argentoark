@@ -1,5 +1,17 @@
 [
   {
+    "fecha": "2026-11-21",
+    "titulo": "Juegos nuevos: Generala, Chinchón, Batalla Naval, Cuatro en línea, Cacho, Truco 2 vs 2 y Ruleta",
+    "nuevo": [
+      "🎲 Seis juegos nuevos para jugar contra otros jugadores en la página (Juegos): Generala, Chinchón, Batalla Naval, Cuatro en línea, Cacho (dados de farol) y Truco 2 contra 2 por parejas.",
+      "🎡 Ruleta de El Gaucho: fichas, rueda que gira y todas las apuestas (pleno x36, docenas x3, rojo/negro x2). Con límite por día.",
+      "Entrás a una mesa, invitás a quien quieras y el ganador se lleva el pozo (menos 5% de la casa)."
+    ],
+    "arreglado": [
+      "🃏 Truco: ahora hay un marcador grande con los puntos de cada uno, y al terminar cada mano se muestra quién ganó, cuántos puntos sumó y las cartas de todos antes de repartir la siguiente. El envido muestra los tantos de cada jugador."
+    ]
+  },
+  {
     "fecha": "2026-11-20",
     "titulo": "Fiesta del fin de semana largo: experiencia y tameo x10 + Genesis 2",
     "nuevo": [

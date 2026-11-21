@@ -171,6 +171,75 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .selva-c.esp{background:rgba(241,196,15,.25)}.selva-c.meta{background:#c0392b}.selva-n{position:absolute;top:0;left:3px;font-size:9px;opacity:.7}
 .selva-f{position:absolute;bottom:-4px;right:-4px;width:18px;height:18px;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;color:#fff;border:2px solid #fff}
 .f0{background:#e74c3c}.f1{background:#3498db}.f2{background:#9b59b6}.f3{background:#e67e22}
+
+/* ruleta */
+.ru-wrap{display:grid;grid-template-columns:minmax(220px,280px) 1fr;gap:16px;align-items:start}@media(max-width:760px){.ru-wrap{grid-template-columns:1fr}}
+.ru-rueda{position:relative;width:260px;max-width:100%;margin:0 auto}.ru-rueda svg{width:100%;display:block;filter:drop-shadow(0 6px 12px rgba(0,0,0,.6))}.ru-puntero{position:absolute;top:-12px;left:50%;transform:translateX(-50%);color:#ffd24a;font-size:26px;z-index:2;text-shadow:0 2px 4px #000}
+.ru-bola{position:absolute;top:6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#bbb);box-shadow:0 1px 3px #000;opacity:0}.ru-bola.cae{animation:ruBola 4.2s cubic-bezier(.12,.6,.15,1) forwards}
+@keyframes ruBola{0%{opacity:1;transform:rotate(0) translateY(0)}60%{opacity:1}100%{opacity:1;transform:rotate(-1440deg) translateY(0)}}
+.ru-mesa{background:linear-gradient(180deg,#14683b,#0d4a28);border:6px solid #6b4423;border-radius:16px;padding:10px;box-shadow:inset 0 0 30px rgba(0,0,0,.5)}
+.ru-fichas{display:flex;gap:8px;justify-content:center;margin-bottom:10px;flex-wrap:wrap}.ru-ficha-b{width:46px;height:46px;border-radius:50%;border:4px dashed #fff;background:#8e44ad;color:#fff;font-weight:800;cursor:pointer;box-shadow:0 3px 6px rgba(0,0,0,.5)}.ru-ficha-b:nth-child(2){background:#2980b9}.ru-ficha-b:nth-child(3){background:#27ae60}.ru-ficha-b:nth-child(4){background:#c0392b}.ru-ficha-b:nth-child(5){background:#222}.ru-ficha-b.on{outline:3px solid #ffd24a;transform:translateY(-4px)}
+.ru-tabla{display:flex;gap:3px}.ru-nums{flex:1;display:grid;grid-template-columns:repeat(12,1fr);gap:3px}
+.ru-c{position:relative;border:2px solid rgba(255,255,255,.45);background:rgba(0,0,0,.18);color:#fff;border-radius:6px;padding:8px 0;font-weight:800;cursor:pointer;font-size:14px;min-width:0}.ru-c:hover{background:rgba(255,255,255,.25)}
+.ru-c.rj{background:#c0392b}.ru-c.nj{background:#1b1b1b}.ru-c.z{background:#1e8c4a;width:38px;font-size:18px}.ru-c.tiene{outline:3px solid #ffd24a}
+.ru-ficha{position:absolute;right:-4px;top:-8px;background:#ffd24a;color:#1a1206;border-radius:10px;font-size:10px;padding:1px 5px;font-weight:800;box-shadow:0 1px 3px #000;z-index:1}
+.ru-fila3{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:3px}.ru-fila6{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin-top:3px}.ru-fila3 .ru-c,.ru-fila6 .ru-c{font-size:12px}
+.ru-acc{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:12px}.ru-total{background:rgba(0,0,0,.4);padding:4px 12px;border-radius:10px}
+.ru-sale{display:inline-block;min-width:34px;padding:2px 8px;border-radius:50%;border:2px solid #ffd24a;color:#fff;font-weight:800;margin-right:6px}
+@media(max-width:640px){.ru-c{padding:10px 0;font-size:12px}.ru-fila6 .ru-c{font-size:11px}}
+/* mesas nuevas */
+.mesa-bazas{flex-wrap:wrap;justify-content:center;gap:10px}
+.tr-cartas{display:flex;gap:4px;justify-content:center}.tr-jug{display:flex;flex-direction:column;align-items:center;font-size:10px;opacity:.9}.tr-jug span{background:rgba(0,0,0,.55);padding:0 5px;border-radius:6px;margin-top:2px}
+.tr-jug.gana svg{filter:drop-shadow(0 0 7px #ffd24a)}.tr-jug.gana span{background:#b8860b;color:#fff}
+.mesa-baza em{font-size:11px;font-style:normal;background:rgba(0,0,0,.55);padding:0 8px;border-radius:8px}
+.eq0{color:#ff8a7a}.eq1{color:#7ec0ff}
+.tr-score{display:flex;align-items:stretch;justify-content:center;gap:10px;margin:0 auto 12px;max-width:900px}
+.tr-eq{flex:1;background:linear-gradient(180deg,#3a2410,#241505);border:2px solid #6b4423;border-radius:14px;padding:8px 10px;text-align:center}
+.tr-eq.mio{border-color:#ffd24a;box-shadow:0 0 14px rgba(255,210,74,.35)}
+.tr-eq-n{font-size:13px;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tr-eq.eq0 .tr-eq-n{color:#ff8a7a}.tr-eq.eq1 .tr-eq-n{color:#7ec0ff}
+.tr-eq-p{font:700 44px/1.05 Oswald,sans-serif;color:#ffd24a;text-shadow:0 2px 8px #000}
+.tr-pips{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:4px}.tr-pips i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.14)}.tr-pips i.on{background:#ffd24a;box-shadow:0 0 6px #ffd24a}.tr-pips i.gr{margin-right:7px}.tr-pips i.gr:nth-child(15){margin-right:0}
+.tr-vs{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:84px;font-size:12px}.tr-vs b{color:#ffd24a;font:700 17px Oswald,sans-serif;animation:mesaLatido 1s infinite}.tr-vs small{color:#bbb}
+.tr-ev{background:rgba(0,0,0,.7);border:1px solid #ffd24a;color:#ffe9a8;padding:5px 12px;border-radius:10px;font-size:13px;max-width:100%}
+.tr-res{margin:12px auto 0;max-width:900px;background:linear-gradient(180deg,#1c3a28,#0f2417);border:2px solid #ffd24a;border-radius:16px;padding:12px 16px;text-align:center;animation:trPop .35s}
+.tr-res.fin{border-color:#2ecc71;box-shadow:0 0 24px rgba(46,204,113,.45)}
+@keyframes trPop{from{transform:scale(.92);opacity:0}}
+.tr-res-t{font:700 22px Oswald,sans-serif;color:#ffd24a}.tr-res-g{font-size:17px;margin:4px 0}.tr-res-g b{font-size:20px}.tr-res-s{font-size:18px;margin:4px 0}.tr-res-s b{font:700 28px Oswald,sans-serif;color:#ffd24a}
+.tr-res-m{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:8px 0}.tr-rm{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:13px}.tr-rm>div{display:flex;gap:3px}
+.nu-wrap{max-width:900px;margin:0 auto}
+.nu-barra{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:2px 0 12px}.nu-chip{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.35);border:2px solid transparent;border-radius:30px;padding:4px 12px 4px 4px}
+.nu-chip .mesa-avatar{width:34px;height:34px;font-size:16px;color:#fff}.nu-chip.turno{border-color:#2ecc71;box-shadow:0 0 14px #2ecc71}.nu-chip.mio b::after{content:' (vos)';font-weight:400;opacity:.7}
+.ge-ayuda{text-align:center;background:rgba(0,0,0,.35);border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:14px}
+.ge-mesa{background:radial-gradient(ellipse at 50% 30%,#2a9a5c,#11552f 75%);border:8px solid #6b4423;border-radius:20px;padding:12px;text-align:center;margin-bottom:12px;box-shadow:inset 0 0 40px rgba(0,0,0,.5)}
+.ge-dados{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;min-height:76px;align-items:center}.ge-dado{background:none;border:3px solid transparent;border-radius:14px;padding:2px;cursor:pointer;transition:transform .15s}.ge-dado:disabled{cursor:default}.ge-dado:not(:disabled):hover{transform:translateY(-6px)}.ge-dado.fijo{border-color:#ffd24a;background:rgba(255,210,74,.2);transform:translateY(-8px)}
+.ge-tirar{margin-top:10px;padding:12px 30px;border:none;border-radius:14px;background:linear-gradient(180deg,#e74c3c,#a93226);color:#fff;font:700 22px Oswald,sans-serif;cursor:pointer;box-shadow:0 4px 0 #6e1d14}.ge-tirar:disabled{opacity:.5}.ge-tirar small{font-size:13px;opacity:.85}
+.ge-plan{width:100%;border-collapse:collapse;background:rgba(0,0,0,.3);border-radius:12px;overflow:hidden}.ge-plan th,.ge-plan td{padding:6px 8px;text-align:center;border-bottom:1px solid rgba(255,255,255,.08)}.ge-plan th{background:rgba(0,0,0,.4);font-size:13px}.ge-plan th.turno{color:#2ecc71;box-shadow:inset 0 -3px #2ecc71}
+.ge-plan td.gn{text-align:left;font-weight:700}.ge-plan td.v{color:#ffd24a;font-weight:700}.ge-plan td.x{color:#e74c3c}.ge-plan td.pos{background:rgba(46,204,113,.18);cursor:pointer;color:#7dffb0}.ge-plan td.pos:hover{background:rgba(46,204,113,.4)}.ge-plan tr.tot td{font:700 20px Oswald,sans-serif;color:#ffd24a;background:rgba(0,0,0,.35)}
+.ch-mesa{background:radial-gradient(ellipse at 50% 30%,#2a9a5c,#11552f 75%);border:8px solid #6b4423;border-radius:20px;padding:12px;box-shadow:inset 0 0 40px rgba(0,0,0,.5);text-align:center}
+.ch-riv{font-size:13px;display:flex;gap:2px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:8px}.ch-centro{display:flex;gap:18px;justify-content:center;align-items:center;margin:8px 0}
+.ch-pila{background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;color:#fff;font-size:12px}.ch-pila:disabled{cursor:default;opacity:.9}.ch-pila:not(:disabled):hover{transform:translateY(-6px)}.ch-pila:not(:disabled) svg{filter:drop-shadow(0 0 8px #ffd24a)}
+.ch-pts{background:rgba(0,0,0,.45);padding:8px 14px;border-radius:12px;font-size:14px}.ch-suyo{margin-top:8px}.ch-mano{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:6px}.ch-c{display:flex;flex-direction:column;align-items:center;gap:4px;padding:3px 3px 5px;border-radius:8px;border-bottom:5px solid transparent}
+.ch-c.g0{border-color:#f1c40f;background:rgba(241,196,15,.12)}.ch-c.g1{border-color:#3498db;background:rgba(52,152,219,.14)}.ch-c.g2{border-color:#e74c3c;background:rgba(231,76,60,.14)}.ch-c.g3{border-color:#9b59b6;background:rgba(155,89,182,.14)}
+.ch-cortar{background:#c0392b;color:#fff;border:0;border-radius:8px;padding:3px 8px;font-size:12px;cursor:pointer;font-weight:700}
+.na-tableros{display:flex;gap:22px;justify-content:center;flex-wrap:wrap}.na-t{font:700 18px Oswald,sans-serif;text-align:center;margin-bottom:4px}.na-g{display:inline-block;background:#0b2a45;padding:6px;border-radius:12px;border:3px solid #1d5a8a}
+.na-fila{display:flex;gap:2px;margin-bottom:2px;align-items:center}.na-fila>b,.na-fila>i{width:20px;text-align:center;font-size:11px;color:#8fc3ea}
+.na-c{width:36px;height:36px;border-radius:6px;border:0;display:flex;align-items:center;justify-content:center;font-size:17px;padding:0;color:#fff}
+.na-c.agua{background:linear-gradient(135deg,#1f6fa8,#14507d)}button.na-c.agua:not(:disabled){cursor:crosshair}button.na-c.agua:not(:disabled):hover{background:#3b9be0;box-shadow:0 0 8px #7ec0ff}
+.na-c.barco{background:linear-gradient(135deg,#8a97a6,#59677a)}.na-c.toc{background:#c0392b}.na-c.fall{background:#14507d;color:#cfe9ff;font-size:22px}.na-c.hund{background:#4a0f0a}.na-c.ult{outline:3px solid #ffd24a;outline-offset:-3px}
+.na-nave{color:#9bd0f5;letter-spacing:-1px}
+@media(max-width:640px){.na-c{width:30px;height:30px;font-size:14px}.na-fila>b,.na-fila>i{width:16px}}
+.c4-tablero{display:flex;gap:6px;justify-content:center;background:#1c4fa8;padding:10px;border-radius:16px;border:4px solid #12306b;box-shadow:0 8px 20px rgba(0,0,0,.5);width:fit-content;margin:0 auto}
+.c4-col{display:flex;flex-direction:column;gap:6px;background:none;border:0;padding:0;cursor:pointer;position:relative}.c4-col:disabled{cursor:default}.c4-col:not(:disabled):hover{filter:brightness(1.25)}
+.c4-flecha{text-align:center;font-size:12px;color:#ffd24a;height:14px;opacity:0}.c4-col:not(:disabled):hover .c4-flecha{opacity:1}
+.c4-h{display:inline-block;width:44px;height:44px;border-radius:50%;background:#0c1f4a;box-shadow:inset 0 3px 6px rgba(0,0,0,.6)}.c4-h.f0{background:radial-gradient(circle at 35% 30%,#ff7b6b,#c0392b)}.c4-h.f1{background:radial-gradient(circle at 35% 30%,#ffe36b,#e0a800)}
+.c4-h.gana{animation:mesaLatido .8s infinite;box-shadow:0 0 0 4px #fff,0 0 18px #fff}.c4-h.ult{outline:3px solid #fff;outline-offset:-3px}.c4-leyenda{margin-left:14px}.c4-leyenda .c4-h{width:14px;height:14px;vertical-align:middle;box-shadow:none}
+@media(max-width:640px){.c4-h{width:34px;height:34px}.c4-tablero{gap:4px;padding:6px}.c4-col{gap:4px}}
+.ca-mesa{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:10px}.ca-j{background:radial-gradient(ellipse at 50% 30%,#3a2410,#241505);border:3px solid #6b4423;border-radius:16px;padding:8px 12px;min-width:150px;text-align:center}.ca-j.turno{border-color:#2ecc71;box-shadow:0 0 16px #2ecc71}.ca-j.fuera{opacity:.45}.ca-j.pierde{border-color:#e74c3c;animation:mesaLatido 1s 3}
+.ca-n{font-weight:700;font-size:14px}.ca-dados{display:flex;gap:5px;justify-content:center;align-items:center;min-height:56px;margin:6px 0}.ca-copa{font-size:34px;filter:grayscale(.2)}.ca-v{font-size:14px}.ca-d.coincide svg{filter:drop-shadow(0 0 8px #ffd24a)}
+.ca-oculto{display:inline-flex;align-items:center;justify-content:center;background:#555;border-radius:8px;color:#bbb}
+.ca-ctl{background:rgba(0,0,0,.3);border-radius:14px;padding:12px;text-align:center}.ca-q{display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:8px}.ca-q button{width:40px;height:40px;border-radius:50%;border:2px solid #6b4423;background:#2a1505;color:#ffe2b0;font-size:22px;font-weight:800;cursor:pointer}.ca-q b{font:700 36px Oswald,sans-serif;color:#ffd24a;min-width:50px}
+.ca-caras{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}.ca-caras button{background:none;border:3px solid transparent;border-radius:12px;padding:2px;cursor:pointer}.ca-caras button.on{border-color:#ffd24a;background:rgba(255,210,74,.2)}
+
 .mesa-avatar.f0,.mesa-avatar.f1,.mesa-avatar.f2,.mesa-avatar.f3{color:#fff}
 .mesa-dado{display:flex;align-items:center;gap:8px}
 .mesa-cartxt{display:inline-block;background:#f6eed8;color:#222;padding:4px;border-radius:4px;font-size:11px}
@@ -804,8 +873,9 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
 </div></section>
 <section id="juegos" data-tab="juegos"><div class="wrap">
   <h2>🎲 Juegos</h2>
-  <p class="sub">Sentate a una mesa con otros jugadores: truco, póker o La Selva. O jugá contra la máquina: El Gaucho, La Selva Argento con misiones, quiniela, bingo y lotería. Lo que ganás va directo a tu saldo.</p>
+  <p class="sub">Sentate a una mesa con otros jugadores: truco (1 contra 1 o por parejas), generala, chinchón, batalla naval, cuatro en línea, cacho, póker o La Selva. O jugá contra la máquina: la ruleta, El Gaucho, La Selva Argento con misiones, quiniela, bingo y lotería. Lo que ganás va directo a tu saldo.</p>
   <div id="mesasCont"></div>
+  <div id="ruletaCont" style="margin-top:18px"></div>
   <h3 style="margin:22px 0 10px">🤖 Contra la máquina</h3>
   <div id="juegosCont"><p class="mut small">Cargando...</p></div>
 </div></section>
@@ -1457,7 +1527,7 @@ async function juegosAcc(action, extra = {}) {
   if (d.juego) h += `<p style="margin-top:10px"><button class="btn" onclick="juegosAcc('menu')">⬅ Todos los juegos</button></p>`;
   box.innerHTML = h;
 }
-function loadJuegos() { juegosAcc('ver'); loadMesas(); }
+function loadJuegos() { juegosAcc('ver'); loadMesas(); ruInfo = null; renderRuleta(); }
 // ---------- Party con la tribu ----------
 function partyInv(n) { partyAcc('invitar', n); }
 async function partyAcc(action, name) {
@@ -1533,20 +1603,20 @@ async function loadMesas() {
   const d = await mesasPost({ action: 'lista' });
   if (d.error) { box.innerHTML = '<div class="card">' + esc(d.error) + '</div>'; return; }
   const fila = (M, btn) => `<div class="mesa-fila"><span class="mesa-ico">${M.ico}</span><div style="flex:1;min-width:160px"><b>${esc(M.nombre)}</b> · entrada <b>${Number(M.apuesta).toLocaleString('es-AR')} AC</b><div class="small mut">Mesa de ${esc(M.host)} · ${M.jugadores.map(esc).join(', ')} (${M.jugadores.length}/${M.max})${M.estado === 'jugando' ? ' · <b style="color:#2ecc71">jugando</b>' : M.estado === 'fin' ? ' · terminada' : ' · esperando'}</div></div>${btn}</div>`;
-  const tile = (k, J, desc) => `<div class="mesa-tile"><div class="mesa-tile-ico">${J.ico}</div><b>${J.nombre}</b><span class="small">${desc}</span><span class="small mut">${J.min === J.max ? J.max + ' jugadores' : J.min + ' a ' + J.max + ' jugadores'}</span><button class="arma-btn" onclick="crearMesa('${k}')"><b>Abrir mesa</b><span>e invitar</span></button></div>`;
+  window.mesaJ = d.juegos; const tile = (k, J, desc) => `<div class="mesa-tile"><div class="mesa-tile-ico">${J.ico}</div><b>${J.nombre}</b><span class="small">${desc}</span><span class="small mut">${J.min === J.max ? J.max + ' jugadores' : J.min + ' a ' + J.max + ' jugadores'}</span><button class="arma-btn" onclick="crearMesa('${k}')"><b>Abrir mesa</b><span>e invitar</span></button></div>`;
   box.innerHTML = `<div class="card mesa-lobby">
     <h3 style="margin:0 0 4px">🎴 Jugá contra otros jugadores</h3>
     <p class="small mut" style="margin:0 0 12px">Abrí una mesa, elegí la entrada e invitá a quien quieras (cualquier jugador del server). Cada uno pone la entrada y <b>el que gana se lleva el pozo</b> (menos 5% de la casa). Tu saldo: <b>${Number(d.balance).toLocaleString('es-AR')} AC</b></p>
     <div class="mesa-crear"><label>Entrada: <select id="mesaAp" class="inp">${d.apuestas.map(a => `<option value="${a}">${a.toLocaleString('es-AR')} AC</option>`).join('')}</select></label>
       <label><input type="checkbox" id="mesaPub" checked> Abierta: cualquiera se puede sentar</label></div>
-    <div class="mesa-tiles">${tile('truco', d.juegos.truco, 'Mano a mano, a 15. Envido, truco y al mazo.')}${tile('poker', d.juegos.poker, "Texas Hold'em. 1.000 fichas cada uno: el último con fichas gana.")}${tile('selva', d.juegos.selva, 'Carrera de dados por la selva: raptores, Argentavis y el Rex.')}</div></div>`
+    <div class="mesa-tiles">${Object.entries(d.juegos).map(([k, J]) => tile(k, J, J.desc)).join('')}</div></div>`
     + (d.invitaciones.length ? `<div class="card" style="border-color:#f1c40f"><h3 style="margin:0 0 8px">📨 Te invitaron</h3>${d.invitaciones.map(M => fila(M, `<button class="btn" onclick="unirseMesa('${M.id}')">Sentarme</button>`)).join('')}</div>` : '')
     + (d.mias.length ? `<div class="card"><h3 style="margin:0 0 8px">🪑 Tus mesas</h3>${d.mias.map(M => fila(M, `<button class="btn" onclick="verMesa('${M.id}')">Ir a la mesa</button>`)).join('')}</div>` : '')
     + `<div class="card"><h3 style="margin:0 0 8px">🌎 Mesas abiertas</h3>${d.abiertas.length ? d.abiertas.map(M => fila(M, `<button class="btn" onclick="unirseMesa('${M.id}')">Sentarme</button>`)).join('') : '<p class="small mut" style="margin:0">No hay mesas esperando jugadores. ¡Abrí una!</p>'}</div>`;
 }
 async function crearMesa(juego) {
   const ap = +$('mesaAp').value;
-  if (!confirm(`Abrir una mesa de ${juego === 'poker' ? 'póker' : juego === 'selva' ? 'La Selva' : 'truco'} con ${ap.toLocaleString('es-AR')} AC de entrada? Se te descuenta ahora (si nadie se sienta y te levantás, te lo devolvemos).`)) return;
+  if (!confirm(`Abrir una mesa de ${mesaNomJuego(juego)} con ${ap.toLocaleString('es-AR')} AC de entrada? Se te descuenta ahora (si nadie se sienta y te levantás, te lo devolvemos).`)) return;
   const d = await mesasPost({ action: 'crear', juego, apuesta: ap, publica: $('mesaPub').checked });
   if (d.error) return alert(d.error);
   verMesa(d.mesa.id);
@@ -1587,54 +1657,223 @@ function mesaAsientos(cant, yo) {
   const base = yo >= 0 ? yo : 0;
   return Array.from({ length: cant }, (_, i) => pos[(i - base + cant) % cant]);
 }
+// ---------- pintado de las mesas (truco 1v1 y 2v2, póker, selva, generala, chinchón, naval, cuatro en línea, cacho) ----------
+const mesaNomJuego = k => (window.mesaJ && mesaJ[k] ? mesaJ[k].nombre : k);
+const mesaDado = (v, w, g) => v == null ? `<span class="ca-oculto" style="width:${w}px;height:${w}px;font-size:${w * .6}px">?</span>` : (typeof dado === 'function' ? dado(v, w, g) : `<b>${v}</b>`);
+const NAV_L = 'ABCDEFGH';
+let cachoQ = 1, cachoF = 2;
+
+function trucoMarcador(M, S) {
+  const eqs = [0, 1].map(t => `<div class="tr-eq eq${t}${M.yo >= 0 && M.yo % 2 === t ? ' mio' : ''}"><div class="tr-eq-n">${esc(S.equipos[t] || '-')}${M.yo >= 0 && M.yo % 2 === t ? ' ⭐' : ''}</div><div class="tr-eq-p">${S.pts[t]}</div>
+    <div class="tr-pips">${Array.from({ length: S.puntos }, (_, k) => `<i class="${k < S.pts[t] ? 'on' : ''}${k % 5 === 4 ? ' gr' : ''}"></i>`).join('')}</div></div>`);
+  return `<div class="tr-score">${eqs[0]}<div class="tr-vs"><span>a ${S.puntos}</span>${S.nivel > 1 ? `<b>${['', '', 'TRUCO', 'RETRUCO', 'VALE 4'][S.nivel]}</b>` : ''}<small>mano: ${esc(M.jugadores[S.mano] || '')}</small></div>${eqs[1]}</div>`;
+}
+function trucoCentro(M, S) {
+  const n = S.n, w = n > 2 ? 36 : 44;
+  const bz = S.bazas.map((b, i) => {
+    const cs = b.j.map((c, k) => c ? `<div class="tr-jug${b.g === k ? ' gana' : ''}">${mesaCard(c, w)}<span>${esc((M.jugadores[k] || '').slice(0, 9))}</span></div>` : '').join('') || '<i class="mesa-hueco"></i>';
+    const r = b.r == null ? '' : b.r === 'p' ? '<em>Parda</em>' : `<em class="eq${b.r}">${esc(S.equipos[b.r])}</em>`;
+    return `<div class="mesa-baza"><span class="small">Baza ${i + 1}</span><div class="tr-cartas">${cs}</div>${r}</div>`;
+  }).join('');
+  return `<div class="mesa-bazas">${bz}</div>` + (S.canto ? `<div class="mesa-canto">¡${esc(S.canto)}! <span class="small">(${esc(M.jugadores[S.cantoDe])})</span></div>` : '') + (S.ev ? `<div class="tr-ev">${esc(S.ev)}</div>` : '');
+}
+function trucoResultado(M, S) {
+  const R = S.res; if (!R) return ''; const fin = M.estado === 'fin';
+  const manos = R.manos.map((cs, i) => `<div class="tr-rm eq${i % 2}"><b>${esc(M.jugadores[i])}</b><div>${cs.map(c => mesaCard(c, 40)).join('')}</div></div>`).join('');
+  return `<div class="tr-res${fin ? ' fin' : ''}"><div class="tr-res-t">${fin ? '🏁 ¡FIN DE LA PARTIDA!' : '✔ Terminó la mano'}</div>
+    <div class="tr-res-g">${R.pts ? `<b class="eq${R.eq}">${esc(S.equipos[R.eq])}</b> suma <b>+${R.pts}</b> <span class="small">(${esc(R.por)})</span>` : ''}</div>
+    <div class="tr-res-s"><span class="eq0">${esc(S.equipos[0])}</span> <b>${S.pts[0]}</b> — <b>${S.pts[1]}</b> <span class="eq1">${esc(S.equipos[1])}</span></div>
+    <div class="tr-res-m">${manos}</div>${fin ? '' : '<div class="small mut">Repartiendo la próxima mano...</div>'}</div>`;
+}
+
+function generalaUI(M, S, yo) {
+  const mio = yo >= 0 && S.turno === yo && M.estado === 'jugando';
+  const dados = S.dados ? S.dados.map((v, i) => `<button class="ge-dado${S.fijos[i] ? ' fijo' : ''}" ${mio && S.tiros > 0 && S.tiros < 3 ? '' : 'disabled'} onclick="jugarMesa('fijar:${i}')">${mesaDado(v, 62, S.fijos[i])}</button>`).join('') : '<div class="small mut" style="padding:18px">Tirá los dados para empezar tu turno.</div>';
+  const ayuda = !mio ? `Juega <b>${esc(M.jugadores[S.turno] || '')}</b>...` : S.tiros === 0 ? 'Tu turno: ¡tirá los dados!' : S.tiros < 3 ? 'Tocá los dados que querés <b>guardar</b>, volvé a tirar o anotá una jugada.' : 'Ya tiraste 3 veces: anotá una jugada.';
+  const filas = S.cats.map(([c, nombre], r) => `<tr><td class="gn">${esc(nombre)}</td>${M.jugadores.map((_, i) => {
+    const v = S.plan[i][r];
+    if (v != null) return `<td class="${v ? 'v' : 'x'}">${v || '✗'}</td>`;
+    if (i === yo && S.posibles && S.posibles[c] != null) return `<td class="pos" onclick="${S.posibles[c] === 0 ? `if(confirm('¿Tachar ${nombre}?'))` : ''}jugarMesa('anotar:${c}')"><u>${S.posibles[c] ? '+' + S.posibles[c] : 'tachar'}</u></td>`;
+    return '<td class="vac"></td>';
+  }).join('')}</tr>`).join('');
+  return `<div class="nu-wrap"><div class="ge-mesa"><div class="ge-ayuda">${ayuda}</div><div class="ge-dados">${dados}</div>
+    ${mio ? `<button class="ge-tirar" ${S.tiros >= 3 ? 'disabled' : ''} onclick="jugarMesa('tirar')">🎲 ${S.tiros === 0 ? 'Tirar' : 'Volver a tirar'} <small>(${3 - S.tiros} tiro${3 - S.tiros === 1 ? '' : 's'})</small></button>` : ''}</div>
+    <table class="ge-plan"><tr><th></th>${M.jugadores.map((nn, i) => `<th class="${S.turno === i ? 'turno' : ''}">${esc(nn)}</th>`).join('')}</tr>${filas}
+    <tr class="tot"><td>TOTAL</td>${S.total.map(t => `<td>${t}</td>`).join('')}</tr></table></div>`;
+}
+function chinchonUI(M, S, yo) {
+  const pintarMano = (ord, clickable, cort) => `<div class="ch-mano">${ord.map(o => `<div class="ch-c${o.g >= 0 ? ' g g' + (o.g % 4) : ''}"><button class="mesa-micarta" ${clickable ? '' : 'disabled'} onclick="jugarMesa('descartar:${o.i}')">${mesaCard(o.c, clickable ? 76 : 50)}</button>${cort && cort[o.i] ? `<button class="ch-cortar" onclick="jugarMesa('cortar:${o.i}')">✂ Cortar</button>` : ''}</div>`).join('')}</div>`;
+  const mio = S.mio, turnoMio = yo >= 0 && S.turno === yo && S.fase === 'robar';
+  let ayuda = S.turno < 0 ? '' : yo === S.turno ? (S.fase === 'robar' ? 'Tu turno: robá del <b>mazo</b> o del <b>pozo</b>.' : 'Tocá una carta para <b>descartarla</b>' + (S.cortables.some(Boolean) ? ', o <b>✂ cortá</b> con la que sobra.' : '.')) : `Juega <b>${esc(M.jugadores[S.turno] || '')}</b>...`;
+  let res = '';
+  if (S.res) {
+    const R = S.res;
+    res = `<div class="tr-res${M.estado === 'fin' ? ' fin' : ''}"><div class="tr-res-t">${R.anulada ? 'Mano anulada' : R.chinchon ? '🎉 ¡CHINCHÓN!' : `✂ Cortó ${esc(M.jugadores[R.cerro])}`}</div>
+      <div class="tr-res-m">${R.manos.map((ord, i) => `<div class="tr-rm"><b>${esc(M.jugadores[i])}</b> <span class="small">${R.dead[i]} sueltos${R.add ? ` → ${R.add[i] > 0 ? '+' : ''}${R.add[i]}` : ''}</span>${pintarMano(ord, false)}</div>`).join('')}</div>
+      <div class="tr-res-s">Castigo: ${esc(M.jugadores[0])} <b>${S.pts[0]}</b> — <b>${S.pts[1]}</b> ${esc(M.jugadores[1])} <span class="small">(pierde quien llega a ${S.limite})</span></div>${M.estado === 'fin' ? '' : '<div class="small mut">Repartiendo la próxima mano...</div>'}</div>`;
+  }
+  return `<div class="nu-wrap"><div class="ch-mesa">
+    <div class="ch-riv">${esc(M.jugadores[1 - Math.max(0, yo)] || '')}: ${Array.from({ length: S.rival }, () => mesaCard(null, 28)).join('')}</div>
+    <div class="ch-centro"><button class="ch-pila" ${turnoMio ? '' : 'disabled'} onclick="jugarMesa('robar:mazo')">${mesaCard(null, 70)}<span>Mazo (${S.mazoN})</span></button>
+      <button class="ch-pila" ${turnoMio && S.pozoTop ? '' : 'disabled'} onclick="jugarMesa('robar:pozo')">${S.pozoTop ? mesaCard(S.pozoTop, 70) : '<i class="mesa-hueco"></i>'}<span>Pozo</span></button>
+      <div class="ch-pts">Castigo<br><b>${esc(M.jugadores[0])}</b> ${S.pts[0]}<br><b>${esc(M.jugadores[1])}</b> ${S.pts[1]}<br><span class="small">pierde quien llega a ${S.limite}</span></div></div>
+    <div class="ge-ayuda">${ayuda}</div>
+    ${yo >= 0 ? `<div class="ch-suyo"><span class="small">Tus cartas — sueltas: <b>${S.dead}</b> punto${S.dead === 1 ? '' : 's'}${S.dead <= 5 ? ' (¡podés cortar!)' : ''}</span>${pintarMano(S.mano, yo === S.turno && S.fase === 'descartar', S.cortables)}</div>` : ''}</div>${res}</div>`;
+}
+function navalUI(M, S, yo) {
+  const q = Math.max(0, yo), mio = yo >= 0 && S.turno === yo && S.fase === 'batalla' && M.estado === 'jugando';
+  const grilla = (g, atk) => `<div class="na-g"><div class="na-fila"><i></i>${[...NAV_L].map(l => `<b>${l}</b>`).join('')}</div>${g.map((fila, r) => `<div class="na-fila"><b>${r + 1}</b>${fila.map((v, c) => {
+    const ult = S.ult && S.ult[0] === r && S.ult[1] === c && (atk ? S.ult[2] === q : S.ult[2] !== q);
+    const cls = { '.': 'agua', '?': 'agua', b: 'barco', x: 'toc', o: 'fall', s: 'hund' }[v];
+    const ic = { x: '🔥', o: '•', s: '💀' }[v] || '';
+    return atk ? `<button class="na-c ${cls}${ult ? ' ult' : ''}" ${mio && v === '?' ? '' : 'disabled'} onclick="jugarMesa('disparar:${r}:${c}')">${ic}</button>` : `<span class="na-c ${cls}${ult ? ' ult' : ''}">${ic}</span>`;
+  }).join('')}</div>`).join('')}</div>`;
+  const flota = l => l.map(n => `<span class="na-nave">${'▮'.repeat(n)}</span>`).join(' ') || '—';
+  let ayuda = S.fase === 'colocar' ? (S.listo[q] ? 'Esperando que el otro jugador esté listo...' : 'Esta es tu flota. Podés <b>mezclarla</b> hasta que te guste y tocar <b>¡Listo!</b>') : mio ? '<b>¡Tu turno!</b> Tocá una casilla del mar enemigo. Si tocás un barco, tirás de nuevo.' : `Dispara <b>${esc(M.jugadores[S.turno] || '')}</b>...`;
+  return `<div class="nu-wrap"><div class="ge-ayuda">${ayuda}</div>
+    <div class="na-tableros"><div><div class="na-t">⚓ Tu flota</div>${grilla(S.propio, false)}<div class="small">Te quedan: ${flota(S.vivos[0])}</div></div>
+    ${S.fase === 'batalla' || M.estado === 'fin' ? `<div><div class="na-t">🎯 Mar enemigo</div>${grilla(S.ataque, true)}<div class="small">Les quedan: ${flota(S.vivos[1])}</div></div>` : ''}</div>
+    ${S.fase === 'colocar' && yo >= 0 && !S.listo[q] ? `<div class="mesa-acciones"><button class="arma-btn" style="flex-direction:row" onclick="jugarMesa('mezclar')"><b>🔀 Mezclar</b></button><button class="arma-btn" style="flex-direction:row" onclick="jugarMesa('listo')"><b>✅ ¡Listo!</b></button></div>` : ''}</div>`;
+}
+function cuatroUI(M, S, yo) {
+  const mio = yo >= 0 && S.turno === yo && M.estado === 'jugando', gan = new Set((S.linea || []).map(([r, c]) => r + ',' + c));
+  const cols = Array.from({ length: S.cols }, (_, c) => `<button class="c4-col" ${mio && S.tab[0][c] === -1 ? '' : 'disabled'} onclick="jugarMesa('col:${c}')" aria-label="Columna ${c + 1}">${S.tab.map((fila, r) => `<i class="c4-h${fila[c] >= 0 ? ' f' + fila[c] : ''}${gan.has(r + ',' + c) ? ' gana' : ''}${S.ult && S.ult[0] === r && S.ult[1] === c ? ' ult' : ''}"></i>`).join('')}<span class="c4-flecha">▼</span></button>`).join('');
+  return `<div class="nu-wrap"><div class="ge-ayuda">${mio ? '<b>¡Tu turno!</b> Tocá una columna para soltar tu ficha.' : M.estado === 'fin' ? '' : `Juega <b>${esc(M.jugadores[S.turno] || '')}</b>...`} <span class="c4-leyenda"><i class="c4-h f0"></i> ${esc(M.jugadores[0])} &nbsp; <i class="c4-h f1"></i> ${esc(M.jugadores[1] || '')}</span></div><div class="c4-tablero">${cols}</div></div>`;
+}
+function cachoUI(M, S, yo) {
+  const mio = yo >= 0 && S.turno === yo && M.estado === 'jugando', res = S.res, ap = S.apuesta;
+  const cuenta = (res ? res.apuesta.f : null);
+  const cacho = M.jugadores.map((nn, i) => {
+    const ds = S.dados[i] || [], vivo = !S.fuera[i];
+    const caras = res ? ds.map(v => `<span class="ca-d${v === res.apuesta.f || (res.apuesta.f !== 1 && v === 1) ? ' coincide' : ''}">${mesaDado(v, 38)}</span>`).join('') : ds.map(v => v == null ? '<span class="ca-copa">🥃</span>' : mesaDado(v, i === yo ? 52 : 38)).join('');
+    return `<div class="ca-j${S.turno === i ? ' turno' : ''}${vivo ? '' : ' fuera'}${res && res.pierde === i ? ' pierde' : ''}"><div class="ca-n">${esc(nn)}${i === yo ? ' (vos)' : ''}</div><div class="ca-dados">${vivo ? caras : '<span class="small">eliminado</span>'}</div><div class="ca-v">${'🎲'.repeat(S.vidas[i])}${'<span style="opacity:.25">🎲</span>'.repeat(Math.max(0, S.max - S.vidas[i]))}</div></div>`;
+  }).join('');
+  if (ap && cachoQ < ap.q) cachoQ = ap.q; if (cachoQ < 1) cachoQ = 1; if (cachoQ > S.total) cachoQ = S.total;
+  const valida = !ap || cachoQ > ap.q || (cachoQ === ap.q && cachoF > ap.f);
+  const ctl = mio ? `<div class="ca-ctl"><div class="ca-q"><button onclick="cachoQ=Math.max(1,cachoQ-1);mesaUlt='';refrescarMesa()">−</button><b>${cachoQ}</b><button onclick="cachoQ=Math.min(${S.total},cachoQ+1);mesaUlt='';refrescarMesa()">+</button><span class="small">cantidad</span></div>
+      <div class="ca-caras">${[1, 2, 3, 4, 5, 6].map(f => `<button class="${cachoF === f ? 'on' : ''}" onclick="cachoF=${f};mesaUlt='';refrescarMesa()">${mesaDado(f, 36)}</button>`).join('')}</div>
+      <div class="mesa-acciones"><button class="arma-btn" style="flex-direction:row" ${valida ? '' : 'disabled'} onclick="jugarMesa('apostar:'+cachoQ+':'+cachoF)"><b>Apostar ${cachoQ} de ${cachoF}</b></button>${ap ? `<button class="arma-btn" style="flex-direction:row;border-color:#e74c3c" onclick="jugarMesa('dudo')"><b>🛑 ¡DUDO!</b></button>` : ''}</div>
+      <div class="small mut">Los 1 valen como comodín (salvo que apuestes a los 1). Subí la cantidad, o igualala con un número más alto.</div></div>` : '';
+  const banner = res ? `<div class="tr-res"><div class="tr-res-t">¡${esc(M.jugadores[res.duda])} dudó!</div><div class="tr-res-g">Había <b>${res.cuenta}</b> de ${res.apuesta.f} (se había dicho ${res.apuesta.q}): ${res.cumple ? 'la apuesta era buena' : 'se pasó de rosca'}. <b>${esc(M.jugadores[res.pierde])}</b> pierde un dado.</div>${M.estado === 'fin' ? '' : '<div class="small mut">Próxima ronda en unos segundos...</div>'}</div>` : '';
+  return `<div class="nu-wrap"><div class="ge-ayuda">Ronda ${S.ronda} · ${S.total} dados en juego · ${ap ? `Apuesta: <b>${ap.q} de ${ap.f}</b> (${esc(M.jugadores[ap.by])})` : 'Nadie apostó todavía'}${mio ? ' · <b>¡tu turno!</b>' : !res && S.turno >= 0 ? ` · juega <b>${esc(M.jugadores[S.turno])}</b>` : ''}</div><div class="ca-mesa">${cacho}</div>${banner}${ctl}</div>`;
+}
+
 function pintarMesa(M) {
   const S = M.s, yo = M.yo, n = v => Number(v || 0).toLocaleString('es-AR');
+  const NUEVO = ['generala', 'chinchon', 'naval', 'cuatro', 'cacho'].includes(M.juego);
   const pos = mesaAsientos(Math.max(M.jugadores.length, M.estado === 'espera' ? M.max : 0), yo);
   const lugares = M.estado === 'espera' ? Array.from({ length: M.max }, (_, i) => M.jugadores[i] ?? null) : M.jugadores;
-  let centro = '', extra = '';
-  if (M.juego === 'truco' && S) {
-    centro = `<div class="mesa-bazas">${S.bazas.map((b, i) => `<div class="mesa-baza"><span class="small">Baza ${i + 1}</span><div>${b[1] ? mesaCard(b[1], 46) : '<i class="mesa-hueco"></i>'}</div><div>${b[0] ? mesaCard(b[0], 46) : '<i class="mesa-hueco"></i>'}</div></div>`).join('')}</div>`
-      + `<div class="mesa-marcador">${esc(M.jugadores[0])} <b>${S.pts[0]}</b> — <b>${S.pts[1]}</b> ${esc(M.jugadores[1] || '')}<span class="small"> · a ${S.puntos}${S.nivel > 1 ? ' · ' + ['', '', 'TRUCO', 'RETRUCO', 'VALE CUATRO'][S.nivel] : ''}</span></div>`
-      + (S.canto ? `<div class="mesa-canto">¡${esc(S.canto)}! <span class="small">(${esc(M.jugadores[S.cantoDe])})</span></div>` : '');
-  }
+  let centro = '', extra = '', marcador = '', abajo = '';
+  const truco = (M.juego === 'truco' || M.juego === 'truco4') && S;
+  if (truco) { marcador = trucoMarcador(M, S); centro = trucoCentro(M, S); abajo = trucoResultado(M, S); }
   if (M.juego === 'poker' && S) centro = `<div class="mesa-comunes">${[0, 1, 2, 3, 4].map(i => S.comunes[i] ? mesaCard(S.comunes[i], 50) : '<i class="mesa-hueco p"></i>').join('')}</div><div class="mesa-pozo">🪙 Pozo: <b>${n(S.pozo)}</b> fichas</div>`;
   if (M.juego === 'selva' && S) {
     const pista = []; for (let c = 0; c <= S.meta; c++) { const aca = S.pos.map((p, i) => p === c ? i : -1).filter(i => i >= 0); pista.push(`<div class="selva-c ${S.casillas[c] ? 'esp' : ''} ${c === S.meta ? 'meta' : ''}"><span class="selva-n">${c === S.meta ? '🏁' : c}</span>${S.casillas[c] || ''}${aca.map(i => `<b class="selva-f f${i}">${esc(M.jugadores[i][0] || '?')}</b>`).join('')}</div>`); }
     centro = `<div class="selva-pista">${pista.join('')}</div>${S.dado ? `<div class="mesa-dado">${typeof dado === 'function' ? dado(S.dado, 54) : '🎲 ' + S.dado}<span class="small">${esc(M.jugadores[S.ultimo] || '')}</span></div>` : ''}`;
   }
   if (M.estado === 'espera') centro = `<div class="mesa-espera"><div style="font-size:42px">${M.ico}</div><b>Esperando jugadores (${M.jugadores.length}/${M.max})</b><span class="small">Entrada ${n(M.apuesta)} AC · pozo ${n(M.pozo)} AC</span></div>`;
-  if (M.estado === 'fin') centro += `<div class="mesa-fin">🏆 ${esc(M.ganador || '')} ganó ${n(M.premio)} AC</div>`;
+  if (M.estado === 'fin') centro += `<div class="mesa-fin">🏆 ${esc(M.ganador || '')} ${M.ganadores.length > 1 && !M.equipos ? 'empatan: ' : 'ganó '}${n(M.premioC)} AC${M.ganadores.length > 1 ? ' c/u' : ''}</div>`;
   const asientos = lugares.map((nomb, i) => {
     const [x, y] = pos[i] || [50, 50], turno = M.debe === i, mio = i === yo;
     let info = '', cartas = '';
     if (nomb && S && M.juego === 'poker') { info = `<span class="small">${S.fuera[i] ? 'se fue' : n(S.fichas[i]) + ' fichas'}${S.boton === i ? ' · 🔘' : ''}${S.ronda[i] ? ' · apuesta ' + n(S.ronda[i]) : ''}</span>`; if (!mio) cartas = (S.cartas[i] || []).map(c => mesaCard(c, 34)).join(''); }
-    if (nomb && S && M.juego === 'truco' && !mio) cartas = (S.cartas[i] || []).map(c => mesaCard(c, 34)).join('');
+    if (nomb && truco) { if (!mio) cartas = (S.cartas[i] || []).map(c => mesaCard(c, 30)).join(''); info = `<span class="small">${S.mano === i ? '🅜 mano' : ''}${M.juego === 'truco4' ? (S.mano === i ? ' · ' : '') + 'equipo ' + (i % 2 + 1) : ''}</span>`; }
     if (nomb && S && M.juego === 'selva') info = `<span class="small">casillero ${S.pos[i] < 0 ? '—' : S.pos[i]}</span>`;
+    const cls = M.juego === 'selva' && nomb ? 'f' + i : M.juego === 'truco4' && nomb ? 'f' + (i % 2) : M.juego === 'truco' && nomb ? 'f' + i : '';
     return `<div class="mesa-asiento ${turno ? 'turno' : ''} ${mio ? 'mio' : ''} ${nomb ? '' : 'vacio'}" style="left:${x}%;top:${y}%">
       ${cartas && y < 50 ? `<div class="mesa-mano-otro">${cartas}</div>` : ''}
-      <div class="mesa-avatar ${M.juego === 'selva' && nomb ? 'f' + i : ''}">${nomb ? esc(nomb[0]).toUpperCase() : '+'}</div><b class="mesa-nom">${nomb ? esc(nomb) : 'libre'}</b>${info}
+      <div class="mesa-avatar ${cls}">${nomb ? esc(nomb[0]).toUpperCase() : '+'}</div><b class="mesa-nom">${nomb ? esc(nomb) : 'libre'}</b>${info}
       ${cartas && y >= 50 ? `<div class="mesa-mano-otro">${cartas}</div>` : ''}${turno && M.segundos != null ? `<span class="mesa-reloj">⏱️ ${M.segundos}s</span>` : ''}</div>`;
   }).join('');
   // mi mano y mis botones
   let mano = '', botones = '';
   if (S && yo >= 0) {
-    if (M.juego === 'truco') mano = (S.cartas[yo] || []).map((c, i) => `<button class="mesa-micarta" ${S.puedoTirar ? '' : 'disabled'} onclick="jugarMesa('tirar:${i}')">${mesaCard(c, 84)}</button>`).join('') + (S.miEnvido != null ? `<div class="small mut" style="align-self:center">Tu envido: <b>${S.miEnvido}</b></div>` : '');
+    if (truco) mano = (S.cartas[yo] || []).map((c, i) => `<button class="mesa-micarta" ${S.puedoTirar ? '' : 'disabled'} onclick="jugarMesa('tirar:${i}')">${mesaCard(c, 84)}</button>`).join('') + (S.miEnvido != null && S.cartas[yo].length ? `<div class="small mut" style="align-self:center">Tu envido: <b>${S.miEnvido}</b></div>` : '');
     if (M.juego === 'poker') mano = (S.cartas[yo] || []).map(c => `<span class="mesa-micarta">${mesaCard(c, 84)}</span>`).join('') + (S.jugada ? `<div class="small" style="align-self:center">Tenés: <b>${esc(S.jugada)}</b></div>` : '');
     botones = (S.acciones || []).map(([a, t]) => `<button class="arma-btn" style="flex-direction:row" onclick="jugarMesa('${a}')"><b>${esc(t)}</b></button>`).join('');
   }
   if (M.estado === 'espera') {
     botones = `<input class="inp" id="mesaInv" placeholder="Nombre del jugador a invitar" style="flex:1;min-width:180px"><button class="arma-btn" style="flex-direction:row" onclick="mesaAccion('invitar')"><b>📨 Invitar</b></button>`
-      + (M.soyHost && M.juego !== 'truco' ? `<button class="arma-btn" style="flex-direction:row" ${M.jugadores.length < M.min ? 'disabled' : ''} onclick="mesaAccion('empezar')"><b>▶ Empezar</b></button>` : '');
+      + (M.soyHost && M.jugadores.length >= M.min && M.jugadores.length < M.max ? `<button class="arma-btn" style="flex-direction:row" onclick="mesaAccion('empezar')"><b>▶ Empezar (${M.jugadores.length} jugadores)</b></button>` : '')
+      + (M.soyHost && M.jugadores.length < M.min ? `<button class="arma-btn" style="flex-direction:row" disabled><b>▶ Empezar (faltan jugadores)</b></button>` : '');
     if (M.invitados.length) extra = `<p class="small mut">Invitados: ${M.invitados.map(esc).join(', ')}</p>`;
   }
+  let cuerpo;
+  if (NUEVO && M.estado !== 'espera' && S) {
+    const ui = { generala: generalaUI, chinchon: chinchonUI, naval: navalUI, cuatro: cuatroUI, cacho: cachoUI }[M.juego](M, S, yo);
+    const chips = M.jugadores.map((nn, i) => `<div class="nu-chip${M.debe === i ? ' turno' : ''}${i === yo ? ' mio' : ''}"><span class="mesa-avatar f${i % 4}">${esc(nn[0] || '?').toUpperCase()}</span><b>${esc(nn)}</b>${M.debe === i && M.segundos != null ? `<span class="mesa-reloj">⏱️ ${M.segundos}s</span>` : ''}</div>`).join('');
+    cuerpo = `<div class="nu-barra">${chips}</div>${ui}${M.estado === 'fin' ? `<div class="mesa-fin" style="text-align:center;margin:10px auto;display:table">🏆 ${esc(M.ganador || '')} ${M.ganadores.length > 1 ? 'empatan: ' : 'ganó '}${n(M.premioC)} AC${M.ganadores.length > 1 ? ' c/u' : ''}</div>` : ''}`;
+  } else cuerpo = `${marcador}<div class="mesa-paño ${M.juego}"><div class="mesa-centro">${centro}</div>${asientos}</div>${abajo}${mano ? `<div class="mesa-mimano">${mano}</div>` : ''}`;
   $('mesasCont').innerHTML = `<div class="card mesa-sala" id="mesaMesa">
-    <div class="mesa-top"><button class="btn" onclick="salirMesas()">⬅ Mesas</button><b style="font:700 22px Oswald,sans-serif">${M.ico} ${esc(M.nombre)}</b><span class="small">Entrada ${n(M.apuesta)} AC · el ganador se lleva <b>${n(M.premio)} AC</b></span>
+    <div class="mesa-top"><button class="btn" onclick="salirMesas()">⬅ Mesas</button><b style="font:700 22px Oswald,sans-serif">${M.ico} ${esc(M.nombre)}</b><span class="small">Entrada ${n(M.apuesta)} AC · ${M.equipos ? 'cada ganador se lleva' : 'el ganador se lleva'} <b>${n(M.premio)} AC</b></span>
       ${M.estado !== 'fin' ? `<button class="btn" style="margin-left:auto" onclick="mesaAccion('salir')">${M.estado === 'espera' ? 'Levantarme' : 'Abandonar'}</button>` : ''}</div>
-    <div class="mesa-paño ${M.juego}"><div class="mesa-centro">${centro}</div>${asientos}</div>
-    ${mano ? `<div class="mesa-mimano">${mano}</div>` : ''}
+    ${M.estado === 'espera' ? `<div class="mesa-paño ${M.juego}"><div class="mesa-centro">${centro}</div>${asientos}</div>` : cuerpo}
     <div class="mesa-acciones">${botones}</div><p id="mesaErr" class="small" style="color:#e74c3c;min-height:1em;margin:4px 0"></p>${extra}
     <div class="mesa-log">${M.log.slice().reverse().map(t => `<div>${esc(t)}</div>`).join('')}</div></div>`;
 }
+// ---------- Ruleta de El Gaucho ----------
+const RU_ORDEN = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
+const RU_ROJOS = new Set([1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]);
+const ruCol = n => n === 0 ? '#1e8c4a' : RU_ROJOS.has(n) ? '#c0392b' : '#1b1b1b';
+let ruFicha = 50, ruApuestas = {}, ruBusy = false, ruRot = 0, ruInfo = null, ruMsg = '';
+function ruRueda() {
+  const N = 37, R = 120, C = 130, a = 2 * Math.PI / N;
+  let sect = '', nums = '';
+  RU_ORDEN.forEach((n, i) => {
+    const a0 = i * a - a / 2 - Math.PI / 2, a1 = i * a + a / 2 - Math.PI / 2, mid = i * a - Math.PI / 2;
+    const p = (r, an) => `${(C + r * Math.cos(an)).toFixed(1)},${(C + r * Math.sin(an)).toFixed(1)}`;
+    sect += `<path d="M${p(60, a0)} L${p(R, a0)} A${R},${R} 0 0 1 ${p(R, a1)} L${p(60, a1)} A60,60 0 0 0 ${p(60, a0)}Z" fill="${ruCol(n)}" stroke="#d4a82a" stroke-width=".8"/>`;
+    nums += `<text x="${(C + 98 * Math.cos(mid)).toFixed(1)}" y="${(C + 98 * Math.sin(mid) + 3.5).toFixed(1)}" fill="#fff" font-size="10" font-weight="700" text-anchor="middle" transform="rotate(${(i * 360 / N).toFixed(2)} ${(C + 98 * Math.cos(mid)).toFixed(1)} ${(C + 98 * Math.sin(mid)).toFixed(1)})">${n}</text>`;
+  });
+  return `<div class="ru-rueda"><div class="ru-puntero">▼</div><svg viewBox="0 0 260 260" id="ruSvg" style="transform:rotate(${ruRot}deg)"><circle cx="130" cy="130" r="127" fill="#4a2c0f" stroke="#d4a82a" stroke-width="3"/>${sect}${nums}<circle cx="130" cy="130" r="56" fill="#2a1505" stroke="#d4a82a" stroke-width="3"/><circle cx="130" cy="130" r="14" fill="#d4a82a"/></svg><div class="ru-bola" id="ruBola"></div></div>`;
+}
+function ruCelda(t, txt, cls) {
+  const m = ruApuestas[t];
+  return `<button class="ru-c ${cls || ''}${m ? ' tiene' : ''}" onclick="ruPoner('${t}')" oncontextmenu="ruQuitar('${t}');return false;">${txt}${m ? `<span class="ru-ficha">${m}</span>` : ''}</button>`;
+}
+async function renderRuleta() {
+  const box = $('ruletaCont'); if (!box) return;
+  if (!isLinked()) { box.innerHTML = '<div class="card"><h3 style="margin:0 0 6px">🎡 Ruleta de El Gaucho</h3><p class="small mut" style="margin:0">Vinculá tu cuenta (Mi cuenta) para jugar.</p></div>'; return; }
+  if (!ruInfo) { try { ruInfo = await post('ruleta', { token: getTok(), action: 'info' }); } catch { ruInfo = null; } }
+  if (!ruInfo || ruInfo.error) { box.innerHTML = `<div class="card"><h3>🎡 Ruleta de El Gaucho</h3><p class="small mut">${esc((ruInfo && ruInfo.error) || 'No se pudo conectar.')}</p></div>`; return; }
+  const total = Object.values(ruApuestas).reduce((s, v) => s + v, 0);
+  const filas = [3, 2, 1].map(f => Array.from({ length: 12 }, (_, c) => { const n = c * 3 + f; return ruCelda('n:' + n, n, RU_ROJOS.has(n) ? 'rj' : 'nj'); }).join('')).join('');
+  box.innerHTML = `<div class="card ru-card"><h3 style="margin:0 0 4px;font-size:20px">🎡 Ruleta de El Gaucho</h3>
+    <p class="small mut" style="margin:0 0 10px">Elegí una ficha, tocá donde querés apostar (clic derecho para sacar, o «Limpiar») y girá. Pleno paga x36, docenas x3, rojo/negro/par/impar x2. Saldo: <b>${Math.floor((me && me.balance) || ruInfo.balance).toLocaleString('es-AR')} AC</b> · te quedan ${ruInfo.girosLeft} giros hoy.</p>
+    <div class="ru-wrap">${ruRueda()}
+      <div class="ru-mesa"><div class="ru-fichas">${ruInfo.fichas.map(f => `<button class="ru-ficha-b${f === ruFicha ? ' on' : ''}" onclick="ruFicha=${f};renderRuleta()">${f}</button>`).join('')}</div>
+        <div class="ru-tabla"><button class="ru-c z${ruApuestas['n:0'] ? ' tiene' : ''}" onclick="ruPoner('n:0')" oncontextmenu="ruQuitar('n:0');return false;">0${ruApuestas['n:0'] ? `<span class="ru-ficha">${ruApuestas['n:0']}</span>` : ''}</button><div class="ru-nums">${filas}</div></div>
+        <div class="ru-fila3">${ruCelda('d1', '1ª docena (1-12)')}${ruCelda('d2', '2ª docena (13-24)')}${ruCelda('d3', '3ª docena (25-36)')}</div>
+        <div class="ru-fila6">${ruCelda('bajo', '1-18')}${ruCelda('par', 'Par')}${ruCelda('rojo', '◆ Rojo', 'rj')}${ruCelda('negro', '◆ Negro', 'nj')}${ruCelda('impar', 'Impar')}${ruCelda('alto', '19-36')}</div>
+        <div class="ru-acc"><span class="ru-total">Apostado: <b>${total}</b> AC</span><button class="btn" ${ruBusy || !total ? 'disabled' : ''} onclick="ruApuestas={};ruMsg='';renderRuleta()">Limpiar</button>
+          <button class="slot-go" style="width:auto;padding:10px 28px;font-size:22px" ${ruBusy || !total ? 'disabled' : ''} onclick="ruGirar()">🎡 GIRAR</button></div>
+        <div class="slot-msg" id="ruMsg">${ruMsg}</div></div></div></div>`;
+}
+function ruPoner(t) {
+  if (ruBusy) return;
+  const total = Object.values(ruApuestas).reduce((s, v) => s + v, 0);
+  if (!ruApuestas[t] && Object.keys(ruApuestas).length >= ruInfo.maxApuestas) { ruMsg = `Hasta ${ruInfo.maxApuestas} apuestas por giro.`; return renderRuleta(); }
+  if (total + ruFicha > ruInfo.maxPorGiro) { ruMsg = `El máximo por giro es ${ruInfo.maxPorGiro} AC.`; return renderRuleta(); }
+  ruApuestas[t] = (ruApuestas[t] || 0) + ruFicha; ruMsg = ''; renderRuleta();
+}
+function ruQuitar(t) { if (ruBusy) return; if (ruApuestas[t]) { ruApuestas[t] -= ruFicha; if (ruApuestas[t] <= 0) delete ruApuestas[t]; } renderRuleta(); }
+async function ruGirar() {
+  if (ruBusy || !Object.keys(ruApuestas).length) return;
+  ruBusy = true; $('ruMsg').textContent = 'Girando...'; renderRuletaBotones();
+  let res; try { res = await post('ruleta', { token: getTok(), action: 'girar', apuestas: Object.entries(ruApuestas).map(([t, m]) => ({ t, m })) }); } catch { res = { error: 'No se pudo conectar con el server.' }; }
+  if (res.error) { ruBusy = false; ruMsg = res.error; return renderRuleta(); }
+  const i = RU_ORDEN.indexOf(res.n), svg = $('ruSvg');
+  ruRot = Math.ceil(ruRot / 360) * 360 + 360 * 5 - i * 360 / 37;
+  svg.style.transition = 'transform 4.2s cubic-bezier(.12,.6,.15,1)'; svg.style.transform = `rotate(${ruRot}deg)`;
+  const bola = $('ruBola'); if (bola) { bola.classList.remove('cae'); void bola.offsetWidth; bola.classList.add('cae'); }
+  await new Promise(ok => setTimeout(ok, 4400));
+  const gano = res.win > 0, neto = res.win - res.total;
+  ruMsg = `<span class="ru-sale" style="background:${ruCol(res.n)}">${res.n}</span> ${gano ? `¡Ganaste <b>${res.win.toLocaleString('es-AR')} AC</b>!${neto > 0 ? ` (+${neto})` : neto < 0 ? ` (${neto})` : ' (empate)'}` : 'Nada esta vez... ¡otra!'}`;
+  if (me) me.balance = res.balance; ruInfo.girosLeft = res.girosLeft; ruInfo.balance = res.balance;
+  ruBusy = false; renderWallet(); if ($('accBal')) $('accBal').textContent = res.balance + ' AC';
+  renderRuleta();
+}
+function renderRuletaBotones() { document.querySelectorAll('.ru-acc button').forEach(b => { b.disabled = true; }); }
 async function loadJefes() {
   const box = $('jefesCont'); box.innerHTML = '<p class="mut small">Cargando...</p>';
   if (apiBase === null) await getStatus().catch(() => { });
