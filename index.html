@@ -187,6 +187,13 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .ru-acc{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:12px}.ru-total{background:rgba(0,0,0,.4);padding:4px 12px;border-radius:10px}
 .ru-sale{display:inline-block;min-width:34px;padding:2px 8px;border-radius:50%;border:2px solid #ffd24a;color:#fff;font-weight:800;margin-right:6px}
 @media(max-width:640px){.ru-c{padding:10px 0;font-size:12px}.ru-fila6 .ru-c{font-size:11px}}
+
+/* blackjack */
+.bj-mesa{background:radial-gradient(ellipse at 50% 30%,#2a9a5c,#11552f 75%);border:8px solid #6b4423;border-radius:20px;padding:14px;box-shadow:inset 0 0 40px rgba(0,0,0,.5);min-height:200px}
+.bj-fila{margin-bottom:10px;text-align:center}.bj-t{font-size:15px;margin-bottom:4px}.bj-t b{font:700 22px Oswald,sans-serif;color:#ffd24a}.bj-cartas{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}.bj-cartas svg{filter:drop-shadow(0 3px 5px rgba(0,0,0,.6))}
+.tr-muestra{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;background:rgba(0,0,0,.3);border-radius:12px;padding:6px 12px;margin:-4px auto 10px;max-width:900px;text-align:center}.tr-muestra>div{display:flex;flex-direction:column;align-items:center;gap:3px}.tr-piezas{display:flex;gap:3px}
+.tr-pips.mini i{width:6px;height:6px}
+.bj-vacio{text-align:center;padding:60px 10px;color:#cfe}.bj-res{text-align:center;font:700 22px Oswald,sans-serif;padding:6px 10px;border-radius:12px;background:rgba(0,0,0,.45)}.bj-res.gano{color:#7dffb0}.bj-res.perdio{color:#ff8a7a}.bj-res.empate{color:#ffd24a}
 /* mesas nuevas */
 .mesa-bazas{flex-wrap:wrap;justify-content:center;gap:10px}
 .tr-cartas{display:flex;gap:4px;justify-content:center}.tr-jug{display:flex;flex-direction:column;align-items:center;font-size:10px;opacity:.9}.tr-jug span{background:rgba(0,0,0,.55);padding:0 5px;border-radius:6px;margin-top:2px}
@@ -873,9 +880,10 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
 </div></section>
 <section id="juegos" data-tab="juegos"><div class="wrap">
   <h2>🎲 Juegos</h2>
-  <p class="sub">Sentate a una mesa con otros jugadores: truco (1 contra 1 o por parejas), generala, chinchón, batalla naval, cuatro en línea, cacho, póker o La Selva. O jugá contra la máquina: la ruleta, El Gaucho, La Selva Argento con misiones, quiniela, bingo y lotería. Lo que ganás va directo a tu saldo.</p>
+  <p class="sub">Sentate a una mesa con otros jugadores: truco (1 contra 1 o por parejas), generala, chinchón, batalla naval, cuatro en línea, cacho, póker o La Selva. O jugá contra la máquina: la ruleta, el veintiuno, El Gaucho, La Selva Argento con misiones, quiniela, bingo y lotería. Lo que ganás va directo a tu saldo.</p>
   <div id="mesasCont"></div>
   <div id="ruletaCont" style="margin-top:18px"></div>
+  <div id="bjCont" style="margin-top:18px"></div>
   <h3 style="margin:22px 0 10px">🤖 Contra la máquina</h3>
   <div id="juegosCont"><p class="mut small">Cargando...</p></div>
 </div></section>
@@ -1527,7 +1535,7 @@ async function juegosAcc(action, extra = {}) {
   if (d.juego) h += `<p style="margin-top:10px"><button class="btn" onclick="juegosAcc('menu')">⬅ Todos los juegos</button></p>`;
   box.innerHTML = h;
 }
-function loadJuegos() { juegosAcc('ver'); loadMesas(); ruInfo = null; renderRuleta(); }
+function loadJuegos() { juegosAcc('ver'); loadMesas(); ruInfo = null; renderRuleta(); bjSt = null; renderBJ(); }
 // ---------- Party con la tribu ----------
 function partyInv(n) { partyAcc('invitar', n); }
 async function partyAcc(action, name) {
@@ -1665,8 +1673,9 @@ let cachoQ = 1, cachoF = 2;
 
 function trucoMarcador(M, S) {
   const eqs = [0, 1].map(t => `<div class="tr-eq eq${t}${M.yo >= 0 && M.yo % 2 === t ? ' mio' : ''}"><div class="tr-eq-n">${esc(S.equipos[t] || '-')}${M.yo >= 0 && M.yo % 2 === t ? ' ⭐' : ''}</div><div class="tr-eq-p">${S.pts[t]}</div>
-    <div class="tr-pips">${Array.from({ length: S.puntos }, (_, k) => `<i class="${k < S.pts[t] ? 'on' : ''}${k % 5 === 4 ? ' gr' : ''}"></i>`).join('')}</div></div>`);
-  return `<div class="tr-score">${eqs[0]}<div class="tr-vs"><span>a ${S.puntos}</span>${S.nivel > 1 ? `<b>${['', '', 'TRUCO', 'RETRUCO', 'VALE 4'][S.nivel]}</b>` : ''}<small>mano: ${esc(M.jugadores[S.mano] || '')}</small></div>${eqs[1]}</div>`;
+    <div class="tr-pips${S.puntos > 15 ? ' mini' : ''}">${Array.from({ length: S.puntos }, (_, k) => `<i class="${k < S.pts[t] ? 'on' : ''}${k % 5 === 4 ? ' gr' : ''}"></i>`).join('')}</div></div>`);
+  const muestra = S.muestra ? `<div class="tr-muestra"><div><span class="small">Muestra</span>${mesaCard(S.muestra, 46)}</div><div><span class="small">Piezas (de la más fuerte a la más débil)</span><div class="tr-piezas">${S.piezas.map(c => mesaCard(c, 32)).join('')}</div></div></div>` : '';
+  return `<div class="tr-score">${eqs[0]}<div class="tr-vs"><span>a ${S.puntos}</span>${S.nivel > 1 ? `<b>${['', '', 'TRUCO', 'RETRUCO', 'VALE 4'][S.nivel]}</b>` : ''}<small>mano: ${esc(M.jugadores[S.mano] || '')}</small></div>${eqs[1]}</div>` + muestra;
 }
 function trucoCentro(M, S) {
   const n = S.n, w = n > 2 ? 36 : 44;
@@ -1764,7 +1773,7 @@ function pintarMesa(M) {
   const pos = mesaAsientos(Math.max(M.jugadores.length, M.estado === 'espera' ? M.max : 0), yo);
   const lugares = M.estado === 'espera' ? Array.from({ length: M.max }, (_, i) => M.jugadores[i] ?? null) : M.jugadores;
   let centro = '', extra = '', marcador = '', abajo = '';
-  const truco = (M.juego === 'truco' || M.juego === 'truco4') && S;
+  const truco = /^truco/.test(M.juego) && S;
   if (truco) { marcador = trucoMarcador(M, S); centro = trucoCentro(M, S); abajo = trucoResultado(M, S); }
   if (M.juego === 'poker' && S) centro = `<div class="mesa-comunes">${[0, 1, 2, 3, 4].map(i => S.comunes[i] ? mesaCard(S.comunes[i], 50) : '<i class="mesa-hueco p"></i>').join('')}</div><div class="mesa-pozo">🪙 Pozo: <b>${n(S.pozo)}</b> fichas</div>`;
   if (M.juego === 'selva' && S) {
@@ -1777,9 +1786,9 @@ function pintarMesa(M) {
     const [x, y] = pos[i] || [50, 50], turno = M.debe === i, mio = i === yo;
     let info = '', cartas = '';
     if (nomb && S && M.juego === 'poker') { info = `<span class="small">${S.fuera[i] ? 'se fue' : n(S.fichas[i]) + ' fichas'}${S.boton === i ? ' · 🔘' : ''}${S.ronda[i] ? ' · apuesta ' + n(S.ronda[i]) : ''}</span>`; if (!mio) cartas = (S.cartas[i] || []).map(c => mesaCard(c, 34)).join(''); }
-    if (nomb && truco) { if (!mio) cartas = (S.cartas[i] || []).map(c => mesaCard(c, 30)).join(''); info = `<span class="small">${S.mano === i ? '🅜 mano' : ''}${M.juego === 'truco4' ? (S.mano === i ? ' · ' : '') + 'equipo ' + (i % 2 + 1) : ''}</span>`; }
+    if (nomb && truco) { if (!mio) cartas = (S.cartas[i] || []).map(c => mesaCard(c, 30)).join(''); info = `<span class="small">${S.mano === i ? '🅜 mano' : ''}${M.juego.endsWith('4') ? (S.mano === i ? ' · ' : '') + 'equipo ' + (i % 2 + 1) : ''}</span>`; }
     if (nomb && S && M.juego === 'selva') info = `<span class="small">casillero ${S.pos[i] < 0 ? '—' : S.pos[i]}</span>`;
-    const cls = M.juego === 'selva' && nomb ? 'f' + i : M.juego === 'truco4' && nomb ? 'f' + (i % 2) : M.juego === 'truco' && nomb ? 'f' + i : '';
+    const cls = M.juego === 'selva' && nomb ? 'f' + i : M.juego.endsWith('4') && nomb ? 'f' + (i % 2) : /^truco/.test(M.juego) && nomb ? 'f' + i : '';
     return `<div class="mesa-asiento ${turno ? 'turno' : ''} ${mio ? 'mio' : ''} ${nomb ? '' : 'vacio'}" style="left:${x}%;top:${y}%">
       ${cartas && y < 50 ? `<div class="mesa-mano-otro">${cartas}</div>` : ''}
       <div class="mesa-avatar ${cls}">${nomb ? esc(nomb[0]).toUpperCase() : '+'}</div><b class="mesa-nom">${nomb ? esc(nomb) : 'libre'}</b>${info}
@@ -1874,6 +1883,30 @@ async function ruGirar() {
   renderRuleta();
 }
 function renderRuletaBotones() { document.querySelectorAll('.ru-acc button').forEach(b => { b.disabled = true; }); }
+// ---------- Veintiuno (Blackjack) contra El Gaucho ----------
+let bjFicha = 100, bjSt = null, bjBusy = false, bjMsg = '';
+async function bjPost(data) { try { return await post('blackjack', { token: getTok(), ...data }); } catch { return { error: 'No se pudo conectar con el server.' }; } }
+async function renderBJ(recargar) {
+  const box = $('bjCont'); if (!box) return;
+  if (!isLinked()) { box.innerHTML = '<div class="card"><h3 style="margin:0 0 6px">🃏 Veintiuno (Blackjack)</h3><p class="small mut" style="margin:0">Vinculá tu cuenta (Mi cuenta) para jugar.</p></div>'; return; }
+  if (!bjSt || recargar) bjSt = await bjPost({ action: 'info' });
+  const d = bjSt; if (!d || d.error) { box.innerHTML = '<div class="card"><h3>🃏 Veintiuno</h3><p class="small mut">' + esc((d && d.error) || 'No se pudo conectar.') + '</p></div>'; return; }
+  const H = d.mano, jugando = H && H.estado === 'jugando';
+  const fila = (cs, w) => cs.map(c => mesaCard(c, w)).join('');
+  let mesa = '';
+  if (H) mesa = `<div class="bj-fila"><div class="bj-t">El Gaucho <b>${H.ct}</b></div><div class="bj-cartas">${fila(H.crupier, 78)}</div></div>
+    <div class="bj-fila"><div class="bj-t">Vos <b>${H.jt}${H.blando && jugando ? ' (blando)' : ''}</b> · apuesta ${H.apuesta} AC</div><div class="bj-cartas">${fila(H.jugador, 78)}</div></div>
+    ${H.resultado ? `<div class="bj-res ${H.pago > H.apuesta ? 'gano' : H.pago === H.apuesta ? 'empate' : 'perdio'}">${esc(H.resultado)}${H.pago > H.apuesta ? ` <b>+${(H.pago - H.apuesta).toLocaleString('es-AR')} AC</b>` : H.pago === H.apuesta ? '' : ` <b>-${H.apuesta} AC</b>`}</div>` : ''}`;
+  else mesa = '<div class="bj-vacio">Elegí tu ficha y repartí. El Gaucho se planta en 17. Blackjack paga 3 a 2.</div>';
+  const botones = jugando ? `<button class="arma-btn" style="flex-direction:row" ${bjBusy ? 'disabled' : ''} onclick="bjAcc('pedir')"><b>➕ Pedir</b></button><button class="arma-btn" style="flex-direction:row" ${bjBusy ? 'disabled' : ''} onclick="bjAcc('plantar')"><b>✋ Plantarme</b></button>${H.puedoDoblar ? `<button class="arma-btn" style="flex-direction:row" ${bjBusy ? 'disabled' : ''} onclick="bjAcc('doblar')"><b>✖2 Doblar</b></button>` : ''}`
+    : `<div class="ru-fichas" style="margin:0">${d.fichas.map(f => `<button class="ru-ficha-b${f === bjFicha ? ' on' : ''}" onclick="bjFicha=${f};renderBJ()">${f}</button>`).join('')}</div><button class="slot-go" style="width:auto;padding:10px 28px;font-size:22px" ${bjBusy ? 'disabled' : ''} onclick="bjRepartir()">🃏 REPARTIR ${bjFicha} AC</button>`;
+  box.innerHTML = `<div class="card bj-card"><h3 style="margin:0 0 4px;font-size:20px">🃏 Veintiuno (Blackjack)</h3>
+    <p class="small mut" style="margin:0 0 10px">Sumá lo más cerca de 21 sin pasarte. Saldo: <b>${Math.floor((me && me.balance) || d.balance).toLocaleString('es-AR')} AC</b> · te quedan ${d.manosLeft} manos hoy.</p>
+    <div class="bj-mesa">${mesa}</div><div class="ru-acc">${botones}</div><p class="small" style="color:#e74c3c;min-height:1em;margin:6px 0 0;text-align:center">${esc(bjMsg)}</p></div>`;
+}
+async function bjRepartir() { if (bjBusy) return; bjBusy = true; bjMsg = ''; const d = await bjPost({ action: 'repartir', apuesta: bjFicha }); bjBusy = false; if (d.error) { bjMsg = d.error; return renderBJ(); } bjSt = d; bjSync(); renderBJ(); }
+async function bjAcc(a) { if (bjBusy) return; bjBusy = true; bjMsg = ''; const d = await bjPost({ action: a }); bjBusy = false; if (d.error) { bjMsg = d.error; return renderBJ(); } bjSt = d; bjSync(); renderBJ(); }
+function bjSync() { if (me && bjSt && bjSt.balance != null) me.balance = bjSt.balance; try { renderWallet(); if ($('accBal')) $('accBal').textContent = bjSt.balance + ' AC'; } catch { } }
 async function loadJefes() {
   const box = $('jefesCont'); box.innerHTML = '<p class="mut small">Cargando...</p>';
   if (apiBase === null) await getStatus().catch(() => { });
