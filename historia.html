@@ -265,6 +265,8 @@ html,body{margin:0;height:100%;background:var(--noche);color:#eee;font-family:'L
   var libro = document.getElementById('libro'), escena = document.getElementById('escena');
   var dos = false, cur = 0, ocupado = false; // cur: indice de spread (dos) o de pagina (una)
   var imprimir = /[?&]imprimir/.test(location.search);
+  var solo = (location.search.match(/[?&]solo=([0-9]+)/) || [])[1];
+  if (solo != null) { document.documentElement.style.cssText = document.body.style.cssText = 'margin:0;width:1080px;height:1350px;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#3a2a16,#150f08 75%)'; document.getElementById('visor').style.display = 'none'; var P = document.getElementById('paginas'); P.style.cssText = 'display:block;position:absolute;left:' + ((1080 - 559.37 * 1.62) / 2) + 'px;top:' + ((1350 - 793.7 * 1.62) / 2) + 'px;transform:scale(1.62);transform-origin:top left;box-shadow:0 20px 60px rgba(0,0,0,.7)'; pags.forEach(function (p, i) { if (i != +solo) p.style.display = 'none'; }); return; }
   if (imprimir) { document.getElementById('visor').style.display = 'none'; document.getElementById('paginas').style.display = 'block'; return; }
   function modo() { return window.innerWidth >= 1000; }
   function spreads() { return Math.ceil((N + 1) / 2); }
