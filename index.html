@@ -216,6 +216,26 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .tr-res{margin:12px auto 0;max-width:900px;background:linear-gradient(180deg,#1c3a28,#0f2417);border:2px solid #ffd24a;border-radius:16px;padding:12px 16px;text-align:center;animation:trPop .35s}
 .tr-res.fin{border-color:#2ecc71;box-shadow:0 0 24px rgba(46,204,113,.45)}
 @keyframes trPop{from{transform:scale(.92);opacity:0}}
+/* mesa de truco del desafio: tapete a la izquierda, marcador grande a la derecha */
+.trd-tit{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;padding:10px 14px;border-radius:14px;background:linear-gradient(90deg,#3a2410,#241505);border:2px solid #ffd24a;box-shadow:0 0 22px rgba(255,210,74,.25)}
+.trd-tit b{font:700 22px Oswald,sans-serif;color:#ffd24a;letter-spacing:.5px}
+.trd{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:18px;align-items:start}
+.trd-mesa .mesa-paño{box-shadow:inset 0 0 60px rgba(0,0,0,.6),0 0 0 4px #3a2410,0 18px 40px rgba(0,0,0,.65),0 0 60px rgba(255,200,90,.18)}
+.trd-mesa .mesa-paño::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(ellipse at 50% 35%,rgba(255,236,170,.22),transparent 60%)}
+.trd-mesa .tr-jug svg{animation:trdCaer .4s ease-out}
+@keyframes trdCaer{from{transform:translateY(-26px) rotate(-8deg);opacity:0}}
+.trd-side{position:sticky;top:10px;display:flex;flex-direction:column;gap:10px}
+.trd-eq{background:linear-gradient(180deg,#3a2410,#241505);border:2px solid #6b4423;border-radius:16px;padding:10px 12px;text-align:center;transition:box-shadow .3s,border-color .3s}
+.trd-eq.lider{border-color:#ffd24a;box-shadow:0 0 22px rgba(255,210,74,.55)}
+.trd-eq-n{font-size:15px;opacity:.95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.trd-eq.j .trd-eq-n{color:#7ec0ff}.trd-eq.b .trd-eq-n{color:#ff8a7a}
+.trd-eq-p{font:700 74px/1 Oswald,sans-serif;color:#ffd24a;text-shadow:0 3px 10px #000}
+.trd-estado{text-align:center;font:700 19px Oswald,sans-serif;padding:8px;border-radius:12px;letter-spacing:.5px}
+.trd-estado.g{background:rgba(46,204,113,.2);border:2px solid #2ecc71;color:#7dffb0}.trd-estado.p{background:rgba(231,76,60,.2);border:2px solid #e74c3c;color:#ff9a8f}.trd-estado.e{background:rgba(255,255,255,.08);border:2px solid #888;color:#ddd}
+.trd-info{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;font-size:13px}.trd-info span{background:rgba(0,0,0,.35);padding:3px 10px;border-radius:10px}
+.trd-feed{max-height:250px;overflow:auto;background:rgba(0,0,0,.28);border-radius:12px;padding:6px 8px}
+.trd-feed h4{margin:2px 0 4px;font-size:13px;opacity:.8}.trd-feed .b{background:rgba(255,255,255,.07);border-left:3px solid #ffd24a;padding:5px 8px;margin:4px 0;border-radius:6px;font-size:13px;animation:trPop .3s}
+.trd-feed .b i{font-style:normal;color:#ffd24a;font-weight:700}
+@media(max-width:860px){.trd{grid-template-columns:1fr}.trd-side{position:static;order:-1}.trd-eq-p{font-size:52px}}
 .tr-res-t{font:700 22px Oswald,sans-serif;color:#ffd24a}.tr-res-g{font-size:17px;margin:4px 0}.tr-res-g b{font-size:20px}.tr-res-s{font-size:18px;margin:4px 0}.tr-res-s b{font:700 28px Oswald,sans-serif;color:#ffd24a}
 .tr-res-m{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:8px 0}.tr-rm{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:13px}.tr-rm>div{display:flex;gap:3px}
 .nu-wrap{max-width:900px;margin:0 auto}
@@ -1542,6 +1562,8 @@ async function juegosAcc(action, extra = {}) {
   if (!tok) { box.innerHTML = '<div class="card"><p>Para jugar tenés que <a href="#cuenta">vincular tu cuenta</a>.</p></div>'; return; }
   let d; try { d = await post('juegosweb', { token: tok, action, ...extra }); } catch { box.innerHTML = '<p class="mut small">No se pudo conectar.</p>'; return; }
   if (d.error) { box.innerHTML = '<div class="card"><p>' + esc(d.error) + '</p></div>'; return; }
+  if (d.mesaTruco) { const k = JSON.stringify([d.mesaTruco, d.aviso, d.balance]); if (k === trdUlt && $('trdMesa')) return; trdUlt = k; pintarTrucoDesafio(d); return; }
+  trdUlt = '';
   let h = `<div class="card" style="margin-bottom:12px"><h3 style="margin:0 0 4px">${esc(d.title || 'Juegos')}</h3><p class="small mut" style="margin:0">${esc(d.sub || '')}</p>
     <p class="small" style="margin:6px 0 0">💰 Tu saldo: <b>${Number(d.balance || 0).toLocaleString('es-AR')} AC</b>${d.online ? '' : ' · <span class="mut">no estás conectado en el juego</span>'}</p></div>`;
   if (d.aviso) h += `<div class="card" style="border-color:var(--acc);margin-bottom:12px">${esc(d.aviso)}</div>`;
@@ -1550,6 +1572,42 @@ async function juegosAcc(action, extra = {}) {
   if (d.chat) h += `<div class="card" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><input class="inp" id="juegosTxt" style="flex:1;min-width:160px" placeholder="Tu número"><button class="btn" onclick="juegosAcc('texto',{text:$('juegosTxt').value})">Enviar</button></div>`;
   if (d.juego) h += `<p style="margin-top:10px"><button class="btn" onclick="juegosAcc('menu')">⬅ Todos los juegos</button></p>`;
   box.innerHTML = h;
+}
+// ---------- mesa real de truco (desafio del pueblo y partida contra El Gaucho) ----------
+let trdUlt = '', trdTimer = null;
+function pintarTrucoDesafio(d) {
+  const M = d.mesaTruco, box = $('juegosCont'), n = v => Number(v || 0).toLocaleString('es-AR');
+  const lider = M.pj > M.pb ? 'j' : M.pb > M.pj ? 'b' : null, fin = !!M.fin;
+  const pips = v => Array.from({ length: M.puntos }, (_, k) => `<i class="${k < v ? 'on' : ''}${k % 5 === 4 ? ' gr' : ''}"></i>`).join('');
+  const sc = (q, nom, pts) => `<div class="trd-eq ${q}${lider === q ? ' lider' : ''}"><div class="trd-eq-n">${esc(nom)}${lider === q ? ' 👑' : ''}</div><div class="trd-eq-p">${pts}</div><div class="tr-pips">${pips(pts)}</div></div>`;
+  const estado = fin ? (M.fin === 'j' ? ['g', '🏆 ¡GANASTE!'] : ['p', '💀 PERDISTE']) : lider === 'j' ? ['g', '🔥 VAS GANANDO'] : lider === 'b' ? ['p', '😬 VAS PERDIENDO'] : ['e', '⚖️ PAREJO'];
+  const bz = M.bazas.map((b, i) => {
+    const cs = (b.j ? `<div class="tr-jug${b.r === 'j' ? ' gana' : ''}">${mesaCard(b.j, 54)}<span>vos</span></div>` : '') + (b.b ? `<div class="tr-jug${b.r === 'b' ? ' gana' : ''}">${mesaCard(b.b, 54)}<span>${esc(M.rival.split(' ').pop().slice(0, 9))}</span></div>` : '');
+    const r = b.r == null ? '' : b.r === 'p' ? '<em>Parda</em>' : `<em>${b.r === 'j' ? 'Baza para vos' : 'Baza para ' + esc(M.rival)}</em>`;
+    return `<div class="mesa-baza"><span class="small">Baza ${i + 1}</span><div class="tr-cartas">${cs}</div>${r}</div>`;
+  }).join('') || '<i class="mesa-hueco"></i>';
+  const canto = M.pend ? `<div class="mesa-canto">¡${esc(M.pend.txt)}! <span class="small">(${M.pend.by === 'j' ? 'vos' : esc(M.rival)})</span></div>` : (M.nivelNom ? `<div class="mesa-canto" style="font-size:20px">${esc(M.nivelNom)} en juego</div>` : '');
+  const ult = M.ult ? `<div class="tr-ev">${M.ult.quien === 'j' ? 'Mano para vos' : 'Mano para ' + esc(M.rival)}: +${M.ult.pts} (${esc(M.ult.por)})</div>` : '';
+  const rivTurno = !fin && ((M.turno === 'b' && !M.pend) || (M.pend && M.pend.by === 'j')), miTurno = !fin && (M.puedoTirar || (M.pend && M.pend.by === 'b'));
+  const atras = Array.from({ length: M.nRival }, () => mesaCard(null, 34)).join('');
+  const paño = `<div class="mesa-paño truco"><div class="mesa-centro">${`<div class="mesa-bazas">${bz}</div>${canto}${ult}`}</div>
+    <div class="mesa-asiento ${rivTurno ? 'turno' : ''}" style="left:50%;top:9%"><div class="mesa-mano-otro">${atras}</div><div class="mesa-avatar f1">${esc(M.rival[0]).toUpperCase()}</div><b class="mesa-nom">${esc(M.rival)}</b><span class="small">${M.mano === 'b' ? '🅜 mano' : ''}</span></div>
+    <div class="mesa-asiento mio ${miTurno ? 'turno' : ''}" style="left:50%;top:91%"><div class="mesa-avatar f0">${esc(M.char[0] || '?').toUpperCase()}</div><b class="mesa-nom">${esc(M.char)} (vos)</b><span class="small">${M.mano === 'j' ? '🅜 mano' : ''}</span></div></div>`;
+  const mano = fin ? '' : `<div class="mesa-mimano">${M.cartas.map((c, i) => `<button class="mesa-micarta" ${M.puedoTirar ? '' : 'disabled'} data-a="fn:truco:jugar:${i}" onclick="juegosFn(this.dataset.a)">${mesaCard(c, 90)}</button>`).join('')}${M.cartas.length ? `<div class="small mut" style="align-self:center">Tu envido: <b>${M.miEnvido}</b></div>` : ''}</div>`;
+  const acc = fin ? '' : `<div class="mesa-acciones">${M.acciones.map(([a, t]) => `<button class="arma-btn" style="flex-direction:row" data-a="${esc(a)}" onclick="juegosFn(this.dataset.a)"><b>${esc(t)}</b></button>`).join('')}</div>`;
+  const ayuda = fin ? '' : miTurno ? '<p class="small" style="text-align:center;margin:6px 0;color:#7dffb0"><b>¡Tu turno!</b> Tocá una carta para tirarla o cantá.</p>' : `<p class="small mut" style="text-align:center;margin:6px 0">Juega ${esc(M.rival)}...</p>`;
+  const final = fin ? `<div class="tr-res fin"><div class="tr-res-t">🏁 ¡FIN DE LA PARTIDA!</div><div class="tr-res-s">${esc(M.char)} <b>${M.pj}</b> — <b>${M.pb}</b> ${esc(M.rival)}</div>
+    <div class="tr-res-g">${M.fin === 'j' ? (M.desafio ? `Le ganaste a <b>${esc(M.rival)}</b> y cobrás <b>${n(M.premio)} AC</b>. ¡El pueblo se lo gasta!` : `Cobraste <b>${n(M.premio)} AC</b>`) : `Perdiste con <b>${esc(M.rival)}</b>. ¡Preparate para las cargadas del pueblo!`}</div></div>` : '';
+  const feed = (M.coment.length ? M.coment.map(c => `<div class="b"><i>${esc(c.nom)}:</i> ${esc(c.txt)}</div>`).join('') : '<div class="small mut" style="padding:6px">El pueblo está mirando la partida...</div>');
+  const side = `<div class="trd-side">${sc('j', M.char + ' (vos)', M.pj)}<div class="trd-estado ${estado[0]}">${estado[1]}</div>${sc('b', M.rival, M.pb)}
+    <div class="trd-info"><span>A ${M.puntos} puntos</span>${M.desafio ? `<span>🎁 Premio ${n(M.premio)} AC</span>` : `<span>💰 Apuesta ${n(M.apuesta)} AC</span>`}${M.nivelNom ? `<span>🔥 ${esc(M.nivelNom)}</span>` : ''}</div>
+    <div class="trd-feed"><h4>🏘️ El pueblo comenta</h4>${feed}${M.log.length ? `<h4>📜 Última jugada</h4>` + M.log.slice(-3).map(t => `<div class="small mut">${esc(t)}</div>`).join('') : ''}</div></div>`;
+  box.innerHTML = `<div id="trdMesa"><div class="trd-tit"><span style="font-size:30px">🃏</span><b>${M.desafio ? 'DESAFÍO DE TRUCO' : 'TRUCO'} · ${esc(M.char)} vs ${esc(M.rival)}</b><span class="small" style="margin-left:auto">Tu saldo: <b>${n(d.balance)} AC</b></span></div>
+    ${d.aviso ? `<div class="card" style="border-color:var(--acc);margin-bottom:10px">${esc(d.aviso)}</div>` : ''}
+    <div class="trd"><div class="trd-mesa">${paño}${ayuda}${mano}${acc}${final}</div>${side}</div>
+    <p style="margin-top:12px"><button class="btn" onclick="juegosAcc('menu')">⬅ Todos los juegos</button> <button class="btn-reglas" onclick="verReglas('truco')">📖 Reglas</button></p></div>`;
+  clearInterval(trdTimer);
+  trdTimer = setInterval(() => { if (!$('trdMesa')) { clearInterval(trdTimer); trdTimer = null; return; } if (!document.hidden) juegosAcc('ver'); }, 3000);
 }
 function loadJuegos() { juegosAcc('ver'); loadMesas(); ruInfo = null; renderRuleta(); bjSt = null; renderBJ(); }
 // ---------- Party con la tribu ----------
