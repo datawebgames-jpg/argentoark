@@ -1,6 +1,18 @@
 [
   {
     "fecha": "2026-11-24",
+    "titulo": "Más juegos: ajedrez, damas, dominó, cohete, plinko, minas, pesca y torneos",
+    "nuevo": [
+      "♟️ Nuevos juegos de mesa 1 contra 1: Ajedrez (con todas las reglas), Damas españolas, Dominó (2 a 4 jugadores) y Piedra, papel o tijera.",
+      "🏁 Carrera de Dinos (2 a 4) y 🥊 Arena de Bichos (1 contra 1): elegís uno de los 10 dinos de tu mazo y se resuelve con velocidad, tipo, terreno y ataque.",
+      "🚀 Cohete: todos apuestan a la vez y se retiran antes de que explote. 🔵 Plinko, 💣 Minas y 🎣 Pesca también contra la casa. Límite de pérdida de 3.000 AC por día entre estos juegos.",
+      "🎣 Torneo semanal de pesca: la pieza más pesada de la semana se lleva el pozo (50% / 30% / 20%). El pozo crece con cada lanzamiento.",
+      "🏆 Torneos por eliminación de 4 u 8 jugadores en Duelo de Dinos, Ajedrez, Damas, Truco, Carrera de Dinos y más. Campeón 70% del pozo y finalista 30%.",
+      "📅 Torneos automáticos: sábados 20:30 Duelo de Dinos y domingos 20:30 Carrera de Dinos (8 lugares, 500 AC). Las reglas de todos están en la Guía y en el botón Reglas de cada mesa."
+    ]
+  },
+  {
+    "fecha": "2026-11-24",
     "titulo": "Duelo de Dinos: el juego de cartas con tus dinos",
     "nuevo": [
       "🦖 Duelo de Dinos: juego de cartas 1 contra 1 (Juegos) donde tus dinos son las cartas. La especie, el nivel, los puntos y las mutaciones de cada dino definen su ataque, defensa y velocidad.",
