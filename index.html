@@ -1418,7 +1418,7 @@ async function loadMe() {
   if (!token) { showLogin(); return tryAuto(); }
   try {
     const r = await post('me', { token });
-    if (r.error) { memTok = null; try { localStorage.removeItem(TK); } catch { } showLogin(r.error); return tryAuto(); }
+    if (r.error && /Demasiados/.test(r.error)) return; if (r.error) { memTok = null; try { localStorage.removeItem(TK); } catch { } showLogin(r.error); return tryAuto(); }
     me = r; $('loginBox').style.display = 'none'; $('accBox').style.display = ''; $('pinSet').style.display = r.hasPin ? 'none' : '';
     loadStats();
     $('accName').textContent = r.char;
