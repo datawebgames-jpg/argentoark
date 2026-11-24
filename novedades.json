@@ -1,5 +1,15 @@
 [
   {
+    "fecha": "2026-11-24",
+    "titulo": "Duelo de Dinos: el juego de cartas con tus dinos",
+    "nuevo": [
+      "🦖 Duelo de Dinos: juego de cartas 1 contra 1 (Juegos) donde tus dinos son las cartas. La especie, el nivel, los puntos y las mutaciones de cada dino definen su ataque, defensa y velocidad.",
+      "🃏 Cada jugador elige 10 dinos para la partida (Juegos → Mi mazo de dinos: conectado al juego, Leer mis dinos, marcás 10 y guardás).",
+      "⚔️ Reglas: 6.000 de vida, 3 cartas en mano y robás 1 por turno, campo de 3 lugares. Invocás 1 dino por turno en ataque o defensa y atacás con los que ya estaban. Triángulo 🥩 depredador > 🌿 herbívoro > 🦅 alado (+25%), el más veloz +10%, pareja macho y hembra +15%, y los dinos ★5 piden un tributo (sacrificar uno de tu campo).",
+      "🏆 Se juega por AC: cada uno pone la entrada y el ganador se lleva el pozo (menos 5% de la casa). Ganás dejando al rival sin vida o sin dinos; a los 60 turnos gana el que tenga más vida."
+    ]
+  },
+  {
     "fecha": "2026-11-21",
     "titulo": "Juegos nuevos: Generala, Chinchón, Naval, 4 en línea, Cacho, Truco uruguayo, Veintiuno y Ruleta",
     "nuevo": [
