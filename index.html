@@ -260,6 +260,41 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .na-c.barco{background:linear-gradient(135deg,#8a97a6,#59677a)}.na-c.toc{background:#c0392b}.na-c.fall{background:#14507d;color:#cfe9ff;font-size:22px}.na-c.hund{background:#4a0f0a}.na-c.ult{outline:3px solid #ffd24a;outline-offset:-3px}
 .na-nave{color:#9bd0f5;letter-spacing:-1px}
 @media(max-width:640px){.na-c{width:30px;height:30px;font-size:14px}.na-fila>b,.na-fila>i{width:16px}}
+.dd-mesa{display:flex;flex-direction:column;gap:8px}
+.dd-barra{background:#1b1b22;border:1px solid #333;border-radius:12px;padding:6px 10px}
+.dd-bn{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:13px}
+.dd-bn span{color:#aaa;font-size:12px}
+.dd-pv{position:relative;height:20px;background:#400;border-radius:10px;overflow:hidden;margin-top:4px}
+.dd-pv i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#27ae60,#2ecc71);transition:width .5s}
+.dd-pv span{position:absolute;inset:0;text-align:center;font:700 12px/20px sans-serif;color:#fff;text-shadow:0 1px 2px #000}
+.dd-campo{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:radial-gradient(#2d4a2f,#1d2f1f);border:2px solid #3d5c3f;border-radius:14px;padding:8px}
+.dd-campo.rival{background:radial-gradient(#4a2d2d,#2f1d1d);border-color:#5c3d3d}
+.dd-slot{min-height:150px;display:flex}
+.dd-slot>*{flex:1}
+.dd-hueco{display:flex;align-items:center;justify-content:center;border:2px dashed #ffffff30;border-radius:10px;color:#ffffff40;font-size:12px}
+.dd-medio{text-align:center;font-size:12px;color:#999}
+.dd-carta{position:relative;background:linear-gradient(160deg,#2a2a33,#1a1a20);border:2px solid var(--tc,#888);border-radius:10px;padding:6px 7px;font-size:12px;color:#eee;display:flex;flex-direction:column;gap:2px;min-width:0;cursor:default;box-shadow:0 3px 8px #0008}
+.dd-carta[onclick]{cursor:pointer}
+.dd-carta[onclick]:hover{transform:translateY(-3px)}
+.dd-carta.sel{outline:3px solid #f1c40f;transform:translateY(-4px)}
+.dd-carta.defensa{background:linear-gradient(160deg,#232d3a,#161c25)}
+.dd-carta.dis{opacity:.75}
+.dd-cab{display:flex;align-items:center;gap:4px}
+.dd-cab b{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+.dd-sx{color:var(--tc)}
+.dd-esp{color:#aaa;font-size:11px}
+.dd-est{color:#f1c40f;font-size:11px;letter-spacing:1px}
+.dd-st{display:flex;justify-content:space-between;gap:4px;margin-top:2px}
+.dd-st b{color:#fff}
+.dd-pos{font-size:11px;color:#9bd}
+.dd-bono{font-size:11px;color:#f1c40f}
+.dd-pred{font-size:11px;text-align:center;background:#0006;border-radius:6px;padding:2px;margin-top:2px}
+.dd-pred.gana{color:#2ecc71}.dd-pred.pierde{color:#e74c3c}
+.dd-aviso{background:#1b1b22;border:1px solid #444;border-radius:10px;padding:8px 10px;font-size:13px}
+.dd-aviso .btn{margin:2px}
+.dd-mano{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.dd-grilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:8px}
+@media(max-width:640px){.dd-slot{min-height:130px}.dd-carta{font-size:11px;padding:4px}.dd-campo{gap:4px;padding:4px}}
 .c4-tablero{display:flex;gap:6px;justify-content:center;background:#1c4fa8;padding:10px;border-radius:16px;border:4px solid #12306b;box-shadow:0 8px 20px rgba(0,0,0,.5);width:fit-content;margin:0 auto}
 .c4-col{display:flex;flex-direction:column;gap:6px;background:none;border:0;padding:0;cursor:pointer;position:relative}.c4-col:disabled{cursor:default}.c4-col:not(:disabled):hover{filter:brightness(1.25)}
 .c4-flecha{text-align:center;font-size:12px;color:#ffd24a;height:14px;opacity:0}.c4-col:not(:disabled):hover .c4-flecha{opacity:1}
@@ -1711,7 +1746,8 @@ async function loadMesas() {
     <div class="mesa-tiles">${Object.entries(d.juegos).map(([k, J]) => tile(k, J, J.desc)).join('')}</div></div>`
     + (d.invitaciones.length ? `<div class="card" style="border-color:#f1c40f"><h3 style="margin:0 0 8px">📨 Te invitaron</h3>${d.invitaciones.map(M => fila(M, `<button class="btn" onclick="unirseMesa('${M.id}')">Sentarme</button>`)).join('')}</div>` : '')
     + (d.mias.length ? `<div class="card"><h3 style="margin:0 0 8px">🪑 Tus mesas</h3>${d.mias.map(M => fila(M, `<button class="btn" onclick="verMesa('${M.id}')">Ir a la mesa</button>`)).join('')}</div>` : '')
-    + `<div class="card"><h3 style="margin:0 0 8px">🌎 Mesas abiertas</h3>${d.abiertas.length ? d.abiertas.map(M => fila(M, `<button class="btn" onclick="unirseMesa('${M.id}')">Sentarme</button>`)).join('') : '<p class="small mut" style="margin:0">No hay mesas esperando jugadores. ¡Abrí una!</p>'}</div>`;
+    + `<div class="card"><h3 style="margin:0 0 8px">🌎 Mesas abiertas</h3>${d.abiertas.length ? d.abiertas.map(M => fila(M, `<button class="btn" onclick="unirseMesa('${M.id}')">Sentarme</button>`)).join('') : '<p class="small mut" style="margin:0">No hay mesas esperando jugadores. ¡Abrí una!</p>'}</div>` + '<div id="mazoCont"></div>';
+  renderMazo();
 }
 async function crearMesa(juego) {
   const ap = +$('mesaAp').value;
@@ -1860,7 +1896,7 @@ function cachoUI(M, S, yo) {
 
 function pintarMesa(M) {
   const S = M.s, yo = M.yo, n = v => Number(v || 0).toLocaleString('es-AR');
-  const NUEVO = ['generala', 'chinchon', 'naval', 'cuatro', 'cacho'].includes(M.juego);
+  const NUEVO = ['generala', 'chinchon', 'naval', 'cuatro', 'cacho', 'dinos'].includes(M.juego);
   const pos = mesaAsientos(Math.max(M.jugadores.length, M.estado === 'espera' ? M.max : 0), yo);
   const lugares = M.estado === 'espera' ? Array.from({ length: M.max }, (_, i) => M.jugadores[i] ?? null) : M.jugadores;
   let centro = '', extra = '', marcador = '', abajo = '';
@@ -1900,7 +1936,7 @@ function pintarMesa(M) {
   }
   let cuerpo;
   if (NUEVO && M.estado !== 'espera' && S) {
-    const ui = { generala: generalaUI, chinchon: chinchonUI, naval: navalUI, cuatro: cuatroUI, cacho: cachoUI }[M.juego](M, S, yo);
+    const ui = { generala: generalaUI, chinchon: chinchonUI, naval: navalUI, cuatro: cuatroUI, cacho: cachoUI, dinos: dinosUI }[M.juego](M, S, yo);
     const chips = M.jugadores.map((nn, i) => `<div class="nu-chip${M.debe === i ? ' turno' : ''}${i === yo ? ' mio' : ''}"><span class="mesa-avatar f${i % 4}">${esc(nn[0] || '?').toUpperCase()}</span><b>${esc(nn)}</b>${M.debe === i && M.segundos != null ? `<span class="mesa-reloj">⏱️ ${M.segundos}s</span>` : ''}</div>`).join('');
     cuerpo = `<div class="nu-barra">${chips}</div>${ui}${M.estado === 'fin' ? `<div class="mesa-fin" style="text-align:center;margin:10px auto;display:table">🏆 ${esc(M.ganador || '')} ${M.ganadores.length > 1 ? 'empatan: ' : 'ganó '}${n(M.premioC)} AC${M.ganadores.length > 1 ? ' c/u' : ''}</div>` : ''}`;
   } else cuerpo = `${marcador}<div class="mesa-paño ${M.juego}"><div class="mesa-centro">${centro}</div>${asientos}</div>${abajo}${mano ? `<div class="mesa-mimano">${mano}</div>` : ''}`;
@@ -2000,6 +2036,103 @@ async function bjAcc(a) { if (bjBusy) return; bjBusy = true; bjMsg = ''; const d
 function bjSync() { if (me && bjSt && bjSt.balance != null) me.balance = bjSt.balance; try { renderWallet(); if ($('accBal')) $('accBal').textContent = bjSt.balance + ' AC'; } catch { } }
 // ---------- Reglas de los juegos ----------
 const MESA_REGLAS = {"truco":["🃏 Truco (1 contra 1)","<p>Baraja española de 40 cartas (sin 8 ni 9). Cada jugador recibe 3 cartas y se juegan hasta 3 <b>bazas</b>: gana la mano quien gana 2.</p><p><b>De la carta más fuerte a la más débil:</b> 1 de espadas · 1 de bastos · 7 de espadas · 7 de oro · los 3 · los 2 · 1 de copa y oro · 12 · 11 · 10 · 7 de copa y bastos · 6 · 5 · 4. Si dos cartas empatan, es <b>parda</b>: decide la primera baza, o la mano si la primera fue parda.</p><ul><li><b>Envido</b> (2 puntos) y <b>Real envido</b> (3): solo antes de tirar tu primera carta. Tu tanto: 20 + las dos cartas del mismo palo (las figuras valen 0). Si no tenés dos del mismo palo, vale tu carta más alta. Gana el tanto más alto; si empatan, el que es mano.</li><li><b>Truco</b> (2) → <b>Retruco</b> (3) → <b>Vale cuatro</b> (4): el que contesta puede decir <i>Quiero</i>, <i>No quiero</i> (el otro suma los puntos de antes) o subir.</li><li><b>Irse al mazo:</b> el otro suma los puntos que estaban en juego.</li></ul><p>Se juega a <b>15 puntos</b>. Arriba ves el marcador y, al terminar cada mano, un cartel con quién ganó, cuántos puntos sumó y las cartas de todos.</p>"],"truco4":["🎴 Truco 2 contra 2","<p>Baraja española de 40 cartas (sin 8 ni 9). Cada jugador recibe 3 cartas y se juegan hasta 3 <b>bazas</b>: gana la mano quien gana 2.</p><p><b>De la carta más fuerte a la más débil:</b> 1 de espadas · 1 de bastos · 7 de espadas · 7 de oro · los 3 · los 2 · 1 de copa y oro · 12 · 11 · 10 · 7 de copa y bastos · 6 · 5 · 4. Si dos cartas empatan, es <b>parda</b>: decide la primera baza, o la mano si la primera fue parda.</p><ul><li><b>Envido</b> (2 puntos) y <b>Real envido</b> (3): solo antes de tirar tu primera carta. Tu tanto: 20 + las dos cartas del mismo palo (las figuras valen 0). Si no tenés dos del mismo palo, vale tu carta más alta. Gana el tanto más alto; si empatan, el que es mano.</li><li><b>Truco</b> (2) → <b>Retruco</b> (3) → <b>Vale cuatro</b> (4): el que contesta puede decir <i>Quiero</i>, <i>No quiero</i> (el otro suma los puntos de antes) o subir.</li><li><b>Irse al mazo:</b> el otro suma los puntos que estaban en juego.</li></ul><ul><li>Juegan <b>por parejas</b>: vos y el de enfrente son compañeros. Cada uno ve solo sus cartas.</li><li>La baza la gana el equipo con la carta más alta. En el envido cuenta el mejor tanto de cada equipo (si empatan, gana el equipo del mano).</li><li>Cualquiera de los dos rivales puede contestar un canto.</li></ul><p>A <b>15 puntos</b>. El pozo lo cobran los dos ganadores.</p>"],"trucouy":["🧉 Truco uruguayo","<p>Se juega como el truco, con estas diferencias:</p><ul><li>Se da vuelta una carta, la <b>muestra</b>. Las <b>piezas</b> son el <b>2, 4, 5, 11 y 10 del palo de la muestra</b> y le ganan a todas las demás cartas, hasta al as de espadas, en ese orden (el 2 es la más fuerte).</li><li>Si la muestra es una de esas cartas, el <b>12</b> de ese palo ocupa su lugar.</li><li>Las piezas valen 30, 29, 28 y 27 para el envido, y se les suma la mejor carta suelta.</li><li>Se juega a <b>30 puntos</b>.</li></ul><ul><li><b>Envido</b> (2 puntos) y <b>Real envido</b> (3): solo antes de tirar tu primera carta. Tu tanto: 20 + las dos cartas del mismo palo (las figuras valen 0). Si no tenés dos del mismo palo, vale tu carta más alta. Gana el tanto más alto; si empatan, el que es mano.</li><li><b>Truco</b> (2) → <b>Retruco</b> (3) → <b>Vale cuatro</b> (4): el que contesta puede decir <i>Quiero</i>, <i>No quiero</i> (el otro suma los puntos de antes) o subir.</li><li><b>Irse al mazo:</b> el otro suma los puntos que estaban en juego.</li></ul><p class=\"small mut\">Esta es una versión del truco uruguayo; si ves alguna regla distinta a como se juega en tu zona, avisá en Discord.</p>"],"trucouy4":["🇺🇾 Truco uruguayo 2 contra 2","<p>Truco uruguayo por parejas: vos y el de enfrente contra los otros dos.</p><ul><li>Hay <b>muestra</b> y <b>piezas</b> (2, 4, 5, 11 y 10 del palo de la muestra: le ganan a todo).</li><li>En el envido cuenta el mejor tanto de cada equipo.</li><li>Se juega a <b>30 puntos</b>.</li></ul><ul><li><b>Envido</b> (2 puntos) y <b>Real envido</b> (3): solo antes de tirar tu primera carta. Tu tanto: 20 + las dos cartas del mismo palo (las figuras valen 0). Si no tenés dos del mismo palo, vale tu carta más alta. Gana el tanto más alto; si empatan, el que es mano.</li><li><b>Truco</b> (2) → <b>Retruco</b> (3) → <b>Vale cuatro</b> (4): el que contesta puede decir <i>Quiero</i>, <i>No quiero</i> (el otro suma los puntos de antes) o subir.</li><li><b>Irse al mazo:</b> el otro suma los puntos que estaban en juego.</li></ul>"],"poker":["♠️ Póker (Texas Hold'em)","<p>Cada uno recibe 2 cartas tapadas y se reparten 5 cartas comunes en la mesa (flop de 3, turn y river). Formás la mejor mano de 5 cartas con tus 2 y las comunes.</p><ul><li>Todos arrancan con <b>1.000 fichas</b>. En cada ronda podés <b>pasar</b>, <b>igualar</b>, <b>subir</b> o <b>retirarte</b>.</li><li>Manos de mayor a menor: escalera real, escalera de color, póker, full, color, escalera, trío, doble par, par, carta alta.</li><li>El <b>último que se queda con fichas</b> gana el pozo.</li></ul>"],"selva":["🌴 La Selva","<p>Carrera de dados del casillero 0 al <b>30</b>. Por turno tirás el dado y avanzás.</p><ul><li>4 🦤 atajo +3 · 8 🦖 raptor −3 · 11 🌿 bayas: tirás de nuevo · 14 🐊 pantano: perdés un turno</li><li>17 🦅 Argentavis +4 · 20 🕸️ telaraña −2 · 23 🔥 fogón: tirás de nuevo · 26 🦕 el Rex: volvés al 15</li></ul><p>Gana el primero en llegar al final.</p>"],"generala":["🎲 Generala","<p>Cinco dados. En tu turno tirás hasta <b>3 veces</b>: entre tiros tocás los dados que querés <b>guardar</b> y volvés a tirar el resto. Después anotás en una de las 10 jugadas (si no te sirve ninguna, <b>tachás</b> una y suma 0).</p><ul><li><b>1 a 6:</b> suman los dados de ese número (ej: tres 4 = 12).</li><li><b>Escalera:</b> 20 (25 servida) · 1-2-3-4-5, 2-3-4-5-6 o 1-3-4-5-6.</li><li><b>Full:</b> 30 (35 servido) · tres iguales y un par.</li><li><b>Póker:</b> 40 (45 servido) · cuatro iguales.</li><li><b>Generala:</b> 50 · cinco iguales.</li><li><b>Servida</b> = hecha en el primer tiro. Una <b>generala servida gana la partida al instante</b>.</li></ul><p>Después de 10 turnos gana el que más puntos suma. Si empatan, se reparte el pozo.</p>"],"chinchon":["♣️ Chinchón","<p>Baraja española de 40 cartas. Cada uno recibe 7. En tu turno <b>robás</b> una carta (del mazo o la de arriba del pozo) y <b>descartás</b> otra.</p><ul><li><b>Juegos:</b> tres o cuatro cartas iguales de distinto palo, o escalera de 3 o más del mismo palo (1-2-3-4-5-6-7-10-11-12 en ese orden). Las cartas se agrupan solas y se marcan con un borde de color.</li><li>Las cartas que no entran en ningún juego son las <b>sueltas</b> (las figuras valen 10, el resto su número).</li><li>Podés <b>cortar</b> cuando las sueltas suman <b>5 o menos</b>. El que corta suma sus sueltas (si no le sobra nada, resta 10) y el otro suma las suyas.</li><li><b>¡Chinchón!</b> Si armás una escalera de las 7 cartas del mismo palo, ganás la partida.</li><li>No podés descartar la carta que acabás de levantar del pozo.</li></ul><p>Quien llega a <b>50 puntos</b> de castigo pierde.</p>"],"naval":["🚢 Batalla Naval","<p>Tablero de 8×8. Cada uno tiene 5 barcos (de 4, 3, 3, 2 y 2 casillas) que no se tocan entre sí. Al empezar la flota se acomoda sola: podés <b>mezclarla</b> hasta que te guste y tocar <b>¡Listo!</b>.</p><ul><li>Por turnos tocás una casilla del <b>mar enemigo</b> para disparar.</li><li>💧 <b>Agua:</b> pasa el turno. 🔥 <b>Tocado:</b> tirás de nuevo. 💀 <b>Hundido:</b> destruiste todas las casillas de ese barco.</li></ul><p>Gana el que hunde primero toda la flota rival.</p>"],"cuatro":["🔴 Cuatro en línea","<p>Tablero de 7 columnas por 6 filas. Por turnos soltás una ficha en una columna y cae hasta abajo.</p><p>Gana el primero que junta <b>4 fichas en línea</b>: horizontal, vertical o diagonal. Si se llena el tablero sin ganador, es <b>empate</b> y se reparte el pozo.</p>"],"cacho":["🥃 Cacho (dados de farol)","<p>Cada jugador tiene <b>3 dados escondidos</b> bajo su cacho y solo ve los suyos.</p><ul><li>En tu turno <b>apostás</b>: cuántos dados de un número creés que hay entre <b>todos</b> los de la mesa (ej: «5 de 3»). Para subir tenés que decir <b>más cantidad</b>, o la <b>misma cantidad con un número más alto</b>.</li><li>O <b>dudás</b> de la apuesta anterior: se destapan todos los dados. Si hay <b>al menos</b> lo apostado, pierde un dado el que dudó; si hay menos, lo pierde el que apostó.</li><li>Los <b>1 son comodines</b> y cuentan para cualquier número (salvo que la apuesta sea a los 1).</li><li>Sin dados quedás eliminado. <b>Gana el último que queda.</b></li></ul>"],"ruleta":["🎡 Ruleta de El Gaucho","<ul><li>Elegí una ficha y tocá donde querés apostar; podés apostar a varios lugares a la vez. Después tocá <b>GIRAR</b>.</li><li><b>Pleno</b> (un número del 0 al 36): paga <b>x36</b>. <b>Docenas</b> (1-12, 13-24, 25-36): <b>x3</b>.</li><li><b>Rojo/Negro, Par/Impar, 1-18 / 19-36</b>: <b>x2</b>.</li><li>El <b>0</b> es verde: le gana a las apuestas simples (rojo, par, etc.).</li><li>Límites: hasta 1.000 AC por giro, 80 giros y 3.000 AC de pérdida por día.</li></ul>"],"blackjack":["🃏 Veintiuno (Blackjack)","<ul><li>Sumá lo más cerca de <b>21</b> sin pasarte. Las figuras valen 10, el as vale 1 u 11.</li><li><b>Pedir:</b> otra carta. <b>Plantarme:</b> te quedás con lo que tenés. <b>Doblar:</b> doblás la apuesta, recibís una sola carta y te plantás (solo con las dos primeras cartas).</li><li>El Gaucho se planta en 17. Si te pasás de 21, perdés.</li><li>Ganar paga <b>1 a 1</b>. <b>Blackjack</b> (as + figura con las 2 primeras cartas) paga <b>3 a 2</b>. Empate: te devuelven la apuesta.</li><li>Límites: 100 manos y 3.000 AC de pérdida por día.</li></ul>"]};
+// ---------- Duelo de Dinos: mazo y mesa ----------
+let mazoSel = null, mazoData = null, ddSel = null, ddModo = null;
+const DD_TIPO = { depredador: ['🥩', 'Depredador', '#c0392b'], herbivoro: ['🌿', 'Herbívoro', '#2e8b4a'], alado: ['🦅', 'Alado', '#2a7fc1'] };
+function ddCarta(c, o = {}) {
+  const t = DD_TIPO[c.tipo] || DD_TIPO.herbivoro, est = '★'.repeat(c.tier);
+  const pos = o.pos ? `<span class="dd-pos">${o.pos === 'A' ? '⚔️ ataque' : '🛡️ defensa'}</span>` : '';
+  const ef = o.atq != null && (o.atq !== c.atq || o.def !== c.def) ? ` <span class="dd-bono" title="Con bonos de pareja">✨</span>` : '';
+  return `<div class="dd-carta${o.sel ? ' sel' : ''}${o.pos === 'D' ? ' defensa' : ''}${o.dis ? ' dis' : ''}" style="--tc:${t[2]}" ${o.on ? `onclick="${o.on}"` : ''}>
+    <div class="dd-cab"><span title="${t[1]}">${t[0]}</span><b>${esc(c.nombre)}</b><span class="dd-sx">${c.sexo === 'H' ? '♀' : '♂'}</span></div>
+    <div class="dd-esp">${esc(c.especie)} · nv ${c.nivel}${c.mut ? ` · 🧬${c.mut}` : ''}</div>
+    <div class="dd-est">${est}</div>
+    <div class="dd-st"><span>⚔️ <b>${o.atq != null ? o.atq : c.atq}</b></span><span>🛡️ <b>${o.def != null ? o.def : c.def}</b></span><span>💨 <b>${c.vel}</b></span></div>${ef}${pos}${o.extra || ''}</div>`;
+}
+async function renderMazo() {
+  const box = $('mazoCont'); if (!box) return;
+  const d = mazoData || await mesasPost({ action: 'mazo' }); if (d.error) { box.innerHTML = '<p class="small mut">' + esc(d.error) + '</p>'; return; }
+  mazoData = d; if (!mazoSel) mazoSel = new Set(d.mazo);
+  const hace = d.t ? Math.round((Date.now() - d.t) / 60000) : null;
+  box.innerHTML = `<div class="card" style="margin-top:12px"><h3 style="margin:0 0 4px">🦖 Mi mazo de dinos</h3>
+    <p class="small mut" style="margin:0 0 8px">Para jugar al <b>Duelo de Dinos</b> tus dinos son las cartas: su especie, nivel, puntos y mutaciones definen su ataque, defensa y velocidad. Conectate al juego (en el mapa donde están tus dinos), tocá <b>Leer mis dinos</b> y elegí hasta 5. <a href="#" onclick="verReglas('dinos');return false">📖 Reglas</a></p>
+    <div class="mesa-acciones"><button class="arma-btn" style="flex-direction:row" onclick="mazoLeer(this)"><b>📡 Leer mis dinos del juego</b></button>
+    ${d.cartas.length ? `<button class="arma-btn" style="flex-direction:row" onclick="mazoGuardar()"><b>💾 Guardar mazo (${mazoSel.size}/5)</b></button>` : ''}</div>
+    <p id="mazoMsg" class="small" style="min-height:1em;margin:4px 0">${hace != null ? `Última lectura hace ${hace} min · ${d.cartas.length} dinos.` : 'Todavía no leíste tus dinos.'}</p>
+    <div class="dd-grilla">${d.cartas.map(c => ddCarta(c, { sel: mazoSel.has(c.id), on: `mazoTocar('${c.id}')` })).join('')}</div></div>`;
+}
+function mazoTocar(id) { if (mazoSel.has(id)) mazoSel.delete(id); else if (mazoSel.size < 5) mazoSel.add(id); else return alert('El mazo lleva hasta 5 dinos. Sacá uno antes.'); renderMazo(); }
+async function mazoLeer(btn) {
+  btn.disabled = true; const m = $('mazoMsg'); if (m) m.textContent = 'Leyendo tus dinos del juego...';
+  const d = await mesasPost({ action: 'mazoleer' }); btn.disabled = false;
+  if (d.error) { if (m) m.textContent = d.error; return; }
+  mazoData = d; mazoSel = new Set(d.mazo); renderMazo();
+}
+async function mazoGuardar() {
+  const d = await mesasPost({ action: 'mazoguardar', ids: [...mazoSel] }); if (d.error) return alert(d.error);
+  mazoData = d; mazoSel = new Set(d.mazo); renderMazo(); const m = $('mazoMsg'); if (m) m.textContent = '✅ Mazo guardado.';
+}
+function ddBarra(nombre, pv, max, q, extra) {
+  const p = Math.max(0, Math.min(100, pv / max * 100));
+  return `<div class="dd-barra"><div class="dd-bn"><b>${esc(nombre)}</b><span>${extra}</span></div><div class="dd-pv"><i style="width:${p}%"></i><span>❤️ ${Math.max(0, pv).toLocaleString('es-AR')}</span></div></div>`;
+}
+function ddTocar(k, i) { // selecciona mano / campo propio
+  if (ddModo && ddModo.k === 'trib' && k === 'campo') { const m = ddModo; ddModo = null; ddSel = null; return jugarMesa(`invocar:${m.i}:${m.pos}:${i}`); }
+  ddSel = ddSel && ddSel.k === k && ddSel.i === i ? null : { k, i }; ddModo = null; refrescarMesaYa();
+}
+function refrescarMesaYa() { mesaUlt = ''; refrescarMesa(); }
+function ddInvocar(i, pos, tier) {
+  if (tier >= 5) { ddModo = { k: 'trib', i, pos }; refrescarMesaYa(); return; }
+  ddSel = null; jugarMesa(`invocar:${i}:${pos}`);
+}
+function ddAtacar(t) { const s = ddSel.i; ddSel = null; ddModo = null; jugarMesa(`atacar:${s}:${t}`); }
+function dinosUI(M, S, yo) {
+  const q = yo >= 0 ? yo : 0, r = 1 - q, mio = yo >= 0 && S.turno === yo && M.estado === 'jugando';
+  const miC = S.campo[q], suC = S.campo[r];
+  const sel = ddSel;
+  let panel = '';
+  if (mio && ddModo && ddModo.k === 'trib') panel = `<div class="dd-aviso">🔥 Los dinos de poder 5 piden un tributo: <b>tocá el dino de tu campo que sacrificás</b>. <button class="btn" onclick="ddModo=null;refrescarMesaYa()">Cancelar</button></div>`;
+  else if (mio && sel && sel.k === 'mano' && S.mano[sel.i]) {
+    const c = S.mano[sel.i];
+    panel = S.invocado ? `<div class="dd-aviso">Ya invocaste en este turno.</div>` : `<div class="dd-aviso">Invocar a <b>${esc(c.nombre)}</b>${c.tier >= 5 ? ' (pide tributo)' : ''}: <button class="btn" onclick="ddInvocar(${sel.i},'A',${c.tier})">⚔️ En ataque</button> <button class="btn" onclick="ddInvocar(${sel.i},'D',${c.tier})">🛡️ En defensa</button></div>`;
+  } else if (mio && sel && sel.k === 'campo' && miC[sel.i]) {
+    const x = miC[sel.i], puedeAt = x.pos === 'A' && !x.nuevo && !x.ataco, vacio = !suC.some(Boolean);
+    panel = `<div class="dd-aviso"><b>${esc(x.c.nombre)}</b>: ${x.nuevo ? 'recién llegó, ataca desde el próximo turno. ' : ''}${x.ataco ? 'ya atacó. ' : ''}
+      ${puedeAt ? (vacio ? `<button class="btn" onclick="ddAtacar('d')">🎯 Atacar directo</button>` : '<b>Tocá el dino rival al que atacás.</b>') : ''}
+      ${!x.nuevo && !x.ataco && !x.cambio ? `<button class="btn" onclick="ddSel=null;jugarMesa('pos:${sel.i}')">🔄 Pasar a ${x.pos === 'A' ? 'defensa' : 'ataque'}</button>` : ''}</div>`;
+  } else if (mio) panel = `<div class="dd-aviso"><b>¡Tu turno!</b> Tocá una carta de tu mano para invocarla o un dino de tu campo para atacar.</div>`;
+  else if (M.estado === 'jugando') panel = `<div class="dd-aviso">Juega <b>${esc(M.jugadores[S.turno] || '')}</b>...</div>`;
+  const slot = (x, k, esMio) => {
+    if (!x) return `<div class="dd-hueco">libre</div>`;
+    let on = '', extra = '', dis = false;
+    if (esMio && mio) on = `ddTocar('campo',${k})`;
+    if (!esMio && mio && sel && sel.k === 'campo' && miC[sel.i] && miC[sel.i].pos === 'A' && !miC[sel.i].nuevo && !miC[sel.i].ataco) {
+      const p = S.pred[sel.i] && S.pred[sel.i][k];
+      on = `ddAtacar(${k})`; if (p) extra = `<div class="dd-pred ${p.a > p.b ? 'gana' : p.a < p.b ? 'pierde' : ''}">⚔️ ${p.a} vs ${x.pos === 'A' ? '⚔️' : '🛡️'} ${p.b}<br>${p.a > p.b ? '¡lo vencés!' : p.a < p.b ? (x.pos === 'A' ? '¡perdés!' : 'rebota') : 'empate'}</div>`;
+    }
+    if (ddModo && ddModo.k === 'trib' && esMio) { on = `ddTocar('campo',${k})`; extra = '<div class="dd-pred pierde">🔥 sacrificar</div>'; }
+    return ddCarta(x.c, { pos: x.pos, atq: x.atq, def: x.def, sel: esMio && sel && sel.k === 'campo' && sel.i === k, on, extra, dis: esMio && (x.nuevo || x.ataco) });
+  };
+  const mano = (S.mano || []).map((c, i) => ddCarta(c, { sel: sel && sel.k === 'mano' && sel.i === i, on: mio ? `ddTocar('mano',${i})` : '' })).join('');
+  const rival = M.jugadores[r] || 'Rival', yoN = M.jugadores[q] || 'Vos';
+  return `<div class="nu-wrap dd-mesa">
+    ${ddBarra(rival, S.pv[r], S.pvMax, r, `🃏 ${S.nMano[r]} en mano · 📚 ${S.nMazo[r]} en mazo · ☠️ ${S.tumba[r].length}`)}
+    <div class="dd-campo rival">${suC.map((x, k) => `<div class="dd-slot">${slot(x, k, false)}</div>`).join('')}</div>
+    <div class="dd-medio">Turno ${S.nro} de ${S.maxNro}</div>
+    <div class="dd-campo">${miC.map((x, k) => `<div class="dd-slot">${slot(x, k, true)}</div>`).join('')}</div>
+    ${ddBarra(yoN + (yo >= 0 ? ' (vos)' : ''), S.pv[q], S.pvMax, q, `📚 ${S.nMazo[q]} en mazo · ☠️ ${S.tumba[q].length}`)}
+    ${panel}
+    ${yo >= 0 ? `<div class="dd-mano">${mano}</div>` : ''}
+    ${mio ? `<div class="mesa-acciones"><button class="arma-btn" style="flex-direction:row" onclick="ddSel=null;ddModo=null;jugarMesa('fin')"><b>⏭️ Terminar turno</b></button></div>` : ''}</div>`;
+}
+MESA_REGLAS.dinos = ['🦖 Duelo de Dinos', `<p>Tus <b>dinos reales</b> son las cartas: la <b>especie</b> da el poder base (★1 a ★5), y suman los <b>puntos</b> del dino en daño, vida, peso y velocidad, el <b>nivel</b> y las <b>mutaciones</b> (+4% cada una). Un Rex nivel 220 con buenos puntos le gana a un montón de dinos chicos.</p>
+<p><b>Mazo:</b> 5 dinos. Antes de jugar, en Juegos → <i>Mi mazo de dinos</i>, conectado al juego, tocá <b>Leer mis dinos</b> y elegí tus 5.</p>
+<p><b>Cada jugador arranca con 6.000 de vida</b> y 2 cartas en la mano (robás 1 por turno). El campo tiene 3 lugares.</p>
+<p><b>En tu turno:</b> invocás <b>1 dino</b> (en <b>ataque</b> ⚔️ o <b>defensa</b> 🛡️), atacás con los dinos que ya estaban en el campo (cada uno una vez), podés cambiar de posición a los que no atacaron y terminás el turno.</p>
+<p><b>Combate:</b> ataque vs ataque: pierde el de menor ataque y su dueño pierde la diferencia de vida (si empatan, caen los dos). Ataque vs defensa: si tu ataque supera la defensa cae el dino rival sin daño a la vida; si no, rebota y perdés la mitad de la diferencia. Si el rival no tiene dinos en el campo, pegás directo a su vida.</p>
+<p><b>Ventajas:</b> triángulo 🥩 Depredador &gt; 🌿 Herbívoro &gt; 🦅 Alado &gt; 🥩 Depredador (+25% de ataque). El más veloz 💨 pega +10%. <b>Pareja de cría</b> ♂ + ♀ de la misma especie en tu campo: +15% de ataque y defensa a los dos.</p>
+<p><b>Gigantes:</b> los dinos de poder ★5 piden un <b>tributo</b>: sacrificás a uno de tu campo para invocarlos.</p>
+<p><b>Ganás</b> si dejás al rival sin vida o sin dinos. Si pasan 40 turnos gana el que tenga más vida.</p>`];
 const MESA_REGLAS_COMUN = "<p class=\"small mut\">Cada jugador paga la entrada al sentarse y el ganador se lleva el pozo (menos 5% de la casa). Si alguien tarda más de 90 segundos, juega solo. Si te levantás con la partida empezada, perdés la entrada.</p>";
 function verReglas(k) {
   const x = MESA_REGLAS[k]; if (!x) return;
