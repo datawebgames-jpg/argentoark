@@ -1,6 +1,17 @@
 [
   {
     "fecha": "2026-11-24",
+    "titulo": "La Crónica de las Islas suma un capítulo y se arreglaron las desconexiones",
+    "nuevo": [
+      "📖 Nuevo capítulo XII en la Crónica (botón Historia): «Cartas, tableros y torneos», con el Duelo de Dinos, los juegos de mesa, los de la casa y los torneos de sábados y domingos 20:30.",
+      "🎮 Todos los avisos del juego ahora te guían: apretá F1, tocá el botón «Página ArgentoPro» y andá a Juegos."
+    ],
+    "arreglado": [
+      "🔌 La página ya no te cierra la sesión ni pide «vincular» cuando jugabas al cohete o a las mesas: el límite de pedidos era muy bajo y ahora es por jugador."
+    ]
+  },
+  {
+    "fecha": "2026-11-24",
     "titulo": "Más juegos: ajedrez, damas, dominó, cohete, plinko, minas, pesca y torneos",
     "nuevo": [
       "♟️ Nuevos juegos de mesa 1 contra 1: Ajedrez (con todas las reglas), Damas españolas, Dominó (2 a 4 jugadores) y Piedra, papel o tijera.",
