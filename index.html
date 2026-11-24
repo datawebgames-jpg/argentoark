@@ -314,6 +314,18 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .cr-dino{position:absolute;top:4px;transition:left .6s linear;font-size:28px;white-space:nowrap}.cr-pista:after{content:'🏁';position:absolute;right:6px;top:6px;font-size:24px}
 .ar-ring{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}.ar-ring em{font-style:normal;font-size:34px}.ar-ring>div{display:flex;flex-direction:column;gap:6px}
 @media(max-width:640px){.ar-ring{grid-template-columns:1fr}.do-f i{font-size:26px}}
+.casa-box{margin-bottom:14px}.casa-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.casa-tab{background:#1b1b22;border:1px solid #444;color:#eee;border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer}.casa-tab.on{background:#f0a020;color:#111;border-color:#f0a020}
+.casa-chips{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.casa-chip{background:#1b1b22;border:1px solid #444;color:#eee;border-radius:20px;padding:6px 12px;cursor:pointer}.casa-chip.on{border-color:#f0a020;color:#f0a020}
+.co-hist{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}.co-h{background:#2a2a33;border-radius:12px;padding:2px 8px;font-size:12px;color:#ccc}.co-h.alto{color:#2ecc71}.co-h.bajo{color:#e74c3c}
+.co-vista{position:relative;height:240px;background:radial-gradient(#1c2b3a,#0c1118);border:2px solid #333;border-radius:14px;overflow:hidden}.co-vista svg{position:absolute;inset:0;width:100%;height:100%}
+.co-mult{position:absolute;left:0;right:0;top:34%;text-align:center;font:800 56px/1 'Segoe UI',sans-serif;color:#fff;text-shadow:0 2px 10px #000}.co-mult.vuelo{color:#2ecc71}.co-mult.fin{color:#e74c3c}
+.co-msg{text-align:center;font-size:14px;margin:6px 0}.co-vista .co-msg{position:absolute;left:0;right:0;bottom:6px;margin:0}.co-coh{position:absolute;font-size:30px;transform:translate(-50%,-50%);transition:left .1s linear,top .1s linear}
+.co-ctl{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0}.co-jug{display:flex;gap:6px;flex-wrap:wrap}.co-j{background:#1b1b22;border-radius:10px;padding:3px 9px;font-size:12px}.co-j.gano{color:#2ecc71}.co-j.perdio{color:#e74c3c;text-decoration:line-through}
+.pl-wrap,.mi-wrap,.pe-wrap{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}.pl-svg{width:min(100%,380px);background:#10151c;border-radius:12px;border:2px solid #333}.pl-ctl{flex:1;min-width:230px;display:flex;flex-direction:column;gap:6px}
+.mi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:min(100%,330px)}.mi-c{aspect-ratio:1;font-size:26px;background:linear-gradient(#2c3e50,#1b2631);border:2px solid #4a6078;border-radius:10px;cursor:pointer;color:#fff}.mi-c:disabled{cursor:default}.mi-c.ok{background:#1d5c34;border-color:#2ecc71}.mi-c.bomba{background:#4a1d1d;border-color:#c0392b}.mi-c.boom{background:#c0392b}
+.pe-izq{flex:1;min-width:250px;display:flex;flex-direction:column;gap:6px}.pe-der{flex:1;min-width:250px;display:flex;flex-direction:column;gap:6px}.pe-agua{height:190px;border-radius:14px;background:linear-gradient(#5dade2,#1b4f72);display:flex;align-items:center;justify-content:center;text-align:center;border:2px solid #154360}.pe-lanza{font-size:60px;animation:pelanza 1s ease-in-out infinite}
+@keyframes pelanza{0%,100%{transform:translateY(-14px) rotate(-12deg)}50%{transform:translateY(10px) rotate(8deg)}}
+.pe-pozo{font-size:18px;color:#f1c40f}.pe-top{margin:4px 0;padding-left:20px;font-size:13px}
 .c4-tablero{display:flex;gap:6px;justify-content:center;background:#1c4fa8;padding:10px;border-radius:16px;border:4px solid #12306b;box-shadow:0 8px 20px rgba(0,0,0,.5);width:fit-content;margin:0 auto}
 .c4-col{display:flex;flex-direction:column;gap:6px;background:none;border:0;padding:0;cursor:pointer;position:relative}.c4-col:disabled{cursor:default}.c4-col:not(:disabled):hover{filter:brightness(1.25)}
 .c4-flecha{text-align:center;font-size:12px;color:#ffd24a;height:14px;opacity:0}.c4-col:not(:disabled):hover .c4-flecha{opacity:1}
@@ -972,6 +984,7 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
 <section id="juegos" data-tab="juegos"><div class="wrap">
   <h2>🎲 Juegos</h2>
   <p class="sub">Sentate a una mesa con otros jugadores: truco (1 contra 1 o por parejas), generala, chinchón, batalla naval, cuatro en línea, cacho, póker o La Selva. O jugá contra la máquina: la ruleta, el veintiuno, El Gaucho, La Selva Argento con misiones, quiniela, bingo y lotería. Lo que ganás va directo a tu saldo.</p>
+  <div id="casaCont"></div>
   <div id="mesasCont"></div>
   <div id="ruletaCont" style="margin-top:18px"></div>
   <div id="bjCont" style="margin-top:18px"></div>
@@ -1752,6 +1765,7 @@ const mesaCard = (c, w, dorso) => typeof carta === 'function' ? (c ? carta(c.n, 
 async function mesasPost(data) { const tok = getTok(); if (!tok) return { error: 'Vinculá tu cuenta para jugar.' }; try { return await post('mesas', { token: tok, ...data }); } catch { return { error: 'No se pudo conectar.' }; } }
 async function loadMesas() {
   const box = $('mesasCont'); if (!box) return;
+  renderCasa();
   if (!getTok()) { box.innerHTML = '<div class="card"><p>Para jugar con otros jugadores tenés que <a href="#cuenta">vincular tu cuenta</a>.</p></div>'; return; }
   if (mesaId) return verMesa(mesaId);
   const d = await mesasPost({ action: 'lista' });
@@ -2223,6 +2237,126 @@ Object.assign(MESA_REGLAS, {
   ppt: ['✂️ Piedra, papel o tijera', '<p>Cada ronda los dos eligen a la vez sin ver lo del otro. ✊ piedra gana a ✌️ tijera, ✌️ tijera a ✋ papel y ✋ papel a ✊ piedra. Si empatan, se repite.</p><p>Gana el primero que llega a <b>3 rondas</b>.</p>'],
   carreradinos: ['🏁 Carrera de Dinos', '<p>De 2 a 4 jugadores. Cada uno elige <b>un dino de su mazo de 10</b> (se arma en Mi mazo de dinos) y corre 8 tramos.</p><p>Gana la <b>velocidad</b> del dino, con un poco de suerte en cada tramo. El terreno cambia: 🏜️ llano favorece a los depredadores, 🌲 bosque a los herbívoros y 🌬️ viento a los alados (+15%). Los dinos grandes (★) se <b>cansan</b> más en la recta final.</p>'],
   arena: ['🥊 Arena de Bichos', '<p>Cada uno manda <b>un dino de su mazo</b> a pelear. La pelea es automática por turnos: pega primero el más veloz.</p><p>El golpe depende del <b>ataque</b> del dino (con la ventaja de tipo 🥩 > 🌿 > 🦅 > 🥩 y algo de suerte, con chance de crítico). Aguanta lo que tenga de <b>defensa</b>. Gana el último en pie.</p>'] });
+// ---------- Juegos de la casa: Cohete, Plinko, Minas y Pesca ----------
+let casaTab = 'cohete', casaPoll = null, casaTick = null, casaE = null, casaRecv = 0, coMonto = 100, plMonto = 50, plRiesgo = 'medio', miMonto = 50, miMinas = 3, peCebo = 'comun', plBusy = false, peBusy = false, plUlt = null, peUlt = null, miEst = null, miMsg = '';
+async function casaPost(d) { const tok = getTok(); if (!tok) return { error: 'Vinculá tu cuenta para jugar.' }; try { return await post('casa', { token: tok, ...d }); } catch { return { error: 'No se pudo conectar.' }; } }
+const fmtAC = v => Number(v || 0).toLocaleString('es-AR');
+function renderCasa() {
+  const box = $('casaCont'); if (!box) return;
+  if (!getTok()) { box.innerHTML = ''; return; }
+  const T = [['cohete', '🚀 Cohete'], ['plinko', '🔵 Plinko'], ['minas', '💣 Minas'], ['pesca', '🎣 Pesca']];
+  box.innerHTML = `<div class="card casa-box"><h3 style="margin:0 0 4px">🎰 Juegos de la casa</h3><p class="small mut" style="margin:0 0 8px">Jugás contra la casa y lo que ganás va directo a tu saldo. Límite: perder hasta 3.000 AC por día entre todos estos juegos.</p>
+    <div class="casa-tabs">${T.map(([k, t]) => `<button class="casa-tab${casaTab === k ? ' on' : ''}" onclick="casaIr('${k}')">${t}</button>`).join('')}</div><div id="casaBody"></div><div class="small mut" id="casaSaldo" style="margin-top:6px"></div></div>`;
+  casaIr(casaTab, true);
+}
+function casaIr(t, forzar) {
+  if (t === casaTab && !forzar && $('casaBody') && $('casaBody').dataset.t === t) return;
+  casaTab = t; clearInterval(casaPoll); clearInterval(casaTick); casaPoll = casaTick = null;
+  document.querySelectorAll('.casa-tab').forEach((b, i) => b.classList.toggle('on', ['cohete', 'plinko', 'minas', 'pesca'][i] === t));
+  const body = $('casaBody'); if (!body) return; body.dataset.t = t;
+  if (t === 'cohete') coIni(); if (t === 'plinko') plIni(); if (t === 'minas') miIni(); if (t === 'pesca') peIni();
+}
+function casaSaldo(e) { const s = $('casaSaldo'); if (s && e && e.balance != null) s.innerHTML = `Tu saldo: <b>${fmtAC(e.balance)} AC</b> · perdiste hoy ${fmtAC(e.perdidaHoy)} de ${fmtAC(e.maxPerdida)} AC`; }
+const chipsHTML = (arr, sel, fn) => arr.map(v => `<button class="casa-chip${sel === v ? ' on' : ''}" onclick="${fn}(${v})">${fmtAC(v)}</button>`).join('');
+// ---- Cohete
+function coIni() {
+  $('casaBody').innerHTML = `<div class="co-hist" id="coHist"></div><div class="co-vista"><svg viewBox="0 0 400 200" preserveAspectRatio="none"><path id="coPath" d="" fill="none" stroke="#f0a020" stroke-width="3"/></svg><div id="coMult" class="co-mult">x1.00</div><div id="coMsg" class="co-msg"></div><div id="coCoh" class="co-coh">🚀</div></div>
+   <div class="co-ctl"><div class="casa-chips" id="coChips"></div><label class="small">Retirar solo en x <input id="coAuto" class="inp" style="width:70px" placeholder="auto" inputmode="decimal"></label><button class="arma-btn" id="coBtn" style="flex-direction:row" onclick="coBoton()"><b>Apostar</b></button></div><div id="coJug" class="co-jug"></div>
+   <p class="small mut">Todos apuestan a la vez. El cohete sube y el multiplicador crece: retirate antes de que explote. Si explota antes, perdés la apuesta. Devolución 96%.</p>`;
+  coChips(); coPoll(); casaPoll = setInterval(coPoll, 600); casaTick = setInterval(coLocal, 80);
+}
+function coChips() { const c = $('coChips'); if (c) c.innerHTML = chipsHTML([10, 50, 100, 500, 1000], coMonto, 'coSet'); }
+function coSet(v) { coMonto = v; coChips(); coPintaBtn(); }
+async function coPoll() { if (casaTab !== 'cohete' || !$('coMult')) return; const e = await casaPost({ action: 'cohete' }); if (e.error) { const m = $('coMsg'); if (m) m.textContent = e.error; return; } casaE = e; casaRecv = Date.now(); casaSaldo(e); coPinta(); }
+function coMultAhora() { const e = casaE; if (!e) return 1; if (e.fase === 'vuelo') return Math.exp(e.vel * (e.tVuelo + (Date.now() - casaRecv)) / 1000); return e.mult; }
+function coLocal() { if (casaTab !== 'cohete' || !casaE) return; coPinta(true); }
+function coPinta(soloMult) {
+  const e = casaE; if (!e || !$('coMult')) return; const m = e.fase === 'fin' ? e.crash : e.fase === 'vuelo' ? Math.min(coMultAhora(), 1000) : 1;
+  const M = $('coMult'); M.textContent = 'x' + m.toFixed(2); M.className = 'co-mult ' + (e.fase === 'fin' ? 'fin' : e.fase === 'vuelo' ? 'vuelo' : '');
+  const msg = $('coMsg'); msg.textContent = e.fase === 'apuestas' ? `Despega en ${Math.max(0, Math.ceil((e.ms - (Date.now() - casaRecv)) / 1000))} s · apostá ahora` : e.fase === 'fin' ? `💥 Explotó en x${e.crash.toFixed(2)}` : '🚀 ¡Subiendo!';
+  const t = e.fase === 'vuelo' ? e.tVuelo + (Date.now() - casaRecv) : e.fase === 'fin' ? Math.log(e.crash) / e.vel * 1000 : 0, top = Math.max(2, m * 1.15), pts = [];
+  for (let i = 0; i <= 40; i++) { const tt = t * i / 40, mm = Math.exp(e.vel * tt / 1000); pts.push([(i / 40) * 390 + 5, 195 - Math.log(mm) / Math.log(top) * 185]); }
+  $('coPath').setAttribute('d', t <= 0 ? '' : 'M' + pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' L')); const u = pts[pts.length - 1], C = $('coCoh');
+  C.style.left = (u[0] / 400 * 100) + '%'; C.style.top = (u[1] / 200 * 100) + '%'; C.textContent = e.fase === 'fin' ? '💥' : '🚀';
+  if (soloMult) { coPintaBtn(m); return; }
+  $('coHist').innerHTML = e.hist.map(h => `<span class="co-h ${h >= 2 ? 'alto' : h < 1.5 ? 'bajo' : ''}">${h.toFixed(2)}x</span>`).join('');
+  $('coJug').innerHTML = e.jugadores.length ? e.jugadores.map(j => `<span class="co-j ${j.cobro > 0 ? 'gano' : j.cobro === 0 ? 'perdio' : ''}">${esc(j.n)} · ${fmtAC(j.m)}${j.cobro > 0 ? ' → x' + j.cobro.toFixed(2) : ''}</span>`).join('') : '<span class="small mut">Nadie apostó todavía en esta ronda.</span>';
+  coPintaBtn(m);
+}
+function coPintaBtn(m) {
+  const e = casaE, b = $('coBtn'); if (!e || !b) return; m = m || (e.fase === 'vuelo' ? coMultAhora() : 1);
+  let txt, dis = false;
+  if (e.fase === 'apuestas') txt = e.yo ? `✅ Apostaste ${fmtAC(e.yo.m)} AC (esperá el despegue)` : `Apostar ${fmtAC(coMonto)} AC`, dis = !!e.yo;
+  else if (e.fase === 'vuelo') { if (e.yo && e.yo.cobro == null) txt = `💰 Retirar x${m.toFixed(2)} = ${fmtAC(Math.floor(e.yo.m * m))} AC`; else { txt = e.yo ? 'Ya te retiraste' : 'Esperá la próxima ronda'; dis = true; } }
+  else { txt = e.yo ? (e.yo.cobro > 0 ? `🎉 Ganaste ${fmtAC(Math.floor(e.yo.m * e.yo.cobro))} AC` : '💥 Perdiste') : 'Próxima ronda en unos segundos'; dis = true; }
+  b.firstElementChild.textContent = txt; b.disabled = dis;
+}
+async function coBoton() {
+  const e = casaE; if (!e) return; const b = $('coBtn'); b.disabled = true;
+  const r = e.fase === 'apuestas' ? await casaPost({ action: 'cohete_apostar', m: coMonto, auto: $('coAuto').value.replace(',', '.') }) : await casaPost({ action: 'cohete_retirar' });
+  if (r.error) { const m = $('coMsg'); if (m) m.textContent = r.error; if (!r.fase) { b.disabled = false; return; } }
+  if (r.fase) { casaE = r; casaRecv = Date.now(); casaSaldo(r); coPinta(); }
+}
+// ---- Plinko
+async function plIni() {
+  const e = await casaPost({ action: 'plinko' }); if (e.error) { $('casaBody').innerHTML = '<p class="small mut">' + esc(e.error) + '</p>'; return; } casaSaldo(e); window.plTabla = e.tabla; window.plFilas = e.filas; plPinta(null);
+}
+function plPinta(res) {
+  const F = plFilas, T = plTabla[plRiesgo], W = 360, dx = 24, top = 20, dy = 24, H = top + F * dy + 50;
+  let pegs = '', slots = '';
+  for (let r = 0; r < F; r++) for (let i = 0; i <= r + 1; i++) pegs += `<circle cx="${W / 2 + (i - (r + 1) / 2) * dx}" cy="${top + r * dy + dy / 2}" r="3" fill="#bbb"/>`;
+  for (let i = 0; i <= F; i++) { const x = W / 2 + (i - F / 2) * dx, m = T[i]; slots += `<g id="plS${i}"><rect x="${x - dx / 2 + 1}" y="${top + F * dy + 4}" width="${dx - 2}" height="30" rx="4" fill="${m >= 5 ? '#c0392b' : m >= 1 ? '#d68910' : '#566573'}"/><text x="${x}" y="${top + F * dy + 23}" fill="#fff" font-size="9" font-weight="700" text-anchor="middle">${m}x</text></g>`; }
+  $('casaBody').innerHTML = `<div class="pl-wrap"><svg viewBox="0 0 ${W} ${H}" class="pl-svg">${pegs}${slots}<circle id="plBola" cx="${W / 2}" cy="${top - 6}" r="7" fill="#f1c40f" stroke="#fff" stroke-width="1.5" style="display:none"/></svg>
+   <div class="pl-ctl"><div class="casa-chips">${chipsHTML([10, 50, 100, 250, 500], plMonto, 'plSet')}</div><div class="casa-chips">${['bajo', 'medio', 'alto'].map(r => `<button class="casa-chip${plRiesgo === r ? ' on' : ''}" onclick="plRies('${r}')">Riesgo ${r}</button>`).join('')}</div>
+   <button class="arma-btn" style="flex-direction:row" ${plBusy ? 'disabled' : ''} onclick="plTirar()"><b>🔵 Soltar bolita (${fmtAC(plMonto)} AC)</b></button>
+   <div id="plRes" class="co-msg">${res ? res : plUlt || 'La bolita cae entre las clavijas: pagan los casilleros del borde.'}</div></div></div><p class="small mut">Devolución ~96%. Más riesgo = más pago en los bordes y menos en el centro.</p>`;
+}
+function plSet(v) { plMonto = v; plPinta(null); } function plRies(r) { plRiesgo = r; plPinta(null); }
+async function plTirar() {
+  if (plBusy) return; plBusy = true; const r = await casaPost({ action: 'plinko_tirar', m: plMonto, riesgo: plRiesgo });
+  if (r.error) { plBusy = false; plPinta(r.error); return; }
+  plPinta('🔵 Cayendo...'); const bola = $('plBola'), W = 360, dx = 24, top = 20, dy = 24; bola.style.display = ''; let x = 0, i = 0;
+  const paso = () => {
+    if (!$('plBola')) { plBusy = false; return; }
+    if (i < r.camino.length) { x += r.camino[i]; i++; $('plBola').setAttribute('cx', W / 2 + (x - i / 2) * dx); $('plBola').setAttribute('cy', top + i * dy - 4); setTimeout(paso, 160); return; }
+    plBusy = false; plUlt = `Salió <b>${r.mult}x</b> · ${r.win > 0 ? 'cobrás <b>' + fmtAC(r.win) + ' AC</b>' : 'perdiste'}`; casaSaldo(r); plPinta(plUlt); const s = $('plS' + r.slot); if (s) s.firstElementChild.setAttribute('stroke', '#fff'), s.firstElementChild.setAttribute('stroke-width', '3');
+  }; setTimeout(paso, 200);
+}
+// ---- Minas
+async function miIni() { const e = await casaPost({ action: 'minas' }); if (e.error) { $('casaBody').innerHTML = '<p class="small mut">' + esc(e.error) + '</p>'; return; } casaSaldo(e); miEst = e; miPinta(); }
+function miPinta() {
+  const e = miEst, g = e.juego, act = g && g.activa, rev = (g && g.rev) || [], bom = (g && g.bombas) || [];
+  let celdas = ''; for (let i = 0; i < 25; i++) { const abierta = rev.includes(i), bomba = bom.includes(i), est = abierta ? 'ok' : bomba ? 'bomba' : ''; celdas += `<button class="mi-c ${est}${e.explotó === i ? ' boom' : ''}" ${act && !abierta ? `onclick="miAbrir(${i})"` : 'disabled'}>${abierta ? '💎' : bomba ? '💣' : ''}</button>`; }
+  $('casaBody').innerHTML = `<div class="mi-wrap"><div class="mi-grid">${celdas}</div><div class="pl-ctl">
+   ${act ? `<div class="co-msg">Apuesta <b>${fmtAC(g.m)} AC</b> · ${g.minas} minas · ahora x<b>${g.mult}</b> (${fmtAC(Math.floor(g.m * g.mult))} AC) · siguiente x${g.sig}</div><button class="arma-btn" style="flex-direction:row" ${rev.length ? '' : 'disabled'} onclick="miRetirar()"><b>💰 Retirarme con ${fmtAC(Math.floor(g.m * g.mult))} AC</b></button>`
+    : `<div class="casa-chips">${chipsHTML([10, 50, 100, 250, 500], miMonto, 'miSetM')}</div><div class="casa-chips">${e.opciones.map(n => `<button class="casa-chip${miMinas === n ? ' on' : ''}" onclick="miSetN(${n})">💣 ${n}</button>`).join('')}</div><button class="arma-btn" style="flex-direction:row" onclick="miEmpezar()"><b>▶ Empezar (${fmtAC(miMonto)} AC, ${miMinas} minas)</b></button>`}
+   <div class="co-msg">${miMsg}</div></div></div><p class="small mut">Abrí casilleros con 💎 y el pago sube. Si pisás una mina, perdés. Podés retirarte cuando quieras. Devolución 96%.</p>`;
+}
+function miSetM(v) { miMonto = v; miPinta(); } function miSetN(n) { miMinas = n; miPinta(); }
+async function miEmpezar() { const r = await casaPost({ action: 'minas_empezar', m: miMonto, minas: miMinas }); miMsg = r.error || ''; if (!r.error) { miEst = r; casaSaldo(r); } miPinta(); }
+async function miAbrir(i) { const r = await casaPost({ action: 'minas_abrir', i }); if (r.error) { miMsg = r.error; return miPinta(); } miEst = r; casaSaldo(r); miMsg = r.explotó != null ? '💥 ¡Pisaste una mina! Perdiste.' : r.cobró != null ? `🎉 ¡Limpiaste todo! Cobrás ${fmtAC(r.cobró)} AC` : ''; miPinta(); }
+async function miRetirar() { const r = await casaPost({ action: 'minas_retirar' }); if (r.error) { miMsg = r.error; return miPinta(); } miEst = r; casaSaldo(r); miMsg = `🎉 Te retiraste en x${r.mult}: cobrás ${fmtAC(r.cobró)} AC`; miPinta(); }
+// ---- Pesca
+async function peIni() { const e = await casaPost({ action: 'pesca' }); if (e.error) { $('casaBody').innerHTML = '<p class="small mut">' + esc(e.error) + '</p>'; return; } casaSaldo(e); pePinta(e); }
+function pePinta(e) {
+  const U = peUlt;
+  $('casaBody').innerHTML = `<div class="pe-wrap"><div class="pe-izq"><div class="pe-agua"><div class="pe-res" id="peRes">${peBusy ? '<span class="pe-lanza">🎣</span>' : U ? `<div style="font-size:70px">${U.pez.ico}</div><b>${esc(U.pez.nom)}</b> · ${U.pez.kg} kg<div>${U.win > 0 ? `Te pagan <b>${fmtAC(U.win)} AC</b>` : 'No pagó nada'}${U.nuevoRecord ? '<div style="color:#f1c40f">🏅 ¡Tu mejor pieza de la semana!</div>' : ''}</div>` : '<span style="font-size:60px">🎣</span><div class="small">Lanzá la caña</div>'}</div></div>
+    <div class="casa-chips">${Object.entries(e.costos).map(([k, c]) => `<button class="casa-chip${peCebo === k ? ' on' : ''}" onclick="peSet('${k}')">${k === 'comun' ? '🪱 Cebo común' : '✨ Cebo premium'} ${c} AC</button>`).join('')}</div>
+    <button class="arma-btn" style="flex-direction:row" ${peBusy || !e.tirosLeft ? 'disabled' : ''} onclick="peLanzar()"><b>🎣 Lanzar caña (${e.costos[peCebo]} AC)</b></button><div class="small mut">Te quedan ${e.tirosLeft} lanzamientos hoy.</div></div>
+   <div class="pe-der"><h4 style="margin:0">🏆 Torneo semanal de pesca</h4><div class="small mut">La pieza más pesada de la semana (lunes a domingo) se lleva el pozo: 50% / 30% / 20%.</div>
+    <div class="pe-pozo">💰 Pozo: <b>${fmtAC(e.pozo)} AC</b></div>
+    ${e.top.length ? `<ol class="pe-top">${e.top.map(t => `<li><b>${esc(t.char)}</b> ${t.ico} ${esc(t.nom)} · ${t.kg} kg</li>`).join('')}</ol>` : '<div class="small mut">Todavía nadie pescó nada esta semana.</div>'}
+    ${e.mia ? `<div class="small">Tu mejor pieza: ${e.mia.ico} ${esc(e.mia.nom)} · <b>${e.mia.kg} kg</b></div>` : ''}
+    ${e.hist.length ? `<details><summary class="small">Campeones anteriores</summary>${e.hist.map(h => `<div class="small">${h.sem}: ${h.top.length ? esc(h.top[0].char) + ' (' + h.top[0].ico + ' ' + h.top[0].kg + ' kg, ' + fmtAC(h.top[0].premio) + ' AC)' : '—'}</div>`).join('')}</details>` : ''}
+    <details><summary class="small">Qué se puede pescar</summary>${e.tabla[peCebo].map(x => `<div class="small">${x.ico} ${esc(x.nom)}: ${x.pago} AC</div>`).join('')}</details></div></div>`;
+}
+function peSet(k) { peCebo = k; peIni(); }
+async function peLanzar() {
+  if (peBusy) return; peBusy = true; const e0 = await casaPost({ action: 'pesca' }); if (e0.ok) pePinta(e0);
+  const t0 = Date.now(), r = await casaPost({ action: 'pesca_lanzar', cebo: peCebo }); const resto = 1100 - (Date.now() - t0); if (resto > 0) await new Promise(res => setTimeout(res, resto));
+  peBusy = false; if (r.error) { peUlt = null; const x = $('casaBody'); if (x) peIni(); const m = $('peRes'); if (m) m.innerHTML = '<span class="small">' + esc(r.error) + '</span>'; return; }
+  peUlt = r; casaSaldo(r); pePinta(r);
+}
 MESA_REGLAS.dinos = ['🦖 Duelo de Dinos', `<p>Tus <b>dinos reales</b> son las cartas: la <b>especie</b> da el poder base (★1 a ★5), y suman los <b>puntos</b> del dino en daño, vida, peso y velocidad, el <b>nivel</b> y las <b>mutaciones</b> (+4% cada una). Un Rex nivel 220 con buenos puntos le gana a un montón de dinos chicos.</p>
 <p><b>Mazo:</b> cada uno elige <b>10 dinos</b> para la partida. Antes de sentarte, en Juegos → <i>Mi mazo de dinos</i>, conectado al juego, tocá <b>Leer mis dinos</b>, marcá 10 y guardá. Sin los 10 elegidos no te podés sentar.</p>
 <p><b>Cada jugador arranca con 6.000 de vida</b> y 3 cartas en la mano (robás 1 por turno hasta agotar el mazo). El campo tiene 3 lugares.</p>
