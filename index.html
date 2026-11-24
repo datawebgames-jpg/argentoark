@@ -1577,6 +1577,23 @@ async function juegosAcc(action, extra = {}) {
 let trdUlt = '', trdTimer = null;
 function pintarTrucoDesafio(d) {
   const M = d.mesaTruco, box = $('juegosCont'), n = v => Number(v || 0).toLocaleString('es-AR');
+  if (M.pregunta) {
+    box.innerHTML = `<div id="trdMesa" style="max-width:560px;margin:0 auto">${d.aviso ? `<div class="card" style="border-color:var(--acc);margin-bottom:10px">${esc(d.aviso)}</div>` : ''}
+      <div class="card" style="text-align:center;padding:26px 18px;border:2px solid var(--acc);background:radial-gradient(circle at 50% 0,#1f6b3d,#0d2e1a)">
+        <div style="font-size:46px">🃏</div>
+        <div class="mesa-avatar f1" style="margin:8px auto">${esc(M.rival[0]).toUpperCase()}</div>
+        <h2 style="margin:4px 0">${esc(M.rival)} te espera en la mesa</h2>
+        <p style="font-size:20px;margin:14px 0"><b>¿Estás listo para jugar contra mí?</b></p>
+        <p class="small mut">A ${M.puntos} puntos · Si le ganás cobrás <b>${n(M.premio)} AC</b> · gratis</p>
+        <div style="display:flex;gap:12px;justify-content:center;margin-top:18px">
+          <button class="btn" style="font-size:18px;padding:10px 28px" onclick="juegosFn('fn:truco:acepto')">✅ Sí, juguemos</button>
+          <button class="btn" style="font-size:18px;padding:10px 28px;background:#7a2b2b" onclick="juegosFn('fn:truco:rechazo')">❌ No</button>
+        </div>
+      </div></div>`;
+    clearInterval(trdTimer);
+    trdTimer = setInterval(() => { if (!$('trdMesa')) { clearInterval(trdTimer); trdTimer = null; return; } if (!document.hidden) juegosAcc('ver'); }, 3000);
+    return;
+  }
   const lider = M.pj > M.pb ? 'j' : M.pb > M.pj ? 'b' : null, fin = !!M.fin;
   const pips = v => Array.from({ length: M.puntos }, (_, k) => `<i class="${k < v ? 'on' : ''}${k % 5 === 4 ? ' gr' : ''}"></i>`).join('');
   const sc = (q, nom, pts) => `<div class="trd-eq ${q}${lider === q ? ' lider' : ''}"><div class="trd-eq-n">${esc(nom)}${lider === q ? ' 👑' : ''}</div><div class="trd-eq-p">${pts}</div><div class="tr-pips">${pips(pts)}</div></div>`;
