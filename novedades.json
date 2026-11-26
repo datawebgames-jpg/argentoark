@@ -1,5 +1,17 @@
 [
   {
+    "fecha": "2026-11-26",
+    "titulo": "Juegos de la casa renovados y carteles de pesca",
+    "nuevo": [
+      "🎨 Cohete, Plinko, Minas y Pesca tienen un diseño nuevo: cohete que despega y explota, bolita que rebota entre las clavijas, fichas de casino, gemas y bombas, y una escena de pesca animada.",
+      "🎣 Pesca: cuando alguien pasa a ser el primero del torneo semanal sale un cartel en el juego.",
+      "⭐ Pesca: Pulpo, Tiburón, Cofre del tesoro y Leviatán dan +100 AC de bono y también salen en el cartel del juego."
+    ],
+    "arreglado": [
+      "🚀 El cartel del cohete ya no sale a cada rato (solo cuando alguien jugó, uno cada 20 minutos) y explica dónde se juega."
+    ]
+  },
+  {
     "fecha": "2026-11-24",
     "titulo": "La Crónica de las Islas suma un capítulo y se arreglaron las desconexiones",
     "nuevo": [
