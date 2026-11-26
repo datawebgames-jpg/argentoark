@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La Crónica de las Islas · ArgentoPro</title>
+<meta name="description" content="La historia de ArgentoPro ARK x5: cómo seis sobrevivientes se animaron a los gigantes y fundaron un pueblo.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--papel:#f4e8c8;--papel2:#e9d7a6;--tinta:#3b2a17;--oro:#a8741a;--rojo:#8c2f1b;--verde:#3d5a2a;--noche:#15100a}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--noche);color:#eee;font-family:'Lora',Georgia,serif}
+/* ===== la hoja (148 x 210 mm) ===== */
+.pg{position:relative;width:148mm;height:210mm;overflow:hidden;color:var(--tinta);font-size:10.6pt;line-height:1.42;
+  background:radial-gradient(ellipse at 30% 20%,#fbf1d6 0,var(--papel) 55%,var(--papel2) 100%);padding:15mm 14mm 14mm}
+.pg::before{content:"";position:absolute;inset:6mm;border:1.4px solid rgba(140,100,40,.55);border-radius:2mm;pointer-events:none}
+.pg::after{content:"";position:absolute;inset:7.6mm;border:.6px solid rgba(140,100,40,.35);border-radius:1.4mm;pointer-events:none}
+.pg h1,.pg h2,.pg h3{font-family:'Cinzel',serif;margin:0;color:var(--rojo)}
+.cap{font:700 8.5pt 'Cinzel',serif;letter-spacing:.3em;color:var(--oro);text-align:center;text-transform:uppercase;margin-top:2mm}
+.pg h1{font-size:21pt;text-align:center;line-height:1.1;margin:1.5mm 0 4mm;font-weight:900}
+.orn{text-align:center;color:var(--oro);letter-spacing:.5em;font-size:11pt;margin:0 0 4mm}
+.pg p{margin:0 0 2.6mm;text-align:justify;hyphens:auto}
+.pg p.cap1::first-letter{font:900 30pt/0.8 'Cinzel',serif;float:left;color:var(--rojo);padding:1.2mm 1.6mm 0 0}
+.pg em{color:var(--rojo)}
+.num{position:absolute;bottom:9.5mm;left:0;right:0;text-align:center;font:600 8pt 'Cinzel',serif;color:var(--oro)}
+.nota{font-size:8.6pt;color:#6b5230;font-style:italic}
+.marco{border:1.2px solid rgba(140,100,40,.6);background:rgba(255,250,232,.55);border-radius:2mm;padding:2.4mm 3mm;margin:2.4mm 0}
+.mapa{display:block;width:100%;height:46mm;object-fit:cover;border:1.4px solid var(--oro);border-radius:1.6mm;margin:1mm 0 1mm;filter:sepia(.35) contrast(1.05)}
+.pie{font-size:8pt;color:#7a5f36;text-align:center;font-style:italic;margin-bottom:3mm}
+.dinos{display:flex;gap:2mm;justify-content:center;margin:2mm 0}.dinos figure{margin:0;text-align:center;font-size:7.4pt;color:#6b5230}.dinos img{width:15mm;height:15mm;image-rendering:auto;background:rgba(255,250,232,.7);border:1px solid var(--oro);border-radius:50%;padding:1.2mm}
+/* portada */
+.pg.tapa{background:#120c06;padding:0;color:#f6e6b8;text-align:center}
+.pg.tapa::before,.pg.tapa::after{border-color:rgba(230,180,80,.7)}
+.tapa .fondo{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,6,2,.55),rgba(10,6,2,.15) 40%,rgba(10,6,2,.85)),url(img/fondo.jpg) center/cover}
+.tapa .cont{position:relative;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:20mm 14mm 18mm}
+.tapa .marca{font:700 10pt 'Cinzel',serif;letter-spacing:.5em;color:#e9c46a}
+.tapa h1{font:900 36pt/1 'Cinzel',serif;color:#f6e6b8;text-shadow:0 3px 12px #000;margin:0}.tapa h1 small{display:block;font-size:13pt;letter-spacing:.38em;color:#e9c46a;margin-top:3mm;font-weight:700}
+.tapa .lema{font-style:italic;font-size:11.5pt;max-width:100mm;margin:0 auto;text-shadow:0 2px 8px #000}.tapa .fecha{font:600 8.5pt 'Cinzel',serif;letter-spacing:.25em;color:#e9c46a}
+.tapa p{text-align:center}.tapa .rex{font-size:36pt;margin-bottom:2mm}
+/* contratapa */
+.pg.contra{background:radial-gradient(ellipse at 50% 30%,#2b1d0e,#120c06 75%);color:#f6e6b8;text-align:center}
+.contra h1,.contra h2{color:#e9c46a}.contra .qrs{display:flex;gap:8mm;justify-content:center;margin:6mm 0}.contra .qrs figure{margin:0;font-size:8.5pt}.contra .qrs img{width:34mm;height:34mm;background:#fff;padding:2mm;border-radius:2mm;display:block;margin:0 auto 1.5mm}
+.contra p{text-align:center}.contra .num{color:#a8741a}
+/* fichas de los seis */
+.seis{display:grid;grid-template-columns:1fr 1fr;gap:2.4mm}.ficha{border:1.2px solid rgba(140,100,40,.6);background:rgba(255,250,232,.6);border-radius:2mm;padding:2mm 2.6mm;font-size:8.8pt;line-height:1.32}
+.ficha b{font:700 10.5pt 'Cinzel',serif;color:var(--rojo);display:block}.ficha .d{color:var(--oro);font-size:7.6pt;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+/* linea de tiempo */
+.linea{position:relative;margin:2mm 0 0 5mm;padding-left:5mm;border-left:2px solid var(--oro)}.hito{position:relative;margin-bottom:2.7mm;font-size:9.4pt;line-height:1.3}.hito::before{content:"";position:absolute;left:-8.6mm;top:1mm;width:3.4mm;height:3.4mm;border-radius:50%;background:var(--rojo);border:1.2px solid #fbf1d6}
+.hito b{font-family:'Cinzel',serif;color:var(--rojo)}.hito .f{color:var(--oro);font-size:8pt;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+/* barras de horas */
+.barras{margin:1mm 0}.fila{display:flex;align-items:center;gap:2mm;margin:1.3mm 0;font-size:9pt}.fila .n{width:26mm;font-weight:600}.fila .b{flex:1;height:4.2mm;background:rgba(140,100,40,.18);border-radius:2mm;overflow:hidden}.fila .b i{display:block;height:100%;background:linear-gradient(90deg,#8c2f1b,#c9893a);border-radius:2mm}.fila .h{width:18mm;text-align:right;color:var(--oro);font-weight:600}
+.cifras{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2mm;margin:2mm 0}.cifra{text-align:center;border:1.2px solid rgba(140,100,40,.6);background:rgba(255,250,232,.6);border-radius:2mm;padding:2mm 1mm}.cifra b{display:block;font:900 17pt 'Cinzel',serif;color:var(--rojo)}.cifra span{font-size:7.8pt;color:#6b5230}
+.vecinos{columns:2;column-gap:4mm;font-size:8.9pt;line-height:1.3}.vecino{break-inside:avoid;margin-bottom:2.2mm}.vecino b{font-family:'Cinzel',serif;color:var(--rojo);font-size:9.6pt}.vecino i{color:var(--oro);font-style:normal;font-size:7.6pt;letter-spacing:.05em;text-transform:uppercase;display:block}
+.tabla{width:100%;border-collapse:collapse;font-size:9pt}.tabla td{padding:1mm 1.4mm;border-bottom:1px solid rgba(140,100,40,.3)}.tabla td:last-child{text-align:right;color:var(--oro);font-weight:600}
+/* ===== visor ===== */
+#visor{position:fixed;inset:0;display:flex;flex-direction:column;background:radial-gradient(ellipse at 50% 20%,#3a2a16,#150f08 70%)}
+#barra{display:flex;align-items:center;gap:10px;padding:8px 14px;flex-wrap:wrap}
+#barra a,#barra button{color:#f6e6b8;background:rgba(255,255,255,.08);border:1px solid rgba(233,196,106,.5);border-radius:10px;padding:7px 13px;text-decoration:none;font:600 13px 'Lora',serif;cursor:pointer}
+#barra a:hover,#barra button:hover{background:rgba(233,196,106,.25)}#barra .t{font:700 15px 'Cinzel',serif;color:#e9c46a;flex:1;text-align:center;min-width:140px}
+#escena{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;perspective:2400px;touch-action:pan-y}
+#libro{position:relative;display:flex;transform-origin:center center;filter:drop-shadow(0 18px 38px rgba(0,0,0,.7))}
+#libro .lado{width:148mm;height:210mm;position:relative;background:#e9d7a6}
+#libro .lado.vacio{background:transparent}
+#libro.dos .lado.izq .pg{box-shadow:inset -22px 0 28px -18px rgba(60,35,10,.5)}#libro.dos .lado.der .pg{box-shadow:inset 22px 0 28px -18px rgba(60,35,10,.5)}
+.hoja{position:absolute;top:0;width:148mm;height:210mm;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.4,.1,.25,1);z-index:5}
+.hoja>div{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden}.hoja .dorso{transform:rotateY(180deg)}
+#pie{display:flex;align-items:center;justify-content:center;gap:14px;padding:8px 14px 12px;color:#e9c46a;font:600 13px 'Cinzel',serif;flex-wrap:wrap}
+#pie button{background:rgba(255,255,255,.08);color:#f6e6b8;border:1px solid rgba(233,196,106,.5);border-radius:50%;width:44px;height:44px;font-size:20px;cursor:pointer}#pie button:disabled{opacity:.3}
+#puntos{display:flex;gap:6px}#puntos i{width:8px;height:8px;border-radius:50%;background:rgba(233,196,106,.3);cursor:pointer}#puntos i.on{background:#e9c46a}
+#paginas{display:none}
+@page{size:148mm 210mm;margin:0}
+@media print{html,body{background:none;height:auto;overflow:visible}#visor{display:none!important}#paginas{display:block!important}#paginas .pg{page-break-after:always;break-after:page;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div id="visor">
+  <div id="barra"><a href="index.html">⬅ Volver a la página</a><div class="t">📚 La Crónica de las Islas</div><a href="historia.pdf" download>⬇ Bajar PDF</a></div>
+  <div id="escena"><div id="libro"></div></div>
+  <div id="pie"><button id="ant" aria-label="Página anterior">‹</button><span id="pos"></span><div id="puntos"></div><button id="sig" aria-label="Página siguiente">›</button></div>
+</div>
+
+<div id="paginas">
+
+<!-- 0 · PORTADA -->
+<article class="pg tapa"><div class="fondo"></div><div class="cont">
+  <div class="marca">A R G E N T O P R O</div>
+  <div><div class="rex">🦖</div><h1>LA CRÓNICA<small>DE LAS ISLAS</small></h1><p class="lema" style="margin-top:7mm">Cómo seis sobrevivientes se animaron a los gigantes y fundaron un pueblo</p></div>
+  <div class="fecha">TEMPORADA I · OCTUBRE – NOVIEMBRE 2026</div></div></article>
+
+<!-- 1 · EL MUNDO -->
+<article class="pg"><div class="cap">Antes de empezar</div><h1>El mundo de ArgentoPro</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">Esta es la historia de un servidor argentino de <em>ARK: Survival Evolved</em>. No es la historia de un juego: es la de la gente que se juntó a vivirlo. Un lugar donde los dinosaurios son enormes, las noches son largas y nadie camina solo por mucho tiempo.</p>
+<p>El servidor se llama <em>ArgentoPro ARK x5</em>, porque todo lo importante rinde cinco veces más: la <em>experiencia</em>, la <em>domesticación</em> y la <em>recolección</em>. Entran hasta 70 jugadores y los personajes pueden viajar de un mundo a otro, como si todos fueran regiones de un mismo país.</p>
+<div class="marco"><table class="tabla">
+<tr><td>Experiencia</td><td>x5</td></tr><tr><td>Domesticación de dinos</td><td>x5</td></tr><tr><td>Recolección y bolsas de recursos</td><td>x5</td></tr>
+<tr><td>Fiestas de fin de semana largo</td><td>x10</td></tr><tr><td>Jugadores por mundo</td><td>hasta 70</td></tr><tr><td>Moneda del pueblo</td><td>ArgenCoins (AC)</td></tr></table></div>
+<p>Dos mundos fueron fijos desde el primer día: <em>The Island</em> y <em>Fjordur</em>. Más tarde se les sumó <em>Lost Island</em>. Y hay un cuarto mapa, el viajero, que cambia cada semana y que decide la gente votando.</p>
+<p class="nota">Las cifras de este libro son reales, tomadas de los registros del servidor hasta el 21 de noviembre de 2026.</p>
+<div class="num">· 2 ·</div></article>
+
+<!-- 2 · EL PRIMER HOLA -->
+<article class="pg"><div class="cap">Capítulo I</div><h1>El primer «hola»</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">Fue el 11 de octubre de 2026, a las 17:01, en Fjordur, la tierra de los acantilados y los vikingos. En el chat del servidor apareció una sola palabra: <em>«hola»</em>. La escribió Trup3r, el primero en llegar. Nadie contestó, porque todavía no había nadie. Un rato después volvió a probar: <em>«wenas»</em>. Y después: <em>«holiwis»</em>.</p>
+<p>Esa misma tarde su tribu, los <em>Cazalokas</em>, domó el primer dino de la historia del server: un Parasaurio nivel 127. Antes de que terminara la noche ya había sumado un Pteranodon y dos Argentavis. A la mañana siguiente, a las cinco y media, cayó un <em>Rex nivel 217</em>.</p>
+<div class="dinos"><figure><img src="img/wiki/Parasaur.png" alt=""><br>Parasaurio</figure><figure><img src="img/wiki/Pteranodon.png" alt=""><br>Pteranodon</figure><figure><img src="img/wiki/Argentavis.png" alt=""><br>Argentavis</figure><figure><img src="img/wiki/Rex.png" alt=""><br>Rex</figure></div>
+<img class="mapa" src="img/wiki/Fjordur_Map.jpg" alt="Mapa de Fjordur"><div class="pie">Fjordur, donde empezó todo</div>
+<p>Mientras tanto, en el otro extremo del archipiélago, la primera en asomarse a <em>La Isla</em> fue Visholi, que llegó a las 18:56 y domó un Pteranodon nivel 67. Dos mundos, dos pioneros, y una sensación en el aire: esto recién empezaba.</p>
+<div class="num">· 3 ·</div></article>
+
+<!-- 3 · LA ISLA -->
+<article class="pg"><div class="cap">Capítulo II</div><h1>La Isla</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">The Island es el mapa de siempre: playas, selva, pantanos, el volcán que arde de noche y bichos que no perdonan un descuido. Esa primera noche, a las 23:38, entró al mundo alguien que iba a cambiarlo todo: <em>IvyLuna</em>.</p>
+<p>Nadie le prestó demasiada atención. A la mañana siguiente, a las nueve menos tres, domó su primer dino: un <em>Dodo nivel 57</em>. El bicho más humilde del bestiario. Pero hay quienes empiezan por el dodo y terminan con el pueblo entero a cuestas.</p>
+<img class="mapa" src="img/wiki/The_Island_Map.jpg" alt="Mapa de The Island"><div class="pie">The Island, el primer hogar</div>
+<p>IvyLuna le puso nombre a lo que faltaba: un lugar donde se pudiera comprar, vender, charlar y no morir en el intento. Dicen que el primer mercadito nació de una sola idea: <em>«¿y si hacemos que esto sea de todos?»</em>. De ahí salieron las monedas del pueblo, las tribus, las leyendas, y las ganas de volver cada día.</p>
+<p>Hoy IvyLuna es nivel 105, tiene 24 dinos domados y es la jugadora que más horas acumula en todo el servidor.</p>
+<div class="num">· 4 ·</div></article>
+
+<!-- 4 · LOS SEIS -->
+<article class="pg"><div class="cap">Capítulo III</div><h1>Los seis de la Isla</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">Uno por uno, fueron llegando. Se cruzaron en la playa, se prestaron un dino, se ayudaron a matar a un gigante y, casi sin darse cuenta, se volvieron familia. Estos son los seis que abrieron el camino:</p>
+<div class="seis">
+<div class="ficha"><span class="d">Llegó el 11 de oct · Fjordur</span><b>Trup3r</b>El que dijo «hola» primero. Cazador de Rex y el nivel más alto del servidor: 114. Lleva 39 bajas en combate.</div>
+<div class="ficha"><span class="d">Llegó el 11 de oct · La Isla</span><b>IvyLuna</b>La que le dio forma al pueblo. Nivel 105, 24 domas y más de 600 horas de aventuras.</div>
+<div class="ficha"><span class="d">Llegó el 12 de oct · Fjordur</span><b>KratosMache</b>Entró por Fjordur al segundo día y no paró más. Nivel 108, el tercero en horas jugadas entre los fundadores.</div>
+<div class="ficha"><span class="d">Llegó el 13 de oct · La Isla</span><b>xMONOx</b>Nivel 106. Tiene su propia tribu: <em>Monolandia</em>, en Fjordur. Hasta una leyenda del pueblo lleva su nombre.</div>
+<div class="ficha"><span class="d">Llegó el 14 de oct · La Isla</span><b>Kempysito</b>Nivel 106. El del stream, con su propia Tribu de Kempysito, que explora Genesis y a todo lo que se mueva.</div>
+<div class="ficha"><span class="d">Llegó el 18 de oct · La Isla</span><b>Karoo</b>Nivel 95 y la mejor domadora del server: 32 dinos domados, más que nadie. Se casó en el juego con IvyLuna.</div>
+</div>
+<p style="margin-top:3.5mm">Seis nombres, seis personalidades, y una misma costumbre: ayudarse. La que quedó grabada en el pueblo: <em>«el que cae, se levanta; el que doma, comparte»</em>.</p>
+<div class="num">· 5 ·</div></article>
+
+<!-- 5 · GIGANTES -->
+<article class="pg"><div class="cap">Capítulo IV</div><h1>Gigantes y leyendas</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">Los primeros días fueron de huir. De correr hasta el agua cuando se escuchaba un rugido. De aprender que un Giganotosaurio no se negocia y que un Yutyrannus llama a tus animales con un grito y se los come.</p>
+<div class="dinos"><figure><img src="img/wiki/Giganotosaurus.png" alt=""><br>Giganoto</figure><figure><img src="img/wiki/Yutyrannus.png" alt=""><br>Yuty</figure><figure><img src="img/wiki/Spino.png" alt=""><br>Spino</figure><figure><img src="img/wiki/Quetzal.png" alt=""><br>Quetzal</figure><figure><img src="img/wiki/Therizinosaur.png" alt=""><br>Therizino</figure></div>
+<p>Con el tiempo aprendieron a enfrentarlos. Los hubo que se animaron a más: el <em>récord de nivel domado</em> lo tiene un <em>Rex Tek nivel 269</em>, capturado por Mono en Fjordur el 1 de noviembre. Muy cerca, un Estegosaurio Tek nivel 268 que domó Victore en Lost Island.</p>
+<p>Y llegaron las leyendas. El <em>dios Argento</em> baja a la isla con historias: un dragón que cayó del cielo, una ballena que lloraba estrellas, un vikingo que comió de más y quedó convertido en Andrewsarchus, hasta la venganza de la novia de xMONOx, que terminó transformada en murciélago. Quien doma el bicho de la leyenda se lleva su nombre en grande.</p>
+<p>Y cuentan en la fogata de Don Ramón que hay <em>un Rex y una Carcha</em> gigantes —<em>El Patrón</em>— que a veces se pasean sueltos por La Isla. Mil ochocientos dardos, dicen. Todavía hay quien quiere intentarlo.</p>
+<div class="num">· 6 ·</div></article>
+
+<!-- 6 · MAPA QUE VIAJA -->
+<article class="pg"><div class="cap">Capítulo V</div><h1>El mapa que viaja</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">Hubo una idea que le dio ritmo a todo: que cada semana el servidor tuviera un mapa distinto. Cada lunes a las 6 de la mañana, el mapa viajero se va, y entra el que votó la gente. Así fue el recorrido:</p>
+<div class="linea">
+<div class="hito"><span class="f">Hasta el 12 de octubre</span><br><b>Ragnarok</b> · el mapa viajero de la primera semana</div>
+<div class="hito"><span class="f">12 de octubre</span><br><b>Lost Island</b> · ganó la votación con un solo voto</div>
+<div class="hito"><span class="f">19 de octubre</span><br><b>Crystal Isles</b> · ganó con cinco votos</div>
+<div class="hito"><span class="f">26 de octubre</span><br><b>Genesis 1</b> · los sobrevivientes se fueron al espacio</div>
+<div class="hito"><span class="f">2 de noviembre</span><br><b>Genesis 2</b> · la nave con los dinos mutados</div>
+<div class="hito"><span class="f">9 de noviembre</span><br><b>Ragnarok</b> · volvió con cinco votos</div>
+<div class="hito"><span class="f">16 de noviembre</span><br><b>Scorched Earth</b> · el desierto y sus bichos de arena</div>
+<div class="hito"><span class="f">21 de noviembre</span><br><b>Genesis 2 de nuevo</b> · llegó para la Fiesta del fin de semana largo, con experiencia y domesticación x10</div>
+</div>
+<p>Cada vez que el mapa cambia, la gente lleva todo con ella: sus personajes, sus dinos y sus cosas. Por eso Fjordur, La Isla y Lost Island se volvieron la casa, y el mapa viajero, la aventura de la semana.</p>
+<div class="num">· 7 ·</div></article>
+
+<!-- 7 · BASES -->
+<article class="pg"><div class="cap">Capítulo VI</div><h1>Armando las bases</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">Primero fueron chozas de paja pegadas a una piedra. Después, casas de madera con un fogón. Más tarde llegaron las paredes de metal, los fabricadores, las represas y los fuertes que se ven desde lejos. Cada base tuvo su historia: una puerta que alguien dejó abierta, un Rex que se salvó de milagro, una pared que se agrandó de noche.</p>
+<p>La gente se juntó en <em>tribus</em>, y cada una puso su bandera. Estas son las que hoy mandan en las islas:</p>
+<div class="marco"><table class="tabla">
+<tr><td><b>Los Trolistas</b> · lidera IvyLuna</td><td>The Island</td></tr>
+<tr><td><b>Las Pachulitas</b> · lidera IvyLuna</td><td>Lost Island</td></tr>
+<tr><td><b>Las Chulitas</b> · lidera IvyLuna</td><td>Crystal Isles</td></tr>
+<tr><td><b>Tribu de Kempysito</b></td><td>Genesis 1 y 2</td></tr>
+<tr><td><b>Monolandia</b> · lidera xMONOx</td><td>Fjordur</td></tr>
+<tr><td><b>Tribu de xMONOx</b></td><td>Ragnarok</td></tr></table></div>
+<p>Las tribus juntan <em>ACT</em>, los puntos de tribu: jugando, domando y haciendo misiones. Con eso el líder compra planos de armas, monturas mejoradas y hasta un Tek Stryder recolector. Cada mes, la tribu con más puntos es la <em>Mejor Tribu del Server</em>.</p>
+<p>Y cuando una base queda abandonada, no se pierde: sus dinos van al <em>Martillero Público</em>, donde cualquiera puede ofertar por ellos. Nada se desperdicia en esta isla.</p>
+<div class="num">· 8 ·</div></article>
+
+<!-- 8 · PUEBLO -->
+<article class="pg"><div class="cap">Capítulo VII</div><h1>El Pueblito</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">Con las bases llegó el pueblo. No uno cualquiera: un pueblito con diez vecinos que tienen su historia, su oficio y su opinión sobre quién manda. Si pasás por la plaza, vas a escucharlos hablar entre ellos, discutir y hasta pedirte ayuda.</p>
+<div class="vecinos">
+<div class="vecino"><b>Doña Rosa</b><i>Almacenera</i>Llegó en balsa con tres gallinas y un dodo. Hoy tiene el almacén más grande.</div>
+<div class="vecino"><b>El Tano Benedetti</b><i>Acopiador</i>Ex minero de Genesis. Perdió una mano con un Megalania y compra lo que le traigan.</div>
+<div class="vecino"><b>Lucía «la Gaucha»</b><i>Domadora</i>Creció domando caballos en La Pampa. En la isla doma argentavis.</div>
+<div class="vecino"><b>Don Ramón Quiroga</b><i>El viejo del fogón</i>El primer sobreviviente del pueblo. Conoce todas las leyendas.</div>
+<div class="vecino"><b>Marcela Ibáñez</b><i>Herrera</i>Forjaba rejas en Rosario. Ahora forja monturas.</div>
+<div class="vecino"><b>El Pibe Matías</b><i>Mandadero</i>Huérfano del pueblo. Quiere entrar a una tribu.</div>
+<div class="vecino"><b>Sor Clementina</b><i>Curandera</i>Monja que llegó rezando y se quedó curando.</div>
+<div class="vecino"><b>Chuky Gómez</b><i>Apostador</i>Perdió su tribu en un truco contra El Gaucho.</div>
+<div class="vecino"><b>Valentina Sosa</b><i>Exploradora</i>Cartógrafa. Anda mapeando cuevas.</div>
+<div class="vecino"><b>Sargento Ledesma</b><i>Guardia</i>Cuida la plaza.</div>
+</div>
+<p style="margin-top:2mm">Y como nada es tranquilo en esta isla, los vecinos tienen sus dramas: un Giganotosaurio que se comió todas las ovejas del corral, cuatro Yutyrannus que llaman a los animales para comérselos, un Espinosaurio que se adueñó del río. Cada pelea termina igual: <em>«el que me traiga los trofeos, se lleva la recompensa»</em>. Hay premios en ArgenCoins y hasta una montura ascendente a elección.</p>
+<div class="num">· 9 ·</div></article>
+
+<!-- 9 · LAS CIFRAS -->
+<article class="pg"><div class="cap">Capítulo VIII</div><h1>Las cifras de la aventura</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">Cuarenta días después de aquel primer «hola», así se ve la isla:</p>
+<div class="cifras">
+<div class="cifra"><b>369</b><span>jugadores distintos entraron</span></div><div class="cifra"><b>3.446</b><span>conexiones al servidor</span></div><div class="cifra"><b>576</b><span>dinos domados registrados</span></div>
+<div class="cifra"><b>114</b><span>el nivel más alto</span></div><div class="cifra"><b>13</b><span>personajes nivel 100 o más</span></div><div class="cifra"><b>269</b><span>récord de nivel de un dino domado</span></div></div>
+<p>La experiencia corre cinco veces más rápido que en un servidor común, y los fines de semana largos, diez veces más. Por eso los más fuertes ya pasaron los <em>seis millones de puntos de experiencia</em>.</p>
+<div class="marco"><b style="font-family:Cinzel;color:var(--rojo)">Los que más experiencia juntaron</b><table class="tabla">
+<tr><td>1. Trup3r · nivel 114</td><td>6.048.538 XP</td></tr><tr><td>2. Milider · nivel 111</td><td>5.185.908 XP</td></tr><tr><td>3. Potu · nivel 109</td><td>4.648.538 XP</td></tr>
+<tr><td>4. KratosMache · nivel 108</td><td>4.478.538 XP</td></tr></table></div>
+<div class="marco"><b style="font-family:Cinzel;color:var(--rojo)">Los mejores domadores</b><table class="tabla">
+<tr><td>1. Karoo</td><td>32 dinos</td></tr><tr><td>2. TataPeck</td><td>26 dinos</td></tr><tr><td>3. IvyLuna</td><td>24 dinos</td></tr><tr><td>4. Potu</td><td>23 dinos</td></tr></table></div>
+<div class="num">· 10 ·</div></article>
+
+<!-- 10 · HORAS -->
+<article class="pg"><div class="cap">Capítulo IX</div><h1>Los incansables</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">En una isla donde nadie duerme del todo, algunos se ganaron un lugar de honor por pura constancia. Estas son las personas que más horas pasaron conectadas, contadas desde la inauguración:</p>
+<div class="barras">
+<div class="fila"><span class="n">IvyLuna</span><span class="b"><i style="width:100%"></i></span><span class="h">≈ 650 h</span></div>
+<div class="fila"><span class="n">CesuS</span><span class="b"><i style="width:37%"></i></span><span class="h">≈ 240 h</span></div>
+<div class="fila"><span class="n">Trup3r</span><span class="b"><i style="width:34%"></i></span><span class="h">≈ 225 h</span></div>
+<div class="fila"><span class="n">KratosMache</span><span class="b"><i style="width:29%"></i></span><span class="h">≈ 190 h</span></div>
+<div class="fila"><span class="n">Milider</span><span class="b"><i style="width:25%"></i></span><span class="h">≈ 165 h</span></div>
+<div class="fila"><span class="n">OnlyWOLF</span><span class="b"><i style="width:19%"></i></span><span class="h">≈ 125 h</span></div>
+<div class="fila"><span class="n">xMONOx</span><span class="b"><i style="width:19%"></i></span><span class="h">≈ 120 h</span></div>
+<div class="fila"><span class="n">Kempysito</span><span class="b"><i style="width:18%"></i></span><span class="h">≈ 115 h</span></div>
+<div class="fila"><span class="n">Victore</span><span class="b"><i style="width:17%"></i></span><span class="h">≈ 115 h</span></div>
+<div class="fila"><span class="n">Igna</span><span class="b"><i style="width:14%"></i></span><span class="h">≈ 95 h</span></div>
+<div class="fila"><span class="n">Karoo</span><span class="b"><i style="width:13%"></i></span><span class="h">≈ 90 h</span></div></div>
+<p class="nota" style="margin-top:2mm">Horas aproximadas, calculadas con el tiempo conectado que registra el servidor.</p>
+<p>Los que más charlaron también se ganaron su lugar: <em>OnlyWOLF</em> es el más hablador del chat, con más de seiscientos mensajes, seguido de cerca por <em>IvyLuna</em>. En el pueblo se dice que cuando OnlyWOLF se queda callado, es porque algo está por pasar.</p>
+<p>Todos ellos tienen algo en común: llegaron para jugar un rato y se quedaron a construir.</p>
+<div class="num">· 11 ·</div></article>
+
+<!-- 11 · CRIA -->
+<article class="pg"><div class="cap">Capítulo X</div><h1>Crías, mutaciones y manadas</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">Domar es solo el principio. Después viene lo mejor: criar. En estas semanas nacieron más de <em>240 bebés Shadowmane</em>, más de <em>220 Rex</em>, cientos de Megaterios, Deinonicos y Desmodus, y hasta crías de Fenrir y de Guiverno de Fuego.</p>
+<div class="dinos"><figure><img src="img/wiki/Rex.png" alt=""><br>Rex</figure><figure><img src="img/wiki/Megatherium.png" alt=""><br>Megaterio</figure><figure><img src="img/wiki/Deinonychus.png" alt=""><br>Deinonico</figure><figure><img src="img/wiki/Desmodus.png" alt=""><br>Desmodus</figure><figure><img src="img/wiki/Fenrir.png" alt=""><br>Fenrir</figure></div>
+<p>Cada uno cruza lo mejor que tiene, busca la mutación perfecta y sueña con el dino ideal: el de más vida, el de más daño, el que corre más. En el servidor hay un casco especial, el <em>Casco Stats</em>, que mirando a un dino te dice sus puntos, sus padres y sus mutaciones, y si vale la pena criarlo.</p>
+<p>Los que viven de la cría fundaron su propio lenguaje: «sacale la hembra», «cruzalo con el de vida», «ojo con la impronta». Se oyen en la plaza como quien habla del clima.</p>
+<p>Y en La Selva Argento, un tablero de aventuras, cada tirada de dado puede ponerte frente a un Raptor, a un Argentavis o al mismísimo Rex.</p>
+<div class="num">· 12 ·</div></article>
+
+<!-- 12 · AMOR Y JUEGOS -->
+<article class="pg"><div class="cap">Capítulo XI</div><h1>El amor y las mesas</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">En una isla llena de bichos, también hay lugar para el amor. En el servidor la gente se casa en una ceremonia con anillos, fuegos artificiales y un anuncio para todos. Los casados se ven en <em>rosa</em> en la lista de la party, juntos cargan mejor el peso y se teletransportan el uno al lado del otro con un solo comando. <em>IvyLuna y Karoo</em> fueron de las primeras parejas.</p>
+<p>Y cuando cae la noche, la plaza se llena de risas: truco argentino y uruguayo, generala, chinchón, batalla naval, cuatro en línea, el cacho de los dados de farol, el veintiuno y la ruleta de El Gaucho. Hay partidas entre amigos con un pozo de por medio, donde se canta «¡quiero retruco!» desde el celular.</p>
+<div class="dinos"><figure style="font-size:22pt;line-height:1.1">🃏<br><span style="font-size:7.4pt">Truco</span></figure><figure style="font-size:22pt;line-height:1.1">🎲<br><span style="font-size:7.4pt">Generala</span></figure><figure style="font-size:22pt;line-height:1.1">🚢<br><span style="font-size:7.4pt">Naval</span></figure><figure style="font-size:22pt;line-height:1.1">🥃<br><span style="font-size:7.4pt">Cacho</span></figure><figure style="font-size:22pt;line-height:1.1">🎡<br><span style="font-size:7.4pt">Ruleta</span></figure></div>
+<p>Hay también fiestas que paran el reloj: <em>los fines de semana largos</em>, con experiencia y domesticación al doble de lo normal. Sábado a las seis de la mañana empieza el festejo y el martes, al reinicio, vuelve la normalidad. Es el momento en que las tribus salen a domar todo lo que se mueva.</p>
+<div class="num">· 13 ·</div></article>
+
+<!-- 13b · JUEGOS -->
+<article class="pg"><div class="cap">Capítulo XII</div><h1>Cartas, tableros y torneos</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">Una noche alguien preguntó: «¿y si mis dinos fueran cartas?». Así nació el <em>Duelo de Dinos</em>. Cada jugador arma un mazo con diez de sus bichos reales, con su nivel, sus estadísticas y sus mutaciones, y los enfrenta a los de otro. Hay tres tipos que se ganan en ronda, los alados vencen a los depredadores, estos a los herbívoros y los herbívoros a los alados. Los gigantes piden un sacrificio para entrar al campo, y las parejas macho y hembra pelean mejor juntas.</p>
+<p>Después vinieron el ajedrez, las damas españolas, el dominó y el piedra, papel o tijera. Se sumaron la carrera de dinos y la arena de bichos, y los juegos contra la casa: el cohete que todos miran subir y nadie quiere soltar primero, el plinko, las minas y la pesca, con su torneo semanal por la pieza más pesada.</p>
+<div class="dinos"><figure style="font-size:22pt;line-height:1.1">🦖<br><span style="font-size:7.4pt">Duelo</span></figure><figure style="font-size:22pt;line-height:1.1">♟️<br><span style="font-size:7.4pt">Ajedrez</span></figure><figure style="font-size:22pt;line-height:1.1">🚀<br><span style="font-size:7.4pt">Cohete</span></figure><figure style="font-size:22pt;line-height:1.1">🎣<br><span style="font-size:7.4pt">Pesca</span></figure><figure style="font-size:22pt;line-height:1.1">🏆<br><span style="font-size:7.4pt">Torneos</span></figure></div>
+<p>Y como toda buena pelea merece un final, llegaron los <em>torneos</em>: ocho jugadores, eliminación directa, y el campeón se lleva la mayor parte del pozo. Los sábados a las 20:30 se juega el Duelo de Dinos y los domingos a la misma hora la Carrera de Dinos. Todo se juega desde la F1, en el botón de la página, sección Juegos.</p>
+<div class="num">· 14 ·</div></article>
+
+<!-- 13 · EPILOGO -->
+<article class="pg"><div class="cap">Epílogo</div><h1>La historia sigue</h1><div class="orn">✦ ✦ ✦</div>
+<p class="cap1">Esta crónica termina acá, pero la historia sigue escribiéndose todos los días. Cada lunes llega un mapa nuevo. Cada semana hay una leyenda por domar, un vecino que pide ayuda y un gigante rondando por las colinas.</p>
+<p>Seis sobrevivientes llegaron a una isla llena de dinosaurios en octubre de 2026. Hoy son más de trescientos, tienen un pueblo, una moneda, una tribu en cada mapa, un código de honor y una forma de reírse del peligro que solo se aprende acá.</p>
+<p>Y la puerta sigue abierta. No hace falta ser experto: hace falta ganas, un poco de paciencia y la costumbre de saludar. Porque, como aprendimos aquel 11 de octubre, <em>todo gran servidor empieza con alguien escribiendo «hola»</em>.</p>
+<div class="marco" style="text-align:center"><b style="font-family:Cinzel;color:var(--rojo)">Cómo sumarte</b><br>Entrá a ARK, buscá <em>ArgentoPro ARK x5</em> en servidores no oficiales y escribí <em>/ayuda</em> en el chat.<br>Tu primer kit y tus primeras monedas te esperan.</div>
+<p style="text-align:center;margin-top:5mm;font-size:12pt;font-family:Cinzel;color:var(--rojo);font-weight:700">¡Nos vemos en la isla!</p>
+<div class="num">· 15 ·</div></article>
+
+<!-- 14 · CONTRATAPA -->
+<article class="pg contra"><div style="padding-top:12mm"><div style="font-size:30pt">🦖</div><h1 style="font-size:22pt;margin:3mm 0">ARGENTOPRO ARK x5</h1><div class="orn" style="color:#e9c46a">✦ ✦ ✦</div>
+<h2 style="font-size:12pt;letter-spacing:.15em">SUMATE A LA AVENTURA</h2>
+<p style="margin-top:4mm">Servidor argentino de ARK con 4 mundos, mapa viajero semanal, pueblo con vecinos y leyendas, tribus, mesas de juego y mucho más.</p>
+<div class="qrs"><figure><img src="img/qr-web.png" alt="QR de la página"><b>La página</b><br>tinyurl.com/argentoark</figure><figure><img src="img/qr-discord.png" alt="QR de Discord"><b>Discord</b><br>__DISCORD_ASA__</figure></div>
+<p style="font-size:9pt;opacity:.8">Experiencia, domesticación y recolección x5 · Fines de semana largos x10 · Hasta 70 jugadores</p></div>
+<div class="num">LA CRÓNICA DE LAS ISLAS · TEMPORADA I</div></article>
+
+</div>
+
+<script>
+(function () {
+  var pags = Array.prototype.slice.call(document.querySelectorAll('#paginas .pg')), N = pags.length;
+  var libro = document.getElementById('libro'), escena = document.getElementById('escena');
+  var dos = false, cur = 0, ocupado = false; // cur: indice de spread (dos) o de pagina (una)
+  var imprimir = /[?&]imprimir/.test(location.search);
+  var solo = (location.search.match(/[?&]solo=([0-9]+)/) || [])[1];
+  if (solo != null) { document.documentElement.style.cssText = document.body.style.cssText = 'margin:0;width:1080px;height:1350px;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#3a2a16,#150f08 75%)'; document.getElementById('visor').style.display = 'none'; var P = document.getElementById('paginas'); P.style.cssText = 'display:block;position:absolute;left:' + ((1080 - 559.37 * 1.62) / 2) + 'px;top:' + ((1350 - 793.7 * 1.62) / 2) + 'px;transform:scale(1.62);transform-origin:top left;box-shadow:0 20px 60px rgba(0,0,0,.7)'; pags.forEach(function (p, i) { if (i != +solo) p.style.display = 'none'; }); return; }
+  if (imprimir) { document.getElementById('visor').style.display = 'none'; document.getElementById('paginas').style.display = 'block'; return; }
+  function modo() { return window.innerWidth >= 1000; }
+  function spreads() { return Math.ceil((N + 1) / 2); }
+  function paginasDe(s) { return s === 0 ? [-1, 0] : [2 * s - 1, 2 * s < N ? 2 * s : -1]; }
+  function total() { return dos ? spreads() : N; }
+  function clon(i) { return i >= 0 && i < N ? pags[i].cloneNode(true) : null; }
+  function lado(clase, i) { var d = document.createElement('div'); d.className = 'lado ' + clase + (i == null || i < 0 ? ' vacio' : ''); var c = clon(i); if (c) d.appendChild(c); return d; }
+  function pintar() {
+    libro.innerHTML = ''; libro.className = dos ? 'dos' : 'uno';
+    if (dos) { var p = paginasDe(cur); libro.appendChild(lado('izq', p[0])); libro.appendChild(lado('der', p[1])); }
+    else libro.appendChild(lado('der', cur));
+    ajustar(); pie();
+  }
+  function ajustar() {
+    var w = (dos ? 2 : 1) * 559.37, h = 793.7, sw = escena.clientWidth - 16, sh = escena.clientHeight - 12;
+    var k = Math.min(sw / w, sh / h, 1.35); libro.style.transform = 'scale(' + k + ')';
+    // cuando es la portada o la contratapa solas, se centran
+    if (dos) { var p = paginasDe(cur); libro.style.marginLeft = p[0] < 0 ? (-279.7 * k) + 'px' : p[1] < 0 ? (279.7 * k) + 'px' : '0'; } else libro.style.marginLeft = '0';
+  }
+  function pie() {
+    var t = total();
+    document.getElementById('ant').disabled = cur <= 0; document.getElementById('sig').disabled = cur >= t - 1;
+    var pos = document.getElementById('pos');
+    if (dos) { var p = paginasDe(cur); pos.textContent = p[0] < 0 ? 'Portada' : p[1] < 0 ? 'Contratapa' : 'Páginas ' + (p[0] + 1) + ' y ' + (p[1] + 1) + ' de ' + N; }
+    else pos.textContent = 'Página ' + (cur + 1) + ' de ' + N;
+    var pt = document.getElementById('puntos'); pt.innerHTML = '';
+    for (var i = 0; i < t; i++) { var e = document.createElement('i'); if (i === cur) e.className = 'on'; (function (i) { e.onclick = function () { ir(i, true); }; })(i); pt.appendChild(e); }
+  }
+  function volteo(sig) {
+    // animacion de pagina que se da vuelta (solo en modo libro abierto)
+    var nuevo = cur + (sig ? 1 : -1), pa = paginasDe(cur), pn = paginasDe(nuevo);
+    libro.innerHTML = '';
+    var base = [lado('izq', sig ? pa[0] : pn[0]), lado('der', sig ? pn[1] : pa[1])];
+    libro.appendChild(base[0]); libro.appendChild(base[1]);
+    var hoja = document.createElement('div'); hoja.className = 'hoja';
+    var fr = document.createElement('div'), dr = document.createElement('div'); dr.className = 'dorso';
+    var cf = clon(sig ? pa[1] : pa[0]); if (cf) fr.appendChild(cf);
+    var cd = clon(sig ? pn[0] : pn[1]); if (cd) dr.appendChild(cd);
+    hoja.appendChild(fr); hoja.appendChild(dr);
+    hoja.style[sig ? 'right' : 'left'] = '0'; hoja.style.transformOrigin = sig ? 'left center' : 'right center';
+    hoja.style.left = sig ? '50%' : '0'; if (!sig) hoja.style.right = '50%'; hoja.style.width = '148mm';
+    libro.appendChild(hoja); libro.style.marginLeft = '0'; libro.style.transform = libro.style.transform;
+    void hoja.offsetWidth; hoja.style.transform = 'rotateY(' + (sig ? -180 : 180) + 'deg)';
+    ocupado = true;
+    setTimeout(function () { cur = nuevo; ocupado = false; pintar(); }, 820);
+  }
+  function ir(n, directo) {
+    if (ocupado) return; n = Math.max(0, Math.min(total() - 1, n)); if (n === cur) return;
+    if (dos && !directo && Math.abs(n - cur) === 1 && cur > 0 && n > 0 && cur < total() - 1 && n < total() - 1) return volteo(n > cur);
+    cur = n; pintar();
+  }
+  document.getElementById('sig').onclick = function () { ir(cur + 1); };
+  document.getElementById('ant').onclick = function () { ir(cur - 1); };
+  document.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight' || e.key === ' ') ir(cur + 1); if (e.key === 'ArrowLeft') ir(cur - 1); });
+  var x0 = null; escena.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  escena.addEventListener('touchend', function (e) { if (x0 == null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) ir(cur + (dx < 0 ? 1 : -1)); x0 = null; }, { passive: true });
+  libro.addEventListener('click', function (e) { var r = libro.getBoundingClientRect(); var x = e.clientX - r.left; ir(x > r.width / 2 ? cur + 1 : cur - 1); });
+  window.addEventListener('resize', function () { var d = modo(); if (d !== dos) { var pagActual = dos ? Math.max(0, paginasDe(cur)[0] >= 0 ? paginasDe(cur)[0] : 0) : cur; dos = d; cur = dos ? Math.ceil(pagActual / 2) : pagActual; } pintar(); });
+  dos = modo(); pintar();
+})();
+</script>
+</body>
+</html>

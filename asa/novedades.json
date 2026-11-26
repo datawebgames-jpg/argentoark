@@ -1,0 +1,162 @@
+[
+  {
+    "fecha": "2026-11-26",
+    "titulo": "Juegos de la casa renovados y carteles de pesca",
+    "nuevo": [
+      "🎨 Cohete, Plinko, Minas y Pesca tienen un diseño nuevo: cohete que despega y explota, bolita que rebota entre las clavijas, fichas de casino, gemas y bombas, y una escena de pesca animada.",
+      "🎣 Pesca: cuando alguien pasa a ser el primero del torneo semanal sale un cartel en el juego.",
+      "⭐ Pesca: Pulpo, Tiburón, Cofre del tesoro y Leviatán dan +100 AC de bono y también salen en el cartel del juego."
+    ],
+    "arreglado": [
+      "🚀 El cartel del cohete ya no sale a cada rato (solo cuando alguien jugó, uno cada 20 minutos) y explica dónde se juega."
+    ]
+  },
+  {
+    "fecha": "2026-11-24",
+    "titulo": "La Crónica de las Islas suma un capítulo y se arreglaron las desconexiones",
+    "nuevo": [
+      "📖 Nuevo capítulo XII en la Crónica (botón Historia): «Cartas, tableros y torneos», con el Duelo de Dinos, los juegos de mesa, los de la casa y los torneos de sábados y domingos 20:30.",
+      "🎮 Todos los avisos del juego ahora te guían: apretá F1, tocá el botón «Página ArgentoPro» y andá a Juegos."
+    ],
+    "arreglado": [
+      "🔌 La página ya no te cierra la sesión ni pide «vincular» cuando jugabas al cohete o a las mesas: el límite de pedidos era muy bajo y ahora es por jugador."
+    ]
+  },
+  {
+    "fecha": "2026-11-24",
+    "titulo": "Más juegos: ajedrez, damas, dominó, cohete, plinko, minas, pesca y torneos",
+    "nuevo": [
+      "♟️ Nuevos juegos de mesa 1 contra 1: Ajedrez (con todas las reglas), Damas españolas, Dominó (2 a 4 jugadores) y Piedra, papel o tijera.",
+      "🏁 Carrera de Dinos (2 a 4) y 🥊 Arena de Bichos (1 contra 1): elegís uno de los 10 dinos de tu mazo y se resuelve con velocidad, tipo, terreno y ataque.",
+      "🚀 Cohete: todos apuestan a la vez y se retiran antes de que explote. 🔵 Plinko, 💣 Minas y 🎣 Pesca también contra la casa. Límite de pérdida de 3.000 AC por día entre estos juegos.",
+      "🎣 Torneo semanal de pesca: la pieza más pesada de la semana se lleva el pozo (50% / 30% / 20%). El pozo crece con cada lanzamiento.",
+      "🏆 Torneos por eliminación de 4 u 8 jugadores en Duelo de Dinos, Ajedrez, Damas, Truco, Carrera de Dinos y más. Campeón 70% del pozo y finalista 30%.",
+      "📅 Torneos automáticos: sábados 20:30 Duelo de Dinos y domingos 20:30 Carrera de Dinos (8 lugares, 500 AC). Las reglas de todos están en la Guía y en el botón Reglas de cada mesa."
+    ]
+  },
+  {
+    "fecha": "2026-11-24",
+    "titulo": "Duelo de Dinos: el juego de cartas con tus dinos",
+    "nuevo": [
+      "🦖 Duelo de Dinos: juego de cartas 1 contra 1 (Juegos) donde tus dinos son las cartas. La especie, el nivel, los puntos y las mutaciones de cada dino definen su ataque, defensa y velocidad.",
+      "🃏 Cada jugador elige 10 dinos para la partida (Juegos → Mi mazo de dinos: conectado al juego, Leer mis dinos, marcás 10 y guardás).",
+      "⚔️ Reglas: 6.000 de vida, 3 cartas en mano y robás 1 por turno, campo de 3 lugares. Invocás 1 dino por turno en ataque o defensa y atacás con los que ya estaban. Triángulo 🥩 depredador > 🌿 herbívoro > 🦅 alado (+25%), el más veloz +10%, pareja macho y hembra +15%, y los dinos ★5 piden un tributo (sacrificar uno de tu campo).",
+      "🏆 Se juega por AC: cada uno pone la entrada y el ganador se lleva el pozo (menos 5% de la casa). Ganás dejando al rival sin vida o sin dinos; a los 60 turnos gana el que tenga más vida."
+    ]
+  },
+  {
+    "fecha": "2026-11-21",
+    "titulo": "Juegos nuevos: Generala, Chinchón, Naval, 4 en línea, Cacho, Truco uruguayo, Veintiuno y Ruleta",
+    "nuevo": [
+      "🎲 Seis juegos nuevos para jugar contra otros jugadores en la página (Juegos): Generala, Chinchón, Batalla Naval, Cuatro en línea, Cacho (dados de farol) y Truco 2 contra 2 por parejas.",
+      "🧉 Truco uruguayo (1 contra 1 o 2 contra 2): con muestra y piezas, a 30 puntos. Las piezas (2, 4, 5, 11 y 10 del palo de la muestra) le ganan a todo.",
+      "🃏 Veintiuno (Blackjack) contra El Gaucho: pedí, plantate o doblá. El Blackjack paga 3 a 2. Con límite por día.",
+      "🎡 Ruleta de El Gaucho: fichas, rueda que gira y todas las apuestas (pleno x36, docenas x3, rojo/negro x2). Con límite por día.",
+      "Entrás a una mesa, invitás a quien quieras y el ganador se lleva el pozo (menos 5% de la casa).",
+      "📖 Cada juego tiene su botón «Cómo se juega» con las reglas, tanto al elegir la mesa como adentro de la partida.",
+      "📚 Nuevo botón «Historia» arriba: «La Crónica de las Islas», el libro con la historia del server, de los seis sobrevivientes, los mapas, el pueblo y los que más horas juegan. Se lee como un libro (pasás las hojas) y se baja en PDF para compartir."
+    ],
+    "arreglado": [
+      "🃏 Truco: ahora hay un marcador grande con los puntos de cada uno, y al terminar cada mano se muestra quién ganó, cuántos puntos sumó y las cartas de todos antes de repartir la siguiente. El envido muestra los tantos de cada jugador."
+    ]
+  },
+  {
+    "fecha": "2026-11-20",
+    "titulo": "Fiesta del fin de semana largo: experiencia y tameo x10 + Genesis 2",
+    "nuevo": [
+      "🎉 Fiesta del fin de semana largo: experiencia, tameo y recolección x10 desde el sábado 21 a las 06:00 hasta el reinicio del martes 24 a las 06:00. El martes vuelve a x5.",
+      "🌍 Mapa nuevo de la semana: Genesis 2 (hace falta tener el DLC de Genesis). Scorched Earth se va por esta semana."
+    ],
+    "arreglado": [
+      "🛏️ Las camitas sueltas sin base ahora las reclama su dueño en el chat del pueblo (\"es mía\"), sino se borran a los 20 minutos.",
+      "🐺 Fenrir: la cría ahora es una cada 12 horas reales por tribu (se activa con el reinicio de las 06:00)."
+    ]
+  },
+  {
+    "fecha": "2026-11-19",
+    "titulo": "Lost Island, casamientos, pedidos del pueblo, Aquática y Fenrir con cría",
+    "nuevo": [
+      "🏝️ Lost Island es el 4º mapa fijo: The Island, Fjordur, Lost Island y el rotativo de la semana (esta semana Scorched Earth). La página y Discord muestran los 4.",
+      "💍 Casamientos: botón \"Casarse\" en el Inicio del panel del juego y pestaña Casamientos en la página. El Padre Argento les pregunta a los dos y, si aceptan, cartel de FELICITACIONES en todos los mapas. Juntos cargan +50% de peso, les salen corazones y se teletransportan a su pareja por 20 AC. Se les puede hacer regalos de casamiento en AC. Si se divorcian pierden todo y por 48 h no se pueden casar; cerca del ex cargan menos y sale fuego. La página tiene el listado y los casados que más tiempo llevan juntos.",
+      "📜 Pedidos del pueblo, uno por hora: cada hora le toca a un vecino (Rosa, Tano, Lucía, Ramón...) y pide algo distinto: juntarle recursos (ej. 1.000 de metal), cambiarle una montura normal por una mejor al azar, llevarle 10 de metal + 10 de cristal + 10 de madera y una montura para que te la mejore con otro color, o jugarle al truco (si le ganás, 200 AC; si perdés se burla por cartel en el juego). Entrás a la F1 > El Pueblo: solo el que está pidiendo tiene el botón activo. Se anuncia por chat y cartel.",
+      "🏘️ El pueblo ahora habla en el chat: saluda a los que entran, contesta preguntas de reglas (kits, PvP/PvE, rates...), charla entre ellos y chusmea. Cuando hay una novedad, la comentan.",
+      "🚨 Crónica Argenta: si aparece un Carcha o un Giga salvaje de más de nivel 100, cartel de alerta en todos los mapas y en Discord, y el pueblo entra en pánico.",
+      "🐺 Los Fenrir ya pueden tener cría: macho y hembra de la misma tribu a menos de 20 m y la hembra queda preñada sola, una vez cada 12 horas reales. /prenez muestra cuánto falta y la tribu recibe avisos.",
+      "🐉 El Patrón se doma con 20 huesos de alfa esqueleto (los que tiran los alfas de Halloween): dormilo, acercate y escribí /alimentar.",
+      "🌊 Aquática (mar de The Island): más de 30 tipos de dinos, entre ellos los de Genesis y todos los de Aquática (Monodon, Tridacna, Dakosaurus, Thunnus, Kathreptis, Wyvern de agua...). Moeder sale una vez por día y ahora SE PUEDE MATAR.",
+      "📦 /soltar: con el criopod en la mano, saca el dino aunque estés en la Cueva Tek antes del boss final.",
+      "🚚 /llevar cuesta 200 AC y /llevarx lleva todo el inventario por 400 AC, siempre (también en horario PvP).",
+      "📍 En el panel del juego, \"Ir a un compañero de tribu\" ya está en el Inicio (200 AC)."
+    ],
+    "arreglado": [
+      "/retirar ya no duplica: antes entregaba 1 de más de cada cosa.",
+      "/cuerpo ahora también trae lo que tenías puesto (armadura y arma en la mano).",
+      "Si la IP del server cambia, se avisa sola en Discord.",
+      "La página mostraba un mapa apagado y el de prueba como si estuvieran en el juego: ahora solo salen los 4 reales.",
+      "Moeder ya no se queda inmune ni se escapa a su cueva, y no vuelve a salir varias veces por día."
+    ]
+  },
+  {
+    "fecha": "2026-11-13",
+    "titulo": "Nueva regla de bases abandonadas y martillero público",
+    "nuevo": [
+      "🏚️ Para mantener tu base, alguien de la tribu (o vos, si jugás solo) tiene que estar conectado 1 hora seguida, en cualquier mapa. Desde ese momento arrancan de nuevo 7 días reales.",
+      "💣 Si pasan 7 días sin esa hora, la base queda RAIDEABLE durante 24 horas, aunque sea PvE: cualquiera la puede romper y explotar. Se avisa en el juego, en Discord y en la página.",
+      "🛡️ Si volvés y te quedás 1 hora seguida durante esas 24 horas, la base se salva.",
+      "⏳ Pasadas las 24 horas la base desaparece y sus dinos salen al martillero público de la página.",
+      "🔨 Martillero público: ofertá con AC por los dinos de las bases que desaparecieron. Si te superan, te devolvemos todo. El que gana lo recibe al lado suyo apenas se conecta.",
+      "💳 ¿No podés entrar? Pagá $10.000 o USD 8 en la página y tu base suma 1 semana más.",
+      "💝 Botón de Donar · Comprar AC · ACT siempre a la vista en la página.",
+      "📍 Party: lista verde en pantalla con la vida, la distancia y para qué lado está cada compañero (/party pantalla la apaga o la prende)."
+    ],
+    "arreglado": [
+      "Las marcas de la party arriba de la cabeza ahora se ven más grandes y hasta a 3 km."
+    ]
+  },
+  {
+    "fecha": "2026-11-12",
+    "titulo": "Juegos, party y buscador de dinos en la página",
+    "nuevo": [
+      "🎴 Mesas entre jugadores: truco mano a mano, póker Texas Hold'em (2 a 6) y La Selva (carrera de dados, 2 a 4). Abrís una mesa, elegís la entrada e invitás a cualquier jugador. El que gana se lleva el pozo.",
+      "🃏 Cartas dibujadas, jugadores sentados alrededor de la mesa y el turno de cada uno marcado. Si alguien tarda más de 90 segundos, juega solo.",
+      "🎲 Pestaña Juegos en la página y en el panel del juego: truco contra El Gaucho, La Selva Argento con sus misiones, quiniela, bingo y lotería. Cobra y paga igual que en el F1.",
+      "🤝 Pestaña Party: ves a los de tu tribu, en qué mapa están, y los invitás a party con un botón. Barra de vida de cada uno.",
+      "📍 Buscar dinos salvajes: elegís el mapa y el dino y te marca en el mapa dónde hay ahora mismo, con nivel y sexo. Los de nivel 120 o más salen en rojo. Cada búsqueda cuesta 50 AC (ver qué dinos hay es gratis).",
+      "🛡️ Armaduras de la tienda: cada pieza sale con su propia calidad (de aprendiz a ascendente) y el set viene pintado con colores al azar. Los planos nunca son comunes.",
+      "🎨 Botones nuevos de armaduras en la tienda: una tarjeta por cada set.",
+      "📰 Esta sección de Novedades."
+    ],
+    "arreglado": [
+      "Las parties ya no se borran cuando se reinicia un mapa o se actualiza el server.",
+      "El Casco Stats que se compraba en la tienda no llegaba al inventario: ya llega.",
+      "Caída de los mapas durante la actualización del mod: a todos los que entraron hoy se les regalaron 500 AC. ¡Gracias por elegirnos y mil disculpas!"
+    ]
+  },
+  {
+    "fecha": "2026-11-11",
+    "titulo": "Armaduras, El Pueblo y la guía de la moneda",
+    "nuevo": [
+      "🛡️ Sets completos de metal, antidisturbios y pelaje a 1000 AC, y sus planos a 1000 ACT, en el F1, la página y el panel del juego.",
+      "🔍 Casco Stats con el aspecto de las antiparras, sin visión nocturna.",
+      "🏘️ Pestaña El Pueblo: 10 personajes con historia, oficio, misión y opinión del Monarca del momento. Cambia todos los días. En el chat: /pueblo.",
+      "📖 Guía de la moneda AC, las tiendas y El Pueblo."
+    ],
+    "arreglado": [
+      "Las armaduras ya no aparecen mezcladas en Kits: tienen su propia sección."
+    ]
+  },
+  {
+    "fecha": "2026-11-07",
+    "titulo": "Jefes, Mis dinos y la guía completa",
+    "nuevo": [
+      "🐉 Pestaña Jefes: qué pide cada jefe y qué le falta a tu tribu, eligiendo la tribu.",
+      "🦖 Pestaña Mis dinos: ranking de tu tribu por vida, daño, peso y más, con la ficha de cada dino (padres, mutaciones y si conviene criarlo).",
+      "📊 Botones Stats de dinos y Jefes en el panel del juego.",
+      "📖 Guía con todo lo que tiene ArgentoPro.",
+      "Oficios con misiones, compra de AC y hazañas."
+    ],
+    "arreglado": [
+      "La pestaña Jefes espera a que el server responda antes de cargar."
+    ]
+  }
+]
