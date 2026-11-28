@@ -478,7 +478,7 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
 <a class="don-flot" href="#donar">💝 Donar · Comprar AC / ACT</a>
 <nav>
   <div class="logo"><b>ARGENTO</b>PRO</div>
-  <a href="#donar" class="nav-don">💝 Donar · AC · ACT</a><a href="#novedades" data-t="novedades">📰 Novedades</a><a href="historia.html" class="nav-hist">📚 Historia</a><a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#pueblo" data-t="pueblo">🏘️ El Pueblo</a><a href="#casamientos" data-t="casamientos">💍 Casamientos</a><a href="#juegos" data-t="juegos">🎲 Juegos</a><a href="#party" data-t="party">🤝 Party</a><a href="#bases" data-t="bases">🏚️ Bases</a><a href="#buscadino" data-t="buscadino">📍 Buscar dinos</a><a href="#misdinos" data-t="misdinos">🦖 Mis dinos</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
+  <a href="#donar" class="nav-don">💝 Donar · AC · ACT</a><a href="#novedades" data-t="novedades">📰 Novedades</a><a href="historia.html" class="nav-hist">📚 Historia</a><a href="#mapas" data-t="mapas">🗺️ Mapas</a><a href="#guia" data-t="guia">📖 Guía</a><a href="#eventos" data-t="eventos">🎉 Eventos</a><a href="#cuenta" data-t="cuenta">👤 Mi cuenta</a><a href="#pueblo" data-t="pueblo">🏘️ El Pueblo</a><a href="#casamientos" data-t="casamientos">💍 Casamientos</a><a href="#juegos" data-t="juegos">🎲 Juegos</a><a href="#party" data-t="party">🤝 Party</a><a href="#bases" data-t="bases">🏚️ Bases</a><a href="#buscadino" data-t="buscadino">📍 Buscar dinos</a><a href="#misdinos" data-t="misdinos">🦖 Mis dinos</a><a href="#maestrias" data-t="maestrias">🎖️ Maestrías</a><a href="#mercado" data-t="mercado">🛒 Tienda</a><a href="#jugadores" data-t="jugadores">🏆 Jugadores</a><a href="#dinos" data-t="dinos">🦖 Dinos</a><a href="#info" data-t="info">📜 PvP y reglas</a>
 </nav>
 
 <header class="wrap hero" data-tab="mapas">
@@ -974,6 +974,19 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
   <div id="mdCont"><p class="mut small">Cargando...</p></div>
 </div></section>
 
+<section id="maestrias" data-tab="maestrias"><div class="wrap">
+  <h2>🎖️ Maestrías</h2>
+  <p class="sub">Todo el server es <b>x5</b>. Con las maestrías cada personaje se gana sus propias ventajas jugando: de <b>Aprendiz</b> a <b>Oficial</b> y a <b>Experto</b>. Cuando subís de grado sale un cartel para todos. Mirá tu avance en el juego con <code>/maestria</code>.</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr));margin-bottom:16px">
+    <div class="card"><h3>🦖 Domador</h3><p class="small">Se gana <b>tameando</b> (también reclamando crías salvajes).</p><p class="small mut" id="maeNivDom"></p><p class="small"><b>Experto:</b> tameás <b>x10</b> y podés subirle la <b>velocidad</b> a tus dinos con <code>/velocidad</code> (200 AC por punto, montado en el dino).</p></div>
+    <div class="card"><h3>⚔️ Daño</h3><p class="small">Se gana <b>matando salvajes montado en tus dinos</b>.</p><p class="small mut" id="maeNivDan"></p><p class="small">Puntos de daño por dino: <b>10</b> sin grado, <b>20</b> Aprendiz, <b>35</b> Oficial, <b>sin límite</b> Experto.</p></div>
+    <div class="card"><h3>🎒 Peso</h3><p class="small">Se gana <b>andando con el dino cargado</b> (más de la mitad del peso).</p><p class="small mut" id="maeNivPes"></p><p class="small"><b>Experto:</b> cada punto de peso que le ponés a un dino vale <b>doble</b>.</p></div>
+    <div class="card"><h3>🧓 Viejo del server</h3><p class="small">Se gana <b>jugando horas</b>. Cada 4 horas en el día hay premio.</p><p class="small mut" id="maeNivVie"></p><p class="small"><b>Experto:</b> ganás experiencia <b>x10</b>. Los <b>casados</b> también tienen experiencia x10 y +50% de peso cuando andan juntos.</p></div>
+  </div>
+  <div class="filters"><input id="maeQ" placeholder="Buscar personaje..." autocomplete="off"></div>
+  <div id="maeCont"><p class="mut small">Cargando...</p></div>
+</div></section>
+
 <section id="pueblo" data-tab="pueblo"><div class="wrap">
   <h2>🏘️ El Pueblo</h2>
   <p class="sub">La gente del pueblito: qué venden, de qué trabajan, sus historias, sus misiones y qué opinan del Monarca del momento (el dueño de la tribu que va primera en el ranking). Lo que dicen cambia todos los días. En el pueblito hay cajones <b>PUEBLO COMPRA</b> y <b>PUEBLO VENTA</b>: comprás y vendés con AC de verdad.</p>
@@ -1204,7 +1217,7 @@ function renderRank() {
 }
 function hace(t) { const m = Math.round((Date.now() - t) / 60000); return m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.round(m / 60)} h` : `hace ${Math.round(m / 1440)} días`; }
 let me = null;
-const TK = 'argentoark_token';
+const TK = 'argentoasa_token'; // distinta de la pagina del ASE (mismo dominio): asi no se mezclan las sesiones
 // si el navegador de Steam no guarda nada, la sesion queda al menos mientras la pagina este abierta
 let memTok = null;
 const getTok = () => { try { return localStorage.getItem(TK) || memTok; } catch { return memTok; } };
@@ -2543,6 +2556,27 @@ let mdStat = 0;
 function mdBotones() {
   $('mdStats').innerHTML = MD_STATS.map(([i, n]) => '<button data-st="' + i + '" onclick="mdStat=+this.dataset.st;loadMisDinos()"' + (i === mdStat ? ' style="background:var(--acc);color:#1a1206"' : '') + '>' + n + '</button>').join('');
 }
+// ---------- maestrias de cada personaje (publico) ----------
+let MAE = null;
+const MAE_G = ['—', 'Aprendiz', 'Oficial', 'Experto'], MAE_C = ['#777', '#5fcf45', '#3498db', '#f1c40f'];
+async function loadMaestrias() {
+  try { if (apiBase === null) await getStatus(); MAE = await (await fetch((apiBase ? apiBase + '/' : '') + 'api/maestrias', { cache: 'no-store' })).json(); }
+  catch { $('maeCont').innerHTML = '<p class="mut small">No se pudo conectar con el server.</p>'; return; }
+  const n = MAE.niveles, txt = (need, u) => `Aprendiz ${need[1]} · Oficial ${need[2]} · Experto ${need[3]} ${u}`;
+  $('maeNivDom').textContent = txt(n.domador, 'tameos'); $('maeNivDan').textContent = txt(n.danio, 'salvajes');
+  $('maeNivPes').textContent = txt(n.peso, 'minutos'); $('maeNivVie').textContent = txt(n.viejo, 'horas');
+  renderMaestrias();
+}
+function renderMaestrias() {
+  if (!MAE) return;
+  const q = $('maeQ').value.trim().toLowerCase(), n = MAE.niveles;
+  const celda = ([v, g], need, u) => `<td><span style="color:${MAE_C[g]};font-weight:700">${MAE_G[g]}</span><div class="mut" style="font-size:11px">${v}${g < 3 ? ' / ' + need[g + 1] : ''} ${u}</div></td>`;
+  const L = MAE.jugadores.filter(j => !q || j.char.toLowerCase().includes(q));
+  $('maeCont').innerHTML = L.length ? '<table class="small" style="width:100%"><tr class="mut"><td>Personaje</td><td>🦖 Domador</td><td>⚔️ Daño</td><td>🎒 Peso</td><td>🧓 Viejo</td></tr>' +
+    L.map(j => `<tr><td><b>${esc(j.char)}</b>${j.casado ? ' 💍' : ''}</td>${celda(j.domador, n.domador, 'tameos')}${celda(j.danio, n.danio, 'salvajes')}${celda(j.peso, n.peso, 'min')}${celda(j.viejo, n.viejo, 'h')}</tr>`).join('') + '</table>'
+    : '<p class="mut small">Todavía no hay personajes con maestrías.</p>';
+}
+$('maeQ').addEventListener('input', renderMaestrias);
 async function loadMisDinos() {
   mdBotones();
   const box = $('mdCont');
@@ -3434,7 +3468,7 @@ document.querySelectorAll('#rankTabs button').forEach(b => b.onclick = () => {
   document.querySelectorAll('#rankTabs button').forEach(x => x.classList.toggle('on', x === b));
   rankKey = b.dataset.r; renderRank();
 });
-const TAB_OF = { casamientos: 'casamientos', misdinos: 'misdinos', jefes: 'jefes', guia: 'guia', reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'novedades', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info', pueblo: 'pueblo', juegos: 'juegos', party: 'party', buscadino: 'buscadino', bases: 'bases', martillero: 'bases', donar: 'mercado' };
+const TAB_OF = { casamientos: 'casamientos', misdinos: 'misdinos', maestrias: 'maestrias', jefes: 'jefes', guia: 'guia', reputacion: 'jugadores', soporte: 'info', tickets: 'info', eventos: 'eventos', novedades: 'novedades', mapas: 'mapas', cuenta: 'cuenta', mercado: 'mercado', tienda: 'mercado', jugadores: 'jugadores', tribus: 'jugadores', dinos: 'dinos', info: 'info', pvp: 'info', reglas: 'info', entrar: 'info', pueblo: 'pueblo', juegos: 'juegos', party: 'party', buscadino: 'buscadino', bases: 'bases', martillero: 'bases', donar: 'mercado' };
 function showTab() {
   const h = (location.hash || '#mapas').slice(1);
   const tab = TAB_OF[h] || 'mapas';
@@ -3447,6 +3481,7 @@ function showTab() {
   if (tab === 'bases') loadBases();
   if (h === 'donar') setTimeout(() => { if (typeof tshow === 'function') tshow('ac'); document.querySelector('.tpanel[data-p="ac"]')?.scrollIntoView({ behavior: 'smooth' }); }, 120);
   if (tab === 'misdinos' && typeof loadMisDinos === 'function') loadMisDinos();
+  if (tab === 'maestrias') loadMaestrias();
   document.querySelectorAll('[data-tab]').forEach(el => el.classList.toggle('tabon', el.dataset.tab === tab));
   document.querySelectorAll('nav a[data-t]').forEach(a => a.classList.toggle('on', a.dataset.t === tab));
   const target = document.getElementById(h);
