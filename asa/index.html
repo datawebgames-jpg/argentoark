@@ -844,10 +844,10 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
   </div>
 <div class="tpanel" data-p="ropa" id="ropaBox">
   <h3 class="tsec">👕 Ropa, armaduras y skins</h3>
-  <p class="small mut" style="margin:0 0 10px">Toda la ropa de ARK Ascended: pelaje, cuero, skins de eventos, Bob's Tall Tales, Lost Colony y disfraces de dinos. Llega sola a tu inventario (tenés que estar conectado). <b style="color:#ffb347">⚠️ Las que dicen DLC solo las podés usar si tenés ese DLC.</b></p>
+  <p class="small mut" style="margin:0 0 10px">Toda la ropa de ARK Ascended: pelaje, cuero, skins de eventos, Bob's Tall Tales, Lost Colony y disfraces de dinos. Y la decoración de los eventos: Halloween, Navidad, San Valentín y Pascua. Llega sola a tu inventario (tenés que estar conectado). <b style="color:#ffb347">⚠️ Las que dicen DLC solo las podés usar si tenés ese DLC.</b></p>
   <div class="filters" style="margin-bottom:8px">
     <input id="ropaQ" placeholder="Buscar: fur, bob, colony, hat..." autocomplete="off">
-    <select id="ropaCat"><option value="">Todo</option><option>Armadura</option><option>Skin</option><option>Disfraz de dino</option></select>
+    <select id="ropaCat"><option value="">Todo</option><option>Armadura</option><option>Skin</option><option>Disfraz de dino</option><option>Decoracion: Halloween</option><option>Decoracion: Navidad</option><option>Decoracion: San Valentin</option><option>Decoracion: Pascua</option><option>Decoracion: Accion de Gracias</option><option>Decoracion: Decoracion</option></select>
     <select id="ropaDlc"><option value="">Con y sin DLC</option><option value="-">Solo sin DLC</option><option>Bob's Tall Tales</option><option>Lost Colony</option><option>Astraeos</option><option>Pack premium</option></select>
   </div>
   <div class="small mut" id="ropaCount"></div>
@@ -2606,7 +2606,7 @@ function renderMaestrias() {
 }
 $('maeQ').addEventListener('input', renderMaestrias);
 // ---------- tienda de ropa, armaduras y skins ----------
-const ropaIcon = x => { const n = x.n.toLowerCase(); if (x.cat === 'Disfraz de dino') return '🦖';
+const ropaIcon = x => { const n = x.n.toLowerCase(); if (x.cat === 'Disfraz de dino') return '🦖'; if (x.cat.startsWith('Decoracion')) return { 'Decoracion: Halloween': '🎃', 'Decoracion: Navidad': '🎄', 'Decoracion: San Valentin': '💝', 'Decoracion: Pascua': '🐣', 'Decoracion: Accion de Gracias': '🦃' }[x.cat] || '🏮';
   return /hat|helmet|mask|cap|hood|crown|goggle|helm/.test(n) ? '🎩' : /glove|gauntlet/.test(n) ? '🧤' : /pant|leg|trouser/.test(n) ? '👖' : /boot|shoe|feet/.test(n) ? '👢'
     : /shield/.test(n) ? '🛡️' : /shirt|chest|torso|jacket|coat|vest|top/.test(n) ? '👕' : x.cat === 'Armadura' ? '🛡️' : '✨'; };
 const ropaColor = x => ({ "Bob's Tall Tales": '255,170,60', 'Lost Colony': '90,200,255', 'Astraeos': '190,120,255', 'Pack premium': '255,90,140' })[x.dlc] || (x.cat === 'Armadura' ? '120,200,120' : x.cat === 'Disfraz de dino' ? '46,204,113' : '232,79,140');
