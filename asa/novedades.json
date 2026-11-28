@@ -1,6 +1,23 @@
 [
   {
     "fecha": "2026-11-28",
+    "titulo": "Genesis en Ragnarok, PvE siempre y crossplay",
+    "nuevo": [
+      "Dinos de Genesis: Ferox en las cuevas, Bloodstalker colgados de los árboles del bosque, Noglin, Magmasaurio, Megachelon, Astrocetus, Stryder Tek y las variantes de pantano, volcánicas y oceánicas.",
+      "Más de 100 criaturas nuevas sueltas: Giganotosaurio, Megaraptor, Deinonychus, Dreadnoughtus, Lumina, Draco, Eclipsar, Zorro ángel, los Tek y más osos polares.",
+      "Misiones de HLN-A: tamear criaturas de Genesis paga HEXÁGONOS (de 2.000 a 6.000) y hay una diaria. Se cobran en la página (Eventos) o con /misionhex.",
+      "Crossplay: ahora pueden entrar jugadores de PC (Steam y Epic), Xbox y PlayStation.",
+      "Velocidad de los dinos: desde el reinicio de las 06:00 se puede subir en todos. Hasta 5 puntos por dino; los Expertos domadores no tienen tope.",
+      "/marca nombre: marcás un lugar y tu party lo ve en pantalla con la distancia y la dirección."
+    ],
+    "arreglado": [
+      "El server es PvE siempre: no hay PvP. Solo se raidean las bases abandonadas (4 días sin que entre nadie de la tribu).",
+      "La página ya no muestra los mapas, el PvP ni las guerras del ASE.",
+      "El buscador de la tribu muestra dónde está cada cosa (lat y lon)."
+    ]
+  },
+  {
+    "fecha": "2026-11-28",
     "titulo": "Maestrías, todo x5 y el pueblo vuelve al chat",
     "nuevo": [
       "Maestrías: Domador, Daño, Peso y Viejo del server. Subís de Aprendiz a Oficial y a Experto jugando, y cada ascenso sale en un cartel para todos.",
