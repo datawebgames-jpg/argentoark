@@ -586,6 +586,12 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
   <h2>Eventos y novedades</h2>
   <p class="sub">Todo lo que pasa en el server: desafíos, reyes de la semana, recompensas y premios.</p>
   <div id="boostBanner"></div>
+  <div class="card" id="hexMisBox" style="margin-bottom:14px;border-color:#3fa9ff;background:linear-gradient(135deg,rgba(63,169,255,.18),rgba(155,89,182,.14))">
+    <h3 style="font-size:22px;margin-bottom:4px">🔷 Misiones de HLN-A · pagan HEXÁGONOS</h3>
+    <p class="small" style="margin:0 0 10px">Tameá criaturas de <b>Genesis</b> que hay en Ragnarok y HLN-A te paga en hexágonos para su tienda. Cada misión se cobra una vez, y la <b>diaria</b> todos los días. Para cobrar tenés que estar conectado y vivo (los hexágonos van a tu personaje). En el juego: <code>/misionhex</code>.</p>
+    <div id="hexMisList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px"></div>
+    <div class="acts" style="margin-top:10px"><button id="hexMisBtn" onclick="cobrarHexMis()" style="display:none">🔷 Cobrar mis hexágonos</button><span class="small mut" id="hexMisMsg"></span></div>
+  </div>
   <div id="leyendaPublic"></div>
   <div id="expedPublic"></div>
   <div id="wantedPublic" style="display:none"></div>
@@ -2617,6 +2623,27 @@ async function comprarRopa(id) {
 }
 ['ropaQ', 'ropaCat', 'ropaDlc'].forEach(id => $(id).addEventListener('input', renderRopa));
 renderRopa();
+// ---------- misiones de HLN-A (hexagonos) ----------
+async function loadHexMis() {
+  let r = null;
+  try { r = getTok() ? await post('hexmisiones', { token: getTok() }) : null; } catch { }
+  if (!r || r.error) { try { r = await post('hexmisionespub', {}); } catch { } }
+  if (!r || !r.misiones) return;
+  const L = r.mias || [...r.misiones.map(m => ({ ...m, estado: '' })), { n: 'Misión diaria: tamear cualquier criatura de Genesis hoy', d: 'Se renueva todos los días.', hex: r.diaria, estado: '' }];
+  const EST = { cobrada: ['✅ Cobrada', '46,204,113'], cobrar: ['💰 ¡Para cobrar!', '255,200,0'], pendiente: ['⏳ Pendiente', '120,140,170'], '': ['', '63,169,255'] };
+  $('hexMisList').innerHTML = L.map(m => { const [t, c] = EST[m.estado] || EST['']; return `<div style="padding:10px;border-radius:12px;border:1px solid rgba(${c},.55);background:rgba(${c},.12)">
+    <b>${esc(m.n)}</b><div class="small mut" style="margin:3px 0">${esc(m.d || '')}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center"><b style="color:#7cc8ff">🔷 ${Number(m.hex).toLocaleString('es-AR')}</b><span class="small">${t}</span></div></div>`; }).join('');
+  const hay = L.some(m => m.estado === 'cobrar');
+  $('hexMisBtn').style.display = hay ? '' : 'none';
+  $('hexMisMsg').textContent = r.mias ? (hay ? '' : 'Cuando tamees una criatura de Genesis, acá aparece para cobrar.') : 'Entrá en Mi cuenta para ver tus misiones.';
+}
+async function cobrarHexMis() {
+  $('hexMisBtn').disabled = true;
+  try { const r = await post('hexmisiones', { token: getTok(), cobrar: true }); alert(r.error || r.text); } catch { alert('No se pudo conectar.'); }
+  $('hexMisBtn').disabled = false; loadHexMis();
+}
+loadHexMis();
 async function loadMisDinos() {
   mdBotones();
   const box = $('mdCont');
