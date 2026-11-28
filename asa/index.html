@@ -103,6 +103,20 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .hub-tile{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 8px;border-radius:16px;border:1px solid rgba(243,156,18,.35);background:radial-gradient(circle at 50% 25%,rgba(243,156,18,.20),rgba(255,255,255,.03) 70%);color:inherit;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s}
 .hub-tile:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(243,156,18,.25)}
 .hub-tile.on{border-color:#f39c12;box-shadow:0 0 0 2px #f39c12 inset,0 8px 22px rgba(243,156,18,.3)}
+.sell-cta{display:flex;align-items:center;gap:14px;width:100%;margin:8px 0 16px;padding:16px 20px;border:0;border-radius:18px;cursor:pointer;text-align:left;color:#1a1206;
+  background:linear-gradient(100deg,#ffd200,#ff8a00 45%,#ff3d6e);box-shadow:0 10px 30px rgba(255,138,0,.35);animation:sellGlow 2.4s ease-in-out infinite;font:inherit}
+.sell-cta b{display:block;font-size:22px;letter-spacing:.5px}.sell-cta small{display:block;font-size:13px;opacity:.85}
+.sell-ico{font-size:38px}.sell-go{margin-left:auto;background:#1a1206;color:#ffd200;padding:10px 16px;border-radius:12px;font-weight:800;white-space:nowrap}
+.sell-cta:hover{transform:translateY(-2px)}
+@keyframes sellGlow{0%,100%{box-shadow:0 10px 30px rgba(255,138,0,.35)}50%{box-shadow:0 10px 40px rgba(255,61,110,.6)}}
+.hub-tile:nth-child(6n+1){--hc:243,156,18}.hub-tile:nth-child(6n+2){--hc:52,152,219}.hub-tile:nth-child(6n+3){--hc:46,204,113}
+.hub-tile:nth-child(6n+4){--hc:155,89,182}.hub-tile:nth-child(6n+5){--hc:231,76,60}.hub-tile:nth-child(6n){--hc:26,188,156}
+.hub-tile{border-color:rgba(var(--hc,243,156,18),.45)!important;background:radial-gradient(circle at 50% 20%,rgba(var(--hc,243,156,18),.30),rgba(255,255,255,.03) 72%)!important}
+.hub-tile:hover{box-shadow:0 10px 26px rgba(var(--hc,243,156,18),.40)!important}
+.hub-tile.h-ropa{--hc:232,79,140}.hub-tile.h-vender{--hc:255,138,0}
+.ropa-card{position:relative;padding:12px;border-radius:14px;border:1px solid rgba(var(--rc),.45);background:linear-gradient(160deg,rgba(var(--rc),.22),rgba(255,255,255,.03) 65%);display:flex;flex-direction:column;gap:4px}
+.ropa-card .ri{font-size:34px;line-height:1}.ropa-card b{font-size:14px}.ropa-card .rd{font-size:11px;font-weight:700;color:#ffb347}
+.ropa-card button{margin-top:auto;border:0;border-radius:10px;padding:8px;font-weight:800;cursor:pointer;color:#111;background:linear-gradient(90deg,rgb(var(--rc)),#ffd200)}
 .hub-tile img{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.6))}
 .hub-emoji{font-size:50px;line-height:64px}
 .hub-tile b{font-size:15px}.hub-tile span{font-size:12px;opacity:.75}
@@ -784,17 +798,6 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
   <div id="walletBox" class="wallet-box"></div>
   <h2>Tienda</h2>
   <p class="sub">Elegí qué querés ver. Todo se puede mirar; <b>para comprar o vender tenés que vincular tu cuenta</b>.</p>
-<div id="ropaBox" class="card" style="border-color:#e84f8c;margin:12px 0">
-  <h3 style="margin:0 0 6px">👕 Ropa, armaduras y skins</h3>
-  <p class="small mut" style="margin:0 0 10px">Toda la ropa de ARK Ascended: pelaje, cuero, skins de eventos, Bob's Tall Tales, Lost Colony y disfraces de dinos. Llega sola a tu inventario (tenés que estar conectado). <b style="color:#ffb347">⚠️ Las que dicen DLC solo las podés usar si tenés ese DLC.</b></p>
-  <div class="filters" style="margin-bottom:8px">
-    <input id="ropaQ" placeholder="Buscar: fur, bob, colony, hat..." autocomplete="off">
-    <select id="ropaCat"><option value="">Todo</option><option>Armadura</option><option>Skin</option><option>Disfraz de dino</option></select>
-    <select id="ropaDlc"><option value="">Con y sin DLC</option><option value="-">Solo sin DLC</option><option>Bob's Tall Tales</option><option>Lost Colony</option><option>Astraeos</option><option>Pack premium</option></select>
-  </div>
-  <div class="small mut" id="ropaCount"></div>
-  <div id="ropaList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;max-height:520px;overflow:auto;margin-top:6px"></div>
-</div>
 
 <div id="armadurasBox" class="card" style="border-color:#95a5a6;margin:12px 0">
     <h3 style="margin:0 0 6px">🛡️ Armaduras</h3>
@@ -823,21 +826,33 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
     <div><b>Para comprar tenés que vincular tu cuenta</b><br><span class="small">Es una sola vez y tarda 1 minuto: en el juego escribí <code>/vincular</code>, te llega un código de 6 letras y lo ponés en Mi cuenta.</span></div>
     <a class="btn" href="#cuenta" style="white-space:nowrap">🔗 Vincular ahora</a>
   </div>
+  <button class="sell-cta" onclick="tshow('vender');document.querySelector('.tpanel[data-p=vender]').scrollIntoView({behavior:'smooth'})">
+    <span class="sell-ico">💰</span><span><b>VENDÉ LO QUE TENÉS</b><small>Dinos, armas, monturas y recursos de tu inventario: le ponés precio y el server te paga solo</small></span><span class="sell-go">VENDER ➜</span>
+  </button>
   <div class="hub">
+    <button class="hub-tile h-ropa" data-p="ropa" onclick="tshow('ropa')"><div class="hub-emoji">👕</div><b>Ropa y skins</b><span>Pelaje, Bob's, Lost Colony y más</span></button>
     <button class="hub-tile" data-p="server" onclick="tshow('server')"><img src="img/wiki/Cryopod.png" alt="" loading="lazy"><b>Tienda del server</b><span>Flechas, recursos, kits</span></button>
-    <button class="hub-tile" data-p="engramas" onclick="tshow('engramas')"><div class="hub-emoji">📜</div><b>Engramas</b><span>Aquatica y Genesis · 400 AC</span></button>
-    <button class="hub-tile" data-p="misiong2" onclick="tshow('misiong2')"><div class="hub-emoji">🎯</div><b>Misiones Genesis 2</b><span>500 AC cada una</span></button>
     <button class="hub-tile" data-p="monturas" onclick="tshow('monturas')"><img src="img/wiki/Rex_Saddle.png" alt="" loading="lazy"><b>Monturas</b><span>Desde 250 AC</span></button>
     <button class="hub-tile" data-p="dinos" onclick="tshow('dinos')"><img src="img/wiki/Rex.png" alt="" loading="lazy"><b>Dinos en criopod</b><span>Nivel 1, 1000 AC</span></button>
     <button class="hub-tile" data-p="tribu" onclick="tshow('tribu')"><img src="img/wiki/Assault_Rifle.png" alt="" loading="lazy"><b>Tienda de la tribu</b><span>Con los ACT de tu tribu</span></button>
     <button class="hub-tile" data-p="ranking" onclick="tshow('ranking')"><div class="hub-emoji">🏆</div><b>Ranking de tribus</b><span>Quién junta más ACT</span></button>
     <button class="hub-tile" data-p="mercado" onclick="tshow('mercado')"><img src="img/wiki/Black_Pearl.png" alt="" loading="lazy"><b>Mercado</b><span>Comprale a otros jugadores</span></button>
     <button class="hub-tile" data-p="adopcion" onclick="tshow('adopcion')"><img src="img/wiki/Cryopod.png" alt="" loading="lazy"><b>Adopción</b><span>Dinos para los nuevos</span></button>
-    <button class="hub-tile" data-p="vender" onclick="tshow('vender')"><img src="img/wiki/Polymer.png" alt="" loading="lazy"><b>Vender</b><span>Lo que tenés en el juego</span></button>
+    <button class="hub-tile h-vender" data-p="vender" onclick="tshow('vender')"><img src="img/wiki/Polymer.png" alt="" loading="lazy"><b>Vender</b><span>Lo que tenés en el juego</span></button>
     <button class="hub-tile" data-p="personal" onclick="tshow('personal')"><img src="img/wiki/Dossier_Rex.png" alt="" loading="lazy"><b>Mi tienda</b><span>Saldo, ventas y avisos</span></button>
     <button class="hub-tile" data-p="slots" onclick="tshow('slots')"><span style="font-size:58px;line-height:72px">🎰</span><b>Tragamonedas</b><span>Jugá con tus AC</span></button>
-    <button class="hub-tile" data-p="mapa" onclick="tshow('mapa')"><img src="img/wiki/Transponder_Tracker.png" alt="" loading="lazy"><b>Mapa de la tribu</b><span>Mirá un ejemplo · tu personaje gratis</span></button><button class="hub-tile" data-p="ac" onclick="tshow('ac')"><div class="hub-emoji">💝</div><b>Comprar AC</b><span>Bancá al server</span></button>
   </div>
+<div class="tpanel" data-p="ropa" id="ropaBox">
+  <h3 class="tsec">👕 Ropa, armaduras y skins</h3>
+  <p class="small mut" style="margin:0 0 10px">Toda la ropa de ARK Ascended: pelaje, cuero, skins de eventos, Bob's Tall Tales, Lost Colony y disfraces de dinos. Llega sola a tu inventario (tenés que estar conectado). <b style="color:#ffb347">⚠️ Las que dicen DLC solo las podés usar si tenés ese DLC.</b></p>
+  <div class="filters" style="margin-bottom:8px">
+    <input id="ropaQ" placeholder="Buscar: fur, bob, colony, hat..." autocomplete="off">
+    <select id="ropaCat"><option value="">Todo</option><option>Armadura</option><option>Skin</option><option>Disfraz de dino</option></select>
+    <select id="ropaDlc"><option value="">Con y sin DLC</option><option value="-">Solo sin DLC</option><option>Bob's Tall Tales</option><option>Lost Colony</option><option>Astraeos</option><option>Pack premium</option></select>
+  </div>
+  <div class="small mut" id="ropaCount"></div>
+  <div id="ropaList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;max-height:640px;overflow:auto;margin-top:8px"></div>
+</div>
   <div class="tpanel" data-p="server">
     <h3 class="tsec">🛒 Tienda del server</h3><p class="sub" style="margin:-4px 0 12px">Pagás con ArgenCoins y el item llega solo a tu inventario (tenés que estar conectado al juego).</p>
     <div class="tshop-grid" id="shopGrid"></div>
@@ -2591,12 +2606,17 @@ function renderMaestrias() {
 }
 $('maeQ').addEventListener('input', renderMaestrias);
 // ---------- tienda de ropa, armaduras y skins ----------
+const ropaIcon = x => { const n = x.n.toLowerCase(); if (x.cat === 'Disfraz de dino') return '🦖';
+  return /hat|helmet|mask|cap|hood|crown|goggle|helm/.test(n) ? '🎩' : /glove|gauntlet/.test(n) ? '🧤' : /pant|leg|trouser/.test(n) ? '👖' : /boot|shoe|feet/.test(n) ? '👢'
+    : /shield/.test(n) ? '🛡️' : /shirt|chest|torso|jacket|coat|vest|top/.test(n) ? '👕' : x.cat === 'Armadura' ? '🛡️' : '✨'; };
+const ropaColor = x => ({ "Bob's Tall Tales": '255,170,60', 'Lost Colony': '90,200,255', 'Astraeos': '190,120,255', 'Pack premium': '255,90,140' })[x.dlc] || (x.cat === 'Armadura' ? '120,200,120' : x.cat === 'Disfraz de dino' ? '46,204,113' : '232,79,140');
 function renderRopa() {
   const L0 = window.ROPA_ASA || [], q = $('ropaQ').value.trim().toLowerCase(), c = $('ropaCat').value, d = $('ropaDlc').value;
   const L = L0.filter(x => (!q || x.n.toLowerCase().includes(q) || (x.dlc || '').toLowerCase().includes(q)) && (!c || x.cat === c) && (!d || (d === '-' ? !x.dlc : x.dlc === d)));
   $('ropaCount').textContent = `${L.length} de ${L0.length} prendas`;
-  $('ropaList').innerHTML = L.slice(0, 300).map(x => `<div class="card" style="padding:8px"><b>${esc(x.n)}</b><div class="small mut">${x.cat}${x.dlc ? ` · <span style="color:#ffb347">DLC ${esc(x.dlc)}</span>` : ''}</div>
-    <button style="margin-top:6px" onclick="comprarRopa('${x.id}')">Comprar · <b>${x.price} AC</b></button></div>`).join('') + (L.length > 300 ? '<p class="small mut">Hay más: buscá por nombre.</p>' : '');
+  $('ropaList').innerHTML = L.slice(0, 300).map(x => `<div class="ropa-card" style="--rc:${ropaColor(x)}"><div class="ri">${ropaIcon(x)}</div><b>${esc(x.n)}</b>
+    <div class="small mut">${x.cat}</div>${x.dlc ? `<div class="rd">⚠️ DLC ${esc(x.dlc)}</div>` : ''}
+    <button onclick="comprarRopa('${x.id}')">Comprar · ${x.price} AC</button></div>`).join('') + (L.length > 300 ? '<p class="small mut">Hay más: buscá por nombre.</p>' : '');
 }
 async function comprarRopa(id) {
   if (!getTok()) { alert('Primero entrá en Mi cuenta con tu personaje.'); location.hash = '#cuenta'; return; }
@@ -3240,7 +3260,7 @@ const SADDLE_ICON = { raptor: 'Raptor', rex: 'Rex', trike: 'Trike', stego: 'Steg
   iguanodon: 'Iguanodon', terror: 'Terror_Bird', chali: 'Chalicotherium', canguro: 'Procoptodon', galli: 'Gallimimus', carcha: 'Carcha', quetzalplataforma: 'Quetz_Platform', maewing: 'Maewing', desmodus: 'Desmodus', gacha: 'Gacha', buho: 'Snow_Owl' };
 const isLinked = () => !!(getTok() && me);
 function needLink() { if (isLinked()) return false; $('linkModal').style.display = 'flex'; return true; }
-let tpanel = 'server';
+let tpanel = 'ropa';
 function tshow(p) {
   tpanel = p;
   document.querySelectorAll('.tpanel').forEach(e => e.classList.toggle('on', e.dataset.p === p));
