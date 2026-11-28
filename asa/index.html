@@ -117,6 +117,20 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .ropa-card{position:relative;padding:12px;border-radius:14px;border:1px solid rgba(var(--rc),.45);background:linear-gradient(160deg,rgba(var(--rc),.22),rgba(255,255,255,.03) 65%);display:flex;flex-direction:column;gap:4px}
 .ropa-card .ri{height:96px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:radial-gradient(circle,rgba(var(--rc),.35),rgba(0,0,0,.25) 70%)}.ropa-card .ri img{width:88px;height:88px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.6))}.ropa-card .rph{font-size:40px;opacity:.85;filter:grayscale(.2)}.ropa-card b{font-size:14px}.ropa-card .rd{font-size:11px;font-weight:700;color:#ffb347}
 .ropa-card button{margin-top:auto;border:0;border-radius:10px;padding:8px;font-weight:800;cursor:pointer;color:#111;background:linear-gradient(90deg,rgb(var(--rc)),#ffd200)}
+.camp-rey{display:flex;align-items:center;gap:18px;padding:18px 22px;border-radius:20px;margin-bottom:14px;color:#1a1206;
+  background:linear-gradient(110deg,#ffe066,#ffb300 50%,#ff7b00);box-shadow:0 12px 34px rgba(255,179,0,.35)}
+.camp-rey .cr{font-size:58px;line-height:1;filter:drop-shadow(0 4px 6px rgba(0,0,0,.35));animation:crFlota 2.6s ease-in-out infinite}
+.camp-rey b{display:block;font-size:30px}.camp-rey small{display:block;font-size:14px;opacity:.85}
+@keyframes crFlota{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-6px) rotate(6deg)}}
+.camp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.camp-c{padding:12px;border-radius:14px;border:1px solid rgba(var(--c),.5);background:linear-gradient(160deg,rgba(var(--c),.25),rgba(255,255,255,.03) 70%);text-align:center}
+.camp-c .ci{font-size:34px;line-height:1.1}.camp-c .ct{font-size:12px;opacity:.8;text-transform:uppercase;letter-spacing:.5px}
+.camp-c b{display:block;font-size:18px;margin:4px 0 2px}.camp-c .cv{font-size:13px;opacity:.85}
+.camp-c.vacio b{opacity:.55;font-size:15px}
+.camp-btns{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:22px}
+.camp-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 10px;border-radius:16px;text-decoration:none;color:#fff;font-weight:800;text-align:center;
+  background:linear-gradient(160deg,rgba(var(--c),.85),rgba(var(--c),.45));border:1px solid rgba(var(--c),1);box-shadow:0 8px 22px rgba(var(--c),.3);transition:transform .15s}
+.camp-btn span{font-size:34px}.camp-btn:hover{transform:translateY(-3px)}
 .hub-tile img{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.6))}
 .hub-emoji{font-size:50px;line-height:64px}
 .hub-tile b{font-size:15px}.hub-tile span{font-size:12px;opacity:.75}
@@ -498,11 +512,11 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
 <header class="wrap hero" data-tab="mapas">
   <div class="flag"></div>
   <h1>ARGENTOPRO<br><span>ARK Ascended</span></h1>
-  <p>Server argentino de ARK: Survival Evolved. Todo x5, cluster entre mapas y un mapa rotativo que eligen los jugadores cada semana.</p>
+  <p>Server argentino de ARK: Survival Ascended. Ragnarok con los dinos de todos los mapas, todo x5, PvE y crossplay (PC, Xbox y PlayStation).</p>
   <div class="chips" id="liveChips"><span class="chip">Cargando estado del server...</span></div>
-  <div><a class="btn" href="#info">Cómo entrar</a> <a class="btn sec" href="#mercado">Tienda</a> <a class="btn sec" href="#dinos">Guía de tameo</a> <a class="btn dc" href="__DISCORD_ASA__" target="_blank" rel="noopener">Unite al Discord</a> <a class="btn" style="background:#2ecc71;color:#08130c" href="votar.html" target="_blank" rel="noopener">🗳️ Votá el server</a></div>
+  <div><a class="btn" href="#info">Cómo entrar</a> <a class="btn sec" href="#mercado">Tienda</a> <a class="btn sec" href="#dinos">Guía de tameo</a> <a class="btn dc" href="https://tinyurl.com/argentodiscord" target="_blank" rel="noopener">Unite al Discord</a> <a class="btn" style="background:#2ecc71;color:#08130c" href="votar.html" target="_blank" rel="noopener">🗳️ Votá el server</a></div>
   <div class="card qrbox" style="margin-top:18px;max-width:560px;background:rgba(0,0,0,.6)">
-    <a href="__DISCORD_ASA__" target="_blank" rel="noopener"><img src="img/qr-discord.png" alt="QR del Discord"></a>
+    <a href="https://tinyurl.com/argentodiscord" target="_blank" rel="noopener"><img src="img/qr-discord.png" alt="QR del Discord"></a>
     <div style="flex:1;min-width:200px"><h3 style="font-size:22px;margin-bottom:6px">📱 Escaneá y entrá al Discord</h3>
       <p class="small" style="margin:0">Abrí la cámara del celular, apuntá al código y tocá el link. Sin escribir nada.</p>
       <p class="mut small" style="margin:6px 0 0">O escribí <b>tinyurl.com/argentodiscord</b></p></div>
@@ -510,6 +524,22 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
 </header>
 
 <main>
+<section id="campeones" data-tab="mapas"><div class="wrap">
+  <h2>👑 Salón de campeones</h2>
+  <p class="sub">Los mejores personajes de ArgentoPro ASA. Se actualiza solo mientras juegan.</p>
+  <div id="campRey"></div>
+  <div class="camp-grid" id="campTop"></div>
+  <h3 class="tsec" style="margin-top:18px">🎲 Campeones de los juegos</h3>
+  <div class="camp-grid" id="campJuegos"></div>
+  <div class="camp-btns">
+    <a class="camp-btn" style="--c:255,138,0" href="#mercado"><span>🛒</span>Tienda</a>
+    <a class="camp-btn" style="--c:52,152,219" href="#buscadino"><span>📍</span>Buscar dinos</a>
+    <a class="camp-btn" style="--c:46,204,113" href="#cuenta" onclick="return campIr('cuenta', /Ir a un compa/)"><span>🌀</span>Teleport a la tribu</a>
+    <a class="camp-btn" style="--c:232,79,140" href="#casamientos"><span>💍</span>Casados</a>
+    <a class="camp-btn" style="--c:155,89,182" href="#cuenta" onclick="return campIr('cuenta', /Buscador de la tribu/, () => typeof findLoad === 'function' && findLoad())"><span>🔎</span>Buscar y trasladar materiales</a>
+  </div>
+</div></section>
+
 <section id="guia" data-tab="guia"><div class="wrap">
 <div id="guiaTodo" style="margin-bottom:22px">
   <h2>🔥 Todo lo que tiene ArgentoPro</h2>
@@ -528,12 +558,12 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
   <div class="card guia-c" style="border-color:#2980b9"><h3>♟️ Más juegos de mesa 1 contra 1</h3><ul><li><b>♟️ Ajedrez</b>: reglas completas (enroque, peón al paso, jaque mate, coronación).</li><li><b>⚫ Damas</b>: españolas, comer es obligatorio y la dama vuela.</li><li><b>🁣 Dominó</b>: doble seis, de 2 a 4 jugadores, con pozo para robar.</li><li><b>✂️ Piedra, papel o tijera</b>: al mejor de 5.</li><li><b>🏁 Carrera de Dinos</b> (2 a 4) y <b>🥊 Arena de Bichos</b> (1 contra 1): elegís uno de tus 10 dinos y gana el más veloz o el que más aguanta, según el tipo y el terreno.</li><li>Todos se juegan por AC: cada uno pone la entrada y el ganador se lleva el pozo menos 5%. Abrí una mesa e invitá a quien quieras.</li></ul></div>
   <div class="card guia-c" style="border-color:#d4ac0d"><h3>🏆 Torneos</h3><ul><li>Eliminación directa de <b>4 u 8 jugadores</b> en Duelo de Dinos, Ajedrez, Damas, Truco, Carrera de Dinos y más (Juegos → Torneos).</li><li>Pagás la inscripción, los partidos se arman solos y avanza el que gana. Te avisa el juego cuando está tu partido.</li><li>Campeón: 70% del pozo. Finalista: 30% (menos 5% de la casa).</li><li><b>Sábados 20:30</b>: torneo de Duelo de Dinos. <b>Domingos 20:30</b>: torneo de Carrera de Dinos (8 lugares, 500 AC). Si no se llenan en 2 horas, se devuelve todo.</li><li>Además, los <b>sábados 20:00</b> sigue la carrera de dinos dentro del juego (anotate montado en tu dino).</li></ul></div>
   <div class="card guia-c" style="border-color:#e67e22"><h3>🎰 Juegos y extras</h3><ul><li>Quiniela, bingo, truco contra El Gaucho y tragamonedas, todo con AC.</li><li>Casamientos con anillo, recetas de cocina, HLN-A de compañía (<code>/hlna</code>) y hexágonos.</li><li>Recuperar tu cuerpo (<code>/cuerpo</code>), invitar amigos y compartir en redes: ganás AC.</li></ul></div>
-  <div class="card guia-c" style="border-color:#2ecc71"><h3>🔗 Cómo empezar</h3><ul><li>Buscá <b>ArgentoPro</b> en la lista de servers no oficiales (Unofficial) y entrá.</li><li>En el chat escribí <code>/vincular</code> y poné el código en <b>Mi cuenta</b> de esta página.</li><li>Apretá <b>F1</b> en el juego para la tienda y el <b>panel del juego</b> (botón Página).</li><li>Sumate al <a href="__DISCORD_ASA__" target="_blank" rel="noopener">Discord</a> para avisos, soporte y tu tribu.</li></ul></div>
+  <div class="card guia-c" style="border-color:#2ecc71"><h3>🔗 Cómo empezar</h3><ul><li>Buscá <b>ArgentoPro</b> en la lista de servers no oficiales (Unofficial) y entrá.</li><li>En el chat escribí <code>/vincular</code> y poné el código en <b>Mi cuenta</b> de esta página.</li><li>Apretá <b>F1</b> en el juego para la tienda y el <b>panel del juego</b> (botón Página).</li><li>Sumate al <a href="https://tinyurl.com/argentodiscord" target="_blank" rel="noopener">Discord</a> para avisos, soporte y tu tribu.</li></ul></div>
   </div>
 </div>
   <h2>📖 Guía de ArgentoPro ARK Ascended</h2>
   <p style="margin:0 0 10px"><a class="btn" href="guia.html" target="_blank" rel="noopener" style="display:inline-block;background:var(--acc);color:#1a1206;font-weight:700;padding:10px 16px;border-radius:10px;text-decoration:none">📖 Abrir la guía completa (para leer o compartir)</a></p>
-  <p class="sub">Todo lo que tiene el server, explicado. Si algo no se entiende, preguntá en el <a href="__DISCORD_ASA__" target="_blank" rel="noopener">Discord</a> o buscá a <b>Viejomanco</b>.</p>
+  <p class="sub">Todo lo que tiene el server, explicado. Si algo no se entiende, preguntá en el <a href="https://tinyurl.com/argentodiscord" target="_blank" rel="noopener">Discord</a> o buscá a <b>Viejomanco</b>.</p>
   <div class="guia-grid">
     <div class="card guia-c"><h3>🦖 El server</h3><ul><li><b>ARK: Survival Ascended</b>, server argentino.</li><li>Experiencia, tameo, farmeo, cría y maduración <b>x5</b>. Estructuras <b>x20</b>.</li><li><b>PvE siempre</b>, sin horarios de PvP.</li><li>Mapa único: <b>Ragnarok</b> con todos los dinos.</li><li>Reinicio diario a las <b>06:00</b>.</li></ul></div>
 
@@ -564,7 +594,7 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
     <div class="card guia-c"><h3>📣 Compartí y ganá 50 AC por día</h3><ul><li>En <a href="#cuenta">Mi cuenta</a> tenés tu link y botones para <b>Facebook, WhatsApp, X y Telegram</b>.</li><li>Cuando alguien entra a la página por tu link, ganás <b>50 AC</b> (1 vez por día). Tus propias entradas no cuentan.</li><li>Si tu amigo empieza a jugar, además ganás un <b>plano rojo</b> por invitarlo.</li></ul></div>
     <div class="card guia-c" style="border-color:#f1c40f"><h3>🎖️ Rangos en la tribu</h3><ul><li>Soldado raso → Cabo → Cabo primero → <b>Sargento</b> → Sargento primero → Suboficial → Teniente → Capitán → Mayor → Coronel. El líder es <b>Comandante</b>.</li><li>El comandante te manda <b>pruebas</b> (tamear, subir niveles, notas, PvP, traer materiales...). Si la cumplís: <b>+50 AC y subís un rango</b>.</li><li>Desde <b>Sargento</b> podés mandar mensajes a toda la tribu. Cada rango tiene su color.</li></ul></div>
     <div class="card guia-c" style="border-color:#2ecc71"><h3>🤝 Entrar a una tribu</h3><ul><li>En <a href="#cuenta">Mi cuenta</a> → <b>Unirme a una tribu</b>: elegís la tribu, le contás algo y mandás la solicitud.</li><li>El líder la acepta o la rechaza desde la página, y te avisamos en el juego.</li><li>Si te aceptan, el líder te invita en el juego (te mira, mantiene <b>E</b> → "Invitar a la tribu").</li><li>También podés buscar tribu en Discord: <b>🤝・busco-tribu</b>.</li></ul></div>
-    <div class="card guia-c" style="border-color:#5865f2"><h3>💬 Discord de ArgentoPro</h3><ul><li>Entrá: <a href="__DISCORD_ASA__" target="_blank" rel="noopener">__DISCORD_ASA__</a> y vinculá tu cuenta con <code>/vincular</code> (te da el rol verde <b>✅ Vinculado</b>).</li><li><b>🏆・ranking</b>: la mejor tribu del mes, misiones y los mejores, actualizado solo.</li><li><b>🏅・logros-y-premios</b>: cada logro, ascenso y premio grande.</li><li><b>Canal privado para tu tribu</b> (texto y voz): el líder lo compra en la página por <b>3000 ACT</b> y aparece con el rol dorado <b>👑 Líder</b>. Entran solos los de la tribu con Discord vinculado; el líder puede poner una <b>clave</b> para que entren aliados con <code>/entrartribu</code>.</li></ul></div>
+    <div class="card guia-c" style="border-color:#5865f2"><h3>💬 Discord de ArgentoPro</h3><ul><li>Entrá: <a href="https://tinyurl.com/argentodiscord" target="_blank" rel="noopener">https://tinyurl.com/argentodiscord</a> y vinculá tu cuenta con <code>/vincular</code> (te da el rol verde <b>✅ Vinculado</b>).</li><li><b>🏆・ranking</b>: la mejor tribu del mes, misiones y los mejores, actualizado solo.</li><li><b>🏅・logros-y-premios</b>: cada logro, ascenso y premio grande.</li><li><b>Canal privado para tu tribu</b> (texto y voz): el líder lo compra en la página por <b>3000 ACT</b> y aparece con el rol dorado <b>👑 Líder</b>. Entran solos los de la tribu con Discord vinculado; el líder puede poner una <b>clave</b> para que entren aliados con <code>/entrartribu</code>.</li></ul></div>
     <div class="card guia-c" style="border-color:#f1c40f"><h3>👑 Monarcas, alfas y protección</h3><ul><li><b>Cazador de alfas:</b> cada alfa que matás (Raptor, Carno, Rex, Megalodon...) te da <b>+25 AC</b> y <b>+15 ACT</b> para tu tribu. El que más mata en el día gana <b>200 AC</b>.</li><li><b>Monarca del mapa:</b> la tribu con <b>más cabezas de boss</b> en un mapa es la dueña: las demás tribus de ese mapa le pagan <b>50 ACT por día</b>. Para destronarla, juntá más cabezas.</li><li><b>Protección por ACT:</b> una tribu protege a otra y le cobra 50 ACT por día (se acuerda en Mi cuenta). Si un protector mata a un protegido: <b>-1000 AC</b>, y a la 2da vez <b>24 hs de ban</b>.</li></ul></div>
     <div class="card guia-c" style="border-color:#1abc9c"><h3>🏠 Teleport a casa</h3><ol><li>Vinculá tu cuenta y en <a href="#cuenta">Mi cuenta</a> tocá <b>"Activar teleport a Casa"</b> (es gratis activarlo).</li><li>En el juego, parate en tu base y escribí <code>/sethome</code>: queda guardada tu casa (una por mapa).</li><li>Desde cualquier lugar de ese mapa escribí <code>/home</code>, <b>quedate quieto 20 segundos</b> y aparecés en tu casa. Si vas montado, tu dino viaja con vos.</li></ol><p>Cuesta <b>200 AC cada vez</b>. Si te movés durante la espera se cancela y no se cobra. No sirve para escapar de una pelea.</p></div>
     <div class="card guia-c" style="border-color:#3498db"><h3>🛡️ Zona segura</h3><ul><li>Una burbuja casi invisible de <b>30 metros</b> alrededor de tu casa donde <b>nadie te puede matar ni romperte las estructuras</b>, y los dinos salvajes no te atacan.</li><li>Cuesta <b>30.000 AC por 30 días</b>. Se compra en <a href="#cuenta">Mi cuenta</a>, después de guardar tu casa con <code>/sethome</code>: la zona se arma alrededor de esa casa.</li><li>Al entrar y salir te aparece el aviso en pantalla. Se puede renovar antes de que venza.</li><li>¿Te faltan AC? Pack de <b>30.000 AC por $40.000 o USD 25</b> en Tienda → Comprar AC.</li></ul></div>
@@ -1176,7 +1206,7 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
 </main>
 
 <footer><div class="wrap">
-  <b>ArgentoPro ARK Ascended</b> · Hecho por y para la comunidad argentina · <a href="__DISCORD_ASA__" target="_blank" rel="noopener">Discord</a><br>
+  <b>ArgentoPro ARK Ascended</b> · Hecho por y para la comunidad argentina · <a href="https://tinyurl.com/argentodiscord" target="_blank" rel="noopener">Discord</a><br>
   <span class="small">Chat del juego: <code>/votar &lt;mapa&gt;</code> para votar · <code>/votos</code> · <code>/ayuda</code> todos los comandos para ver cómo viene la votación</span>
 </div></footer>
 
@@ -1224,7 +1254,7 @@ async function live() {
     .map(([v, l]) => `<div class="card rate"><b>${esc(v)}</b><span class="mut small">${l}</span></div>`).join('');
   $('ipCards').innerHTML = d.ip ? d.maps.map(m => `<div style="background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:10px"><b>${esc(m.name)}</b>${m.rotating ? ' <span class="tag">rotativo</span>' : ''}<div style="margin-top:6px"><a class="btn" style="padding:6px 12px;font-size:14px" href="steam://connect/${esc(d.ip)}:${m.queryPort}">▶ Entrar con un clic</a></div><div class="small" style="margin-top:6px">Consola: <code>open ${esc(d.ip)}:${m.port}</code> <button class="b2" style="font-size:11px;padding:1px 6px" onclick="navigator.clipboard?.writeText('open ${esc(d.ip)}:${m.port}');this.textContent='Copiado!'">Copiar</button></div><div class="small mut">Favoritos de Steam: <code>${esc(d.ip)}:${m.queryPort}</code></div></div>`).join('') : '<span class="mut">Pedila en el Discord</span>';
   $('ipList').innerHTML = d.ip ? d.maps.map(m => `${esc(m.name)}: <code>${esc(d.ip)}:${m.queryPort}</code>`).join('<br>') : '<span class="mut">Pedila en el Discord</span>';
-  lastData = d; if (d.ip) document.querySelectorAll('.srvip').forEach(e => { e.textContent = d.ip; }); renderOnline(); renderCasados(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderVoteSites(); renderDonations(); renderTribeShop(); renderAccButtons(); renderEvents(); renderRep(); renderMarked();
+  lastData = d; try { loadCampeones(); } catch { } if (d.ip) document.querySelectorAll('.srvip').forEach(e => { e.textContent = d.ip; }); renderOnline(); renderCasados(); renderRank(); renderTribes(); renderMarket(); renderPvp(); renderShop(); renderVoteSites(); renderDonations(); renderTribeShop(); renderAccButtons(); renderEvents(); renderRep(); renderMarked();
 }
 let lastData = null, rankKey = 'level';
 const RLABEL = { level: 'nivel', kills: 'asesinatos', deaths: 'muertes', tames: 'tameos', coins: 'ArgenCoins', likes: 'likes', jefes: 'jefes matados', alfas: 'alfas matados', imp: 'tameos importantes' };
@@ -2644,6 +2674,42 @@ async function cobrarHexMis() {
   $('hexMisBtn').disabled = false; loadHexMis();
 }
 loadHexMis();
+// ---------- salon de campeones (inicio) ----------
+async function loadCampeones() {
+  const d = lastData; if (!d || !$('campTop')) return;
+  let M = []; try { M = (await (await fetch(apiBase ? apiBase + '/api/maestrias' : 'api/maestrias', { cache: 'no-store' })).json()).jugadores || []; } catch { }
+  const R = d.rankings || {}, top = k => (R[k] || [])[0];
+  const maxM = k => M.filter(x => (x[k]?.[0] || 0) > 0).sort((a, b) => b[k][0] - a[k][0])[0];
+  // el mejor de todos: nivel + 3 por tameo + horas jugadas + 10 por partida ganada
+  const pts = {}, add = (n, v) => { if (n) pts[n] = (pts[n] || 0) + v; };
+  for (const x of R.level || []) add(x.name, x.value);
+  for (const x of M) { add(x.char, 3 * (x.domador?.[0] || 0)); add(x.char, x.viejo?.[0] || 0); }
+  for (const c of d.campeones || []) add(c.campeon, 10 * c.victorias);
+  const rey = Object.entries(pts).sort((a, b) => b[1] - a[1])[0];
+  $('campRey').innerHTML = rey ? `<div class="camp-rey"><div class="cr">👑</div><div><small>EL MEJOR DE TODOS</small><b>${esc(rey[0])}</b><small>${rey[1].toLocaleString('es-AR')} puntos: nivel, tameos, horas jugadas y partidas ganadas</small></div></div>` : '';
+  const card = (ico, t, c, who, val) => `<div class="camp-c${who ? '' : ' vacio'}" style="--c:${c}"><div class="ci">${ico}</div><div class="ct">${t}</div><b>${who ? esc(who) : '¡Sé el primero!'}</b><div class="cv">${who ? val : '&nbsp;'}</div></div>`;
+  const lv = top('level'), dom = maxM('domador'), vie = maxM('viejo'), rico = top('coins'), tam = top('tames');
+  $('campTop').innerHTML = [
+    card('⭐', 'Más nivel', '243,156,18', lv?.name, lv ? 'Nivel ' + lv.value : ''),
+    card('🦖', 'Mejor tameador', '46,204,113', dom?.char || tam?.name, dom ? dom.domador[0] + ' tameos' : tam ? tam.value + ' tameos' : ''),
+    card('⏳', 'Más tiempo jugado', '52,152,219', vie?.char, vie ? vie.viejo[0] + ' horas' : ''),
+    card('💰', 'El más rico', '255,200,0', rico?.name, rico ? rico.value.toLocaleString('es-AR') + ' AC' : ''),
+  ].join('');
+  const J = (d.campeones || []).slice().sort((a, b) => b.victorias - a.victorias);
+  const pri = ['truco', 'ajedrez', 'poker', 'damas', 'chinchon', 'generala', 'domino', 'dinos'];
+  J.sort((a, b) => (b.victorias > 0) - (a.victorias > 0) || pri.indexOf(a.juego) - pri.indexOf(b.juego));
+  $('campJuegos').innerHTML = J.map(c => card(c.ico, 'Campeón de ' + c.nombre, '155,89,182', c.campeon, c.victorias + (c.victorias === 1 ? ' partida ganada' : ' partidas ganadas'))).join('')
+    || '<p class="mut">Todavía no se jugó ninguna mesa. Entrá a Juegos y sé el primer campeón.</p>';
+}
+function campIr(tab, re, then) {
+  location.hash = '#' + tab;
+  setTimeout(() => {
+    const c = [...document.querySelectorAll('.card')].find(x => re.test(x.querySelector('h3,h2')?.textContent || ''));
+    if (c) c.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (then) then();
+  }, 350);
+  return false;
+}
 async function loadMisDinos() {
   mdBotones();
   const box = $('mdCont');
@@ -3685,7 +3751,7 @@ body.juego #jg{display:grid;grid-template-columns:220px 1fr;grid-template-rows:a
 </style>
 <div id="jg">
   <aside id="jgSide"><div class="jg-logo"><b>ARGENTO</b>PRO<small>PANEL DEL JUEGO</small></div><div id="jgNav"></div>
-    <div class="jg-foot"><a href="__DISCORD_ASA__" target="_blank" rel="noopener">💬 Discord de ArgentoPro</a><a href="?completa">🌐 Ver la página completa</a></div></aside>
+    <div class="jg-foot"><a href="https://tinyurl.com/argentodiscord" target="_blank" rel="noopener">💬 Discord de ArgentoPro</a><a href="?completa">🌐 Ver la página completa</a></div></aside>
   <div id="jgTop"><div class="jg-who" id="jgWho">ArgentoPro ARK Ascended<span>Vinculá tu cuenta para ver todo</span></div><div class="jg-pills" id="jgPills"></div></div>
   <main id="jgMain"></main>
 </div>
