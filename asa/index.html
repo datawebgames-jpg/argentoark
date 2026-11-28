@@ -115,7 +115,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);border-top:1px solid va
 .hub-tile:hover{box-shadow:0 10px 26px rgba(var(--hc,243,156,18),.40)!important}
 .hub-tile.h-ropa{--hc:232,79,140}.hub-tile.h-vender{--hc:255,138,0}
 .ropa-card{position:relative;padding:12px;border-radius:14px;border:1px solid rgba(var(--rc),.45);background:linear-gradient(160deg,rgba(var(--rc),.22),rgba(255,255,255,.03) 65%);display:flex;flex-direction:column;gap:4px}
-.ropa-card .ri{font-size:34px;line-height:1}.ropa-card b{font-size:14px}.ropa-card .rd{font-size:11px;font-weight:700;color:#ffb347}
+.ropa-card .ri{height:96px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:radial-gradient(circle,rgba(var(--rc),.35),rgba(0,0,0,.25) 70%)}.ropa-card .ri img{width:88px;height:88px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.6))}.ropa-card .rph{font-size:40px;opacity:.85;filter:grayscale(.2)}.ropa-card b{font-size:14px}.ropa-card .rd{font-size:11px;font-weight:700;color:#ffb347}
 .ropa-card button{margin-top:auto;border:0;border-radius:10px;padding:8px;font-weight:800;cursor:pointer;color:#111;background:linear-gradient(90deg,rgb(var(--rc)),#ffd200)}
 .hub-tile img{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.6))}
 .hub-emoji{font-size:50px;line-height:64px}
@@ -2614,7 +2614,7 @@ function renderRopa() {
   const L0 = window.ROPA_ASA || [], q = $('ropaQ').value.trim().toLowerCase(), c = $('ropaCat').value, d = $('ropaDlc').value;
   const L = L0.filter(x => (!q || x.n.toLowerCase().includes(q) || (x.dlc || '').toLowerCase().includes(q)) && (!c || x.cat === c) && (!d || (d === '-' ? !x.dlc : x.dlc === d)));
   $('ropaCount').textContent = `${L.length} de ${L0.length} prendas`;
-  $('ropaList').innerHTML = L.slice(0, 300).map(x => `<div class="ropa-card" style="--rc:${ropaColor(x)}"><div class="ri">${ropaIcon(x)}</div><b>${esc(x.n)}</b>
+  $('ropaList').innerHTML = L.slice(0, 300).map(x => `<div class="ropa-card" style="--rc:${ropaColor(x)}"><div class="ri">${x.img ? `<img src="img/ropa/${x.id}.png" alt="" loading="lazy">` : `<span class="rph">${ropaIcon(x)}</span>`}</div><b>${esc(x.n)}</b>
     <div class="small mut">${x.cat}</div>${x.dlc ? `<div class="rd">⚠️ DLC ${esc(x.dlc)}</div>` : ''}
     <button onclick="comprarRopa('${x.id}')">Comprar · ${x.price} AC</button></div>`).join('') + (L.length > 300 ? '<p class="small mut">Hay más: buscá por nombre.</p>' : '');
 }
