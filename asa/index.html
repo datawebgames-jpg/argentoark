@@ -784,6 +784,18 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
   <div id="walletBox" class="wallet-box"></div>
   <h2>Tienda</h2>
   <p class="sub">Elegí qué querés ver. Todo se puede mirar; <b>para comprar o vender tenés que vincular tu cuenta</b>.</p>
+<div id="ropaBox" class="card" style="border-color:#e84f8c;margin:12px 0">
+  <h3 style="margin:0 0 6px">👕 Ropa, armaduras y skins</h3>
+  <p class="small mut" style="margin:0 0 10px">Toda la ropa de ARK Ascended: pelaje, cuero, skins de eventos, Bob's Tall Tales, Lost Colony y disfraces de dinos. Llega sola a tu inventario (tenés que estar conectado). <b style="color:#ffb347">⚠️ Las que dicen DLC solo las podés usar si tenés ese DLC.</b></p>
+  <div class="filters" style="margin-bottom:8px">
+    <input id="ropaQ" placeholder="Buscar: fur, bob, colony, hat..." autocomplete="off">
+    <select id="ropaCat"><option value="">Todo</option><option>Armadura</option><option>Skin</option><option>Disfraz de dino</option></select>
+    <select id="ropaDlc"><option value="">Con y sin DLC</option><option value="-">Solo sin DLC</option><option>Bob's Tall Tales</option><option>Lost Colony</option><option>Astraeos</option><option>Pack premium</option></select>
+  </div>
+  <div class="small mut" id="ropaCount"></div>
+  <div id="ropaList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;max-height:520px;overflow:auto;margin-top:6px"></div>
+</div>
+
 <div id="armadurasBox" class="card" style="border-color:#95a5a6;margin:12px 0">
     <h3 style="margin:0 0 6px">🛡️ Armaduras</h3>
     <p class="small mut" style="margin:0 0 12px">Casco, pechera, guantes, pantalón y botas. <b>Cada pieza sale con su propia calidad</b> (de aprendiz a ascendente: ninguna es igual) y el set viene <b>pintado con colores al azar</b>. Los planos nunca son comunes. Tenés que estar conectado: llega solo a tu inventario.</p>
@@ -1159,6 +1171,7 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
 
 <script src="dinos.js"></script>
 <script src="dinos-asa.js"></script>
+<script src="ropa-asa.js"></script>
 <script src="cartas.js"></script>
 <script>
 const $ = id => document.getElementById(id);
@@ -2577,6 +2590,23 @@ function renderMaestrias() {
     : '<p class="mut small">Todavía no hay personajes con maestrías.</p>';
 }
 $('maeQ').addEventListener('input', renderMaestrias);
+// ---------- tienda de ropa, armaduras y skins ----------
+function renderRopa() {
+  const L0 = window.ROPA_ASA || [], q = $('ropaQ').value.trim().toLowerCase(), c = $('ropaCat').value, d = $('ropaDlc').value;
+  const L = L0.filter(x => (!q || x.n.toLowerCase().includes(q) || (x.dlc || '').toLowerCase().includes(q)) && (!c || x.cat === c) && (!d || (d === '-' ? !x.dlc : x.dlc === d)));
+  $('ropaCount').textContent = `${L.length} de ${L0.length} prendas`;
+  $('ropaList').innerHTML = L.slice(0, 300).map(x => `<div class="card" style="padding:8px"><b>${esc(x.n)}</b><div class="small mut">${x.cat}${x.dlc ? ` · <span style="color:#ffb347">DLC ${esc(x.dlc)}</span>` : ''}</div>
+    <button style="margin-top:6px" onclick="comprarRopa('${x.id}')">Comprar · <b>${x.price} AC</b></button></div>`).join('') + (L.length > 300 ? '<p class="small mut">Hay más: buscá por nombre.</p>' : '');
+}
+async function comprarRopa(id) {
+  if (!getTok()) { alert('Primero entrá en Mi cuenta con tu personaje.'); location.hash = '#cuenta'; return; }
+  const x = (window.ROPA_ASA || []).find(r => r.id === id); if (!x) return;
+  if (!confirm(`Comprar ${x.n} por ${x.price} AC?${x.dlc ? `\n\nOJO: es del DLC ${x.dlc}. Solo la podés usar si tenés ese DLC.` : ''}`)) return;
+  let r; try { r = await post('comprarropa', { token: getTok(), id }); } catch { alert('No se pudo conectar.'); return; }
+  alert(r.error || r.text);
+}
+['ropaQ', 'ropaCat', 'ropaDlc'].forEach(id => $(id).addEventListener('input', renderRopa));
+renderRopa();
 async function loadMisDinos() {
   mdBotones();
   const box = $('mdCont');
