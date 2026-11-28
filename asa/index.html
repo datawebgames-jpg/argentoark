@@ -686,9 +686,9 @@ nav a.nav-don{background:linear-gradient(135deg,#e0569b,#b03a78);color:#fff!impo
       <div class="card" style="border-color:rgba(46,204,113,.5)"><h3 style="font-size:19px;margin-bottom:8px">🤝 Pactos de no agresión</h3><div id="myPactos" class="small"></div></div>
     </div>
     <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
-      <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🗳️ Votar el próximo mapa</h3><div class="acts" id="voteBtns"></div></div>
-      <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🛒 Tienda oficial</h3><div class="acts" id="shopBtns"></div></div>
-      <div class="card"><h3 style="font-size:19px;margin-bottom:8px">🐎 Monturas y 🦖 dinos</h3>
+      <div class="card" style="display:none"><h3 style="font-size:19px;margin-bottom:8px">🗳️ Votar el próximo mapa</h3><div class="acts" id="voteBtns"></div></div>
+      <div class="card" style="display:none"><h3 style="font-size:19px;margin-bottom:8px">🛒 Tienda oficial</h3><div class="acts" id="shopBtns"></div></div>
+      <div class="card" style="display:none"><h3 style="font-size:19px;margin-bottom:8px">🐎 Monturas y 🦖 dinos</h3>
         <p class="small mut" style="margin:0 0 6px">Montura: llega sola a tu inventario (tenés que estar conectado).</p>
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"><select class="inp" id="buySaddle"></select>
           <button onclick="act('comprar montura ' + $('buySaddle').value)">Comprar montura · <b><span id="buySaddleP">250</span> AC</b></button></div>
